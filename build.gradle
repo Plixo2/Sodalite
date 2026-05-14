@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group = 'io.github.plixo2'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //annotations
+    compileOnly 'org.jetbrains:annotations:23.0.0'
+
+    //lombok
+    compileOnly 'org.projectlombok:lombok:1.18.42'
+    annotationProcessor 'org.projectlombok:lombok:1.18.42'
+
+    implementation 'com.google.errorprone:error_prone_annotations:2.45.0'
+
+    implementation files("SDL-3.4.jar")
+}
