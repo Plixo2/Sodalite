@@ -44,3 +44,7 @@ bin/
 /.idea/
 /SDL3.dll
 /SDL-3.4.jar
+/SDL-3.4-sources.jar
+/resources/ui_rect/vertex.hlsl
+/resources/ui_rect/fragment.hlsl
+/resources/compileShaders.bat

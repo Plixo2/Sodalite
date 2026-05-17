@@ -5,6 +5,8 @@ plugins {
 group = 'io.github.plixo2'
 version = '1.0-SNAPSHOT'
 
+project.ext.jomlVersion = "1.10.8"
+
 repositories {
     mavenCentral()
 }
@@ -18,6 +20,11 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.42'
 
     implementation 'com.google.errorprone:error_prone_annotations:2.45.0'
+    implementation "org.joml:joml:${jomlVersion}"
 
     implementation files("SDL-3.4.jar")
+}
+
+tasks.withType(JavaExec).configureEach {
+    jvmArgs += "--enable-native-access=ALL-UNNAMED"
 }

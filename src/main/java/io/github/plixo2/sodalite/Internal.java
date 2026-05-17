@@ -1,29 +1,48 @@
 package io.github.plixo2.sodalite;
 
-import io.github.plixo2.sodalite.error.Error;
+import io.github.plixo2.sodalite.category.error.Error;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.PrintStream;
 import java.lang.foreign.MemorySegment;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public final class Internal {
-    private final static boolean ASSERTIONS_ENABLED;
+    private static final long U32_MAX = 0xFFFFFFFFL;
+
+    /// Checks are for validating external SDL calls
     private final static boolean CHECKS_ENABLED;
     private final static boolean CHECKS_PANIC;
 
+    public final static boolean ASSERTIONS_ENABLED;
+
     static {
-        ASSERTIONS_ENABLED = Boolean.getBoolean("sodalite.assertions");
-        CHECKS_ENABLED = Boolean.getBoolean("sodalite.checks");
-        CHECKS_PANIC = Boolean.getBoolean("sodalite.checks.panic");
+        CHECKS_ENABLED = !Boolean.getBoolean("sodalite.disable.checks");
+        CHECKS_PANIC = !Boolean.getBoolean("sodalite.disable.checks.panic");
+
+        ASSERTIONS_ENABLED = !Boolean.getBoolean("sodalite.disable.assertions");
     }
 
-    private static @Nullable PrintStream out = System.err;
+    private static Consumer<String> onError =
+            CHECKS_PANIC
+            ? error -> { throw new SDL3Exception(error); }
+            : error -> { System.err.println("SDL3 Error: " + error); };
+
+
 
     private Internal() {}
 
-    public static void setDebugOutput(@Nullable PrintStream out) {
-        Internal.out = out;
+    public static void assertU32(long value) {
+        if (ASSERTIONS_ENABLED && (value < 0 || value > U32_MAX)) {
+            throw new AssertionError("Assertion failed: 0 <= " + value + " <= " + U32_MAX +
+                ". Value must fit into a unsigned 32-bit integer"
+            );
+        }
+    }
+
+    public static void setErrorFunction(Consumer<String> onError) {
+        Internal.onError = Objects.requireNonNull(onError, "Error function");
     }
 
     public static void assertTrue(boolean condition, String message) {
@@ -31,6 +50,7 @@ public final class Internal {
             throw new AssertionError(message);
         }
     }
+
     public static void assertTrue(boolean condition) {
         assertTrue(condition, "Assertion failed");
     }
@@ -47,31 +67,34 @@ public final class Internal {
         return assertNotNull(segment, "Invalid Address");
     }
 
-    public static void check(MemorySegment segment) {
+    /// Only use for validating SDL calls
+    public static MemorySegment check(MemorySegment segment) {
         Objects.requireNonNull(segment, "MemorySegment itself must not be null");
         check(segment.address());
+        return segment;
     }
-
+    /// Only use for validating SDL calls
     public static void check(long address) {
-        if (!CHECKS_ENABLED || address != 0) {
+        check(address != 0);
+    }
+    /// Only use for validating SDL calls
+    public static void check(boolean success) {
+        if (!CHECKS_ENABLED || success) {
             return;
         }
 
         var error = Error.getError();
-        if (CHECKS_PANIC) {
-            throw new SDL3Exception(error);
-        } else if (out != null) {
-            out.println("SDL3 Error: " + error);
-        }
+        onError.accept(error);
     }
 
-    public static void checkDestroyed(SDLResource resource) {
-        if (ASSERTIONS_ENABLED && resource.destroyed) {
-            var resourceClass = resource.getClass().getSimpleName();
-            throw new AssertionError("Resource of type " + resourceClass + " has already been destroyed");
+    @Contract("_, _, !null -> !null; _, _, null -> null")
+    public static <T extends Enum<T>> T enumFromCode(Class<T> enumClass, int ordinal, @Nullable T defaultValue) {
+        var values = enumClass.getEnumConstants();
+        if (ordinal < 0 || ordinal >= values.length) {
+            return defaultValue;
         }
+        return values[ordinal];
     }
-
 
 
     public static class SDL3Exception extends RuntimeException {
