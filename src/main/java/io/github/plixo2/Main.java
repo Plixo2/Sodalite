@@ -1,12 +1,13 @@
 
 
+import io.github.plixo2.sodalite.file.ImageChannels;
+import io.github.plixo2.sodalite.file.ImageDynamicRange;
+import io.github.plixo2.sodalite.file.ImageLoader;
+import io.github.plixo2.sodalite.category.events.EventConsumer;
 import io.github.plixo2.sodalite.category.timer.Timer;
-import io.github.plixo2.sodalite.memory.CStruct;
-import io.github.plixo2.sodalite.memory.GrowableWriteBuffer;
-import io.github.plixo2.sodalite.memory.Layouts;
-import io.github.plixo2.sodalite.memory.WriteBuffer;
+import io.github.plixo2.sodalite.category.video.Window;
+import io.github.plixo2.sodalite.memory.*;
 import io.github.plixo2.sodalite.resource.ResourceSet;
-import io.github.plixo2.sodalite.category.events.EventOld;
 import io.github.plixo2.sodalite.category.events.Events;
 import io.github.plixo2.sodalite.category.gpu.*;
 import io.github.plixo2.sodalite.category.init.Init;
@@ -15,189 +16,292 @@ import io.github.plixo2.sodalite.category.log.LogCategory;
 import io.github.plixo2.sodalite.category.log.LogPriority;
 import io.github.plixo2.sodalite.category.video.Video;
 import io.github.plixo2.sodalite.category.video.WindowFlags;
+import io.github.plixo2.uiiii.Render;
 import org.joml.Matrix4f;
 import org.joml.Vector2i;
 import org.joml.Vector4f;
-import org.libsdl.sdl.SDL3_h;
 
 
 import java.io.IOException;
 import java.lang.foreign.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-boolean running = true;
 
 /*
 struct Vertex
 {
     float x, y, z;      //vec3 position
     float r, g, b, a;   //vec4 color
+    float u, v;         //vec2 uv
 };
 */
 
-StructLayout vertexLayout = MemoryLayout.structLayout(
-    MemoryLayout.sequenceLayout(3, SDL3_h.C_FLOAT).withName("position"),
-    MemoryLayout.sequenceLayout(4, SDL3_h.C_FLOAT).withName("color")
+static StructLayout vertexLayout = MemoryLayout.structLayout(
+    Layouts.VECTOR_3F.withName("position"),
+    Layouts.VECTOR_4F.withName("color"),
+    Layouts.VECTOR_2F.withName("uv")
 );
 
+static WriteBuffer<?> createVerticies() {
+    var buffer = ConstantWriteBuffer.allocate(ResourceSet.global(), vertexLayout, 4);
+    buffer.writeFloats(0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f);
+    buffer.writeFloats(1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f);
+    buffer.writeFloats(0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f);
+    buffer.writeFloats(1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f);
+    return buffer;
+}
 
-void writeVertex(
-        MemorySegment vertices,
-        int index,
-        float[] values
-) {
-    var size = this.vertexLayout.byteSize();
-    var slice = vertices.asSlice(size * index, this.vertexLayout);
+static class Instance {
+    boolean running = true;
+    WriteBuffer<?> verticies = createVerticies();
 
-    for (var i = 0; i < values.length; i++) {
-        var value = values[i];
-        slice.setAtIndex(SDL3_h.C_FLOAT, i, value);
+    Matrix4f projectionMatrix = new Matrix4f();
+
+    ResourceSet msaaTextureSet = null;
+    Texture msaaTexture = null;
+
+    void newMsaaTexture(
+            ResourceSet parentResources,
+            Device gpu,
+            TextureFormat format,
+            int width,
+            int height
+    ) {
+        if (this.msaaTexture != null) {
+            if (width == this.msaaTexture.width() && height == this.msaaTexture.height()) {
+                return;
+            }
+            this.msaaTextureSet.close();
+        }
+        System.out.println("Creating new MSAA texture with size " + width + "x" + height);
+        this.msaaTextureSet = ResourceSet.ofConfined(parentResources);
+        this.msaaTexture = TextureBuilder.of2D(
+                format,
+                TextureUsageFlags.COLOR_TARGET,
+                width,
+                height
+        ).setSampleCount(SampleCount.COUNT_4).build(
+                this.msaaTextureSet,
+                gpu
+        );
+
     }
 }
 
-MemorySegment createVerticies() {
-    MemorySegment vertices = Arena.global().allocate(this.vertexLayout, 3);
-    writeVertex(vertices, 0, new float[]{0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f});
-    writeVertex(vertices, 1, new float[]{-0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f});
-    writeVertex(vertices, 2, new float[]{0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f});
-    return vertices;
-}
 
-MemorySegment verticies = createVerticies();
 
-void main() {
-    Log.setLogPriority(LogCategory.GPU, LogPriority.DEBUG);
-    System.setProperty("joml.format", "false");
-
+static void runFor(
+        Instance instance,
+        Device gpu,
+        Window window
+) throws IOException {
     try (var appResources = ResourceSet.ofConfined()) {
-        var window = Video.createWindow(
-                appResources,
-                "Hello World",
-                800,600,
-                WindowFlags.RESIZABLE | WindowFlags.HIGH_PIXEL_DENSITY
-        );
 
-        var gpu = GPU.createDevice(
-                appResources,
-                ShaderFormat.SPIRV,
-                true,
-                PreferredGPUDriver.VULKAN
-        );
-
-        gpu.claimWindowForDevice(window);
         gpu.setSwapchainParameters(window, SwapchainComposition.SDR, PresentMode.VSYNC);
 
-        var vertexBuffer = gpu.createBuffer(
-            appResources,
-            BufferUsageFlags.VERTEX,
-            this.verticies.byteSize()
-        );
-
-        var transferBuffer = gpu.createTransferBuffer(
-            appResources,
-            TransferBufferUsage.UPLOAD,
-            this.verticies.byteSize()
-        );
-
-        try (var mapped = gpu.mapTransferBuffer(transferBuffer, Cycle.FALSE)) {
-            var memory = mapped.memory();
-            memory.copyFrom(this.verticies);
+        var exampleSamplers = new Sampler[14];
+        for (var i = 0; i < exampleSamplers.length; i++) {
+            exampleSamplers[i] = SamplerBuilder.of(
+                    Filter.LINEAR,
+                    SamplerAddressMode.REPEAT,
+                    0f
+            ).build(appResources, gpu);
         }
+        var pixelated = SamplerBuilder.of(
+                Filter.NEAREST,
+                SamplerAddressMode.REPEAT,
+                0f
+        ).build(appResources, gpu);
 
-        try (var commandBuffer = gpu.acquireCommandBuffer()) {
-            try (var copy = commandBuffer.beginCopyPass()) {
-                copy.upload(transferBuffer, vertexBuffer, Cycle.FALSE);
+
+        Texture exampleTexture;
+
+
+        var vertexBuffer = gpu.createBuffer(
+                appResources,
+                BufferUsageFlags.VERTEX,
+                instance.verticies.capacity()
+        );
+
+        var testTextures = new ArrayList<Texture>();
+
+        try (var uploadCommandBuffer = gpu.acquireCommandBuffer()) {
+
+            {
+                var vertexTransferBuffer = gpu.createTransferBuffer(
+                        appResources,
+                        TransferBufferUsage.UPLOAD,
+                        instance.verticies.capacity()
+                );
+                try (var mapped = gpu.mapTransferBuffer(vertexTransferBuffer, Cycle.FALSE)) {
+                    var memory = mapped.memory();
+                    memory.copyFrom(instance.verticies.memory());
+                }
+                try (var copy = uploadCommandBuffer.beginCopyPass()) {
+                    copy.upload(vertexTransferBuffer, vertexBuffer, Cycle.FALSE);
+                }
+            }
+
+            {
+                exampleTexture = loadTexture(
+                        appResources,
+                        gpu,
+                        uploadCommandBuffer,
+                        Path.of("resources/example.png")
+                );
+            }
+
+            for (var i = 1; i <= 48; i++) {
+                var path = Path.of("resources/tests/test (" + i + ").png");
+                var texture = loadTexture(
+                        appResources,
+                        gpu,
+                        uploadCommandBuffer,
+                        path
+                );
+                testTextures.add(texture);
             }
         }
 
+        var exampleTextures = new Texture[exampleSamplers.length];
+        Arrays.fill(exampleTextures, exampleTexture);
+
         var swapchainFormat = gpu.getSwapchainTextureFormat(window);
 
+        var windowSizeInPixels = window.getSizeInPixels(new Vector2i());
+
+        instance.newMsaaTexture(
+                appResources,
+                gpu,
+                swapchainFormat,
+                windowSizeInPixels.x,
+                windowSizeInPixels.y
+        );
         var pipeline = gpu.createGPUGraphicsPipeline(
                 appResources,
                 Shader.ShaderCreator.of(
-                    ShaderFormat.SPIRV,
-                    Path.of("resources/shaders/out/vertex.spv"),
-                    Shader.Parameter.of(0, 0, 0, 0)
+                        ShaderFormat.SPIRV,
+                        Path.of("resources/textured/bin/vertex.spv"),
+                        Shader.Parameters.of(0, 0, 0, 0)
                 ),
                 Shader.ShaderCreator.of(
-                    ShaderFormat.SPIRV,
-                    Path.of("resources/shaders/out/fragment.spv"),
-                    Shader.Parameter.of(0, 0, 0, 1)
+                        ShaderFormat.SPIRV,
+                        Path.of("resources/textured/bin/fragment.spv"),
+                        Shader.Parameters.of(exampleSamplers.length, 0, 0, 1)
                 ),
-                PrimitiveType.TRIANGLELIST,
-                VertexInputState.of(0, this.vertexLayout, VertexInputState.VertexInputRate.VERTEX),
+                PrimitiveType.TRIANGLESTRIP,
+                VertexInputState.of(0, vertexLayout, VertexInputState.VertexInputRate.VERTEX),
                 RasterizerState.of(FillMode.FILL, CullMode.NONE, FrontFace.defaultValue()),
-                MultisampleState.disabled(),
+                MultisampleState.enabled(instance.msaaTexture.sampleCount()),
                 DepthStencilState.of(CompareOp.LESS, DepthTest.DISABLED, DepthWrite.DISABLED),
-                GraphicsPipelineTargetInfo.of(swapchainFormat, ColorTargetBlendState.standardAlphaBlend())
+                GraphicsPipelineTargetInfo.of(instance.msaaTexture.format(), ColorTargetBlendState.standardAlphaBlend())
         );
-
 
         var cstruct = CStruct.allocate(
             appResources,
             MemoryLayout.structLayout(
-                Layouts.VECTOR_3F.withName("color"),
-                Layouts.MAT_4F.withName("model")
+                    Layouts.VECTOR_3F.withName("color"),
+                    Layouts.MAT_4F.withName("model")
             )
         );
-        var color = cstruct.vec3("color");
 
-
-        var rectPipeline = new RectPipeline(appResources, gpu, swapchainFormat);
-
+        var rectPipeline = new RectPipeline(appResources, gpu, instance.msaaTexture);
+        var render = new Render(gpu, appResources, instance.msaaTexture);
 
         var rectData = GrowableWriteBuffer.create(appResources);
 
-        var viewProj = new Matrix4f().identity();
-        rectData.writeFloat(-1f);
-        rectData.writeFloat(-1f);
-        rectData.writeFloat(1f);
-        rectData.writeFloat(1f);
+        rectData.writeFloat(100f);
+        rectData.writeFloat(100f);
+        rectData.writeFloat(300f);
+        rectData.writeFloat(300f);
         rectData.writeVector4f(new Vector4f(0f, 1f, 0f, 1f));
         rectData.writeVector4f(new Vector4f(1f, 0f, 0f, 1f));
-        rectData.writeFloat(0f);
+        rectData.writeFloat(30f);
         rectData.writeInt(0);
-        rectData.writeFloat(0.00f);
+        rectData.writeFloat(5f);
         rectData.writeFloat(0f); //pad
 
         rectData.writeFloat(0f);
         rectData.writeFloat(0f);
-        rectData.writeFloat(1f);
-        rectData.writeFloat(1f);
+        rectData.writeFloat(90f);
+        rectData.writeFloat(90f);
         rectData.writeVector4f(new Vector4f(1f, 1f, 0f, 1f));
         rectData.writeVector4f(new Vector4f(0f, 0f, 1f, 1f));
-        rectData.writeFloat(0f);
+        rectData.writeFloat(10f);
         rectData.writeInt(0);
-        rectData.writeFloat(0.00f);
+        rectData.writeFloat(4f);
         rectData.writeFloat(0f); //pad
 
-        var lastTime = Timer.getTicksNS();
+        var lastTimeFPS = Timer.getTicksNS();
         var fpsCounter = 0;
 
-        Vector2i lastWindowSize = new Vector2i();
+        var events = new EventConsumer() {
 
-        while (this.running) {
-            for (var event : Events.pollEvents()) {
-//                if (event.data() instanceof EventOld.QuitEvent) {
-//                    this.running = false;
-//                    break;
-//                }
-//                if (event.data() instanceof EventOld.KeyboardEvent)  {
-//                }
-//                if (event.data() instanceof EventOld.WindowEvent)  {
-//                }
+            @Override
+            public void onWindowCloseRequested(long timestamp, int windowID) {
+                if (windowID != window.id()) {
+                    return;
+                }
+                instance.running = false;
             }
+
+            @Override
+            public void onWindowPixelSizeChanged(
+                    long timestamp,
+                    int windowID,
+                    int width,
+                    int height
+            ) {
+                if (windowID != window.id()) {
+                    return;
+                }
+
+                instance.projectionMatrix.identity().ortho(
+                        0,
+                        width,
+                        height,
+                        0,
+                        -1.0f,
+                        1.0f
+                );
+            }
+
+            @Override
+            public void onWindowDisplayScaleChanged(long timestamp, int windowID) {
+                if (windowID != window.id()) {
+                    return;
+                }
+                var scale = window.getDisplayScale();
+                System.out.println("Window display scale changed: " + scale);
+            }
+        };
+
+        long lastTime = Timer.getTicksNS();
+        while (instance.running) {
+            Events.pollEvents(events);
 
             var time = Timer.getTicksNS();
-            if (time - lastTime >= 1e9) {
-//                System.out.println("FPS: " + fpsCounter);
+            fpsCounter++;
+
+            if (time - lastTimeFPS >= Timer.NS_PER_SECOND) {
+//                var freeMemory = Runtime.getRuntime().freeMemory() / (1024 * 1024);
+//                var totalMemory = Runtime.getRuntime().totalMemory() / (1024 * 1024);
+//                var usedMemory = totalMemory - freeMemory;
+//                System.out.println("FPS: " + fpsCounter + " | Memory Usage: " + usedMemory + " MB / " + totalMemory + " MB");
+
+                System.out.println("FPS: " + fpsCounter);
                 fpsCounter = 0;
-                lastTime = time;
-            } else {
-                fpsCounter++;
+                var timeOver = time - lastTimeFPS - Timer.NS_PER_SECOND;
+                lastTimeFPS = time - timeOver;
             }
 
+            var delta = (float) ((time - lastTime) / 1e9d);
+            lastTime = time;
 
+//            instance.projectionMatrix.rotate(delta * 5f, 0f, 1f, 0f);
 
             try (var commandBuffer = gpu.acquireCommandBuffer()) {
 
@@ -205,53 +309,159 @@ void main() {
                 if (swapchain == null) {
                     continue;
                 }
-                if (!lastWindowSize.equals(swapchain.width(), swapchain.height())) {
-                    System.out.println("Swapchain resized: " + swapchain.width() + " x " + swapchain.height());
-                    var windowSize = window.getSize(new Vector2i());
-                    var windowSizePixels = window.getSizeInPixels(new Vector2i());
-                    System.out.println("windowSize = " + windowSize);
-                    System.out.println("windowSizePixels = " + windowSizePixels);
-                    var scale = window.getDisplayScale();
-                    System.out.println("scale = " + scale);
-                    lastWindowSize.set(swapchain.width(), swapchain.height());
-                }
 
-                var clearColor = new Vector4f(0.1f, 0.2f, 0.3f, 1.0f);
-                var colorTarget0 = RenderPass.ColorTargetInfo.clear(swapchain, clearColor, Cycle.FALSE);
-
-
-                rectPipeline.upload(
+                instance.newMsaaTexture(
+                        appResources,
                         gpu,
-                        commandBuffer,
-                        rectData
+                        swapchainFormat,
+                        swapchain.width(),
+                        swapchain.height()
                 );
 
+                var clearColor = new Vector4f(0.1f, 0.2f, 0.3f, 1.0f);
+                var colorTarget0 = RenderPass.ColorTargetInfo.resolve(
+                        instance.msaaTexture,
+                        clearColor,
+                        swapchain,
+                        Cycle.FALSE,
+                        Cycle.FALSE
+                );
+
+//                rectPipeline.upload(
+//                        gpu,
+//                        commandBuffer,
+//                        rectData
+//                );
+
+                render.beginFrame(
+                        instance.projectionMatrix,
+                        swapchain.width(),
+                        swapchain.height()
+                );
+
+                render.drawRect(
+                        0, 0,
+                        500, 500,
+                        new Vector4f(1f, 0f, 1f, 1f),
+                        30f,
+                        new Vector4f(0f, 1f, 1f, 1f),
+                        5f
+                );
+
+                for (var i = 0; i < testTextures.size(); i++) {
+                    var t = testTextures.get(i);
+                    var x = i * 30;
+                    render.drawTexture(
+                            x, 0,
+                            x + 400, 400,
+                            new Vector4f(1f, 1f, 1f, 1f),
+                            t,
+                            pixelated
+                    );
+                }
+                render.drawRect(
+                        500, 500,
+                        700, 600,
+                        new Vector4f(0.1f, 0.15f, 0.2f, 1f),
+                        3f,
+                        new Vector4f(1f, 1f, 1f, 1f),
+                        5f
+                );
+
+                try (var copypass = commandBuffer.beginCopyPass()){
+                    render.upload(gpu, copypass);
+                }
 
                 try (var renderPass = commandBuffer.beginRenderPass(null, colorTarget0)) {
 
-                    renderPass.bindPipeline(pipeline);
-                    color.set(1f, 1f, 0f);
+                    render.renderFrame(renderPass, commandBuffer);
 
-                    commandBuffer.pushFragmentUniform(0, cstruct);
-
-                    renderPass.bindVertexBuffer(0, vertexBuffer);
-
-                    renderPass.drawPrimitives(3, 1, 0, 0);
-
-
-                    rectPipeline.render(
-                            renderPass,
-                            commandBuffer,
-                            viewProj
-                    );
-
+//                    rectPipeline.render(
+//                            renderPass,
+//                            commandBuffer,
+//                            instance.projectionMatrix
+//                    );
                 }
             }
+        }
+    }
 
+}
+
+
+static Texture loadTexture(
+        ResourceSet resources,
+        Device device,
+        CommandBuffer commandBuffer,
+        Path path
+) throws IOException {
+    try (var textureData = ResourceSet.ofConfined()) {
+        var imageData = ImageLoader.load(
+                textureData.arena(),
+                path,
+                ImageDynamicRange.SDR,
+                ImageChannels.RGBA
+        ).orThrow(IOException::new);
+
+        var texture = TextureBuilder.of2D(
+                TextureFormat.R8G8B8A8_UNORM,
+                TextureUsageFlags.SAMPLER,
+                imageData.width(),
+                imageData.height()
+        ).build(resources, device);
+
+        var region = TextureRegion.ofFull2D(texture);
+
+        var textureTransferBuffer = device.createTransferBuffer(
+                textureData,
+                TransferBufferUsage.UPLOAD,
+                imageData.data().byteSize()
+        );
+        try (var mapped = device.mapTransferBuffer(textureTransferBuffer, Cycle.FALSE)) {
+            mapped.memory().copyFrom(imageData.data());
+        }
+        try (var copy = commandBuffer.beginCopyPass()) {
+            copy.upload(
+                    textureTransferBuffer,
+                    region,
+                    Cycle.FALSE
+            );
         }
 
-    } catch (IOException e) {
-        throw new RuntimeException(e);
+        return texture;
+    }
+}
+
+void run() throws IOException {
+    try (var staticResourc = ResourceSet.ofConfined()) {
+        var gpu = GPU.createDevice(
+                staticResourc,
+                ShaderFormat.SPIRV,
+                true,
+                PreferredGPUDriver.VULKAN
+        );
+        var window = Video.createWindow(
+                staticResourc,
+                "Hello World",
+                800,600,
+                WindowFlags.RESIZABLE | WindowFlags.HIGH_PIXEL_DENSITY
+        );
+
+        try (var _ = gpu.claimWindow(window)) {
+            runFor(new Instance(), gpu, window);
+        }
+    }
+
+}
+
+void main() throws IOException {
+    System.setProperty("joml.format", "false");
+
+    Init.setAppMetaData("Hello World", "1.0.0", "com.example.helloworld");
+    Log.setLogPriority(LogCategory.GPU, LogPriority.DEBUG);
+
+    try {
+        run();
     } finally {
         Init.quit();
     }
@@ -295,13 +505,12 @@ static class RectPipeline {
     GraphicsPipeline pipeline;
     Buffer buffer;
     TransferBuffer transferBuffer;
-    CStruct vertexUniform;
-    CStruct.Mat4Setter u_viewProj;
+    WriteBuffer<?> vertexUniform;
 
     RectPipeline(
         ResourceSet resources,
         Device gpu,
-        TextureFormat colorTargetFormat
+        TextureInfo colorTargetFormat
     ) throws IOException {
 
         this.pipeline = createPipeline(gpu, resources, colorTargetFormat);
@@ -321,33 +530,32 @@ static class RectPipeline {
                 Layouts.MAT_4F.withName("u_viewProj")
             )
         );
-        this.u_viewProj = this.vertexUniform.mat4("u_viewProj");
 
     }
 
     GraphicsPipeline createPipeline(
             Device gpu,
             ResourceSet resources,
-            TextureFormat colorTargetFormat
+            TextureInfo colorTarget
     ) throws IOException {
         return gpu.createGPUGraphicsPipeline(
                 resources,
                 Shader.ShaderCreator.of(
                         ShaderFormat.SPIRV,
                         Path.of("resources/ui_rect/bin/vertex.spv"),
-                        Shader.Parameter.of(0, 0, 1, 1)
+                        Shader.Parameters.of(0, 0, 1, 1)
                 ),
                 Shader.ShaderCreator.of(
                         ShaderFormat.SPIRV,
                         Path.of("resources/ui_rect/bin/fragment.spv"),
-                        Shader.Parameter.of(0, 0, 0, 0)
+                        Shader.Parameters.of(0, 0, 0, 0)
                 ),
                 PrimitiveType.TRIANGLESTRIP,
                 VertexInputState.of(),
                 RasterizerState.of(FillMode.FILL, CullMode.NONE, FrontFace.defaultValue()),
-                MultisampleState.disabled(),
-                DepthStencilState.of(CompareOp.LESS, DepthTest.DISABLED, DepthWrite.DISABLED),
-                GraphicsPipelineTargetInfo.of(colorTargetFormat, ColorTargetBlendState.standardAlphaBlend())
+                MultisampleState.enabled(colorTarget.sampleCount()),
+                DepthStencilState.disabled(),
+                GraphicsPipelineTargetInfo.of(colorTarget.format(), ColorTargetBlendState.standardAlphaBlend())
         );
     }
 
@@ -355,7 +563,7 @@ static class RectPipeline {
     void upload(
             Device gpu,
             CommandBuffer commandBuffer,
-            WriteBuffer data
+            WriteBuffer<?> data
     ) {
         var rectCount = (int) (this.buffer.size() / RECT_SIZE);
         if (rectCount == 0) {
@@ -369,15 +577,12 @@ static class RectPipeline {
         try (var copyPass = commandBuffer.beginCopyPass()) {
             copyPass.upload(
                     this.transferBuffer,
-                    0,
                     this.buffer,
-                    0,
                     rectCount * RECT_SIZE,
                     Cycle.TRUE
             );
         }
     }
-
 
     void render(
             RenderPass renderPass,
@@ -392,7 +597,7 @@ static class RectPipeline {
 
         renderPass.bindPipeline(this.pipeline);
 
-        this.u_viewProj.set(viewProj);
+        this.vertexUniform.clear().writeMatrix4f(viewProj);
         commandBuffer.pushVertexUniform(0, this.vertexUniform);
 
         renderPass.bindVertexStorageBuffer(0, this.buffer);

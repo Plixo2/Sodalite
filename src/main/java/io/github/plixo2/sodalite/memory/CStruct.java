@@ -1,42 +1,22 @@
 package io.github.plixo2.sodalite.memory;
 
-import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.Getter;
-import org.joml.*;
 
 import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.ValueLayout;
 import java.util.Objects;
 
-import static io.github.plixo2.sodalite.Internal.assertU32;
-
-public final class CStruct extends ResourceObject {
+public final class CStruct extends ConstantWriteBufferImpl<CStruct> {
 
     @Getter
     private final MemoryLayout layout;
-
-    @Getter
-    private final long size;
-
-    private final MemorySegment segment;
 
     CStruct(
             ResourceSet resources,
             MemoryLayout layout
     ) {
-        var size = layout.byteSize();
-        assertU32(size);
-        resources.register(this);
-        this.size = size;
-        this.segment = resources.allocate(size);
+        super(resources, layout.byteSize());
         this.layout = layout;
-    }
-
-    public MemorySegment memory() {
-        ensureNotReleased();
-        return this.segment;
     }
 
     public static CStruct allocate(
@@ -47,30 +27,26 @@ public final class CStruct extends ResourceObject {
     }
 
 
-//    public VarHandle handleOfVariable(String name) {
-//        VarHandle handle = this.layout.varHandle(MemoryLayout.PathElement.groupElement(name));
-//        return MethodHandles.insertCoordinates(handle, 0, this.segment, 0L);
-//    }
-//    public VarHandle handleOfArrayElement(long index) {
-//        VarHandle handle = this.layout.varHandle(MemoryLayout.PathElement.sequenceElement());
-//        return MethodHandles.insertCoordinates(handle, 0, this.segment, 0L, index);
-//    }
-//    public VarHandle handleOfArrayElement(String name, long index) {
-//        VarHandle handle = this.layout.varHandle(MemoryLayout.PathElement.groupElement(name), MemoryLayout.PathElement.sequenceElement());
-//        return MethodHandles.insertCoordinates(handle, 0, this.segment, 0L, index);
-//    }
-//    public VarHandle handleOfArray() {
-//        VarHandle handle = this.layout.varHandle(MemoryLayout.PathElement.sequenceElement());
-//        return MethodHandles.insertCoordinates(handle, 0, this.segment, 0L);
-//    }
-//    public VarHandle handleOfArray(String name) {
-//        VarHandle handle = this.layout.varHandle(MemoryLayout.PathElement.groupElement(name), MemoryLayout.PathElement.sequenceElement());
-//        return MethodHandles.insertCoordinates(handle, 0, this.segment, 0L);
-//    }
-//
-    private long offset(String name, MemoryLayout layout) {
+    public CStruct at(String name) {
+        var offset = this.layout.byteOffset(MemoryLayout.PathElement.groupElement(name));
+        this.seek(offset);
+        return this;
+    }
+
+    public CStruct at(MemoryLayout layout) {
+        var offset = offsetOf(layout);
+        this.seek(offset);
+        return this;
+    }
+
+
+    public long offsetOf(MemoryLayout layout) {
+        var name = layout.name().orElse(null);
+        if (name == null) {
+            throw new IllegalArgumentException("Layout must have a name to get its offset");
+        }
         var getElement = this.layout.select(MemoryLayout.PathElement.groupElement(name));
-        if (!Objects.equals(getElement.withoutName(), layout.withoutName())) {
+        if (!Objects.equals(getElement, layout)) {
             throw new IllegalArgumentException(
                     "Layout of field '" + name + "' does not match expected layout. " +
                             "Expected: " + layout + ", actual: " + getElement
@@ -79,6 +55,10 @@ public final class CStruct extends ResourceObject {
 
         return this.layout.byteOffset(MemoryLayout.PathElement.groupElement(name));
     }
+
+
+
+     /*
 
     public FloatSetter Float(String name) {
         var offset = offset(name, Layouts.FLOAT);
@@ -281,5 +261,6 @@ public final class CStruct extends ResourceObject {
     public interface Mat4Setter {
         void set(Matrix4f mat);
     }
+    */
 
 }

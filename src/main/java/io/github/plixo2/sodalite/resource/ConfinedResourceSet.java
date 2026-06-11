@@ -6,20 +6,30 @@ import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
-final class ConfinedResourceSet implements ResourceSet {
-    private final List<Resource> resources = new ArrayList<>();
-    private final List<ResourceObject> objects = new ArrayList<>();
-    private final Thread owningThread;
+final class ConfinedResourceSet extends ResourceObject implements ResourceSet {
+
+
+    private List<Resource> resources = new ArrayList<>();
+    private List<ResourceObject> objects = new ArrayList<>();
+
     private boolean closed = false;
+    private boolean closedFromParent = false;
     private @Nullable Arena arena;
 
-    private ConfinedResourceSet(Thread owningThread) {
-        this.owningThread = owningThread;
+
+    private ConfinedResourceSet() {
     }
 
-    static ConfinedResourceSet create(Thread owningThread) {
-        return new ConfinedResourceSet(owningThread);
+    static ConfinedResourceSet create() {
+        return new ConfinedResourceSet();
+    }
+
+    static ConfinedResourceSet create(ResourceSet parent) {
+        var set = new ConfinedResourceSet();
+        parent.register(set, set::releaseFromParent);
+        return set;
     }
 
     @Override
@@ -27,6 +37,14 @@ final class ConfinedResourceSet implements ResourceSet {
         ensureAccess();
         this.objects.add(owner);
         this.resources.add(resource);
+    }
+
+    @Override
+    public Arena arena() {
+        if (this.arena == null) {
+            this.arena = Arena.ofConfined();
+        }
+        return this.arena;
     }
 
     @Override
@@ -40,9 +58,27 @@ final class ConfinedResourceSet implements ResourceSet {
 
     @Override
     public void close() {
-        ensureAccess();
+        if (this.closed) {
+            throw new IllegalStateException("Already closed");
+        } else if (this.closedFromParent) {
+            throw new IllegalStateException("Already closed from parent");
+        }
         this.closed = true;
+        release();
+    }
 
+    private void releaseFromParent() {
+        if (this.closedFromParent) {
+            throw new IllegalStateException("Already closed");
+        } else if (this.closed) {
+            // was already regularly closed, just return
+            return;
+        }
+        this.closedFromParent = true;
+        release();
+    }
+
+    private void release() {
         if (this.arena != null) {
             this.arena.close();
             this.arena = null;
@@ -55,13 +91,13 @@ final class ConfinedResourceSet implements ResourceSet {
             object.markReleased();
         }
         this.resources.clear();
+        this.objects.clear();
+        this.resources = null;
+        this.objects = null;
     }
 
     private void ensureAccess() {
-        if (Thread.currentThread() != this.owningThread) {
-            throw new WrongThreadException("Attempted access outside owning thread");
-        }
-        if (this.closed) {
+        if (this.closed || this.closedFromParent) {
             throw new IllegalStateException("Already closed");
         }
     }

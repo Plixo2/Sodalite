@@ -37,7 +37,14 @@ public class Video {
     }
 
     /// @apiNote SDL_DestroyWindow
-    static void destroyWindow(MemorySegment window) {
+    static void destroyWindow(Window.GPUClaim claim, MemorySegment window) {
+        if (claim.claimed) {
+            throw new IllegalStateException(
+                    "Cannot destroy window while it is claimed by a GPU device. "
+                    + "Call Device.releaseWindowForDevice(window) before destroying the window"
+            );
+        }
+
         SDL_DestroyWindow(window);
     }
 
@@ -68,5 +75,6 @@ public class Video {
     static float getWindowDisplayScale(Window window) {
         return SDL_GetWindowDisplayScale(window.segment());
     }
+
 
 }

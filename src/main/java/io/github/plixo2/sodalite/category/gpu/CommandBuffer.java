@@ -1,8 +1,9 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 
+import com.google.errorprone.annotations.CheckReturnValue;
 import io.github.plixo2.sodalite.category.video.Window;
-import io.github.plixo2.sodalite.memory.CStruct;
+import io.github.plixo2.sodalite.memory.WriteBuffer;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,6 +26,7 @@ public class CommandBuffer implements AutoCloseable {
         return GPU.waitAndAcquireGPUSwapchainTexture(this, window);
     }
 
+    @CheckReturnValue
     public RenderPass beginRenderPass(
             @Nullable RenderPass.DepthStencilTargetInfo depthStencilTarget,
             RenderPass.ColorTargetInfo... colorTargets
@@ -32,17 +34,18 @@ public class CommandBuffer implements AutoCloseable {
         return GPU.beginGPURenderPass(this, colorTargets, depthStencilTarget);
     }
 
+    @CheckReturnValue
     public CopyPass beginCopyPass() {
         return GPU.beginGPUCopyPass(this);
     }
 
-    public void pushFragmentUniform(int slot, CStruct struct) {
+    public void pushFragmentUniform(int slot, WriteBuffer<?> struct) {
         GPU.pushGPUFragmentUniformData(this, slot, struct);
     }
-    public void pushVertexUniform(int slot, CStruct struct) {
+    public void pushVertexUniform(int slot, WriteBuffer<?> struct) {
         GPU.pushGPUVertexUniformData(this, slot, struct);
     }
-    public void pushComputeUniform(int slot, CStruct struct) {
+    public void pushComputeUniform(int slot, WriteBuffer<?> struct) {
         GPU.pushGPUComputeUniformData(this, slot, struct);
     }
 

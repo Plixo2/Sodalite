@@ -31,4 +31,12 @@ public class Buffer extends ResourceObject {
         return this.segment;
     }
 
+
+//    public static Buffer emptyVertexBuffer(
+//            ResourceSet resources,
+//            Device device
+//    ) {
+//        return device.createBuffer(resources, BufferUsageFlags.VERTEX, 0);
+//    }
+
 }

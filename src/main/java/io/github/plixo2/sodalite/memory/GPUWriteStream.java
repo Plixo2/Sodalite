@@ -2,28 +2,46 @@ package io.github.plixo2.sodalite.memory;
 
 import org.joml.*;
 
-public interface GPUWriteStream {
+import java.lang.foreign.MemorySegment;
 
-    void writeFloat(float value);
-    void writeFloats(float[] values);
-    void writeInt(int value);
-    void writeInts(int[] values);
-    void writeByte(byte value);
-    void writeBytes(byte[] values);
-    void writeShort(short value);
-    void writeShorts(short[] values);
-    void writeMatrix4f(Matrix4f matrix);
-    void writeMatrix3f(Matrix3f matrix);
-    void writeMatrix2f(Matrix2f matrix);
+public interface GPUWriteStream<Self extends GPUWriteStream<Self>> {
 
-    void writeVector4f(Vector4f vector);
-    void writeVector3f(Vector3f vector);
-    void writeVector2f(Vector2f vector);
+    Self writeFloat(float value);
+    Self writeFloats(float... values);
+    Self writeInt(int value);
+    Self writeInts(int... values);
+    Self writeByte(byte value);
+    Self writeBytes(byte... values);
+    Self writeShort(short value);
+    Self writeShorts(short... values);
 
-    void writeVector4i(Vector4i vector);
-    void writeVector3i(Vector3i vector);
-    void writeVector2i(Vector2i vector);
+    Self writeMatrix4f(Matrix4f matrix);
+    Self writeMatrix3f(Matrix3f matrix);
+    Self writeMatrix2f(Matrix2f matrix);
 
-    void writeQuaternionf(Quaternionf quaternion);
+    Self writeVector4f(Vector4f vector);
+    Self writeVector4f(float x, float y, float z, float w);
+
+    Self writeVector3f(Vector3f vector);
+    Self writeVector3f(float x, float y, float z);
+
+    Self writeVector2f(Vector2f vector);
+    Self writeVector2f(float x, float y);
+
+    Self writeVector4i(Vector4i vector);
+    Self writeVector4i(int x, int y, int z, int w);
+    Self writeVector3i(Vector3i vector);
+    Self writeVector3i(int x, int y, int z);
+    Self writeVector2i(Vector2i vector);
+    Self writeVector2i(int x, int y);
+
+    Self writeQuaternionf(Quaternionf quaternion);
+
+    Self write(MemorySegment segment, long offset, long length);
+
+
+    default Self write(MemorySegment segment) {
+        return write(segment, 0, segment.byteSize());
+    }
 
 }

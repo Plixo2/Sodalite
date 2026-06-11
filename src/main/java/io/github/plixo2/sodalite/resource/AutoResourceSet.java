@@ -5,21 +5,20 @@ import java.lang.foreign.MemorySegment;
 import java.lang.ref.Cleaner;
 
 final class AutoResourceSet implements ResourceSet {
-    private final Cleaner cleaner;
+    private static final Cleaner CLEANER = Cleaner.create();
 
-    private AutoResourceSet(
-            Cleaner cleaner
-    ) {
-        this.cleaner = cleaner;
-    }
-
-    static AutoResourceSet create(Cleaner cleaner) {
-        return new AutoResourceSet(cleaner);
+    static AutoResourceSet create() {
+        return new AutoResourceSet();
     }
 
     @Override
     public void register(ResourceObject owner, Resource resource) {
-        this.cleaner.register(owner, FreeList.add(resource));
+        CLEANER.register(owner, PendingFrees.addAutoResource(resource));
+    }
+
+    @Override
+    public Arena arena() {
+        return Arena.ofAuto();
     }
 
     @Override

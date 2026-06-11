@@ -2,9 +2,10 @@ package io.github.plixo2.sodalite.category.video;
 
 
 
+import io.github.plixo2.sodalite.category.gpu.Device;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
-import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
 
 import java.lang.foreign.MemorySegment;
@@ -14,11 +15,17 @@ public class Window extends ResourceObject {
     private final MemorySegment segment;
     private final int id;
 
+    private final GPUClaim gpuClaim;
+
     Window(
             ResourceSet resources,
             MemorySegment segment
     ) {
-        resources.register(this, () -> Video.destroyWindow(segment));
+        var claim = this.gpuClaim = new GPUClaim();
+
+        resources.register(this, () -> {
+            Video.destroyWindow(claim, segment);
+        });
         this.segment = segment;
         this.id = Video.getWindowID(this);
     }
@@ -36,6 +43,7 @@ public class Window extends ResourceObject {
     public Vector2i getSize(Vector2i in) {
         return Video.getWindowSize(this, in);
     }
+
     public Vector2i getSizeInPixels(Vector2i in) {
         return Video.getWindowSizeInPixels(this, in);
     }
@@ -44,4 +52,17 @@ public class Window extends ResourceObject {
         return Video.getWindowDisplayScale(this);
     }
 
+    void setClaimedGPU(boolean claimed) {
+        ensureNotReleased();
+        this.gpuClaim.claimed = claimed;
+    }
+
+    public boolean isClaimedbyGPU() {
+        ensureNotReleased();
+        return this.gpuClaim.claimed;
+    }
+
+    static class GPUClaim {
+        boolean claimed = false;
+    }
 }

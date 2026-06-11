@@ -1,13 +1,15 @@
 package io.github.plixo2.sodalite.memory;
 
 
+import org.libsdl.sdl.SDL_GPUIndexedIndirectDrawCommand;
+import org.libsdl.sdl.SDL_GPUIndirectDrawCommand;
+
 import java.lang.foreign.MemoryLayout;
 import java.lang.foreign.ValueLayout;
 
 public class Layouts {
 
     public static MemoryLayout FLOAT = ValueLayout.JAVA_FLOAT;
-    public static MemoryLayout HALF = ValueLayout.JAVA_SHORT;
     public static MemoryLayout INT = ValueLayout.JAVA_INT;
     public static MemoryLayout UINT = ValueLayout.JAVA_INT;
     public static MemoryLayout BYTE = ValueLayout.JAVA_BYTE;
@@ -29,8 +31,8 @@ public class Layouts {
 
     public static MemoryLayout QUATERNION_F = floatVector(4);
 
-
-
+    public static MemoryLayout PRIMITIVES_INDIRECT_DRAW_COMMAND = SDL_GPUIndirectDrawCommand.layout();
+    public static MemoryLayout INDEXED_INDIRECT_DRAW_COMMAND = SDL_GPUIndexedIndirectDrawCommand.layout();
 
     private static MemoryLayout floatVector(int count) {
         return MemoryLayout.sequenceLayout(count, ValueLayout.JAVA_FLOAT);

@@ -775,7 +775,392 @@ public record EventOld() {
             String @Nullable[] mimeTypes
     ) implements EventData {}
 
-    */
+
+    sealed interface EventObject {}
+
+    /// @apiNote
+    record Empty(
+            Empty.Type type
+
+    ) implements EventObject {
+        public enum Type {
+
+            ;
+        }
+    }
+
+    /// @apiNote SDL_DisplayEvent
+    record DisplayEvent(
+            DisplayEvent.Type type,
+            int displayID,
+            int data1,
+            int data2
+    ) implements EventObject {
+        public enum Type {
+            ORIENTATION,
+            ADDED,
+            REMOVED,
+            MOVED,
+            DESKTOP_MODE_CHANGED,
+            CURRENT_MODE_CHANGED,
+            CONTENT_SCALE_CHANGED,
+            USABLE_BOUNDS_CHANGED,
+
+            ;
+        }
+    }
+
+    /// @apiNote SDL_WindowEvent
+    record WindowEvent(
+            WindowEvent.Type type,
+            int windowID,
+            int data1,
+            int data2
+    ) implements EventObject {
+        public enum Type {
+            SHOWN,
+            HIDDEN,
+            EXPOSED,
+            MOVED,
+            RESIZED,
+            PIXEL_SIZE_CHANGED,
+            METAL_VIEW_RESIZED,
+            MINIMIZED,
+            MAXIMIZED,
+            RESTORED,
+            MOUSE_ENTER,
+            MOUSE_LEAVE,
+            FOCUS_GAINED,
+            FOCUS_LOST,
+            CLOSE_REQUESTED,
+            HIT_TEST,
+            ICCPROF_CHANGED,
+            DISPLAY_CHANGED,
+            DISPLAY_SCALE_CHANGED,
+            SAFE_AREA_CHANGED,
+            OCCLUDED,
+            ENTER_FULLSCREEN,
+            LEAVE_FULLSCREEN,
+            DESTROYED,
+            HDR_STATE_CHANGED,
+
+            ;
+        }
+    }
+
+    /// @apiNote SDL_KeyboardEvent
+    record KeyboardEvent(
+            KeyboardEvent.Type type,
+            int windowID,
+            int keyboardID,
+            Scancode scancode,
+            Keycode keycode,
+            @Keymod int keymod,
+            short raw,
+            boolean down,
+            boolean repeat
+    ) implements EventObject {
+        public enum Type {
+            KEY_DOWN,
+            KEY_UP,
+
+            ;
+        }
+    }
+
+    /// @apiNote SDL_TextEditingEvent
+    record TextEditingEvent(
+            TextEditingEvent.Type type,
+            int windowID,
+            String text,
+            int start,
+            int length
+    ) implements EventObject {
+        public enum Type {
+            TEXT_EDITING,
+
+            ;
+        }
+    }
+
+    /// @apiNote SDL_TextInputEvent
+    record TextInputEvent(
+            TextInputEvent.Type type,
+            int windowID,
+            String text
+    ) implements EventObject {
+        public enum Type {
+            TEXT_INPUT,
+
+            ;
+        }
+    }
+
+    /// @apiNote SDL_KeyboardDeviceEvent
+    record KeyboardDeviceEvent(
+            KeyboardDeviceEvent.Type type,
+            int keyboardID
+    ) implements EventObject {
+        public enum Type {
+            KEYBOARD_ADDED,
+            KEYBOARD_REMOVED,
+
+            ;
+        }
+    }
+
+    /// @apiNote SDL_TextEditingCandidatesEvent
+    record TextEditingCandidatesEvent(
+            TextEditingCandidatesEvent.Type type,
+            int windowID,
+            List<String> candidates,
+            int selectedCandidate,
+            boolean horizontal
+    ) implements EventObject {
+        public enum Type {
+            TEXT_EDITING_CANDIDATES,
+
+            ;
+        }
+    }
+
+    /// @apiNote SDL_MouseMotionEvent
+    record MouseMotionEvent(
+            MouseMotionEvent.Type type,
+            int windowID,
+            int mouseID,
+            @MouseButtonFlags int state,
+            float x,
+            float y,
+            float xrel,
+            float yrel
+    ) implements EventObject {
+        public enum Type {
+            MOUSE_MOTION,
+
+            ;
+        }
+    }
+
+    /// @apiNote SDL_MouseButtonEvent
+    record MouseButtonEvent(
+            MouseButtonEvent.Type type,
+            int windowID,
+            int mouseID,
+            @MouseButtonFlags int button,
+            boolean down,
+            int clicks
+    ) implements EventObject {
+        public enum Type {
+            MOUSE_BUTTON_DOWN,
+            MOUSE_BUTTON_UP,
+
+            ;
+        }
+    }
+
+    /// @apiNote SDL_MouseWheelEvent
+    record MouseWheelEvent(
+            MouseWheelEvent.Type type,
+            int windowID,
+            int mouseID,
+            float x,
+            float y,
+            MouseWheelDirection direction,
+            float mouseX,
+            float mouseY,
+            int integerX,
+            int integerY
+    ) implements EventObject {
+        public enum Type {
+            MOUSE_WHEEL,
+
+            ;
+        }
+    }
+
+    /// @apiNote SDL_MouseDeviceEvent
+    record MouseDeviceEvent(
+            MouseDeviceEvent.Type type,
+            int mouseID
+    ) implements EventObject {
+        public enum Type {
+            MOUSE_ADDED,
+            MOUSE_REMOVED,
+
+            ;
+        }
+    }
+
+
+    package io.github.plixo2.sodalite.category.events;
+
+import lombok.RequiredArgsConstructor;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static org.libsdl.sdl.SDL3_h.*;
+
+/// @apiNote SDL_EventType
+@RequiredArgsConstructor
+enum EventType {
+
+    QUIT(SDL_EVENT_QUIT()),
+    TERMINATING(SDL_EVENT_TERMINATING()),
+    LOW_MEMORY(SDL_EVENT_LOW_MEMORY()),
+    WILL_ENTER_BACKGROUND(SDL_EVENT_WILL_ENTER_BACKGROUND()),
+    DID_ENTER_BACKGROUND(SDL_EVENT_DID_ENTER_BACKGROUND()),
+    WILL_ENTER_FOREGROUND(SDL_EVENT_WILL_ENTER_FOREGROUND()),
+    DID_ENTER_FOREGROUND(SDL_EVENT_DID_ENTER_FOREGROUND()),
+    LOCALE_CHANGED(SDL_EVENT_LOCALE_CHANGED()),
+    SYSTEM_THEME_CHANGED(SDL_EVENT_SYSTEM_THEME_CHANGED()),
+
+    DISPLAY_ORIENTATION(SDL_EVENT_DISPLAY_ORIENTATION()),
+    DISPLAY_ADDED(SDL_EVENT_DISPLAY_ADDED()),
+    DISPLAY_REMOVED(SDL_EVENT_DISPLAY_REMOVED()),
+    DISPLAY_MOVED(SDL_EVENT_DISPLAY_MOVED()),
+    DISPLAY_DESKTOP_MODE_CHANGED(SDL_EVENT_DISPLAY_DESKTOP_MODE_CHANGED()),
+    DISPLAY_CURRENT_MODE_CHANGED(SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED()),
+    DISPLAY_CONTENT_SCALE_CHANGED(SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED()),
+    DISPLAY_USABLE_BOUNDS_CHANGED(SDL_EVENT_DISPLAY_USABLE_BOUNDS_CHANGED()),
+
+    WINDOW_SHOWN(SDL_EVENT_WINDOW_SHOWN()),
+    WINDOW_HIDDEN(SDL_EVENT_WINDOW_HIDDEN()),
+    WINDOW_EXPOSED(SDL_EVENT_WINDOW_EXPOSED()),
+    WINDOW_MOVED(SDL_EVENT_WINDOW_MOVED()),
+    WINDOW_RESIZED(SDL_EVENT_WINDOW_RESIZED()),
+    WINDOW_PIXEL_SIZE_CHANGED(SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED()),
+    WINDOW_METAL_VIEW_RESIZED(SDL_EVENT_WINDOW_METAL_VIEW_RESIZED()),
+    WINDOW_MINIMIZED(SDL_EVENT_WINDOW_MINIMIZED()),
+    WINDOW_MAXIMIZED(SDL_EVENT_WINDOW_MAXIMIZED()),
+    WINDOW_RESTORED(SDL_EVENT_WINDOW_RESTORED()),
+    WINDOW_MOUSE_ENTER(SDL_EVENT_WINDOW_MOUSE_ENTER()),
+    WINDOW_MOUSE_LEAVE(SDL_EVENT_WINDOW_MOUSE_LEAVE()),
+    WINDOW_FOCUS_GAINED(SDL_EVENT_WINDOW_FOCUS_GAINED()),
+    WINDOW_FOCUS_LOST(SDL_EVENT_WINDOW_FOCUS_LOST()),
+    WINDOW_CLOSE_REQUESTED(SDL_EVENT_WINDOW_CLOSE_REQUESTED()),
+    WINDOW_HIT_TEST(SDL_EVENT_WINDOW_HIT_TEST()),
+    WINDOW_ICCPROF_CHANGED(SDL_EVENT_WINDOW_ICCPROF_CHANGED()),
+    WINDOW_DISPLAY_CHANGED(SDL_EVENT_WINDOW_DISPLAY_CHANGED()),
+    WINDOW_DISPLAY_SCALE_CHANGED(SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED()),
+    WINDOW_SAFE_AREA_CHANGED(SDL_EVENT_WINDOW_SAFE_AREA_CHANGED()),
+    WINDOW_OCCLUDED(SDL_EVENT_WINDOW_OCCLUDED()),
+    WINDOW_ENTER_FULLSCREEN(SDL_EVENT_WINDOW_ENTER_FULLSCREEN()),
+    WINDOW_LEAVE_FULLSCREEN(SDL_EVENT_WINDOW_LEAVE_FULLSCREEN()),
+    WINDOW_DESTROYED(SDL_EVENT_WINDOW_DESTROYED()),
+    WINDOW_HDR_STATE_CHANGED(SDL_EVENT_WINDOW_HDR_STATE_CHANGED()),
+
+    KEY_DOWN(SDL_EVENT_KEY_DOWN()),
+    KEY_UP(SDL_EVENT_KEY_UP()),
+    TEXT_EDITING(SDL_EVENT_TEXT_EDITING()),
+    TEXT_INPUT(SDL_EVENT_TEXT_INPUT()),
+    KEYMAP_CHANGED(SDL_EVENT_KEYMAP_CHANGED()),
+    KEYBOARD_ADDED(SDL_EVENT_KEYBOARD_ADDED()),
+    KEYBOARD_REMOVED(SDL_EVENT_KEYBOARD_REMOVED()),
+    TEXT_EDITING_CANDIDATES(SDL_EVENT_TEXT_EDITING_CANDIDATES()),
+    SCREEN_KEYBOARD_SHOWN(SDL_EVENT_SCREEN_KEYBOARD_SHOWN()),
+    SCREEN_KEYBOARD_HIDDEN(SDL_EVENT_SCREEN_KEYBOARD_HIDDEN()),
+    MOUSE_MOTION(SDL_EVENT_MOUSE_MOTION()),
+    MOUSE_BUTTON_DOWN(SDL_EVENT_MOUSE_BUTTON_DOWN()),
+    MOUSE_BUTTON_UP(SDL_EVENT_MOUSE_BUTTON_UP()),
+    MOUSE_WHEEL(SDL_EVENT_MOUSE_WHEEL()),
+    MOUSE_ADDED(SDL_EVENT_MOUSE_ADDED()),
+    MOUSE_REMOVED(SDL_EVENT_MOUSE_REMOVED()),
+    JOYSTICK_AXIS_MOTION(SDL_EVENT_JOYSTICK_AXIS_MOTION()),
+    JOYSTICK_BALL_MOTION(SDL_EVENT_JOYSTICK_BALL_MOTION()),
+    JOYSTICK_HAT_MOTION(SDL_EVENT_JOYSTICK_HAT_MOTION()),
+    JOYSTICK_BUTTON_DOWN(SDL_EVENT_JOYSTICK_BUTTON_DOWN()),
+    JOYSTICK_BUTTON_UP(SDL_EVENT_JOYSTICK_BUTTON_UP()),
+    JOYSTICK_ADDED(SDL_EVENT_JOYSTICK_ADDED()),
+    JOYSTICK_REMOVED(SDL_EVENT_JOYSTICK_REMOVED()),
+    JOYSTICK_BATTERY_UPDATED(SDL_EVENT_JOYSTICK_BATTERY_UPDATED()),
+    JOYSTICK_UPDATE_COMPLETE(SDL_EVENT_JOYSTICK_UPDATE_COMPLETE()),
+    GAMEPAD_AXIS_MOTION(SDL_EVENT_GAMEPAD_AXIS_MOTION()),
+    GAMEPAD_BUTTON_DOWN(SDL_EVENT_GAMEPAD_BUTTON_DOWN()),
+    GAMEPAD_BUTTON_UP(SDL_EVENT_GAMEPAD_BUTTON_UP()),
+    GAMEPAD_ADDED(SDL_EVENT_GAMEPAD_ADDED()),
+    GAMEPAD_REMOVED(SDL_EVENT_GAMEPAD_REMOVED()),
+    GAMEPAD_REMAPPED(SDL_EVENT_GAMEPAD_REMAPPED()),
+    GAMEPAD_TOUCHPAD_DOWN(SDL_EVENT_GAMEPAD_TOUCHPAD_DOWN()),
+    GAMEPAD_TOUCHPAD_MOTION(SDL_EVENT_GAMEPAD_TOUCHPAD_MOTION()),
+    GAMEPAD_TOUCHPAD_UP(SDL_EVENT_GAMEPAD_TOUCHPAD_UP()),
+    GAMEPAD_SENSOR_UPDATE(SDL_EVENT_GAMEPAD_SENSOR_UPDATE()),
+    GAMEPAD_UPDATE_COMPLETE(SDL_EVENT_GAMEPAD_UPDATE_COMPLETE()),
+    GAMEPAD_STEAM_HANDLE_UPDATED(SDL_EVENT_GAMEPAD_STEAM_HANDLE_UPDATED()),
+    FINGER_DOWN(SDL_EVENT_FINGER_DOWN()),
+    FINGER_UP(SDL_EVENT_FINGER_UP()),
+    FINGER_MOTION(SDL_EVENT_FINGER_MOTION()),
+    FINGER_CANCELED(SDL_EVENT_FINGER_CANCELED()),
+    PINCH_BEGIN(SDL_EVENT_PINCH_BEGIN()),
+    PINCH_UPDATE(SDL_EVENT_PINCH_UPDATE()),
+    PINCH_END(SDL_EVENT_PINCH_END()),
+    CLIPBOARD_UPDATE(SDL_EVENT_CLIPBOARD_UPDATE()),
+    DROP_FILE(SDL_EVENT_DROP_FILE()),
+    DROP_TEXT(SDL_EVENT_DROP_TEXT()),
+    DROP_BEGIN(SDL_EVENT_DROP_BEGIN()),
+    DROP_COMPLETE(SDL_EVENT_DROP_COMPLETE()),
+    DROP_POSITION(SDL_EVENT_DROP_POSITION()),
+    AUDIO_DEVICE_ADDED(SDL_EVENT_AUDIO_DEVICE_ADDED()),
+    AUDIO_DEVICE_REMOVED(SDL_EVENT_AUDIO_DEVICE_REMOVED()),
+    AUDIO_DEVICE_FORMAT_CHANGED(SDL_EVENT_AUDIO_DEVICE_FORMAT_CHANGED()),
+    SENSOR_UPDATE(SDL_EVENT_SENSOR_UPDATE()),
+    PEN_PROXIMITY_IN(SDL_EVENT_PEN_PROXIMITY_IN()),
+    PEN_PROXIMITY_OUT(SDL_EVENT_PEN_PROXIMITY_OUT()),
+    PEN_DOWN(SDL_EVENT_PEN_DOWN()),
+    PEN_UP(SDL_EVENT_PEN_UP()),
+    PEN_BUTTON_DOWN(SDL_EVENT_PEN_BUTTON_DOWN()),
+    PEN_BUTTON_UP(SDL_EVENT_PEN_BUTTON_UP()),
+    PEN_MOTION(SDL_EVENT_PEN_MOTION()),
+    PEN_AXIS(SDL_EVENT_PEN_AXIS()),
+    CAMERA_DEVICE_ADDED(SDL_EVENT_CAMERA_DEVICE_ADDED()),
+    CAMERA_DEVICE_REMOVED(SDL_EVENT_CAMERA_DEVICE_REMOVED()),
+    CAMERA_DEVICE_APPROVED(SDL_EVENT_CAMERA_DEVICE_APPROVED()),
+    CAMERA_DEVICE_DENIED(SDL_EVENT_CAMERA_DEVICE_DENIED()),
+    RENDER_TARGETS_RESET(SDL_EVENT_RENDER_TARGETS_RESET()),
+    RENDER_DEVICE_RESET(SDL_EVENT_RENDER_DEVICE_RESET()),
+    RENDER_DEVICE_LOST(SDL_EVENT_RENDER_DEVICE_LOST()),
+    PRIVATE0(SDL_EVENT_PRIVATE0()),
+    PRIVATE1(SDL_EVENT_PRIVATE1()),
+    PRIVATE2(SDL_EVENT_PRIVATE2()),
+    PRIVATE3(SDL_EVENT_PRIVATE3()),
+    POLL_SENTINEL(SDL_EVENT_POLL_SENTINEL()),
+
+    /// Events SDL_EVENT_USER through SDL_EVENT_LAST are for your use
+    /// (0x8000 through 0xFFFF)
+    USER(SDL_EVENT_USER()),
+
+
+    UNKNOWN(-1)
+
+    ;
+
+    private static final Map<Integer, EventType> codeMap = Arrays.stream(values()).collect(
+        Collectors.toMap(EventType::code, Function.identity())
+    );
+
+    private static EventType fromCode(int code) {
+        if (isUserEvent(code)) {
+            return USER;
+        }
+        return codeMap.getOrDefault(code, UNKNOWN);
+    }
+
+    private static boolean isUserEvent(int code) {
+        return code >= SDL_EVENT_USER() && code <= SDL_EVENT_LAST();
+    }
+
+    private final int code;
+    private int code() {
+        return this.code;
+    }
+}
+
+
+
+ */
 
 
 }

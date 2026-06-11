@@ -30,18 +30,22 @@ public final class Internal {
             : error -> { System.err.println("SDL3 Error: " + error); };
 
 
-
     private Internal() {}
 
-    public static void assertU32(long value) {
-        if (ASSERTIONS_ENABLED && (value < 0 || value > U32_MAX)) {
-            throw new AssertionError("Assertion failed: 0 <= " + value + " <= " + U32_MAX +
-                ". Value must fit into a unsigned 32-bit integer"
+
+    public static void assertU32(long value, String name) {
+        if (ASSERTIONS_ENABLED && !isU32(value)) {
+            throw new AssertionError("Assertion failed " +
+                    "(0 <= " + value + " <= " + U32_MAX + ")" +
+                    ": '" + name + "' must fit into a unsigned 32-bit integer"
             );
         }
     }
+    public static boolean isU32(long value) {
+        return value >= 0 && value <= U32_MAX;
+    }
 
-    public static void setErrorFunction(Consumer<String> onError) {
+    public static void setSDLCheckErrorFunction(Consumer<String> onError) {
         Internal.onError = Objects.requireNonNull(onError, "Error function");
     }
 
@@ -86,6 +90,7 @@ public final class Internal {
         var error = Error.getError();
         onError.accept(error);
     }
+
 
     @Contract("_, _, !null -> !null; _, _, null -> null")
     public static <T extends Enum<T>> T enumFromCode(Class<T> enumClass, int ordinal, @Nullable T defaultValue) {

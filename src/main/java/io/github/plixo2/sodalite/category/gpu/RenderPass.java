@@ -58,6 +58,43 @@ public class RenderPass implements AutoCloseable {
         GPU.bindGPUVertexStorageBuffer(this, slot, buffer);
     }
 
+    public void bindFragmentSampler(
+            int slot,
+            Texture texture,
+            Sampler sampler
+    ) {
+        GPU.bindFragmentSampler(
+                this,
+                slot,
+                texture,
+                sampler
+        );
+    }
+    public void bindFragmentSamplers(
+            int firstSlot,
+            Texture[] textures,
+            Sampler[] samplers
+    ) {
+        GPU.bindFragmentSamplers(
+                this,
+                firstSlot,
+                textures,
+                samplers
+        );
+    }
+    public void bindFragmentSamplers(
+            int firstSlot,
+            Texture[] textures,
+            Sampler sampler
+    ) {
+        GPU.bindFragmentSamplers(
+                this,
+                firstSlot,
+                textures,
+                sampler
+        );
+    }
+
     public void drawPrimitives(
             int numVertices,
             int numInstances,
@@ -65,6 +102,49 @@ public class RenderPass implements AutoCloseable {
             int firstInstance
     ) {
         GPU.drawGPUPrimitives(this, numVertices, numInstances, firstVertex, firstInstance);
+    }
+
+    public void drawIndexed(
+            int numIndices,
+            int numInstances,
+            int firstIndex,
+            int vertexOffset,
+            int firstInstance
+    ) {
+        GPU.drawGPUIndexedPrimitives(
+                this,
+                numIndices,
+                numInstances,
+                firstIndex,
+                vertexOffset,
+                firstInstance
+        );
+    }
+
+    public void drawPrimitivesIndirect(
+            Buffer indirectBuffer,
+            long bufferOffset,
+            int drawCount
+    ) {
+        GPU.drawGPUPrimitivesIndirect(this, indirectBuffer, bufferOffset, drawCount);
+    }
+
+    public void drawIndexedIndirect(
+            Buffer indirectBuffer,
+            long bufferOffset,
+            int drawCount
+    ) {
+        GPU.drawGPUIndexedPrimitivesIndirect(this, indirectBuffer, bufferOffset, drawCount);
+    }
+
+
+    public void setScissor(
+            int x,
+            int y,
+            int width,
+            int height
+    ) {
+        GPU.setGPUScissor(this, x, y, width, height);
     }
 
 
@@ -124,6 +204,21 @@ public class RenderPass implements AutoCloseable {
                 LoadOp.DONT_CARE,
                 cycle
             );
+        }
+        public static ColorTargetInfo resolve(
+                Texture texture,
+                Vector4f clearColor,
+                Texture resolveTexture,
+                Cycle cycle,
+                Cycle cycleResolveTexture
+        ) {
+            var info = clear(texture, clearColor, cycle);
+            info.storeOp = StoreOp.RESOLVE;
+            info.resolveTexture = resolveTexture;
+            info.resolveMipLevel = 0;
+            info.resolveLayer = 0;
+            info.cycleResolveTexture = cycleResolveTexture;
+            return info;
         }
 
         void put(MemorySegment segment) {

@@ -1,14 +1,13 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import io.github.plixo2.sodalite.file.FileIO;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
-import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 
 /// @apiNote SDL_GPUShader
@@ -32,52 +31,60 @@ public class Shader extends ResourceObject {
 
     public record ShaderCreator<T extends Throwable>(
         Shader.Source<T> source,
-        Shader.Parameter parameter
+        Shader.Parameters parameter
     ) {
         public static ShaderCreator<IOException> of(
                 @ShaderFormat int shaderFormat,
                 Path path,
-                Shader.Parameter parameter
+                Shader.Parameters parameter
         ) {
             return new ShaderCreator<>(Source.fromFile(shaderFormat, path), parameter);
         }
         public static ShaderCreator<IOException> of(
                 @ShaderFormat int shaderFormat,
                 java.io.InputStream inputStream,
-                Shader.Parameter parameter
+                Shader.Parameters parameter
         ) {
             return new ShaderCreator<>(Source.fromInputStream(shaderFormat, inputStream), parameter);
         }
         public static ShaderCreator<RuntimeException> of(
                 @ShaderFormat int shaderFormat,
                 byte[] bytes,
-                Shader.Parameter parameter
+                Shader.Parameters parameter
         ) {
             return new ShaderCreator<>(Source.fromByteArray(shaderFormat, bytes), parameter);
         }
         public static ShaderCreator<RuntimeException> of(
                 @ShaderFormat int shaderFormat,
                 MemorySegment code,
-                Shader.Parameter parameter
+                Shader.Parameters parameter
         ) {
             return new ShaderCreator<>(Source.fromMemory(shaderFormat, code), parameter);
         }
         public static <T extends Throwable> ShaderCreator<T> of(
                 Shader.Source<T> source,
-                Shader.Parameter parameter
+                Shader.Parameters parameter
         ) {
             return new ShaderCreator<>(source, parameter);
         }
     }
 
-    public record Parameter(
+    public record Parameters(
             String entryPoint,
             int num_samplers,
             int num_storage_textures,
             int num_storage_buffers,
             int num_uniform_buffers
     ) {
-        public Parameter(
+        public Parameters {
+            if (num_samplers < 0) throw new IllegalArgumentException("num_samplers must be non-negative");
+            if (num_storage_textures < 0) throw new IllegalArgumentException("num_storage_textures must be non-negative");
+            if (num_storage_buffers < 0) throw new IllegalArgumentException("num_storage_buffers must be non-negative");
+            if (num_uniform_buffers < 0) throw new IllegalArgumentException("num_uniform_buffers must be non-negative");
+            if (entryPoint.isEmpty()) throw new IllegalArgumentException("entryPoint must be non-empty");
+        }
+
+        public Parameters(
                 int num_samplers,
                 int num_storage_textures,
                 int num_storage_buffers,
@@ -92,22 +99,14 @@ public class Shader extends ResourceObject {
             );
         }
 
-        public Parameter {
-            if (num_samplers < 0) throw new IllegalArgumentException("num_samplers must be non-negative");
-            if (num_storage_textures < 0) throw new IllegalArgumentException("num_storage_textures must be non-negative");
-            if (num_storage_buffers < 0) throw new IllegalArgumentException("num_storage_buffers must be non-negative");
-            if (num_uniform_buffers < 0) throw new IllegalArgumentException("num_uniform_buffers must be non-negative");
-            if (entryPoint.isEmpty()) throw new IllegalArgumentException("entryPoint must be non-empty");
-        }
-
-        public static Parameter of(
+        public static Parameters of(
                 String entryPoint,
                 int num_samplers,
                 int num_storage_textures,
                 int num_storage_buffers,
                 int num_uniform_buffers
         ) {
-            return new Parameter(
+            return new Parameters(
                     entryPoint,
                     num_samplers,
                     num_storage_textures,
@@ -116,13 +115,13 @@ public class Shader extends ResourceObject {
             );
         }
 
-        public static Parameter of(
+        public static Parameters of(
                 int num_samplers,
                 int num_storage_textures,
                 int num_storage_buffers,
                 int num_uniform_buffers
         ) {
-            return new Parameter(
+            return new Parameters(
                     num_samplers,
                     num_storage_textures,
                     num_storage_buffers,
@@ -136,7 +135,6 @@ public class Shader extends ResourceObject {
 
         @ShaderFormat int shaderFormat();
         MemorySegment load(Arena arena) throws T;
-
 
         static Source<IOException> fromFile(@ShaderFormat int shaderFormat, Path path) {
             return new Shader.File(shaderFormat, path);
@@ -157,9 +155,7 @@ public class Shader extends ResourceObject {
     private record File(@ShaderFormat int shaderFormat, Path path) implements Source<IOException> {
         @Override
         public MemorySegment load(Arena arena) throws IOException {
-            try (var fc = FileChannel.open(this.path)) {
-                return fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size(), arena);
-            }
+            return FileIO.loadFile(arena, this.path);
         }
     }
 

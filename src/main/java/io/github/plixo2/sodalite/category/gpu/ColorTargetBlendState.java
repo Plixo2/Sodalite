@@ -22,6 +22,27 @@ public record ColorTargetBlendState(
         }
     }
 
+    public static ColorTargetBlendState of(
+            BlendFactor srcColorBlendfactor,
+            BlendFactor dstColorBlendfactor,
+            BlendOp colorBlendOp,
+            BlendFactor srcAlphaBlendfactor,
+            BlendFactor dstAlphaBlendfactor,
+            BlendOp alphaBlendOp,
+            @ColorComponentWriteFlags int colorWriteMask
+    ) {
+        return new ColorTargetBlendState(
+                srcColorBlendfactor,
+                dstColorBlendfactor,
+                colorBlendOp,
+                srcAlphaBlendfactor,
+                dstAlphaBlendfactor,
+                alphaBlendOp,
+                colorWriteMask,
+                true
+        );
+    }
+
     public static ColorTargetBlendState disabled() {
         return new ColorTargetBlendState(
                 BlendFactor.ONE,

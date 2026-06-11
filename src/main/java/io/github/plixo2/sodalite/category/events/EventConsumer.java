@@ -2,6 +2,7 @@ package io.github.plixo2.sodalite.category.events;
 
 import io.github.plixo2.sodalite.category.keycode.Keycode;
 import io.github.plixo2.sodalite.category.keycode.Keymod;
+import io.github.plixo2.sodalite.category.mouse.MouseButton;
 import io.github.plixo2.sodalite.category.mouse.MouseButtonFlags;
 import io.github.plixo2.sodalite.category.mouse.MouseWheelDirection;
 import io.github.plixo2.sodalite.category.pen.PenAxis;
@@ -31,7 +32,7 @@ public interface EventConsumer {
     default void onSystemThemeChanged         (long timestamp) {}
 
     /// @apiNote SDL_DisplayEvent
-    default void onDisplayOrientation         (long timestamp, DisplayOrientation newOrientation) {}
+    default void onDisplayOrientation         (long timestamp, int displayID, DisplayOrientation newOrientation) {}
     default void onDisplayAdded               (long timestamp, int displayID) {}
     default void onDisplayRemoved             (long timestamp, int displayID) {}
     default void onDisplayMoved               (long timestamp, int displayID) {}
@@ -68,8 +69,8 @@ public interface EventConsumer {
     default void onWindowHdrStateChanged      (long timestamp, int windowID) {}
 
     /// @apiNote SDL_KeyboardEvent
-    default void onKeyDown                    (long timestamp, int windowID, int keyboardID, Scancode scancode, Keycode keycode, @Keymod int keymod, short raw, boolean repeat) {}
-    default void onKeyUp                      (long timestamp, int windowID, int keyboardID, Scancode scancode, Keycode keycode, @Keymod int keymod, short raw) {}
+    default void onKeyDown                    (long timestamp, int windowID, int keyboardID, Scancode scancode, Keycode key, @Keymod int keymod, short raw, boolean repeat) {}
+    default void onKeyUp                      (long timestamp, int windowID, int keyboardID, Scancode scancode, Keycode key, @Keymod int keymod, short raw) {}
 
     /// @apiNote SDL_TextEditingEvent
     default void onTextEditing                (long timestamp, int windowID, String text, int start, int length) {}
@@ -95,8 +96,8 @@ public interface EventConsumer {
     default void onMouseMotion                (long timestamp, int windowID, int mouseID, @MouseButtonFlags int state, float x, float y, float xrel, float yrel) {}
 
     /// @apiNote SDL_MouseButtonEvent
-    default void onMouseButtonDown            (long timestamp, int windowID, int mouseID, @MouseButtonFlags int button, int clicks) {}
-    default void onMouseButtonUp              (long timestamp, int windowID, int mouseID, @MouseButtonFlags int button, int clicks) {}
+    default void onMouseButtonDown            (long timestamp, int windowID, int mouseID, @MouseButton int button, int clicks) {}
+    default void onMouseButtonUp              (long timestamp, int windowID, int mouseID, @MouseButton int button, int clicks) {}
 
     /// @apiNote SDL_MouseWheelEvent
     default void onMouseWheel                 (long timestamp, int windowID, int mouseID, float x, float y, MouseWheelDirection direction, float mouseX, float mouseY, int integerX, int integerY) {}
@@ -153,10 +154,10 @@ public interface EventConsumer {
     default void onGamepadSteamHandleUpdated  (long timestamp, int joystickID) {}
 
     /// @apiNote SDL_TouchFingerEvent
-    default void onFingerDown                 (long timestamp, int touchID, int fingerID, float x, float y, float dx, float dy, float pressure, int windowID) {}
-    default void onFingerUp                   (long timestamp, int touchID, int fingerID, float x, float y, float dx, float dy, float pressure, int windowID) {}
-    default void onFingerMotion               (long timestamp, int touchID, int fingerID, float x, float y, float dx, float dy, float pressure, int windowID) {}
-    default void onFingerCanceled             (long timestamp, int touchID, int fingerID, float x, float y, float dx, float dy, float pressure, int windowID) {}
+    default void onFingerDown                 (long timestamp, long touchID, long fingerID, float x, float y, float dx, float dy, float pressure, int windowID) {}
+    default void onFingerUp                   (long timestamp, long touchID, long fingerID, float x, float y, float dx, float dy, float pressure, int windowID) {}
+    default void onFingerMotion               (long timestamp, long touchID, long fingerID, float x, float y, float dx, float dy, float pressure, int windowID) {}
+    default void onFingerCanceled             (long timestamp, long touchID, long fingerID, float x, float y, float dx, float dy, float pressure, int windowID) {}
 
     /// @apiNote SDL_PinchFingerEvent
     default void onPinchBegin                 (long timestamp, float scale, int windowID) {}
@@ -174,9 +175,9 @@ public interface EventConsumer {
     default void onDropPosition               (long timestamp, int windowID, float x, float y, @Nullable String source) {}
 
     /// @apiNote SDL_AudioDeviceEvent
-    default void onAudioDeviceAdded           (long timestamp, boolean recording) {}
-    default void onAudioDeviceRemoved         (long timestamp, boolean recording) {}
-    default void onAudioDeviceFormatChanged   (long timestamp, boolean recording) {}
+    default void onAudioDeviceAdded           (long timestamp, int audioDeviceID, boolean recording) {}
+    default void onAudioDeviceRemoved         (long timestamp, int audioDeviceID, boolean recording) {}
+    default void onAudioDeviceFormatChanged   (long timestamp, int audioDeviceID, boolean recording) {}
 
     /// @apiNote SDL_SensorEvent
     default void onSensorUpdate               (long timestamp, int sensorID, @ArrayLength(6) float[] data, long sensorTimestamp) {}
@@ -217,225 +218,6 @@ public interface EventConsumer {
     default void onPrivate3                   (long timestamp) {}
 
     /// @apiNote SDL_UserEvent
-    default void onUser                       (long timestamp, int type, int windowID, int code, MemorySegment data1, MemorySegment data2) {}
-
-
-/*
-    sealed interface EventObject {}
-
-    /// @apiNote
-    record Empty(
-            Empty.Type type
-
-    ) implements EventObject {
-        public enum Type {
-
-            ;
-        }
-    }
-
-    /// @apiNote SDL_DisplayEvent
-    record DisplayEvent(
-            DisplayEvent.Type type,
-            int displayID,
-            int data1,
-            int data2
-    ) implements EventObject {
-        public enum Type {
-            ORIENTATION,
-            ADDED,
-            REMOVED,
-            MOVED,
-            DESKTOP_MODE_CHANGED,
-            CURRENT_MODE_CHANGED,
-            CONTENT_SCALE_CHANGED,
-            USABLE_BOUNDS_CHANGED,
-
-            ;
-        }
-    }
-
-    /// @apiNote SDL_WindowEvent
-    record WindowEvent(
-            WindowEvent.Type type,
-            int windowID,
-            int data1,
-            int data2
-    ) implements EventObject {
-        public enum Type {
-            SHOWN,
-            HIDDEN,
-            EXPOSED,
-            MOVED,
-            RESIZED,
-            PIXEL_SIZE_CHANGED,
-            METAL_VIEW_RESIZED,
-            MINIMIZED,
-            MAXIMIZED,
-            RESTORED,
-            MOUSE_ENTER,
-            MOUSE_LEAVE,
-            FOCUS_GAINED,
-            FOCUS_LOST,
-            CLOSE_REQUESTED,
-            HIT_TEST,
-            ICCPROF_CHANGED,
-            DISPLAY_CHANGED,
-            DISPLAY_SCALE_CHANGED,
-            SAFE_AREA_CHANGED,
-            OCCLUDED,
-            ENTER_FULLSCREEN,
-            LEAVE_FULLSCREEN,
-            DESTROYED,
-            HDR_STATE_CHANGED,
-
-            ;
-        }
-    }
-
-    /// @apiNote SDL_KeyboardEvent
-    record KeyboardEvent(
-            KeyboardEvent.Type type,
-            int windowID,
-            int keyboardID,
-            Scancode scancode,
-            Keycode keycode,
-            @Keymod int keymod,
-            short raw,
-            boolean down,
-            boolean repeat
-    ) implements EventObject {
-        public enum Type {
-            KEY_DOWN,
-            KEY_UP,
-
-            ;
-        }
-    }
-
-    /// @apiNote SDL_TextEditingEvent
-    record TextEditingEvent(
-            TextEditingEvent.Type type,
-            int windowID,
-            String text,
-            int start,
-            int length
-    ) implements EventObject {
-        public enum Type {
-            TEXT_EDITING,
-
-            ;
-        }
-    }
-
-    /// @apiNote SDL_TextInputEvent
-    record TextInputEvent(
-            TextInputEvent.Type type,
-            int windowID,
-            String text
-    ) implements EventObject {
-        public enum Type {
-            TEXT_INPUT,
-
-            ;
-        }
-    }
-
-    /// @apiNote SDL_KeyboardDeviceEvent
-    record KeyboardDeviceEvent(
-            KeyboardDeviceEvent.Type type,
-            int keyboardID
-    ) implements EventObject {
-        public enum Type {
-            KEYBOARD_ADDED,
-            KEYBOARD_REMOVED,
-
-            ;
-        }
-    }
-
-    /// @apiNote SDL_TextEditingCandidatesEvent
-    record TextEditingCandidatesEvent(
-            TextEditingCandidatesEvent.Type type,
-            int windowID,
-            List<String> candidates,
-            int selectedCandidate,
-            boolean horizontal
-    ) implements EventObject {
-        public enum Type {
-            TEXT_EDITING_CANDIDATES,
-
-            ;
-        }
-    }
-
-    /// @apiNote SDL_MouseMotionEvent
-    record MouseMotionEvent(
-            MouseMotionEvent.Type type,
-            int windowID,
-            int mouseID,
-            @MouseButtonFlags int state,
-            float x,
-            float y,
-            float xrel,
-            float yrel
-    ) implements EventObject {
-        public enum Type {
-            MOUSE_MOTION,
-
-            ;
-        }
-    }
-
-    /// @apiNote SDL_MouseButtonEvent
-    record MouseButtonEvent(
-            MouseButtonEvent.Type type,
-            int windowID,
-            int mouseID,
-            @MouseButtonFlags int button,
-            boolean down,
-            int clicks
-    ) implements EventObject {
-        public enum Type {
-            MOUSE_BUTTON_DOWN,
-            MOUSE_BUTTON_UP,
-
-            ;
-        }
-    }
-
-    /// @apiNote SDL_MouseWheelEvent
-    record MouseWheelEvent(
-            MouseWheelEvent.Type type,
-            int windowID,
-            int mouseID,
-            float x,
-            float y,
-            MouseWheelDirection direction,
-            float mouseX,
-            float mouseY,
-            int integerX,
-            int integerY
-    ) implements EventObject {
-        public enum Type {
-            MOUSE_WHEEL,
-
-            ;
-        }
-    }
-
-    /// @apiNote SDL_MouseDeviceEvent
-    record MouseDeviceEvent(
-            MouseDeviceEvent.Type type,
-            int mouseID
-    ) implements EventObject {
-        public enum Type {
-            MOUSE_ADDED,
-            MOUSE_REMOVED,
-
-            ;
-        }
-    }
-*/
+    default void onUserEvent                  (long timestamp, int type, int windowID, int code, MemorySegment data1, MemorySegment data2) {}
 
 }

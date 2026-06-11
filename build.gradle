@@ -5,6 +5,8 @@ plugins {
 group = 'io.github.plixo2'
 version = '1.0-SNAPSHOT'
 
+project.ext.lwjglVersion = "3.4.1"
+project.ext.lwjglNatives = "natives-windows"
 project.ext.jomlVersion = "1.10.8"
 
 repositories {
@@ -20,9 +22,18 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.42'
 
     implementation 'com.google.errorprone:error_prone_annotations:2.45.0'
+
+    implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
+
+
+    implementation "org.lwjgl:lwjgl"
+    implementation "org.lwjgl:lwjgl-stb"
+    implementation "org.lwjgl:lwjgl::$lwjglNatives"
+    implementation "org.lwjgl:lwjgl-stb::$lwjglNatives"
     implementation "org.joml:joml:${jomlVersion}"
 
     implementation files("SDL-3.4.jar")
+//    implementation files("Hematite-4.0.jar")
 }
 
 tasks.withType(JavaExec).configureEach {

@@ -1,93 +1,129 @@
 package io.github.plixo2.sodalite.memory;
 
+import io.github.plixo2.sodalite.Internal;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import org.joml.*;
 
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
+import java.util.concurrent.RecursiveTask;
 
-public abstract class WriteBuffer extends ResourceObject implements GPUWriteStream {
+public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
+        extends ResourceObject
+        implements GPUWriteStream<Self>
+{
 
-    protected long size;
+    protected long position = 0;
+    protected long capacity = 0;
 
     protected abstract void ensureCapacity(long requiredCapacity);
+
+    /// faster version to avoid overhead
     protected abstract MemorySegment currentSegmentUnchecked();
 
-
     public abstract MemorySegment memory();
-    public abstract void clear();
-    public abstract long capacity();
 
-    public long size() {
-        return this.size;
+    public long capacity() {
+        ensureNotReleased();
+        return this.capacity;
+    }
+
+    public long position() {
+        return this.position;
+    }
+    public long remaining() {
+        return this.capacity - this.position;
+    }
+
+    public Self clear() {
+        ensureNotReleased();
+        this.position = 0;
+        return castThis();
+    }
+
+    public Self seek(long newPosition) {
+        if (newPosition < 0 || newPosition > capacity()) {
+            throw new IllegalArgumentException("Position must be between 0 and capacity");
+        }
+        Internal.assertU32(newPosition, "newPosition");
+        this.position = newPosition;
+        return castThis();
     }
 
 
     @Override
-    public synchronized void writeFloat(float value) {
-        ensureCapacity(this.size + Float.BYTES);
-        currentSegmentUnchecked().set(ValueLayout.JAVA_FLOAT, this.size, value);
-        this.size += Float.BYTES;
+    public Self writeFloat(float value) {
+        ensureCapacity(this.position + Float.BYTES);
+        currentSegmentUnchecked().set(ValueLayout.JAVA_FLOAT, this.position, value);
+        this.position += Float.BYTES;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeFloats(float[] values) {
+    public Self writeFloats(float... values) {
         long bytes = (long) values.length * Float.BYTES;
-        ensureCapacity(this.size + bytes);
-        MemorySegment.copy(values, 0, currentSegmentUnchecked(), ValueLayout.JAVA_FLOAT, this.size, values.length);
-        this.size += bytes;
+        ensureCapacity(this.position + bytes);
+        MemorySegment.copy(values, 0, currentSegmentUnchecked(), ValueLayout.JAVA_FLOAT, this.position, values.length);
+        this.position += bytes;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeInt(int value) {
-        ensureCapacity(this.size + Integer.BYTES);
-        currentSegmentUnchecked().set(ValueLayout.JAVA_INT, this.size, value);
-        this.size += Integer.BYTES;
+    public Self writeInt(int value) {
+        ensureCapacity(this.position + Integer.BYTES);
+        currentSegmentUnchecked().set(ValueLayout.JAVA_INT, this.position, value);
+        this.position += Integer.BYTES;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeInts(int[] values) {
+    public Self writeInts(int... values) {
         long bytes = (long) values.length * Integer.BYTES;
-        ensureCapacity(this.size + bytes);
-        MemorySegment.copy(values, 0, currentSegmentUnchecked(), ValueLayout.JAVA_INT, this.size, values.length);
-        this.size += bytes;
+        ensureCapacity(this.position + bytes);
+        MemorySegment.copy(values, 0, currentSegmentUnchecked(), ValueLayout.JAVA_INT, this.position, values.length);
+        this.position += bytes;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeByte(byte value) {
-        ensureCapacity(this.size + Byte.BYTES);
-        currentSegmentUnchecked().set(ValueLayout.JAVA_BYTE, this.size, value);
-        this.size += Byte.BYTES;
+    public Self writeByte(byte value) {
+        ensureCapacity(this.position + Byte.BYTES);
+        currentSegmentUnchecked().set(ValueLayout.JAVA_BYTE, this.position, value);
+        this.position += Byte.BYTES;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeBytes(byte[] values) {
+    public Self writeBytes(byte... values) {
         long bytes = values.length;
-        ensureCapacity(this.size + bytes);
-        MemorySegment.copy(values, 0, currentSegmentUnchecked(), ValueLayout.JAVA_BYTE, this.size, values.length);
-        this.size += bytes;
+        ensureCapacity(this.position + bytes);
+        MemorySegment.copy(values, 0, currentSegmentUnchecked(), ValueLayout.JAVA_BYTE, this.position, values.length);
+        this.position += bytes;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeShort(short value) {
-        ensureCapacity(this.size + Short.BYTES);
-        currentSegmentUnchecked().set(ValueLayout.JAVA_SHORT, this.size, value);
-        this.size += Short.BYTES;
+    public Self writeShort(short value) {
+        ensureCapacity(this.position + Short.BYTES);
+        currentSegmentUnchecked().set(ValueLayout.JAVA_SHORT, this.position, value);
+        this.position += Short.BYTES;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeShorts(short[] values) {
+    public Self writeShorts(short... values) {
         long bytes = (long) values.length * Short.BYTES;
-        ensureCapacity(this.size + bytes);
-        MemorySegment.copy(values, 0, currentSegmentUnchecked(), ValueLayout.JAVA_SHORT, this.size, values.length);
-        this.size += bytes;
+        ensureCapacity(this.position + bytes);
+        MemorySegment.copy(values, 0, currentSegmentUnchecked(), ValueLayout.JAVA_SHORT, this.position, values.length);
+        this.position += bytes;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeMatrix4f(Matrix4f matrix) {
+    public Self writeMatrix4f(Matrix4f matrix) {
         long bytes = Float.BYTES * 16L;
-        ensureCapacity(this.size + bytes);
-        long offset = this.size;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
         var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, matrix.m00());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, matrix.m01());
@@ -105,14 +141,15 @@ public abstract class WriteBuffer extends ResourceObject implements GPUWriteStre
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 13, matrix.m31());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 14, matrix.m32());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 15, matrix.m33());
-        this.size += bytes;
+        this.position += bytes;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeMatrix3f(Matrix3f matrix) {
+    public Self writeMatrix3f(Matrix3f matrix) {
         long bytes = Float.BYTES * 9L;
-        ensureCapacity(this.size + bytes);
-        long offset = this.size;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
         var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, matrix.m00());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, matrix.m01());
@@ -123,104 +160,207 @@ public abstract class WriteBuffer extends ResourceObject implements GPUWriteStre
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 6, matrix.m20());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 7, matrix.m21());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 8, matrix.m22());
-        this.size += bytes;
+        this.position += bytes;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeMatrix2f(Matrix2f matrix) {
+    public Self writeMatrix2f(Matrix2f matrix) {
         long bytes = Float.BYTES * 4L;
-        ensureCapacity(this.size + bytes);
-        long offset = this.size;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
         var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, matrix.m00());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, matrix.m01());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 2, matrix.m10());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 3, matrix.m11());
-        this.size += bytes;
+        this.position += bytes;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeVector4f(Vector4f vector) {
+    public Self writeVector4f(Vector4f vector) {
         long bytes = Float.BYTES * 4L;
-        ensureCapacity(this.size + bytes);
-        long offset = this.size;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
         var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, vector.x);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, vector.y);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 2, vector.z);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 3, vector.w);
-        this.size += bytes;
+        this.position += bytes;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeVector3f(Vector3f vector) {
+    public Self writeVector4f(float x, float y, float z, float w) {
+        long bytes = Float.BYTES * 4L;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
+        var segment = currentSegmentUnchecked();
+        segment.set(ValueLayout.JAVA_FLOAT, offset, x);
+        segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, y);
+        segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 2, z);
+        segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 3, w);
+        this.position += bytes;
+        return castThis();
+    }
+
+    @Override
+    public Self writeVector3f(Vector3f vector) {
         long bytes = Float.BYTES * 3L;
-        ensureCapacity(this.size + bytes);
-        long offset = this.size;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
         var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, vector.x);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, vector.y);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 2, vector.z);
-        this.size += bytes;
+        this.position += bytes;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeVector2f(Vector2f vector) {
+    public Self writeVector3f(float x, float y, float z) {
+        long bytes = Float.BYTES * 3L;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
+        var segment = currentSegmentUnchecked();
+        segment.set(ValueLayout.JAVA_FLOAT, offset, x);
+        segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, y);
+        segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 2, z);
+        this.position += bytes;
+        return castThis();
+    }
+
+
+    @Override
+    public Self writeVector2f(Vector2f vector) {
         long bytes = Float.BYTES * 2L;
-        ensureCapacity(this.size + bytes);
-        long offset = this.size;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
         var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, vector.x);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, vector.y);
-        this.size += bytes;
+        this.position += bytes;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeVector4i(Vector4i vector) {
+    public Self writeVector2f(float x, float y) {
+        long bytes = Float.BYTES * 2L;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
+        var segment = currentSegmentUnchecked();
+        segment.set(ValueLayout.JAVA_FLOAT, offset, x);
+        segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, y);
+        this.position += bytes;
+        return castThis();
+    }
+
+    @Override
+    public Self writeVector4i(Vector4i vector) {
         long bytes = Integer.BYTES * 4L;
-        ensureCapacity(this.size + bytes);
-        long offset = this.size;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
         var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_INT, offset, vector.x);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES, vector.y);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 2, vector.z);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 3, vector.w);
-        this.size += bytes;
+        this.position += bytes;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeVector3i(Vector3i vector) {
+    public Self writeVector4i(int x, int y, int z, int w) {
+        long bytes = Integer.BYTES * 4L;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
+        var segment = currentSegmentUnchecked();
+        segment.set(ValueLayout.JAVA_INT, offset, x);
+        segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES, y);
+        segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 2, z);
+        segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 3, w);
+        this.position += bytes;
+        return castThis();
+    }
+
+    @Override
+    public Self writeVector3i(Vector3i vector) {
         long bytes = Integer.BYTES * 3L;
-        ensureCapacity(this.size + bytes);
-        long offset = this.size;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
         var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_INT, offset, vector.x);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES, vector.y);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 2, vector.z);
-        this.size += bytes;
+        this.position += bytes;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeVector2i(Vector2i vector) {
+    public Self writeVector3i(int x, int y, int z) {
+        long bytes = Integer.BYTES * 3L;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
+        var segment = currentSegmentUnchecked();
+        segment.set(ValueLayout.JAVA_INT, offset, x);
+        segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES, y);
+        segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 2, z);
+        this.position += bytes;
+        return castThis();
+    }
+
+    @Override
+    public Self writeVector2i(Vector2i vector) {
         long bytes = Integer.BYTES * 2L;
-        ensureCapacity(this.size + bytes);
-        long offset = this.size;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
         var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_INT, offset, vector.x);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES, vector.y);
-        this.size += bytes;
+        this.position += bytes;
+        return castThis();
     }
 
     @Override
-    public synchronized void writeQuaternionf(Quaternionf quaternion) {
+    public Self writeVector2i(int x, int y) {
+        long bytes = Integer.BYTES * 2L;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
+        var segment = currentSegmentUnchecked();
+        segment.set(ValueLayout.JAVA_INT, offset, x);
+        segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES, y);
+        this.position += bytes;
+        return castThis();
+    }
+
+    @Override
+    public Self writeQuaternionf(Quaternionf quaternion) {
         long bytes = Float.BYTES * 4L;
-        ensureCapacity(this.size + bytes);
-        long offset = this.size;
+        ensureCapacity(this.position + bytes);
+        long offset = this.position;
         var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, quaternion.x);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, quaternion.y);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 2, quaternion.z);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 3, quaternion.w);
-        this.size += bytes;
+        this.position += bytes;
+        return castThis();
+    }
+
+
+    @Override
+    public Self write(MemorySegment segment, long offset, long length) {
+        ensureCapacity(this.position + length);
+        MemorySegment.copy(segment, offset, currentSegmentUnchecked(), this.position, length);
+        this.position += length;
+        return castThis();
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private Self castThis() {
+        return (Self) this;
     }
 }

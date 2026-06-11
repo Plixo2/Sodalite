@@ -32,6 +32,19 @@ public record DepthStencilState(
         );
     }
 
+    public static DepthStencilState disabled() {
+        return new DepthStencilState(
+            CompareOp.ALWAYS,
+            StencilOpState.of(),
+            StencilOpState.of(),
+            (byte) 0,
+            (byte) 0,
+            DepthTest.DISABLED,
+            DepthWrite.DISABLED,
+            StencilTest.DISABLED
+        );
+    }
+
     void put(
             MemorySegment segment
     ) {

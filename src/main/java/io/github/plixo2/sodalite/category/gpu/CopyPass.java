@@ -26,11 +26,14 @@ public class CopyPass implements AutoCloseable {
 
     @Override
     public void close() {
+        ensureNotEnded();
+        GPU.endGPUCopyPass(this);
+        this.isEnded = true;
+    }
+    private void ensureNotEnded() {
         if (this.isEnded) {
             throw new IllegalStateException("Copy pass has already been ended");
         }
-        GPU.endGPUCopyPass(this);
-        this.isEnded = true;
     }
 
     public void upload(
@@ -63,12 +66,22 @@ public class CopyPass implements AutoCloseable {
 
     public void upload(
             TransferBuffer src,
+            Buffer dstBuffer,
+            long size,
+            Cycle cycle
+    ) {
+        upload(src, 0, dstBuffer, 0, size, cycle);
+    }
+
+    public void upload(
+            TransferBuffer src,
             long srcOffset,
             Buffer dstBuffer,
             long dstOffset,
             long size,
             Cycle cycle
     ) {
+        ensureNotEnded();
         GPU.uploadToGPUBuffer(
             this,
             src,
@@ -79,5 +92,30 @@ public class CopyPass implements AutoCloseable {
             cycle
         );
     }
+
+    public void upload(
+            TransferBuffer src,
+            TextureRegion region,
+            Cycle cycle
+    ) {
+        upload(src, 0, region, cycle);
+    }
+
+    public void upload(
+            TransferBuffer src,
+            long srcOffset,
+            TextureRegion region,
+            Cycle cycle
+    ) {
+        ensureNotEnded();
+        GPU.uploadToGPUTexture(
+                this,
+                src,
+                srcOffset,
+                region,
+                cycle
+        );
+    }
+
 
 }

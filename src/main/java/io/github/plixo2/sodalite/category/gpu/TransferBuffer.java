@@ -6,10 +6,11 @@ import lombok.Getter;
 
 import java.lang.foreign.MemorySegment;
 
-@Getter
+
 public class TransferBuffer extends ResourceObject {
 
     private final MemorySegment segment;
+    @Getter
     private final long size;
     private boolean isMapped = false;
 

@@ -4,6 +4,7 @@ import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 
 
+/// @apiNote Keys for SDL_CreateGPUDevice
 public enum PreferredGPUDriver {
 
     VULKAN,
@@ -18,7 +19,7 @@ public enum PreferredGPUDriver {
     private static final MemorySegment DX12_STRING = Arena.global().allocateFrom("direct3d12");
     private static final MemorySegment OPTIMAL_STRING = MemorySegment.NULL;
 
-    MemorySegment nameSegment() {
+    MemorySegment stringSegment() {
         return switch (this) {
             case VULKAN -> VULKAN_STRING;
             case METAL -> METAL_STRING;

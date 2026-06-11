@@ -1,16 +1,17 @@
 package io.github.plixo2.sodalite.memory;
 
+import io.github.plixo2.sodalite.Internal;
 import io.github.plixo2.sodalite.resource.Resource;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 
-public class GrowableWriteBuffer extends WriteBuffer {
+import static io.github.plixo2.sodalite.Internal.*;
+
+public class GrowableWriteBuffer extends WriteBuffer<GrowableWriteBuffer> {
 
     private final CurrentSegment currentSegment;
-    
-    private long capacity;
 
     GrowableWriteBuffer(
             ResourceSet resources,
@@ -21,10 +22,12 @@ public class GrowableWriteBuffer extends WriteBuffer {
         if (initialSize < 0) {
            throw new IllegalArgumentException("Initial size must be non-negative");
         }
+        if (!Internal.isU32(initialSize)) {
+            throw new IllegalStateException("Buffer capacity exceeds maximum allowed size of 2^32 bytes (4 GiB)");
+        }
 
         this.currentSegment = segment;
         this.capacity = initialSize;
-        this.size = 0;
         if (initialSize > 0) {
             this.currentSegment.grow(initialSize);
         }
@@ -40,24 +43,11 @@ public class GrowableWriteBuffer extends WriteBuffer {
     @Override
     public MemorySegment memory() {
         ensureNotReleased();
-        return this.currentSegment.segment.asSlice(0, this.size).asReadOnly();
+        return this.currentSegment.segment.asSlice(0, this.position);
     }
 
     @Override
-    public void clear() {
-        ensureNotReleased();
-        this.size = 0;
-    }
-
-    @Override
-    public synchronized long capacity() {
-        ensureNotReleased();
-        return this.capacity;
-    }
-
-    @Override
-    protected synchronized final void ensureCapacity(long requiredCapacity) {
-        ensureNotReleased();
+    protected final void ensureCapacity(long requiredCapacity) {
         if (requiredCapacity <= this.capacity) {
             return;
         }
@@ -66,6 +56,10 @@ public class GrowableWriteBuffer extends WriteBuffer {
         do {
             newCapacity = Math.max(8, this.capacity * 2);
         } while (newCapacity < requiredCapacity);
+
+        if (!Internal.isU32(newCapacity)) {
+            throw new IllegalStateException("Buffer capacity exceeds maximum allowed size of 2^32 bytes (4 GiB)");
+        }
         
         this.currentSegment.grow(newCapacity);
         this.capacity = newCapacity;
@@ -75,7 +69,6 @@ public class GrowableWriteBuffer extends WriteBuffer {
     protected MemorySegment currentSegmentUnchecked() {
         return this.currentSegment.segment;
     }
-
 
     private final static class CurrentSegment implements Resource {
         private MemorySegment segment;

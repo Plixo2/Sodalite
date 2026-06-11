@@ -18,7 +18,12 @@ final class GlobalResourceSet implements ResourceSet {
 
     @Override
     public void register(ResourceObject owner, Resource resource) {
-        FreeList.addGlobal(resource);
+        PendingFrees.addGlobal(owner, resource);
+    }
+
+    @Override
+    public Arena arena() {
+        return ARENA;
     }
 
     @Override

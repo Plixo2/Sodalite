@@ -1,13 +1,12 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import com.google.errorprone.annotations.CheckReturnValue;
 import io.github.plixo2.sodalite.category.video.Window;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
+import lombok.RequiredArgsConstructor;
 
-import java.io.IOException;
 import java.lang.foreign.MemorySegment;
-import java.nio.file.Path;
-import java.util.List;
 
 /// @apiNote SDL_GPUDevice
 public class Device extends ResourceObject {
@@ -21,8 +20,19 @@ public class Device extends ResourceObject {
         this.segment = segment;
     }
 
-    public void claimWindowForDevice(Window window) {
+    /// @return a AutoCloseable, which will release the claim when closed.
+    @CheckReturnValue
+    public WindowClaim claimWindow(Window window) {
         GPU.claimWindowForGPUDevice(this, window);
+        return new WindowClaim(window);
+    }
+
+    public void releaseWindow(Window window) {
+        GPU.releaseWindowFromGPUDevice(this, window);
+    }
+
+    public TextureFormat getSwapchainTextureFormat(Window window) {
+        return GPU.getGPUSwapchainTextureFormat(this, window);
     }
 
     public void setSwapchainParameters(
@@ -49,6 +59,7 @@ public class Device extends ResourceObject {
         return GPU.createGPUTransferBuffer(resources, this, usage, size);
     }
 
+    @CheckReturnValue
     public TransferBuffer.Mapped mapTransferBuffer(
             TransferBuffer transferBuffer,
             Cycle cycle
@@ -138,20 +149,26 @@ public class Device extends ResourceObject {
         }
     }
 
-
-    public TextureFormat getSwapchainTextureFormat(Window window) {
-        return GPU.getGPUSwapchainTextureFormat(this, window);
-    }
-
     public MemorySegment segment() {
         ensureNotReleased();
         return this.segment;
     }
 
+    @CheckReturnValue
     public CommandBuffer acquireCommandBuffer() {
         return GPU.acquireGPUCommandBuffer(this);
     }
 
 
+    /// Will release the window claim when closed
+    @RequiredArgsConstructor
+    public class WindowClaim implements AutoCloseable {
+        private final Window window;
+
+        @Override
+        public void close() {
+            Device.this.releaseWindow(this.window);
+        }
+    }
 
 }
