@@ -22,6 +22,7 @@ import java.util.List;
 import static org.libsdl.sdl.SDL3_h.*;
 
 public class EventDispatch {
+    private EventDispatch() {}
 
     static void dispatch(
             EventConsumer consumer,
@@ -149,7 +150,12 @@ public class EventDispatch {
             default -> {
                 if (type >= SDL_EVENT_USER && type <= SDL_EVENT_LAST) {
                     consumer.onUserEvent(
-                            timestamp, type, SDL_UserEvent.windowID(event), SDL_UserEvent.code(event), SDL_UserEvent.data1(event), SDL_UserEvent.data2(event)
+                            timestamp,
+                            type,
+                            SDL_UserEvent.windowID(event),
+                            SDL_UserEvent.code(event),
+                            SDL_UserEvent.data1(event),
+                            SDL_UserEvent.data2(event)
                     );
                 }
             }
@@ -837,6 +843,7 @@ public class EventDispatch {
     private static MemorySegment SDL_UserEvent_data2(MemorySegment segment) {
         return SDL_UserEvent.data2(segment);
     }
+
 
 
     private static int u8(int value) {

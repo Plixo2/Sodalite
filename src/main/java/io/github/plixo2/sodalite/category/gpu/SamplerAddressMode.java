@@ -1,7 +1,7 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 
-/// @apiNote SDL_GPUSamplerAddressMode
+/// @sdlAPI SDL_GPUSamplerAddressMode
 public enum SamplerAddressMode {
     REPEAT,
     MIRRORED_REPEAT,

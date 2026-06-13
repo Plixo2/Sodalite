@@ -10,6 +10,10 @@ public enum Cycle {
 
     ;
 
+    public static Cycle of(boolean value) {
+        return value ? TRUE : FALSE;
+    }
+
     public boolean value() {
         return this == TRUE;
     }

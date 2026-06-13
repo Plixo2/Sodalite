@@ -1,6 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
-/// @apiNote SDL_GPUCompareOp
+/// @sdlAPI SDL_GPUCompareOp
 public enum CompareOp {
     INVALID,
     NEVER,

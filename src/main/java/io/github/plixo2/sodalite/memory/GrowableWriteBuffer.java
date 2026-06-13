@@ -40,10 +40,15 @@ public class GrowableWriteBuffer extends WriteBuffer<GrowableWriteBuffer> {
         return new GrowableWriteBuffer(resources, 0);
     }
 
+    /// @return the memory segment capped to `this.position`
     @Override
     public MemorySegment memory() {
         ensureNotReleased();
-        return this.currentSegment.segment.asSlice(0, this.position);
+        var segment = this.currentSegment.segment;
+        if (this.position != this.capacity) {
+            segment = segment.asSlice(0, this.position);
+        }
+        return segment;
     }
 
     @Override

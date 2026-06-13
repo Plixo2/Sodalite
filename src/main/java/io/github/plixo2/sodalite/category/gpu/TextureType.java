@@ -1,7 +1,7 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 
-/// @apiNote SDL_GPUTextureType
+/// @sdlAPI SDL_GPUTextureType
 public enum TextureType {
     TEXTURE_2D,
     TEXTURE_2D_ARRAY,
@@ -14,7 +14,7 @@ public enum TextureType {
     public boolean isArray() {
         return this == TEXTURE_2D_ARRAY || this == TEXTURE_CUBE_ARRAY;
     }
-    public boolean asDepth() {
+    public boolean hasDepth() {
         return this == TEXTURE_3D;
     }
 

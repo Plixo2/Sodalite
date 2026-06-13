@@ -10,7 +10,7 @@ import org.joml.Vector2i;
 
 import java.lang.foreign.MemorySegment;
 
-/// @apiNote SDL_Window
+/// @sdlAPI SDL_Window
 public class Window extends ResourceObject {
     private final MemorySegment segment;
     private final int id;

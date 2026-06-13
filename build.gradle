@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'io.github.plixo2'
-version = '1.0-SNAPSHOT'
+version = '0.0.1'
 
 project.ext.lwjglVersion = "3.4.1"
 project.ext.lwjglNatives = "natives-windows"
@@ -34,6 +34,60 @@ dependencies {
 
     implementation files("SDL-3.4.jar")
 //    implementation files("Hematite-4.0.jar")
+}
+
+javadoc {
+    options.tags = ["sdlAPI:a:SDL API:", "sdlOther:a:Other SDL Symbols:", "sdlCategory:a:SDL Category:"]
+}
+
+//tasks.javadoc {
+//    (options as StandardJavadocDocletOptions).memberLevel = JavadocMemberLevel.PRIVATE
+//}
+
+tasks.javadoc {
+    options {
+        memberLevel = JavadocMemberLevel.PRIVATE
+    }
+    doLast {
+        def outputDir = javadoc.destinationDir
+
+        // Map symbol -> relative html path
+        def sdlEntries = [:]
+
+        sourceSets.main.java.srcDirs.each { srcDir ->
+            srcDir.eachFileRecurse { file ->
+                if (file.name.endsWith(".java")) {
+                    def text = file.text
+
+                    // Derive the HTML path from the package + class name
+                    def packageMatch = text =~ /package\s+([\w.]+)\s*;/
+                    def packageName = packageMatch ? packageMatch[0][1] : ""
+                    def className = file.name.replace(".java", "")
+                    def htmlPath = (packageName ? packageName.replace(".", "/") + "/" : "") + "${className}.html"
+
+                    text.findAll(/@sdlAPI\s+(\S+)/) { match, symbol ->
+                        sdlEntries[symbol] = htmlPath
+                    }
+                }
+            }
+        }
+
+        def newEntries = sdlEntries.collect { symbol, htmlPath ->
+            """{"l":"${symbol}","h":"${htmlPath}","k":"18","u":"${htmlPath}"}"""
+        }
+
+        def indexFile = new File(outputDir, "tag-search-index.js")
+        def existing = indexFile.text
+        def json = existing
+                .replaceFirst(/^tagSearchIndex\s*=\s*/, "")
+                .replaceAll(/;?\s*$/, "")
+                .trim()
+
+        def merged = json.replaceFirst(/^\[/, "[" + newEntries.join(",") + (json == "[]" ? "" : ","))
+        indexFile.text = "tagSearchIndex = ${merged};"
+
+        println "Injected ${sdlEntries.size()} SDL entries into tag-search-index.js"
+    }
 }
 
 tasks.withType(JavaExec).configureEach {

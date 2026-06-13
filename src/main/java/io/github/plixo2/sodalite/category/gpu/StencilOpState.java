@@ -4,7 +4,7 @@ import org.libsdl.sdl.SDL_GPUStencilOpState;
 
 import java.lang.foreign.MemorySegment;
 
-/// @apiNote SDL_GPUStencilOpState
+/// @sdlAPI SDL_GPUStencilOpState
 public record StencilOpState(
         StencilOp failOp,
         StencilOp passOp,

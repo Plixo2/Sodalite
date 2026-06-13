@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.lang.foreign.MemorySegment;
 
-/// @apiNote SDL_GPUDevice
+/// @sdlAPI SDL_GPUDevice
 public class Device extends ResourceObject {
     private final MemorySegment segment;
 
@@ -43,6 +43,20 @@ public class Device extends ResourceObject {
         GPU.setGPUSwapchainParameters(this, window, swapchainComposition, presentMode);
     }
 
+    public boolean supportsPresentMode(
+            Window window,
+            PresentMode presentMode
+    ) {
+        return GPU.windowSupportsGPUPresentMode(this, window, presentMode);
+    }
+
+    public boolean supportsSwapchainComposition(
+            Window window,
+            SwapchainComposition swapchainComposition
+    ) {
+        return GPU.windowSupportsGPUSwapchainComposition(this, window, swapchainComposition);
+    }
+
     public Buffer createBuffer(
             ResourceSet resources,
             @BufferUsageFlags int usageFlags,
@@ -67,9 +81,9 @@ public class Device extends ResourceObject {
         return transferBuffer.mapTransferBuffer(this, cycle);
     }
 
-    public <T extends Throwable> Shader createShader(
+    public <T extends Exception> Shader createShader(
             ResourceSet resources,
-            Shader.ShaderCreator<T> creator,
+            Shader.Creator<T> creator,
             ShaderStage stage
     ) throws T {
         var parameter = creator.parameter();
@@ -113,10 +127,10 @@ public class Device extends ResourceObject {
         );
     }
 
-    public <T extends Throwable> GraphicsPipeline createGPUGraphicsPipeline(
+    public <T extends Exception> GraphicsPipeline createGPUGraphicsPipeline(
             ResourceSet resources,
-            Shader.ShaderCreator<T> vertexShader,
-            Shader.ShaderCreator<T> fragmentShader,
+            Shader.Creator<T> vertexShader,
+            Shader.Creator<T> fragmentShader,
             PrimitiveType primitiveType,
             VertexInputState vertexInputState,
             RasterizerState rasterizerState,

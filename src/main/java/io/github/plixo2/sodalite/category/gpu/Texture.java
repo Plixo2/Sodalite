@@ -6,7 +6,7 @@ import lombok.Getter;
 
 import java.lang.foreign.MemorySegment;
 
-/// @apiNote SDL_GPUTexture
+/// @sdlAPI SDL_GPUTexture
 public non-sealed class Texture extends ResourceObject implements TextureInfo {
 
     private final MemorySegment segment;

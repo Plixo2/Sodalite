@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 import static org.libsdl.sdl.SDL3_h.*;
 
-/// @apiNote SDL_GPUTextureUsageFlags
+/// @sdlAPI SDL_GPUTextureUsageFlags
 @MagicConstant(flagsFromClass = TextureUsageFlags.class)
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.TYPE_USE})

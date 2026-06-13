@@ -1,6 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
-/// @apiNote SDL_GPUSwapchainComposition
+/// @sdlAPI SDL_GPUSwapchainComposition
 public enum SwapchainComposition {
 
     SDR,

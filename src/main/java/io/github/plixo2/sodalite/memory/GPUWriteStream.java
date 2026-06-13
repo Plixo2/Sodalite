@@ -39,7 +39,6 @@ public interface GPUWriteStream<Self extends GPUWriteStream<Self>> {
 
     Self write(MemorySegment segment, long offset, long length);
 
-
     default Self write(MemorySegment segment) {
         return write(segment, 0, segment.byteSize());
     }

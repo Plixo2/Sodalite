@@ -88,12 +88,12 @@ public class RectBatch extends DrawBatch {
     ) throws IOException {
         return gpu.createGPUGraphicsPipeline(
             resources,
-            Shader.ShaderCreator.of(
+            Shader.Creator.of(
                     ShaderFormat.SPIRV,
                     Path.of("resources/uber/bin/vertex.spv"),
                     Shader.Parameters.of(0, 0, 1, 1)
             ),
-            Shader.ShaderCreator.of(
+            Shader.Creator.of(
                     ShaderFormat.SPIRV,
                     Path.of("resources/uber/bin/fragment.spv"),
                     Shader.Parameters.of(8, 0, 0, 0)
@@ -121,7 +121,7 @@ public class RectBatch extends DrawBatch {
     protected void upload(Device device, CopyPass copyPass, Matrix4f projection) {
         super.upload(device, copyPass, projection);
 
-        this.uniform.clear().writeMatrix4f(projection);
+        this.uniform.reset().writeMatrix4f(projection);
     }
 
     @Override

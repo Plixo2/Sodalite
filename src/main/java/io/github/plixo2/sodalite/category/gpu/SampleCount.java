@@ -1,7 +1,7 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 
-/// @apiNote SDL_GPUSampleCount
+/// @sdlAPI SDL_GPUSampleCount
 public enum SampleCount {
     COUNT_1,
     COUNT_2,

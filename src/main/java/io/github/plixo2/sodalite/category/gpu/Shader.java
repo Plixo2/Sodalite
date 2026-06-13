@@ -1,16 +1,13 @@
 package io.github.plixo2.sodalite.category.gpu;
 
-import io.github.plixo2.sodalite.file.FileIO;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 
 import java.io.IOException;
-import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.ValueLayout;
 import java.nio.file.Path;
 
-/// @apiNote SDL_GPUShader
+/// @sdlAPI SDL_GPUShader
 public class Shader extends ResourceObject {
 
     private final MemorySegment segment;
@@ -29,43 +26,43 @@ public class Shader extends ResourceObject {
         return this.segment;
     }
 
-    public record ShaderCreator<T extends Throwable>(
-        Shader.Source<T> source,
+    public record Creator<T extends Exception>(
+        ShaderSource<T> source,
         Shader.Parameters parameter
     ) {
-        public static ShaderCreator<IOException> of(
+        public static Creator<IOException> of(
                 @ShaderFormat int shaderFormat,
                 Path path,
                 Shader.Parameters parameter
         ) {
-            return new ShaderCreator<>(Source.fromFile(shaderFormat, path), parameter);
+            return new Creator<>(ShaderSource.of(shaderFormat, path), parameter);
         }
-        public static ShaderCreator<IOException> of(
+        public static Creator<IOException> of(
                 @ShaderFormat int shaderFormat,
                 java.io.InputStream inputStream,
                 Shader.Parameters parameter
         ) {
-            return new ShaderCreator<>(Source.fromInputStream(shaderFormat, inputStream), parameter);
+            return new Creator<>(ShaderSource.of(shaderFormat, inputStream), parameter);
         }
-        public static ShaderCreator<RuntimeException> of(
+        public static Creator<RuntimeException> of(
                 @ShaderFormat int shaderFormat,
                 byte[] bytes,
                 Shader.Parameters parameter
         ) {
-            return new ShaderCreator<>(Source.fromByteArray(shaderFormat, bytes), parameter);
+            return new Creator<>(ShaderSource.of(shaderFormat, bytes), parameter);
         }
-        public static ShaderCreator<RuntimeException> of(
+        public static Creator<RuntimeException> of(
                 @ShaderFormat int shaderFormat,
                 MemorySegment code,
                 Shader.Parameters parameter
         ) {
-            return new ShaderCreator<>(Source.fromMemory(shaderFormat, code), parameter);
+            return new Creator<>(ShaderSource.of(shaderFormat, code), parameter);
         }
-        public static <T extends Throwable> ShaderCreator<T> of(
-                Shader.Source<T> source,
+        public static <T extends Exception> Creator<T> of(
+                ShaderSource<T> source,
                 Shader.Parameters parameter
         ) {
-            return new ShaderCreator<>(source, parameter);
+            return new Creator<>(source, parameter);
         }
     }
 
@@ -131,55 +128,7 @@ public class Shader extends ResourceObject {
 
     }
 
-    public sealed interface Source<T extends Throwable> {
 
-        @ShaderFormat int shaderFormat();
-        MemorySegment load(Arena arena) throws T;
-
-        static Source<IOException> fromFile(@ShaderFormat int shaderFormat, Path path) {
-            return new Shader.File(shaderFormat, path);
-        }
-        static Source<IOException> fromInputStream(@ShaderFormat int shaderFormat, java.io.InputStream inputStream) {
-            return new Shader.InputStream(shaderFormat, inputStream);
-        }
-        static Source<RuntimeException> fromByteArray(@ShaderFormat int shaderFormat, byte[] bytes) {
-            return new Shader.ByteArray(shaderFormat, bytes);
-        }
-        static Source<RuntimeException> fromMemory(@ShaderFormat int shaderFormat, MemorySegment segment) {
-            return new Shader.Memory(shaderFormat, segment);
-        }
-
-
-    }
-
-    private record File(@ShaderFormat int shaderFormat, Path path) implements Source<IOException> {
-        @Override
-        public MemorySegment load(Arena arena) throws IOException {
-            return FileIO.loadFile(arena, this.path);
-        }
-    }
-
-    private record InputStream(@ShaderFormat int shaderFormat, java.io.InputStream inputStream) implements Source<IOException> {
-        @Override
-        public MemorySegment load(Arena arena) throws IOException {
-            var bytes = this.inputStream.readAllBytes();
-            return arena.allocateFrom(ValueLayout.JAVA_BYTE, bytes);
-        }
-    }
-
-    private record ByteArray(@ShaderFormat int shaderFormat, byte[] bytes) implements Source<RuntimeException> {
-        @Override
-        public MemorySegment load(Arena arena) {
-            return arena.allocateFrom(ValueLayout.JAVA_BYTE, this.bytes);
-        }
-    }
-
-    private record Memory(@ShaderFormat int shaderFormat, MemorySegment segment) implements Source<RuntimeException> {
-        @Override
-        public MemorySegment load(Arena arena) {
-            return this.segment;
-        }
-    }
 
 
 }

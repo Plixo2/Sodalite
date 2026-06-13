@@ -1,5 +1,8 @@
 
 
+import io.github.plixo2.sodalite.category.clipboard.Clipboard;
+import io.github.plixo2.sodalite.category.error.Error;
+import io.github.plixo2.sodalite.category.tray.Tray;
 import io.github.plixo2.sodalite.file.ImageChannels;
 import io.github.plixo2.sodalite.file.ImageDynamicRange;
 import io.github.plixo2.sodalite.file.ImageLoader;
@@ -17,6 +20,7 @@ import io.github.plixo2.sodalite.category.log.LogPriority;
 import io.github.plixo2.sodalite.category.video.Video;
 import io.github.plixo2.sodalite.category.video.WindowFlags;
 import io.github.plixo2.uiiii.Render;
+import org.joml.Math;
 import org.joml.Matrix4f;
 import org.joml.Vector2i;
 import org.joml.Vector4f;
@@ -24,7 +28,6 @@ import org.joml.Vector4f;
 
 import java.io.IOException;
 import java.lang.foreign.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,6 +103,36 @@ static void runFor(
 ) throws IOException {
     try (var appResources = ResourceSet.ofConfined()) {
 
+//        var tray = Tray.createTray(appResources, null, "Tray stuff");
+//        var menu = tray.createMenu();
+//        menu.addButton("Set Clipboard 0").setCallback(ref -> {
+//            Clipboard.setData(
+//                    (arena, mimeType) -> MemorySegment.NULL,
+//                    "text/"
+//            );
+//        });
+//        menu.addButton("Read clipboard").setCallback(ref -> {
+//            for (var mimeType : Clipboard.getMimeTypes()) {
+//                System.out.println("mimeType = " + mimeType);
+//                try (var c = ResourceSet.ofConfined()) {
+//                    var data = Clipboard.getData(c, mimeType);
+//                    System.out.println("data.segment().address() = " + data.segment().address());
+//                    System.out.println("data.segment().address() = " + data.segment().byteSize());
+//                }
+//            }
+//        });
+//        menu.addButton("HI").setCallback(ref -> System.out.println("Clicked HI"));
+//        menu.addButton("HI?", true).setCallback(ref -> System.out.println("Clicked HI?"));
+//        menu.addSeparator();
+//        menu.addCheckbox("Check me");
+//        menu.addCheckbox("Check me1", true, false);
+//        menu.addCheckbox("Check me2", true, true);
+//        menu.addCheckbox("Check me3", false, false);
+//        menu.addCheckbox("Check me4", false, true).setCallback(ref -> System.out.println("Check me4"));
+//        menu.addSeparator();
+//        menu.addSubmenu("Submenu").addButton("In submenu");
+
+//        System.out.println("Clipboard.getMimeTypes() = " + Clipboard.getMimeTypes());
         gpu.setSwapchainParameters(window, SwapchainComposition.SDR, PresentMode.VSYNC);
 
         var exampleSamplers = new Sampler[14];
@@ -180,66 +213,17 @@ static void runFor(
                 windowSizeInPixels.x,
                 windowSizeInPixels.y
         );
-        var pipeline = gpu.createGPUGraphicsPipeline(
-                appResources,
-                Shader.ShaderCreator.of(
-                        ShaderFormat.SPIRV,
-                        Path.of("resources/textured/bin/vertex.spv"),
-                        Shader.Parameters.of(0, 0, 0, 0)
-                ),
-                Shader.ShaderCreator.of(
-                        ShaderFormat.SPIRV,
-                        Path.of("resources/textured/bin/fragment.spv"),
-                        Shader.Parameters.of(exampleSamplers.length, 0, 0, 1)
-                ),
-                PrimitiveType.TRIANGLESTRIP,
-                VertexInputState.of(0, vertexLayout, VertexInputState.VertexInputRate.VERTEX),
-                RasterizerState.of(FillMode.FILL, CullMode.NONE, FrontFace.defaultValue()),
-                MultisampleState.enabled(instance.msaaTexture.sampleCount()),
-                DepthStencilState.of(CompareOp.LESS, DepthTest.DISABLED, DepthWrite.DISABLED),
-                GraphicsPipelineTargetInfo.of(instance.msaaTexture.format(), ColorTargetBlendState.standardAlphaBlend())
-        );
 
-        var cstruct = CStruct.allocate(
-            appResources,
-            MemoryLayout.structLayout(
-                    Layouts.VECTOR_3F.withName("color"),
-                    Layouts.MAT_4F.withName("model")
-            )
-        );
+        time("Resource Creation");
 
-        var rectPipeline = new RectPipeline(appResources, gpu, instance.msaaTexture);
         var render = new Render(gpu, appResources, instance.msaaTexture);
 
-        var rectData = GrowableWriteBuffer.create(appResources);
-
-        rectData.writeFloat(100f);
-        rectData.writeFloat(100f);
-        rectData.writeFloat(300f);
-        rectData.writeFloat(300f);
-        rectData.writeVector4f(new Vector4f(0f, 1f, 0f, 1f));
-        rectData.writeVector4f(new Vector4f(1f, 0f, 0f, 1f));
-        rectData.writeFloat(30f);
-        rectData.writeInt(0);
-        rectData.writeFloat(5f);
-        rectData.writeFloat(0f); //pad
-
-        rectData.writeFloat(0f);
-        rectData.writeFloat(0f);
-        rectData.writeFloat(90f);
-        rectData.writeFloat(90f);
-        rectData.writeVector4f(new Vector4f(1f, 1f, 0f, 1f));
-        rectData.writeVector4f(new Vector4f(0f, 0f, 1f, 1f));
-        rectData.writeFloat(10f);
-        rectData.writeInt(0);
-        rectData.writeFloat(4f);
-        rectData.writeFloat(0f); //pad
+        time("Render Creation");
 
         var lastTimeFPS = Timer.getTicksNS();
         var fpsCounter = 0;
 
         var events = new EventConsumer() {
-
             @Override
             public void onWindowCloseRequested(long timestamp, int windowID) {
                 if (windowID != window.id()) {
@@ -327,12 +311,6 @@ static void runFor(
                         Cycle.FALSE
                 );
 
-//                rectPipeline.upload(
-//                        gpu,
-//                        commandBuffer,
-//                        rectData
-//                );
-
                 render.beginFrame(
                         instance.projectionMatrix,
                         swapchain.width(),
@@ -348,6 +326,9 @@ static void runFor(
                         5f
                 );
 
+                render.transform().rotate(Math.toRadians(32.23f), 0f, 0f, 1f);
+
+
                 for (var i = 0; i < testTextures.size(); i++) {
                     var t = testTextures.get(i);
                     var x = i * 30;
@@ -359,6 +340,8 @@ static void runFor(
                             pixelated
                     );
                 }
+                render.transform().identity();
+
                 render.drawRect(
                         500, 500,
                         700, 600,
@@ -376,11 +359,6 @@ static void runFor(
 
                     render.renderFrame(renderPass, commandBuffer);
 
-//                    rectPipeline.render(
-//                            renderPass,
-//                            commandBuffer,
-//                            instance.projectionMatrix
-//                    );
                 }
             }
         }
@@ -433,19 +411,23 @@ static Texture loadTexture(
 }
 
 void run() throws IOException {
+
     try (var staticResourc = ResourceSet.ofConfined()) {
-        var gpu = GPU.createDevice(
-                staticResourc,
-                ShaderFormat.SPIRV,
-                true,
-                PreferredGPUDriver.VULKAN
-        );
         var window = Video.createWindow(
                 staticResourc,
                 "Hello World",
                 800,600,
                 WindowFlags.RESIZABLE | WindowFlags.HIGH_PIXEL_DENSITY
         );
+        time("Window Creation");
+        var gpu = GPU.createDevice(
+                staticResourc,
+                ShaderFormat.SPIRV,
+                true,
+                PreferredGPUDriver.VULKAN
+        );
+        time("GPU Creation");
+
 
         try (var _ = gpu.claimWindow(window)) {
             runFor(new Instance(), gpu, window);
@@ -455,157 +437,25 @@ void run() throws IOException {
 }
 
 void main() throws IOException {
+    startTime = Timer.getTicksNS();
     System.setProperty("joml.format", "false");
 
     Init.setAppMetaData("Hello World", "1.0.0", "com.example.helloworld");
     Log.setLogPriority(LogCategory.GPU, LogPriority.DEBUG);
-
+    time("Initialization");
     try {
         run();
     } finally {
         Init.quit();
     }
 
-}
-
-static class RectPipeline {
-
-
-//    struct Rect {
-//        x: float
-//        y: float
-//        width: float
-//        height: float
-//
-//        color: Vec4
-//        outline_color: Vec4
-//
-//        roundness: float
-//        z_index: u32
-//        outline_thickness: float
-//        pad2: float
-//    }
-
-    static StructLayout RECT_LAYOUT = MemoryLayout.structLayout(
-            Layouts.FLOAT.withName("x"),
-            Layouts.FLOAT.withName("y"),
-            Layouts.FLOAT.withName("width"),
-            Layouts.FLOAT.withName("height"),
-            Layouts.VECTOR_4F.withName("color"),
-            Layouts.VECTOR_4F.withName("outline_color"),
-            Layouts.FLOAT.withName("roundness"),
-            Layouts.UINT.withName("z_index"),
-            Layouts.FLOAT.withName("outline_thickness"),
-            MemoryLayout.paddingLayout(4).withName("pad2")
-    );
-    static long RECT_SIZE = RECT_LAYOUT.byteSize();
-
-    static int MAX_COUNT = 1024;
-
-    GraphicsPipeline pipeline;
-    Buffer buffer;
-    TransferBuffer transferBuffer;
-    WriteBuffer<?> vertexUniform;
-
-    RectPipeline(
-        ResourceSet resources,
-        Device gpu,
-        TextureInfo colorTargetFormat
-    ) throws IOException {
-
-        this.pipeline = createPipeline(gpu, resources, colorTargetFormat);
-        this.buffer = gpu.createBuffer(
-            resources,
-            BufferUsageFlags.GRAPHICS_STORAGE_READ,
-            MAX_COUNT * RECT_SIZE
-        );
-        this.transferBuffer = gpu.createTransferBuffer(
-            resources,
-            TransferBufferUsage.UPLOAD,
-            MAX_COUNT * RECT_SIZE
-        );
-        this.vertexUniform = CStruct.allocate(
-            resources,
-            MemoryLayout.structLayout(
-                Layouts.MAT_4F.withName("u_viewProj")
-            )
-        );
-
-    }
-
-    GraphicsPipeline createPipeline(
-            Device gpu,
-            ResourceSet resources,
-            TextureInfo colorTarget
-    ) throws IOException {
-        return gpu.createGPUGraphicsPipeline(
-                resources,
-                Shader.ShaderCreator.of(
-                        ShaderFormat.SPIRV,
-                        Path.of("resources/ui_rect/bin/vertex.spv"),
-                        Shader.Parameters.of(0, 0, 1, 1)
-                ),
-                Shader.ShaderCreator.of(
-                        ShaderFormat.SPIRV,
-                        Path.of("resources/ui_rect/bin/fragment.spv"),
-                        Shader.Parameters.of(0, 0, 0, 0)
-                ),
-                PrimitiveType.TRIANGLESTRIP,
-                VertexInputState.of(),
-                RasterizerState.of(FillMode.FILL, CullMode.NONE, FrontFace.defaultValue()),
-                MultisampleState.enabled(colorTarget.sampleCount()),
-                DepthStencilState.disabled(),
-                GraphicsPipelineTargetInfo.of(colorTarget.format(), ColorTargetBlendState.standardAlphaBlend())
-        );
-    }
-
-
-    void upload(
-            Device gpu,
-            CommandBuffer commandBuffer,
-            WriteBuffer<?> data
-    ) {
-        var rectCount = (int) (this.buffer.size() / RECT_SIZE);
-        if (rectCount == 0) {
-            return;
-        }
-        rectCount = Math.min(rectCount, MAX_COUNT);
-
-        try (var mapped = gpu.mapTransferBuffer(this.transferBuffer,Cycle.TRUE)) {
-            mapped.memory().copyFrom(data.memory());
-        }
-        try (var copyPass = commandBuffer.beginCopyPass()) {
-            copyPass.upload(
-                    this.transferBuffer,
-                    this.buffer,
-                    rectCount * RECT_SIZE,
-                    Cycle.TRUE
-            );
-        }
-    }
-
-    void render(
-            RenderPass renderPass,
-            CommandBuffer commandBuffer,
-            Matrix4f viewProj
-    ) {
-        var rectCount = (int) (this.buffer.size() / RECT_SIZE);
-        if (rectCount == 0) {
-            return;
-        }
-        rectCount = Math.min(rectCount, MAX_COUNT);
-
-        renderPass.bindPipeline(this.pipeline);
-
-        this.vertexUniform.clear().writeMatrix4f(viewProj);
-        commandBuffer.pushVertexUniform(0, this.vertexUniform);
-
-        renderPass.bindVertexStorageBuffer(0, this.buffer);
-
-        renderPass.drawPrimitives(4, rectCount, 0, 0);
-    }
 
 }
+static long startTime;
+static void time(String location) {
+    var currentTime = Timer.getTicksNS();
+    var delta = (currentTime - startTime) / 1e6d;
 
+    System.out.println(location + " + " + String.format("%.2f", delta) + " ms");
 
-
+}

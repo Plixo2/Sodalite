@@ -1,6 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
-/// @apiNote SDL_GPUCullMode
+/// @sdlAPI SDL_GPUCullMode
 public enum CullMode {
     NONE,
     FRONT,

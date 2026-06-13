@@ -7,7 +7,7 @@ import lombok.Getter;
 
 import java.lang.foreign.MemorySegment;
 
-/// @apiNote SDL_GPUBuffer
+/// @sdlAPI SDL_GPUBuffer
 public class Buffer extends ResourceObject {
 
     private final MemorySegment segment;

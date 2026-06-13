@@ -4,7 +4,7 @@ import org.libsdl.sdl.SDL_GPUColorTargetBlendState;
 
 import java.lang.foreign.MemorySegment;
 
-/// @apiNote SDL_GPUColorTargetBlendState
+/// @sdlAPI SDL_GPUColorTargetBlendState
 public record ColorTargetBlendState(
         BlendFactor srcColorBlendfactor,
         BlendFactor dstColorBlendfactor,

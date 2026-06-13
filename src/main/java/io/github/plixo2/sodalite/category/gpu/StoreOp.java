@@ -1,7 +1,7 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 
-/// @apiNote SDL_GPUStoreOp
+/// @sdlAPI SDL_GPUStoreOp
 public enum StoreOp {
     STORE,
     DONT_CARE,

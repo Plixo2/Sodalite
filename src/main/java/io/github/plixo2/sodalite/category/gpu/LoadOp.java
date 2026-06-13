@@ -1,7 +1,7 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 
-/// @apiNote SDL_GPULoadOp
+/// @sdlAPI SDL_GPULoadOp
 public enum LoadOp {
     LOAD,
     CLEAR,

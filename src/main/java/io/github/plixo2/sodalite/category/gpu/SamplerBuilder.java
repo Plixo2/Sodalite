@@ -153,7 +153,6 @@ public class SamplerBuilder implements SamplerInfo {
     }
 
 
-
     public Sampler build(
             ResourceSet resources,
             Device device

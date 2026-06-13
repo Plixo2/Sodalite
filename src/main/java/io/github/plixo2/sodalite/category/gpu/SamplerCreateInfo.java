@@ -6,7 +6,7 @@ import org.libsdl.sdl.SDL_GPUSamplerCreateInfo;
 import java.lang.foreign.MemorySegment;
 
 /// Consider using {@link SamplerBuilder}
-/// @apiNote SDL_GPUSamplerCreateInfo
+/// @sdlAPI SDL_GPUSamplerCreateInfo
 public record SamplerCreateInfo(
         Filter minFilter,
         Filter magFilter,

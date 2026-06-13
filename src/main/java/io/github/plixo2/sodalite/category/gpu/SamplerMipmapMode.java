@@ -1,6 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
-/// @apiNote SDL_GPUSamplerMipmapMode
+/// @sdlAPI SDL_GPUSamplerMipmapMode
 public enum SamplerMipmapMode {
     NEAREST,
     LINEAR,

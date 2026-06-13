@@ -1,6 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
-/// @apiNote SDL_GPUShaderStage
+/// @sdlAPI SDL_GPUShaderStage
 public enum ShaderStage {
 
     VERTEX,

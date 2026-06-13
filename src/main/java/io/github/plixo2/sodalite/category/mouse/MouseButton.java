@@ -13,7 +13,7 @@ import static org.libsdl.sdl.SDL3_h.*;
 /// Annotation and values for a single mouse button.
 /// See {@link MouseButtonFlags} for the bitmask.
 ///
-/// @apiNote SDL_MouseButtonFlags
+/// @sdlAPI SDL_MouseButtonFlags
 @MagicConstant(valuesFromClass = MouseButton.class)
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.TYPE_USE})

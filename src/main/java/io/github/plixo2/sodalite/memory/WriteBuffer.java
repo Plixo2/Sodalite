@@ -1,12 +1,11 @@
 package io.github.plixo2.sodalite.memory;
 
-import io.github.plixo2.sodalite.Internal;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import org.joml.*;
 
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
-import java.util.concurrent.RecursiveTask;
+import static io.github.plixo2.sodalite.Internal.*;
 
 public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
         extends ResourceObject
@@ -21,6 +20,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     /// faster version to avoid overhead
     protected abstract MemorySegment currentSegmentUnchecked();
 
+    /// - [GrowableWriteBuffer] returns a segment capped to `this.position`
+    /// - [CStruct]/[ConstantWriteBuffer] return the full memory segment, not capped to `this.position` \
     public abstract MemorySegment memory();
 
     public long capacity() {
@@ -35,7 +36,7 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
         return this.capacity - this.position;
     }
 
-    public Self clear() {
+    public Self reset() {
         ensureNotReleased();
         this.position = 0;
         return castThis();
@@ -45,7 +46,7 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
         if (newPosition < 0 || newPosition > capacity()) {
             throw new IllegalArgumentException("Position must be between 0 and capacity");
         }
-        Internal.assertU32(newPosition, "newPosition");
+        assertU32(newPosition, "newPosition");
         this.position = newPosition;
         return castThis();
     }
@@ -357,7 +358,6 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
         this.position += length;
         return castThis();
     }
-
 
     @SuppressWarnings("unchecked")
     private Self castThis() {

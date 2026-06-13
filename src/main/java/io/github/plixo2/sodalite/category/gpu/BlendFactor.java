@@ -1,6 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
-/// @apiNote SDL_GPUBlendFactor
+/// @sdlAPI SDL_GPUBlendFactor
 public enum BlendFactor {
     INVALID,
     ZERO,

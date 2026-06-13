@@ -11,9 +11,11 @@ import java.lang.foreign.ValueLayout;
 import static org.libsdl.sdl.SDL3_h.*;
 import static io.github.plixo2.sodalite.Internal.*;
 
+/// @sdlCategory CategoryVideo
 public class Video {
+    private Video() {}
 
-    /// @apiNote SDL_CreateWindow
+    /// @sdlAPI SDL_CreateWindow
     public static Window createWindow(
             ResourceSet resources,
             String title,
@@ -31,12 +33,12 @@ public class Video {
         return new Window(resources, window);
     }
 
-    /// @apiNote SDL_GetWindowID
+    /// @sdlAPI SDL_GetWindowID
     static int getWindowID(Window window) {
         return SDL_GetWindowID(window.segment());
     }
 
-    /// @apiNote SDL_DestroyWindow
+    /// @sdlAPI SDL_DestroyWindow
     static void destroyWindow(Window.GPUClaim claim, MemorySegment window) {
         if (claim.claimed) {
             throw new IllegalStateException(
@@ -48,7 +50,7 @@ public class Video {
         SDL_DestroyWindow(window);
     }
 
-    /// @apiNote SDL_GetWindowSize
+    /// @sdlAPI SDL_GetWindowSize
     static Vector2i getWindowSize(Window window, Vector2i in) {
         try (var arena = Arena.ofConfined()) {
             var w = arena.allocate(ValueLayout.JAVA_INT);
@@ -60,7 +62,7 @@ public class Video {
     }
 
 
-    /// @apiNote SDL_GetWindowSizeInPixels
+    /// @sdlAPI SDL_GetWindowSizeInPixels
     static Vector2i getWindowSizeInPixels(Window window, Vector2i in) {
         try (var arena = Arena.ofConfined()) {
             var w = arena.allocate(ValueLayout.JAVA_INT);
@@ -71,7 +73,7 @@ public class Video {
         }
     }
 
-    /// @apiNote SDL_GetWindowDisplayScale
+    /// @sdlAPI SDL_GetWindowDisplayScale
     static float getWindowDisplayScale(Window window) {
         return SDL_GetWindowDisplayScale(window.segment());
     }

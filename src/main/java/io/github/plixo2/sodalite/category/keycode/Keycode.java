@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 
 import static org.libsdl.sdl.SDL3_h.*;
 
-/// @apiNote SDL_Keycode
+/// @sdlCategory CategoryKeycode
+/// @sdlAPI SDL_Keycode
 @RequiredArgsConstructor
 public enum Keycode {
 

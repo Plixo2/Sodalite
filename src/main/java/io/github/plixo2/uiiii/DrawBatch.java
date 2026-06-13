@@ -51,7 +51,7 @@ public abstract class DrawBatch {
     protected void reset() {
         this.drawCount = 0;
         this.replaySection = 0;
-        this.data.clear();
+        this.data.reset();
         this.sections.clear();
         this.scissors.clear();
     }

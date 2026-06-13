@@ -1,6 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
-/// @apiNote SDL_GPUFillMode
+/// @sdlAPI SDL_GPUFillMode
 public enum FillMode {
     FILL,
     LINE,

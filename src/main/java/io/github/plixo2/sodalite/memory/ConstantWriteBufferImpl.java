@@ -9,7 +9,6 @@ import java.lang.foreign.MemorySegment;
 public abstract class ConstantWriteBufferImpl<Self extends ConstantWriteBufferImpl<Self>>
         extends WriteBuffer<Self>
 {
-
     private final MemorySegment segment;
 
     ConstantWriteBufferImpl(
@@ -39,6 +38,7 @@ public abstract class ConstantWriteBufferImpl<Self extends ConstantWriteBufferIm
         return this.segment;
     }
 
+    /// @return the full memory segment, not capped to `this.position`
     @Override
     public MemorySegment memory() {
         ensureNotReleased();

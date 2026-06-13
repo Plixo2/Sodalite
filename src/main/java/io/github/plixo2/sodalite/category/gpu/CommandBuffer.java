@@ -4,12 +4,11 @@ package io.github.plixo2.sodalite.category.gpu;
 import com.google.errorprone.annotations.CheckReturnValue;
 import io.github.plixo2.sodalite.category.video.Window;
 import io.github.plixo2.sodalite.memory.WriteBuffer;
-import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.foreign.MemorySegment;
 
-/// @apiNote SDL_GPUCommandBuffer
+/// @sdlAPI SDL_GPUCommandBuffer
 public class CommandBuffer implements AutoCloseable {
 
     private final MemorySegment segment;
@@ -26,12 +25,25 @@ public class CommandBuffer implements AutoCloseable {
         return GPU.waitAndAcquireGPUSwapchainTexture(this, window);
     }
 
+    /// You should use [CommandBuffer#waitAndAcquireSwapchainTexture] unless you know what
+    /// you are doing with timing.
+    public @Nullable Texture acquireGPUSwapchainTexture(Window window) {
+        return GPU.acquireGPUSwapchainTexture(this, window);
+    }
+
     @CheckReturnValue
     public RenderPass beginRenderPass(
             @Nullable RenderPass.DepthStencilTargetInfo depthStencilTarget,
             RenderPass.ColorTargetInfo... colorTargets
     ) {
         return GPU.beginGPURenderPass(this, colorTargets, depthStencilTarget);
+    }
+
+    @CheckReturnValue
+    public ComputePass beginComputePass(
+            ComputePass.Binding... bindings
+    ) {
+        return GPU.beginComputePass(this, bindings);
     }
 
     @CheckReturnValue
@@ -49,6 +61,43 @@ public class CommandBuffer implements AutoCloseable {
         GPU.pushGPUComputeUniformData(this, slot, struct);
     }
 
+    /// [CopyPass#copy] does transfer the memory directly. \
+    /// [CommandBuffer#blit] will 'render' source onto destination,
+    /// which allows for scaling and filtering.
+    ///
+    /// @see CopyPass#copy(TextureLocation, TextureLocation, long, long, long, Cycle)
+    public void blit(
+        BlitInfo blitInfo
+    ) {
+        GPU.blitTexture(this, blitInfo);
+    }
+
+    /// [CopyPass#copy] does transfer the memory directly. \
+    /// [CommandBuffer#blit] will 'render' source onto destination,
+    /// which allows for scaling and filtering.
+    ///
+    /// @see CopyPass#copy(TextureLocation, TextureLocation, long, long, long, Cycle)
+    public void blit(
+            Texture source,
+            Texture destination,
+            Cycle cycle
+    ) {
+        blit(source, destination, 0, cycle);
+    }
+
+    public void blit(
+            Texture source,
+            Texture destination,
+            int mipLevel,
+            Cycle cycle
+    ) {
+        var info = BlitInfo.of(
+                BlitInfo.Region.of(source, mipLevel),
+                BlitInfo.Region.of(destination, mipLevel),
+                cycle
+        );
+        blit(info);
+    }
 
     public MemorySegment segment() {
         if (this.isCanceled) {

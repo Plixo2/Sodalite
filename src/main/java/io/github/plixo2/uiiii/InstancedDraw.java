@@ -89,7 +89,6 @@ public class InstancedDraw {
             RenderPass renderPass,
             CommandBuffer commandBuffer
     ) {
-        System.out.println(this.sequence.size() + " sections to draw");
 
         for (var batch : this.sequence) {
             batch.replaySection(renderPass, commandBuffer);

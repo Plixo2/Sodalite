@@ -6,7 +6,7 @@ import io.github.plixo2.sodalite.resource.ResourceSet;
 
 import java.lang.foreign.MemorySegment;
 
-/// @apiNote SDL_GPUGraphicsPipeline
+/// @sdlAPI SDL_GPUGraphicsPipeline
 public class GraphicsPipeline extends ResourceObject {
 
     private final MemorySegment segment;
@@ -16,7 +16,7 @@ public class GraphicsPipeline extends ResourceObject {
             Device device,
             MemorySegment segment
     ) {
-        resources.register(this, () -> GPU.releaseGPUGraphicsPipeline(device, segment));
+        resources.register(this, () -> GPU.releaseGraphicsPipeline(device, segment));
         this.segment = segment;
     }
 

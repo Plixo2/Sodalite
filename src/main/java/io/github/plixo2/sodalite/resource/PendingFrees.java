@@ -36,7 +36,7 @@ public class PendingFrees {
     }
 
     /// Drains the free list.
-    /// @apiNote This should be called on the main thread.
+    /// @sdlAPI This should be called on the main thread.
     public static void drain() {
         Resource resource;
         while ((resource = pendingAutoFrees.poll()) != null) {

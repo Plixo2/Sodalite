@@ -4,7 +4,7 @@ import org.libsdl.sdl.SDL_GPUDepthStencilState;
 
 import java.lang.foreign.MemorySegment;
 
-/// @apiNote SDL_GPUDepthStencilState
+/// @sdlAPI SDL_GPUDepthStencilState
 public record DepthStencilState(
     CompareOp compareOp,
     StencilOpState backStencilState,

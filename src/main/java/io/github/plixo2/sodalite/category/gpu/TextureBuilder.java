@@ -3,9 +3,6 @@ package io.github.plixo2.sodalite.category.gpu;
 
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.Getter;
-import org.libsdl.sdl.SDL_GPUTextureCreateInfo;
-
-import java.lang.foreign.MemorySegment;
 
 /// Use {@link #setArrayCount} for array textures (TEXTURE_2D_ARRAY and TEXTURE_CUBE_ARRAY) and
 /// use {@link #setDepth} for 3D textures (TEXTURE_3D).
@@ -141,7 +138,7 @@ public final class TextureBuilder implements TextureInfo {
         return this;
     }
     public TextureBuilder setDepth(int depth) {
-        if (!this.type.asDepth()) {
+        if (!this.type.hasDepth()) {
             if (this.type.isArray()) {
                 throw new IllegalStateException("Call `setLayerCount` for array textures instead of setDepth");
             }
@@ -153,7 +150,7 @@ public final class TextureBuilder implements TextureInfo {
 
     public TextureBuilder setArrayCount(int count) {
         if (!this.type.isArray()) {
-            if (this.type.asDepth()) {
+            if (this.type.hasDepth()) {
                 throw new IllegalStateException("Call `setDepth` for depth textures instead of setLayerCount");
             }
             throw new IllegalStateException("Texture type " + this.type + " does not support layers (or depth)");

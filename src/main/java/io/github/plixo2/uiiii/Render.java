@@ -2,6 +2,7 @@ package io.github.plixo2.uiiii;
 
 import io.github.plixo2.sodalite.category.gpu.*;
 import io.github.plixo2.sodalite.resource.ResourceSet;
+import lombok.Getter;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
@@ -12,6 +13,7 @@ public class Render {
 
     private final Matrix4f projection = new Matrix4f();
 
+    @Getter
     private final Matrix4f transform = new Matrix4f();
 
     private final StagedScissorStack scissors = new StagedScissorStack();

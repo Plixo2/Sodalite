@@ -2,7 +2,7 @@ package io.github.plixo2.sodalite.category.pen;
 
 import io.github.plixo2.sodalite.Internal;
 
-/// @apiNote SDL_PenAxis
+/// @sdlAPI SDL_PenAxis
 public enum PenAxis {
     PRESSURE,
     XTILT,

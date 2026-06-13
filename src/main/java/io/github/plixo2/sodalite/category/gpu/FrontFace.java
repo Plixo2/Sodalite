@@ -1,6 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
-/// @apiNote SDL_GPUFrontFace
+/// @sdlAPI SDL_GPUFrontFace
 public enum FrontFace {
     COUNTER_CLOCKWISE,
     CLOCKWISE,

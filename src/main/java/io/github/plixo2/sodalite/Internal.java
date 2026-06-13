@@ -24,30 +24,24 @@ public final class Internal {
         ASSERTIONS_ENABLED = !Boolean.getBoolean("sodalite.disable.assertions");
     }
 
-    private static Consumer<String> onError =
-            CHECKS_PANIC
-            ? error -> { throw new SDL3Exception(error); }
-            : error -> { System.err.println("SDL3 Error: " + error); };
 
 
     private Internal() {}
 
 
-    public static void assertU32(long value, String name) {
+    public static int assertU32(long value, String name) {
         if (ASSERTIONS_ENABLED && !isU32(value)) {
             throw new AssertionError("Assertion failed " +
                     "(0 <= " + value + " <= " + U32_MAX + ")" +
                     ": '" + name + "' must fit into a unsigned 32-bit integer"
             );
         }
+        return (int) value;
     }
     public static boolean isU32(long value) {
         return value >= 0 && value <= U32_MAX;
     }
 
-    public static void setSDLCheckErrorFunction(Consumer<String> onError) {
-        Internal.onError = Objects.requireNonNull(onError, "Error function");
-    }
 
     public static void assertTrue(boolean condition, String message) {
         if (ASSERTIONS_ENABLED && !condition) {
@@ -83,12 +77,12 @@ public final class Internal {
     }
     /// Only use for validating SDL calls
     public static void check(boolean success) {
-        if (!CHECKS_ENABLED || success) {
+        if (success || !CHECKS_ENABLED) {
             return;
         }
 
         var error = Error.getError();
-        onError.accept(error);
+        throw new SDL3Exception(error);
     }
 
 

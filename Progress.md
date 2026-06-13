@@ -1,0 +1,5678 @@
+[Progress](#sdl-api)
+
+10.9% Functions implemented \
+24.8% Datatypes implemented \
+66.9% Structs implemented \
+34.4% Enums implemented \
+0.0% Macros implemented \
+11.3% total
+
+- [Categories](#categories)
+- [Functions](#functions)
+- [Functions](#functions)
+- [Datatypes](#datatypes)
+- [Structs](#structs)
+- [Enums](#enums)
+- [Macros](#macros)
+
+[Implemented](#implemented)
+
+- [Categories](#implemented-categories)
+- [Functions](#implemented-functions)
+- [Datatypes](#implemented-datatypes)
+- [Structs](#implemented-structs)
+- [Enums](#implemented-enums)
+- [Macros](#implemented-macros)
+
+[Missing](#missing)
+
+- [Categories](#missing-categories)
+- [Functions](#missing-functions)
+- [Datatypes](#missing-datatypes)
+- [Structs](#missing-structs)
+- [Enums](#missing-enums)
+- [Macros](#missing-macros)
+
+
+## SDL API
+
+### Categories
+
+- [ ] CategoryAssert
+- [ ] CategoryAsyncIO
+- [ ] CategoryAtomic
+- [ ] CategoryAudio
+- [ ] CategoryBits
+- [ ] CategoryBlendmode
+- [ ] CategoryCamera
+- [x] CategoryClipboard
+- [x] CategoryCPUInfo
+- [x] CategoryDialog
+- [ ] CategoryDlopenNotes
+- [ ] CategoryEndian
+- [x] CategoryError
+- [x] CategoryEvents
+- [ ] CategoryFilesystem
+- [ ] CategoryGamepad
+- [x] CategoryGPU
+- [ ] CategoryGUID
+- [ ] CategoryHaptic
+- [ ] CategoryHIDAPI
+- [ ] CategoryHints
+- [x] CategoryInit
+- [ ] CategoryIntrinsics
+- [ ] CategoryIOStream
+- [ ] CategoryJoystick
+- [ ] CategoryKeyboard
+- [x] CategoryKeycode
+- [x] CategoryLocale
+- [x] CategoryLog
+- [ ] CategoryMain
+- [x] CategoryMessagebox
+- [ ] CategoryMetal
+- [x] CategoryMisc
+- [x] CategoryMouse
+- [ ] CategoryMutex
+- [x] CategoryPen
+- [x] CategoryPixels
+- [x] CategoryPlatform
+- [x] CategoryPower
+- [ ] CategoryProcess
+- [ ] CategoryProperties
+- [x] CategoryRect
+- [ ] CategoryRender
+- [x] CategoryScancode
+- [ ] CategorySensor
+- [ ] CategorySharedObject
+- [ ] CategoryStdinc
+- [ ] CategoryStorage
+- [x] CategorySurface
+- [ ] CategorySystem
+- [ ] CategoryThread
+- [ ] CategoryTime
+- [x] CategoryTimer
+- [ ] CategoryTouch
+- [x] CategoryTray
+- [ ] CategoryVersion
+- [x] CategoryVideo
+- [ ] CategoryVulkan
+
+### Functions
+
+- [ ] SDL_abs
+- [ ] SDL_acos
+- [ ] SDL_acosf
+- [ ] SDL_AcquireCameraFrame
+- [x] SDL_AcquireGPUCommandBuffer
+- [x] SDL_AcquireGPUSwapchainTexture
+- [ ] SDL_AddAtomicInt
+- [ ] SDL_AddAtomicU32
+- [ ] SDL_AddEventWatch
+- [ ] SDL_AddGamepadMapping
+- [ ] SDL_AddGamepadMappingsFromFile
+- [ ] SDL_AddGamepadMappingsFromIO
+- [ ] SDL_AddHintCallback
+- [ ] SDL_AddSurfaceAlternateImage
+- [ ] SDL_AddTimer
+- [ ] SDL_AddTimerNS
+- [ ] SDL_AddVulkanRenderSemaphores
+- [ ] SDL_aligned_alloc
+- [ ] SDL_aligned_alloc_zero
+- [ ] SDL_aligned_free
+- [ ] SDL_AppEvent
+- [ ] SDL_AppInit
+- [ ] SDL_AppIterate
+- [ ] SDL_AppQuit
+- [ ] SDL_asin
+- [ ] SDL_asinf
+- [ ] SDL_asprintf
+- [ ] SDL_AsyncIOFromFile
+- [ ] SDL_atan
+- [ ] SDL_atan2
+- [ ] SDL_atan2f
+- [ ] SDL_atanf
+- [ ] SDL_atof
+- [ ] SDL_atoi
+- [ ] SDL_AttachVirtualJoystick
+- [ ] SDL_AudioDevicePaused
+- [ ] SDL_AudioStreamDevicePaused
+- [x] SDL_BeginGPUComputePass
+- [x] SDL_BeginGPUCopyPass
+- [x] SDL_BeginGPURenderPass
+- [ ] SDL_BindAudioStream
+- [ ] SDL_BindAudioStreams
+- [x] SDL_BindGPUComputePipeline
+- [x] SDL_BindGPUComputeSamplers
+- [x] SDL_BindGPUComputeStorageBuffers
+- [x] SDL_BindGPUComputeStorageTextures
+- [x] SDL_BindGPUFragmentSamplers
+- [x] SDL_BindGPUFragmentStorageBuffers
+- [x] SDL_BindGPUFragmentStorageTextures
+- [x] SDL_BindGPUGraphicsPipeline
+- [x] SDL_BindGPUIndexBuffer
+- [x] SDL_BindGPUVertexBuffers
+- [x] SDL_BindGPUVertexSamplers
+- [x] SDL_BindGPUVertexStorageBuffers
+- [x] SDL_BindGPUVertexStorageTextures
+- [x] SDL_BlitGPUTexture
+- [ ] SDL_BlitSurface
+- [ ] SDL_BlitSurface9Grid
+- [ ] SDL_BlitSurfaceScaled
+- [ ] SDL_BlitSurfaceTiled
+- [ ] SDL_BlitSurfaceTiledWithScale
+- [ ] SDL_BlitSurfaceUnchecked
+- [ ] SDL_BlitSurfaceUncheckedScaled
+- [ ] SDL_BroadcastCondition
+- [ ] SDL_bsearch
+- [ ] SDL_bsearch_r
+- [x] SDL_CalculateGPUTextureFormatSize
+- [ ] SDL_calloc
+- [x] SDL_CancelGPUCommandBuffer
+- [ ] SDL_CaptureMouse
+- [ ] SDL_ceil
+- [ ] SDL_ceilf
+- [x] SDL_ClaimWindowForGPUDevice
+- [ ] SDL_CleanupTLS
+- [ ] SDL_ClearAudioStream
+- [x] SDL_ClearClipboardData
+- [ ] SDL_ClearComposition
+- [x] SDL_ClearError
+- [ ] SDL_ClearProperty
+- [ ] SDL_ClearSurface
+- [ ] SDL_ClickTrayEntry
+- [ ] SDL_CloseAsyncIO
+- [ ] SDL_CloseAudioDevice
+- [ ] SDL_CloseCamera
+- [ ] SDL_CloseGamepad
+- [ ] SDL_CloseHaptic
+- [ ] SDL_CloseIO
+- [ ] SDL_CloseJoystick
+- [ ] SDL_CloseSensor
+- [ ] SDL_CloseStorage
+- [ ] SDL_CompareAndSwapAtomicInt
+- [ ] SDL_CompareAndSwapAtomicPointer
+- [ ] SDL_CompareAndSwapAtomicU32
+- [ ] SDL_ComposeCustomBlendMode
+- [ ] SDL_ConvertAudioSamples
+- [ ] SDL_ConvertEventToRenderCoordinates
+- [ ] SDL_ConvertPixels
+- [ ] SDL_ConvertPixelsAndColorspace
+- [ ] SDL_ConvertSurface
+- [ ] SDL_ConvertSurfaceAndColorspace
+- [ ] SDL_CopyFile
+- [x] SDL_CopyGPUBufferToBuffer
+- [x] SDL_CopyGPUTextureToTexture
+- [ ] SDL_CopyProperties
+- [ ] SDL_copysign
+- [ ] SDL_copysignf
+- [ ] SDL_CopyStorageFile
+- [ ] SDL_cos
+- [ ] SDL_cosf
+- [ ] SDL_crc16
+- [ ] SDL_crc32
+- [ ] SDL_CreateAnimatedCursor
+- [ ] SDL_CreateAsyncIOQueue
+- [ ] SDL_CreateAudioStream
+- [ ] SDL_CreateColorCursor
+- [ ] SDL_CreateCondition
+- [ ] SDL_CreateCursor
+- [ ] SDL_CreateDirectory
+- [ ] SDL_CreateEnvironment
+- [x] SDL_CreateGPUBuffer
+- [x] SDL_CreateGPUComputePipeline
+- [x] SDL_CreateGPUDevice
+- [ ] SDL_CreateGPUDeviceWithProperties
+- [x] SDL_CreateGPUGraphicsPipeline
+- [ ] SDL_CreateGPURenderer
+- [ ] SDL_CreateGPURenderState
+- [x] SDL_CreateGPUSampler
+- [x] SDL_CreateGPUShader
+- [x] SDL_CreateGPUTexture
+- [x] SDL_CreateGPUTransferBuffer
+- [ ] SDL_CreateGPUXRSession
+- [ ] SDL_CreateGPUXRSwapchain
+- [ ] SDL_CreateHapticEffect
+- [ ] SDL_CreateMutex
+- [ ] SDL_CreatePalette
+- [ ] SDL_CreatePopupWindow
+- [ ] SDL_CreateProcess
+- [ ] SDL_CreateProcessWithProperties
+- [ ] SDL_CreateProperties
+- [ ] SDL_CreateRenderer
+- [ ] SDL_CreateRendererWithProperties
+- [ ] SDL_CreateRWLock
+- [ ] SDL_CreateSemaphore
+- [ ] SDL_CreateSoftwareRenderer
+- [ ] SDL_CreateStorageDirectory
+- [ ] SDL_CreateSurface
+- [ ] SDL_CreateSurfaceFrom
+- [ ] SDL_CreateSurfacePalette
+- [ ] SDL_CreateSystemCursor
+- [ ] SDL_CreateTexture
+- [ ] SDL_CreateTextureFromSurface
+- [ ] SDL_CreateTextureWithProperties
+- [ ] SDL_CreateThread
+- [ ] SDL_CreateThreadWithProperties
+- [x] SDL_CreateTray
+- [x] SDL_CreateTrayMenu
+- [x] SDL_CreateTraySubmenu
+- [ ] SDL_CreateTrayWithProperties
+- [x] SDL_CreateWindow
+- [ ] SDL_CreateWindowAndRenderer
+- [ ] SDL_CreateWindowWithProperties
+- [ ] SDL_CursorVisible
+- [ ] SDL_DateTimeToTime
+- [ ] SDL_Delay
+- [ ] SDL_DelayNS
+- [ ] SDL_DelayPrecise
+- [ ] SDL_DestroyAsyncIOQueue
+- [ ] SDL_DestroyAudioStream
+- [ ] SDL_DestroyCondition
+- [ ] SDL_DestroyCursor
+- [ ] SDL_DestroyEnvironment
+- [x] SDL_DestroyGPUDevice
+- [ ] SDL_DestroyGPURenderState
+- [ ] SDL_DestroyGPUXRSwapchain
+- [ ] SDL_DestroyHapticEffect
+- [ ] SDL_DestroyMutex
+- [ ] SDL_DestroyPalette
+- [ ] SDL_DestroyProcess
+- [ ] SDL_DestroyProperties
+- [ ] SDL_DestroyRenderer
+- [ ] SDL_DestroyRWLock
+- [ ] SDL_DestroySemaphore
+- [ ] SDL_DestroySurface
+- [ ] SDL_DestroyTexture
+- [x] SDL_DestroyTray
+- [x] SDL_DestroyWindow
+- [ ] SDL_DestroyWindowSurface
+- [ ] SDL_DetachThread
+- [ ] SDL_DetachVirtualJoystick
+- [ ] SDL_DisableScreenSaver
+- [x] SDL_DispatchGPUCompute
+- [x] SDL_DispatchGPUComputeIndirect
+- [ ] SDL_DownloadFromGPUBuffer
+- [ ] SDL_DownloadFromGPUTexture
+- [x] SDL_DrawGPUIndexedPrimitives
+- [x] SDL_DrawGPUIndexedPrimitivesIndirect
+- [x] SDL_DrawGPUPrimitives
+- [x] SDL_DrawGPUPrimitivesIndirect
+- [ ] SDL_DuplicateSurface
+- [ ] SDL_EGL_GetCurrentConfig
+- [ ] SDL_EGL_GetCurrentDisplay
+- [ ] SDL_EGL_GetProcAddress
+- [ ] SDL_EGL_GetWindowSurface
+- [ ] SDL_EGL_SetAttributeCallbacks
+- [ ] SDL_EnableScreenSaver
+- [x] SDL_EndGPUComputePass
+- [x] SDL_EndGPUCopyPass
+- [x] SDL_EndGPURenderPass
+- [ ] SDL_EnterAppMainCallbacks
+- [ ] SDL_EnumerateDirectory
+- [ ] SDL_EnumerateProperties
+- [ ] SDL_EnumerateStorageDirectory
+- [ ] SDL_EventEnabled
+- [ ] SDL_exp
+- [ ] SDL_expf
+- [ ] SDL_fabs
+- [ ] SDL_fabsf
+- [ ] SDL_FillSurfaceRect
+- [ ] SDL_FillSurfaceRects
+- [ ] SDL_FilterEvents
+- [ ] SDL_FlashWindow
+- [ ] SDL_FlipSurface
+- [ ] SDL_floor
+- [ ] SDL_floorf
+- [ ] SDL_FlushAudioStream
+- [ ] SDL_FlushEvent
+- [ ] SDL_FlushEvents
+- [ ] SDL_FlushIO
+- [ ] SDL_FlushRenderer
+- [ ] SDL_fmod
+- [ ] SDL_fmodf
+- [x] SDL_free
+- [ ] SDL_GamepadConnected
+- [ ] SDL_GamepadEventsEnabled
+- [ ] SDL_GamepadHasAxis
+- [ ] SDL_GamepadHasButton
+- [ ] SDL_GamepadHasCapSense
+- [ ] SDL_GamepadHasSensor
+- [ ] SDL_GamepadSensorEnabled
+- [ ] SDL_GDKResumeGPU
+- [ ] SDL_GDKResumeRenderer
+- [ ] SDL_GDKSuspendComplete
+- [ ] SDL_GDKSuspendGPU
+- [ ] SDL_GDKSuspendRenderer
+- [ ] SDL_GenerateMipmapsForGPUTexture
+- [ ] SDL_GetAndroidActivity
+- [ ] SDL_GetAndroidCachePath
+- [ ] SDL_GetAndroidExternalStoragePath
+- [ ] SDL_GetAndroidExternalStorageState
+- [ ] SDL_GetAndroidInternalStoragePath
+- [ ] SDL_GetAndroidJNIEnv
+- [ ] SDL_GetAndroidSDKVersion
+- [ ] SDL_GetAppMetadataProperty
+- [ ] SDL_GetAssertionHandler
+- [ ] SDL_GetAssertionReport
+- [ ] SDL_GetAsyncIOResult
+- [ ] SDL_GetAsyncIOSize
+- [ ] SDL_GetAtomicInt
+- [ ] SDL_GetAtomicPointer
+- [ ] SDL_GetAtomicU32
+- [ ] SDL_GetAudioDeviceChannelMap
+- [ ] SDL_GetAudioDeviceFormat
+- [ ] SDL_GetAudioDeviceGain
+- [ ] SDL_GetAudioDeviceName
+- [ ] SDL_GetAudioDriver
+- [ ] SDL_GetAudioFormatName
+- [ ] SDL_GetAudioPlaybackDevices
+- [ ] SDL_GetAudioRecordingDevices
+- [ ] SDL_GetAudioStreamAvailable
+- [ ] SDL_GetAudioStreamData
+- [ ] SDL_GetAudioStreamDevice
+- [ ] SDL_GetAudioStreamFormat
+- [ ] SDL_GetAudioStreamFrequencyRatio
+- [ ] SDL_GetAudioStreamGain
+- [ ] SDL_GetAudioStreamInputChannelMap
+- [ ] SDL_GetAudioStreamOutputChannelMap
+- [ ] SDL_GetAudioStreamProperties
+- [ ] SDL_GetAudioStreamQueued
+- [ ] SDL_GetBasePath
+- [ ] SDL_GetBooleanProperty
+- [ ] SDL_GetCameraDriver
+- [ ] SDL_GetCameraFormat
+- [ ] SDL_GetCameraID
+- [ ] SDL_GetCameraName
+- [ ] SDL_GetCameraPermissionState
+- [ ] SDL_GetCameraPosition
+- [ ] SDL_GetCameraProperties
+- [ ] SDL_GetCameras
+- [ ] SDL_GetCameraSupportedFormats
+- [x] SDL_GetClipboardData
+- [x] SDL_GetClipboardMimeTypes
+- [x] SDL_GetClipboardText
+- [ ] SDL_GetClosestFullscreenDisplayMode
+- [x] SDL_GetCPUCacheLineSize
+- [ ] SDL_GetCurrentAudioDriver
+- [ ] SDL_GetCurrentCameraDriver
+- [ ] SDL_GetCurrentDirectory
+- [ ] SDL_GetCurrentDisplayMode
+- [ ] SDL_GetCurrentDisplayOrientation
+- [ ] SDL_GetCurrentRenderOutputSize
+- [ ] SDL_GetCurrentThreadID
+- [ ] SDL_GetCurrentTime
+- [ ] SDL_GetCurrentVideoDriver
+- [ ] SDL_GetCursor
+- [ ] SDL_GetDateTimeLocalePreferences
+- [ ] SDL_GetDayOfWeek
+- [ ] SDL_GetDayOfYear
+- [ ] SDL_GetDaysInMonth
+- [ ] SDL_GetDefaultAssertionHandler
+- [ ] SDL_GetDefaultCursor
+- [ ] SDL_GetDefaultLogOutputFunction
+- [ ] SDL_GetDefaultTextureScaleMode
+- [ ] SDL_GetDesktopDisplayMode
+- [ ] SDL_GetDirect3D9AdapterIndex
+- [ ] SDL_GetDisplayBounds
+- [ ] SDL_GetDisplayContentScale
+- [ ] SDL_GetDisplayForPoint
+- [ ] SDL_GetDisplayForRect
+- [ ] SDL_GetDisplayForWindow
+- [ ] SDL_GetDisplayName
+- [ ] SDL_GetDisplayProperties
+- [ ] SDL_GetDisplays
+- [ ] SDL_GetDisplayUsableBounds
+- [ ] SDL_GetDXGIOutputInfo
+- [ ] SDL_getenv
+- [ ] SDL_getenv_unsafe
+- [ ] SDL_GetEnvironment
+- [ ] SDL_GetEnvironmentVariable
+- [ ] SDL_GetEnvironmentVariables
+- [x] SDL_GetError
+- [ ] SDL_GetEventDescription
+- [ ] SDL_GetEventFilter
+- [ ] SDL_GetFloatProperty
+- [ ] SDL_GetFullscreenDisplayModes
+- [ ] SDL_GetGamepadAppleSFSymbolsNameForAxis
+- [ ] SDL_GetGamepadAppleSFSymbolsNameForButton
+- [ ] SDL_GetGamepadAxis
+- [ ] SDL_GetGamepadAxisFromString
+- [ ] SDL_GetGamepadBindings
+- [ ] SDL_GetGamepadButton
+- [ ] SDL_GetGamepadButtonFromString
+- [ ] SDL_GetGamepadButtonLabel
+- [ ] SDL_GetGamepadButtonLabelForType
+- [ ] SDL_GetGamepadCapSense
+- [ ] SDL_GetGamepadConnectionState
+- [ ] SDL_GetGamepadFirmwareVersion
+- [ ] SDL_GetGamepadFromID
+- [ ] SDL_GetGamepadFromPlayerIndex
+- [ ] SDL_GetGamepadGUIDForID
+- [ ] SDL_GetGamepadID
+- [ ] SDL_GetGamepadJoystick
+- [ ] SDL_GetGamepadMapping
+- [ ] SDL_GetGamepadMappingForGUID
+- [ ] SDL_GetGamepadMappingForID
+- [ ] SDL_GetGamepadMappings
+- [ ] SDL_GetGamepadName
+- [ ] SDL_GetGamepadNameForID
+- [ ] SDL_GetGamepadPath
+- [ ] SDL_GetGamepadPathForID
+- [ ] SDL_GetGamepadPlayerIndex
+- [ ] SDL_GetGamepadPlayerIndexForID
+- [ ] SDL_GetGamepadPowerInfo
+- [ ] SDL_GetGamepadProduct
+- [ ] SDL_GetGamepadProductForID
+- [ ] SDL_GetGamepadProductVersion
+- [ ] SDL_GetGamepadProductVersionForID
+- [ ] SDL_GetGamepadProperties
+- [ ] SDL_GetGamepads
+- [ ] SDL_GetGamepadSensorData
+- [ ] SDL_GetGamepadSensorDataRate
+- [ ] SDL_GetGamepadSerial
+- [ ] SDL_GetGamepadSteamHandle
+- [ ] SDL_GetGamepadStringForAxis
+- [ ] SDL_GetGamepadStringForButton
+- [ ] SDL_GetGamepadStringForType
+- [ ] SDL_GetGamepadTouchpadFinger
+- [ ] SDL_GetGamepadType
+- [ ] SDL_GetGamepadTypeForID
+- [ ] SDL_GetGamepadTypeFromString
+- [ ] SDL_GetGamepadVendor
+- [ ] SDL_GetGamepadVendorForID
+- [ ] SDL_GetGDKDefaultUser
+- [ ] SDL_GetGDKTaskQueue
+- [ ] SDL_GetGlobalMouseState
+- [ ] SDL_GetGlobalProperties
+- [ ] SDL_GetGPUDeviceDriver
+- [ ] SDL_GetGPUDeviceProperties
+- [ ] SDL_GetGPUDriver
+- [ ] SDL_GetGPURendererDevice
+- [ ] SDL_GetGPUShaderFormats
+- [x] SDL_GetGPUSwapchainTextureFormat
+- [ ] SDL_GetGPUTextureFormatFromPixelFormat
+- [ ] SDL_GetGPUXRSwapchainFormats
+- [ ] SDL_GetGrabbedWindow
+- [ ] SDL_GetHapticEffectStatus
+- [ ] SDL_GetHapticFeatures
+- [ ] SDL_GetHapticFromID
+- [ ] SDL_GetHapticID
+- [ ] SDL_GetHapticName
+- [ ] SDL_GetHapticNameForID
+- [ ] SDL_GetHaptics
+- [ ] SDL_GetHint
+- [ ] SDL_GetHintBoolean
+- [ ] SDL_GetIOProperties
+- [ ] SDL_GetIOSize
+- [ ] SDL_GetIOStatus
+- [ ] SDL_GetJoystickAxis
+- [ ] SDL_GetJoystickAxisInitialState
+- [ ] SDL_GetJoystickBall
+- [ ] SDL_GetJoystickButton
+- [ ] SDL_GetJoystickConnectionState
+- [ ] SDL_GetJoystickFirmwareVersion
+- [ ] SDL_GetJoystickFromID
+- [ ] SDL_GetJoystickFromPlayerIndex
+- [ ] SDL_GetJoystickGUID
+- [ ] SDL_GetJoystickGUIDForID
+- [ ] SDL_GetJoystickGUIDInfo
+- [ ] SDL_GetJoystickHat
+- [ ] SDL_GetJoystickID
+- [ ] SDL_GetJoystickName
+- [ ] SDL_GetJoystickNameForID
+- [ ] SDL_GetJoystickPath
+- [ ] SDL_GetJoystickPathForID
+- [ ] SDL_GetJoystickPlayerIndex
+- [ ] SDL_GetJoystickPlayerIndexForID
+- [ ] SDL_GetJoystickPowerInfo
+- [ ] SDL_GetJoystickProduct
+- [ ] SDL_GetJoystickProductForID
+- [ ] SDL_GetJoystickProductVersion
+- [ ] SDL_GetJoystickProductVersionForID
+- [ ] SDL_GetJoystickProperties
+- [ ] SDL_GetJoysticks
+- [ ] SDL_GetJoystickSerial
+- [ ] SDL_GetJoystickType
+- [ ] SDL_GetJoystickTypeForID
+- [ ] SDL_GetJoystickVendor
+- [ ] SDL_GetJoystickVendorForID
+- [ ] SDL_GetKeyboardFocus
+- [ ] SDL_GetKeyboardNameForID
+- [ ] SDL_GetKeyboards
+- [ ] SDL_GetKeyboardState
+- [ ] SDL_GetKeyFromName
+- [ ] SDL_GetKeyFromScancode
+- [ ] SDL_GetKeyName
+- [ ] SDL_GetLogOutputFunction
+- [ ] SDL_GetLogPriority
+- [ ] SDL_GetMasksForPixelFormat
+- [ ] SDL_GetMaxHapticEffects
+- [ ] SDL_GetMaxHapticEffectsPlaying
+- [ ] SDL_GetMemoryFunctions
+- [ ] SDL_GetMice
+- [ ] SDL_GetModState
+- [ ] SDL_GetMouseFocus
+- [ ] SDL_GetMouseNameForID
+- [ ] SDL_GetMouseState
+- [ ] SDL_GetNaturalDisplayOrientation
+- [ ] SDL_GetNumAllocations
+- [ ] SDL_GetNumAudioDrivers
+- [ ] SDL_GetNumberProperty
+- [ ] SDL_GetNumCameraDrivers
+- [ ] SDL_GetNumGamepadTouchpadFingers
+- [ ] SDL_GetNumGamepadTouchpads
+- [ ] SDL_GetNumGPUDrivers
+- [ ] SDL_GetNumHapticAxes
+- [ ] SDL_GetNumJoystickAxes
+- [ ] SDL_GetNumJoystickBalls
+- [ ] SDL_GetNumJoystickButtons
+- [ ] SDL_GetNumJoystickHats
+- [x] SDL_GetNumLogicalCPUCores
+- [ ] SDL_GetNumRenderDrivers
+- [ ] SDL_GetNumVideoDrivers
+- [ ] SDL_GetOriginalMemoryFunctions
+- [ ] SDL_GetPathInfo
+- [ ] SDL_GetPenDeviceType
+- [ ] SDL_GetPerformanceCounter
+- [ ] SDL_GetPerformanceFrequency
+- [ ] SDL_GetPixelFormatDetails
+- [ ] SDL_GetPixelFormatForMasks
+- [ ] SDL_GetPixelFormatFromGPUTextureFormat
+- [ ] SDL_GetPixelFormatName
+- [x] SDL_GetPlatform
+- [ ] SDL_GetPointerProperty
+- [x] SDL_GetPowerInfo
+- [x] SDL_GetPreferredLocales
+- [ ] SDL_GetPrefPath
+- [ ] SDL_GetPrimaryDisplay
+- [x] SDL_GetPrimarySelectionText
+- [ ] SDL_GetProcessInput
+- [ ] SDL_GetProcessOutput
+- [ ] SDL_GetProcessProperties
+- [ ] SDL_GetPropertyType
+- [ ] SDL_GetRealGamepadType
+- [ ] SDL_GetRealGamepadTypeForID
+- [x] SDL_GetRectAndLineIntersection
+- [x] SDL_GetRectAndLineIntersectionFloat
+- [x] SDL_GetRectEnclosingPoints
+- [x] SDL_GetRectEnclosingPointsFloat
+- [x] SDL_GetRectIntersection
+- [x] SDL_GetRectIntersectionFloat
+- [x] SDL_GetRectUnion
+- [x] SDL_GetRectUnionFloat
+- [ ] SDL_GetRelativeMouseState
+- [ ] SDL_GetRenderClipRect
+- [ ] SDL_GetRenderColorScale
+- [ ] SDL_GetRenderDrawBlendMode
+- [ ] SDL_GetRenderDrawColor
+- [ ] SDL_GetRenderDrawColorFloat
+- [ ] SDL_GetRenderDriver
+- [ ] SDL_GetRenderer
+- [ ] SDL_GetRendererFromTexture
+- [ ] SDL_GetRendererName
+- [ ] SDL_GetRendererProperties
+- [ ] SDL_GetRenderLogicalPresentation
+- [ ] SDL_GetRenderLogicalPresentationRect
+- [ ] SDL_GetRenderMetalCommandEncoder
+- [ ] SDL_GetRenderMetalLayer
+- [ ] SDL_GetRenderOutputSize
+- [ ] SDL_GetRenderSafeArea
+- [ ] SDL_GetRenderScale
+- [ ] SDL_GetRenderTarget
+- [ ] SDL_GetRenderTextureAddressMode
+- [ ] SDL_GetRenderViewport
+- [ ] SDL_GetRenderVSync
+- [ ] SDL_GetRenderWindow
+- [ ] SDL_GetRevision
+- [ ] SDL_GetRGB
+- [ ] SDL_GetRGBA
+- [ ] SDL_GetSandbox
+- [ ] SDL_GetScancodeFromKey
+- [ ] SDL_GetScancodeFromName
+- [ ] SDL_GetScancodeName
+- [ ] SDL_GetSemaphoreValue
+- [ ] SDL_GetSensorData
+- [ ] SDL_GetSensorFromID
+- [ ] SDL_GetSensorID
+- [ ] SDL_GetSensorName
+- [ ] SDL_GetSensorNameForID
+- [ ] SDL_GetSensorNonPortableType
+- [ ] SDL_GetSensorNonPortableTypeForID
+- [ ] SDL_GetSensorProperties
+- [ ] SDL_GetSensors
+- [ ] SDL_GetSensorType
+- [ ] SDL_GetSensorTypeForID
+- [ ] SDL_GetSilenceValueForFormat
+- [ ] SDL_GetSIMDAlignment
+- [ ] SDL_GetStorageFileSize
+- [ ] SDL_GetStoragePathInfo
+- [ ] SDL_GetStorageSpaceRemaining
+- [ ] SDL_GetStringProperty
+- [ ] SDL_GetSurfaceAlphaMod
+- [ ] SDL_GetSurfaceBlendMode
+- [ ] SDL_GetSurfaceClipRect
+- [ ] SDL_GetSurfaceColorKey
+- [ ] SDL_GetSurfaceColorMod
+- [ ] SDL_GetSurfaceColorspace
+- [ ] SDL_GetSurfaceImages
+- [ ] SDL_GetSurfacePalette
+- [ ] SDL_GetSurfaceProperties
+- [x] SDL_GetSystemPageSize
+- [x] SDL_GetSystemRAM
+- [ ] SDL_GetSystemTheme
+- [ ] SDL_GetTextInputArea
+- [ ] SDL_GetTextureAlphaMod
+- [ ] SDL_GetTextureAlphaModFloat
+- [ ] SDL_GetTextureBlendMode
+- [ ] SDL_GetTextureColorMod
+- [ ] SDL_GetTextureColorModFloat
+- [ ] SDL_GetTexturePalette
+- [ ] SDL_GetTextureProperties
+- [ ] SDL_GetTextureScaleMode
+- [ ] SDL_GetTextureSize
+- [ ] SDL_GetThreadID
+- [ ] SDL_GetThreadName
+- [ ] SDL_GetThreadState
+- [x] SDL_GetTicks
+- [x] SDL_GetTicksNS
+- [ ] SDL_GetTLS
+- [ ] SDL_GetTouchDeviceName
+- [ ] SDL_GetTouchDevices
+- [ ] SDL_GetTouchDeviceType
+- [ ] SDL_GetTouchFingers
+- [ ] SDL_GetTrayEntries
+- [x] SDL_GetTrayEntryChecked
+- [x] SDL_GetTrayEntryEnabled
+- [x] SDL_GetTrayEntryLabel
+- [ ] SDL_GetTrayEntryParent
+- [ ] SDL_GetTrayMenu
+- [ ] SDL_GetTrayMenuParentEntry
+- [ ] SDL_GetTrayMenuParentTray
+- [ ] SDL_GetTraySubmenu
+- [ ] SDL_GetUserFolder
+- [ ] SDL_GetVersion
+- [ ] SDL_GetVideoDriver
+- [ ] SDL_GetWindowAspectRatio
+- [ ] SDL_GetWindowBordersSize
+- [x] SDL_GetWindowDisplayScale
+- [ ] SDL_GetWindowFlags
+- [ ] SDL_GetWindowFromEvent
+- [ ] SDL_GetWindowFromID
+- [ ] SDL_GetWindowFullscreenMode
+- [ ] SDL_GetWindowICCProfile
+- [x] SDL_GetWindowID
+- [ ] SDL_GetWindowKeyboardGrab
+- [ ] SDL_GetWindowMaximumSize
+- [ ] SDL_GetWindowMinimumSize
+- [ ] SDL_GetWindowMouseGrab
+- [ ] SDL_GetWindowMouseRect
+- [ ] SDL_GetWindowOpacity
+- [ ] SDL_GetWindowParent
+- [ ] SDL_GetWindowPixelDensity
+- [ ] SDL_GetWindowPixelFormat
+- [ ] SDL_GetWindowPosition
+- [ ] SDL_GetWindowProgressState
+- [ ] SDL_GetWindowProgressValue
+- [ ] SDL_GetWindowProperties
+- [ ] SDL_GetWindowRelativeMouseMode
+- [ ] SDL_GetWindows
+- [ ] SDL_GetWindowSafeArea
+- [x] SDL_GetWindowSize
+- [x] SDL_GetWindowSizeInPixels
+- [ ] SDL_GetWindowSurface
+- [ ] SDL_GetWindowSurfaceVSync
+- [ ] SDL_GetWindowTitle
+- [ ] SDL_GL_CreateContext
+- [ ] SDL_GL_DestroyContext
+- [ ] SDL_GL_ExtensionSupported
+- [ ] SDL_GL_GetAttribute
+- [ ] SDL_GL_GetCurrentContext
+- [ ] SDL_GL_GetCurrentWindow
+- [ ] SDL_GL_GetProcAddress
+- [ ] SDL_GL_GetSwapInterval
+- [ ] SDL_GL_LoadLibrary
+- [ ] SDL_GL_MakeCurrent
+- [ ] SDL_GL_ResetAttributes
+- [ ] SDL_GL_SetAttribute
+- [ ] SDL_GL_SetSwapInterval
+- [ ] SDL_GL_SwapWindow
+- [ ] SDL_GL_UnloadLibrary
+- [ ] SDL_GlobDirectory
+- [ ] SDL_GlobStorageDirectory
+- [ ] SDL_GPUSupportsProperties
+- [ ] SDL_GPUSupportsShaderFormats
+- [ ] SDL_GPUTextureFormatTexelBlockSize
+- [ ] SDL_GPUTextureSupportsFormat
+- [ ] SDL_GPUTextureSupportsSampleCount
+- [ ] SDL_GUIDToString
+- [ ] SDL_HapticEffectSupported
+- [ ] SDL_HapticRumbleSupported
+- [ ] SDL_HasAltiVec
+- [ ] SDL_HasARMSIMD
+- [ ] SDL_HasAVX
+- [ ] SDL_HasAVX2
+- [ ] SDL_HasAVX512F
+- [x] SDL_HasClipboardData
+- [x] SDL_HasClipboardText
+- [ ] SDL_HasEvent
+- [ ] SDL_HasEvents
+- [ ] SDL_HasExactlyOneBitSet32
+- [ ] SDL_HasGamepad
+- [ ] SDL_HasJoystick
+- [ ] SDL_HasKeyboard
+- [ ] SDL_HasLASX
+- [ ] SDL_HasLSX
+- [ ] SDL_HasMMX
+- [ ] SDL_HasMouse
+- [ ] SDL_HasNEON
+- [x] SDL_HasPrimarySelectionText
+- [ ] SDL_HasProperty
+- [x] SDL_HasRectIntersection
+- [x] SDL_HasRectIntersectionFloat
+- [ ] SDL_HasScreenKeyboardSupport
+- [ ] SDL_HasSSE
+- [ ] SDL_HasSSE2
+- [ ] SDL_HasSSE3
+- [ ] SDL_HasSSE41
+- [ ] SDL_HasSSE42
+- [ ] SDL_HasSVE2
+- [ ] SDL_hid_ble_scan
+- [ ] SDL_hid_close
+- [ ] SDL_hid_device_change_count
+- [ ] SDL_hid_enumerate
+- [ ] SDL_hid_exit
+- [ ] SDL_hid_free_enumeration
+- [ ] SDL_hid_get_device_info
+- [ ] SDL_hid_get_feature_report
+- [ ] SDL_hid_get_indexed_string
+- [ ] SDL_hid_get_input_report
+- [ ] SDL_hid_get_manufacturer_string
+- [ ] SDL_hid_get_product_string
+- [ ] SDL_hid_get_properties
+- [ ] SDL_hid_get_report_descriptor
+- [ ] SDL_hid_get_serial_number_string
+- [ ] SDL_hid_init
+- [ ] SDL_hid_open
+- [ ] SDL_hid_open_path
+- [ ] SDL_hid_read
+- [ ] SDL_hid_read_timeout
+- [ ] SDL_hid_send_feature_report
+- [ ] SDL_hid_set_nonblocking
+- [ ] SDL_hid_write
+- [ ] SDL_HideCursor
+- [ ] SDL_HideWindow
+- [ ] SDL_iconv
+- [ ] SDL_iconv_close
+- [ ] SDL_iconv_open
+- [ ] SDL_iconv_string
+- [x] SDL_Init
+- [ ] SDL_InitHapticRumble
+- [x] SDL_InitSubSystem
+- [ ] SDL_InsertGPUDebugLabel
+- [x] SDL_InsertTrayEntryAt
+- [ ] SDL_IOFromConstMem
+- [ ] SDL_IOFromDynamicMem
+- [ ] SDL_IOFromFile
+- [ ] SDL_IOFromMem
+- [ ] SDL_IOprintf
+- [ ] SDL_IOvprintf
+- [ ] SDL_isalnum
+- [ ] SDL_isalpha
+- [ ] SDL_IsAudioDevicePhysical
+- [ ] SDL_IsAudioDevicePlayback
+- [ ] SDL_isblank
+- [ ] SDL_IsChromebook
+- [ ] SDL_iscntrl
+- [ ] SDL_IsDeXMode
+- [ ] SDL_isdigit
+- [ ] SDL_IsGamepad
+- [ ] SDL_isgraph
+- [ ] SDL_isinf
+- [ ] SDL_isinff
+- [ ] SDL_IsJoystickHaptic
+- [ ] SDL_IsJoystickVirtual
+- [ ] SDL_islower
+- [ ] SDL_IsMainThread
+- [ ] SDL_IsMouseHaptic
+- [ ] SDL_isnan
+- [ ] SDL_isnanf
+- [ ] SDL_IsPhone
+- [ ] SDL_isprint
+- [ ] SDL_ispunct
+- [ ] SDL_isspace
+- [ ] SDL_IsTablet
+- [ ] SDL_IsTV
+- [ ] SDL_isupper
+- [ ] SDL_isxdigit
+- [ ] SDL_itoa
+- [ ] SDL_JoystickConnected
+- [ ] SDL_JoystickEventsEnabled
+- [ ] SDL_KillProcess
+- [ ] SDL_lltoa
+- [ ] SDL_LoadBMP
+- [ ] SDL_LoadBMP_IO
+- [ ] SDL_LoadFile
+- [ ] SDL_LoadFile_IO
+- [ ] SDL_LoadFileAsync
+- [ ] SDL_LoadFunction
+- [ ] SDL_LoadJPG
+- [ ] SDL_LoadJPG_IO
+- [ ] SDL_LoadObject
+- [ ] SDL_LoadPNG
+- [ ] SDL_LoadPNG_IO
+- [ ] SDL_LoadSurface
+- [ ] SDL_LoadSurface_IO
+- [ ] SDL_LoadWAV
+- [ ] SDL_LoadWAV_IO
+- [ ] SDL_LockAudioStream
+- [ ] SDL_LockJoysticks
+- [ ] SDL_LockMutex
+- [ ] SDL_LockProperties
+- [ ] SDL_LockRWLockForReading
+- [ ] SDL_LockRWLockForWriting
+- [ ] SDL_LockSpinlock
+- [ ] SDL_LockSurface
+- [ ] SDL_LockTexture
+- [ ] SDL_LockTextureToSurface
+- [ ] SDL_Log
+- [ ] SDL_log
+- [ ] SDL_log10
+- [ ] SDL_log10f
+- [ ] SDL_LogCritical
+- [ ] SDL_LogDebug
+- [ ] SDL_LogError
+- [ ] SDL_logf
+- [ ] SDL_LogInfo
+- [ ] SDL_LogMessage
+- [ ] SDL_LogMessageV
+- [ ] SDL_LogTrace
+- [ ] SDL_LogVerbose
+- [ ] SDL_LogWarn
+- [ ] SDL_lround
+- [ ] SDL_lroundf
+- [ ] SDL_ltoa
+- [ ] SDL_main
+- [ ] SDL_malloc
+- [x] SDL_MapGPUTransferBuffer
+- [ ] SDL_MapRGB
+- [ ] SDL_MapRGBA
+- [ ] SDL_MapSurfaceRGB
+- [ ] SDL_MapSurfaceRGBA
+- [ ] SDL_MaximizeWindow
+- [ ] SDL_memcmp
+- [ ] SDL_memcpy
+- [ ] SDL_memmove
+- [ ] SDL_MemoryBarrierAcquireFunction
+- [ ] SDL_MemoryBarrierReleaseFunction
+- [ ] SDL_memset
+- [ ] SDL_memset4
+- [ ] SDL_Metal_CreateView
+- [ ] SDL_Metal_DestroyView
+- [ ] SDL_Metal_GetLayer
+- [ ] SDL_MinimizeWindow
+- [ ] SDL_MixAudio
+- [ ] SDL_modf
+- [ ] SDL_modff
+- [ ] SDL_MostSignificantBitIndex32
+- [ ] SDL_murmur3_32
+- [ ] SDL_OnApplicationDidChangeStatusBarOrientation
+- [ ] SDL_OnApplicationDidEnterBackground
+- [ ] SDL_OnApplicationDidEnterForeground
+- [ ] SDL_OnApplicationDidReceiveMemoryWarning
+- [ ] SDL_OnApplicationWillEnterBackground
+- [ ] SDL_OnApplicationWillEnterForeground
+- [ ] SDL_OnApplicationWillTerminate
+- [ ] SDL_OpenAudioDevice
+- [ ] SDL_OpenAudioDeviceStream
+- [ ] SDL_OpenCamera
+- [ ] SDL_OpenFileStorage
+- [ ] SDL_OpenGamepad
+- [ ] SDL_OpenHaptic
+- [ ] SDL_OpenHapticFromJoystick
+- [ ] SDL_OpenHapticFromMouse
+- [ ] SDL_OpenIO
+- [ ] SDL_OpenJoystick
+- [ ] SDL_OpenSensor
+- [ ] SDL_OpenStorage
+- [ ] SDL_OpenTitleStorage
+- [x] SDL_OpenURL
+- [ ] SDL_OpenUserStorage
+- [ ] SDL_OpenXR_GetXrGetInstanceProcAddr
+- [ ] SDL_OpenXR_LoadLibrary
+- [ ] SDL_OpenXR_UnloadLibrary
+- [ ] SDL_OutOfMemory
+- [ ] SDL_PauseAudioDevice
+- [ ] SDL_PauseAudioStreamDevice
+- [ ] SDL_PauseHaptic
+- [ ] SDL_PeepEvents
+- [ ] SDL_PlayHapticRumble
+- [x] SDL_PointInRect
+- [x] SDL_PointInRectFloat
+- [x] SDL_PollEvent
+- [ ] SDL_PopGPUDebugGroup
+- [ ] SDL_pow
+- [ ] SDL_powf
+- [ ] SDL_PremultiplyAlpha
+- [ ] SDL_PremultiplySurfaceAlpha
+- [ ] SDL_PumpEvents
+- [ ] SDL_PushEvent
+- [x] SDL_PushGPUComputeUniformData
+- [ ] SDL_PushGPUDebugGroup
+- [x] SDL_PushGPUFragmentUniformData
+- [x] SDL_PushGPUVertexUniformData
+- [ ] SDL_PutAudioStreamData
+- [ ] SDL_PutAudioStreamDataNoCopy
+- [ ] SDL_PutAudioStreamPlanarData
+- [ ] SDL_qsort
+- [ ] SDL_qsort_r
+- [ ] SDL_QueryGPUFence
+- [x] SDL_Quit
+- [x] SDL_QuitSubSystem
+- [ ] SDL_RaiseWindow
+- [ ] SDL_rand
+- [ ] SDL_rand_bits
+- [ ] SDL_rand_bits_r
+- [ ] SDL_rand_r
+- [ ] SDL_randf
+- [ ] SDL_randf_r
+- [ ] SDL_ReadAsyncIO
+- [ ] SDL_ReadIO
+- [ ] SDL_ReadProcess
+- [ ] SDL_ReadS16BE
+- [ ] SDL_ReadS16LE
+- [ ] SDL_ReadS32BE
+- [ ] SDL_ReadS32LE
+- [ ] SDL_ReadS64BE
+- [ ] SDL_ReadS64LE
+- [ ] SDL_ReadS8
+- [ ] SDL_ReadStorageFile
+- [ ] SDL_ReadSurfacePixel
+- [ ] SDL_ReadSurfacePixelFloat
+- [ ] SDL_ReadU16BE
+- [ ] SDL_ReadU16LE
+- [ ] SDL_ReadU32BE
+- [ ] SDL_ReadU32LE
+- [ ] SDL_ReadU64BE
+- [ ] SDL_ReadU64LE
+- [ ] SDL_ReadU8
+- [ ] SDL_realloc
+- [x] SDL_RectEmpty
+- [x] SDL_RectEmptyFloat
+- [x] SDL_RectsEqual
+- [x] SDL_RectsEqualEpsilon
+- [x] SDL_RectsEqualFloat
+- [x] SDL_RectToFRect
+- [ ] SDL_RegisterApp
+- [ ] SDL_RegisterEvents
+- [ ] SDL_ReleaseCameraFrame
+- [x] SDL_ReleaseGPUBuffer
+- [x] SDL_ReleaseGPUComputePipeline
+- [ ] SDL_ReleaseGPUFence
+- [x] SDL_ReleaseGPUGraphicsPipeline
+- [x] SDL_ReleaseGPUSampler
+- [x] SDL_ReleaseGPUShader
+- [x] SDL_ReleaseGPUTexture
+- [x] SDL_ReleaseGPUTransferBuffer
+- [x] SDL_ReleaseWindowFromGPUDevice
+- [ ] SDL_ReloadGamepadMappings
+- [ ] SDL_RemoveEventWatch
+- [ ] SDL_RemoveHintCallback
+- [ ] SDL_RemoveNotification
+- [ ] SDL_RemovePath
+- [ ] SDL_RemoveStoragePath
+- [ ] SDL_RemoveSurfaceAlternateImages
+- [ ] SDL_RemoveTimer
+- [x] SDL_RemoveTrayEntry
+- [ ] SDL_RenamePath
+- [ ] SDL_RenameStoragePath
+- [ ] SDL_RenderClear
+- [ ] SDL_RenderClipEnabled
+- [ ] SDL_RenderCoordinatesFromWindow
+- [ ] SDL_RenderCoordinatesToWindow
+- [ ] SDL_RenderDebugText
+- [ ] SDL_RenderDebugTextFormat
+- [ ] SDL_RenderFillRect
+- [ ] SDL_RenderFillRects
+- [ ] SDL_RenderGeometry
+- [ ] SDL_RenderGeometryRaw
+- [ ] SDL_RenderLine
+- [ ] SDL_RenderLines
+- [ ] SDL_RenderPoint
+- [ ] SDL_RenderPoints
+- [ ] SDL_RenderPresent
+- [ ] SDL_RenderReadPixels
+- [ ] SDL_RenderRect
+- [ ] SDL_RenderRects
+- [ ] SDL_RenderTexture
+- [ ] SDL_RenderTexture9Grid
+- [ ] SDL_RenderTexture9GridTiled
+- [ ] SDL_RenderTextureAffine
+- [ ] SDL_RenderTextureRotated
+- [ ] SDL_RenderTextureTiled
+- [ ] SDL_RenderViewportSet
+- [ ] SDL_ReportAssertion
+- [ ] SDL_RequestAndroidPermission
+- [ ] SDL_RequestNotificationPermission
+- [ ] SDL_ResetAssertionReport
+- [ ] SDL_ResetHint
+- [ ] SDL_ResetHints
+- [ ] SDL_ResetKeyboard
+- [ ] SDL_ResetLogPriorities
+- [ ] SDL_RestoreWindow
+- [ ] SDL_ResumeAudioDevice
+- [ ] SDL_ResumeAudioStreamDevice
+- [ ] SDL_ResumeHaptic
+- [ ] SDL_RotateSurface
+- [ ] SDL_round
+- [ ] SDL_roundf
+- [ ] SDL_RumbleGamepad
+- [ ] SDL_RumbleGamepadTriggers
+- [ ] SDL_RumbleJoystick
+- [ ] SDL_RumbleJoystickTriggers
+- [ ] SDL_RunApp
+- [ ] SDL_RunHapticEffect
+- [ ] SDL_RunOnMainThread
+- [ ] SDL_SaveBMP
+- [ ] SDL_SaveBMP_IO
+- [ ] SDL_SaveFile
+- [ ] SDL_SaveFile_IO
+- [ ] SDL_SavePNG
+- [ ] SDL_SavePNG_IO
+- [ ] SDL_scalbn
+- [ ] SDL_scalbnf
+- [ ] SDL_ScaleSurface
+- [ ] SDL_ScreenKeyboardShown
+- [ ] SDL_ScreenSaverEnabled
+- [ ] SDL_SeekIO
+- [ ] SDL_SendAndroidBackButton
+- [ ] SDL_SendAndroidMessage
+- [ ] SDL_SendGamepadEffect
+- [ ] SDL_SendJoystickEffect
+- [ ] SDL_SendJoystickVirtualSensorData
+- [x] SDL_SetAppMetadata
+- [x] SDL_SetAppMetadataProperty
+- [ ] SDL_SetAssertionHandler
+- [ ] SDL_SetAtomicInt
+- [ ] SDL_SetAtomicPointer
+- [ ] SDL_SetAtomicU32
+- [ ] SDL_SetAudioDeviceGain
+- [ ] SDL_SetAudioPostmixCallback
+- [ ] SDL_SetAudioStreamFormat
+- [ ] SDL_SetAudioStreamFrequencyRatio
+- [ ] SDL_SetAudioStreamGain
+- [ ] SDL_SetAudioStreamGetCallback
+- [ ] SDL_SetAudioStreamInputChannelMap
+- [ ] SDL_SetAudioStreamOutputChannelMap
+- [ ] SDL_SetAudioStreamPutCallback
+- [ ] SDL_SetBooleanProperty
+- [x] SDL_SetClipboardData
+- [x] SDL_SetClipboardText
+- [ ] SDL_SetCurrentThreadPriority
+- [ ] SDL_SetCursor
+- [ ] SDL_SetDefaultTextureScaleMode
+- [ ] SDL_setenv_unsafe
+- [ ] SDL_SetEnvironmentVariable
+- [x] SDL_SetError
+- [ ] SDL_SetErrorV
+- [ ] SDL_SetEventEnabled
+- [ ] SDL_SetEventFilter
+- [ ] SDL_SetFloatProperty
+- [ ] SDL_SetGamepadEventsEnabled
+- [ ] SDL_SetGamepadLED
+- [ ] SDL_SetGamepadMapping
+- [ ] SDL_SetGamepadPlayerIndex
+- [ ] SDL_SetGamepadSensorEnabled
+- [ ] SDL_SetGPUAllowedFramesInFlight
+- [ ] SDL_SetGPUBlendConstants
+- [ ] SDL_SetGPUBufferName
+- [ ] SDL_SetGPURenderState
+- [ ] SDL_SetGPURenderStateFragmentUniforms
+- [ ] SDL_SetGPURenderStateSamplerBindings
+- [ ] SDL_SetGPURenderStateStorageBuffers
+- [ ] SDL_SetGPURenderStateStorageTextures
+- [x] SDL_SetGPUScissor
+- [ ] SDL_SetGPUStencilReference
+- [x] SDL_SetGPUSwapchainParameters
+- [ ] SDL_SetGPUTextureName
+- [x] SDL_SetGPUViewport
+- [ ] SDL_SetHapticAutocenter
+- [ ] SDL_SetHapticGain
+- [ ] SDL_SetHint
+- [ ] SDL_SetHintWithPriority
+- [ ] SDL_SetInitialized
+- [ ] SDL_SetiOSAnimationCallback
+- [ ] SDL_SetiOSEventPump
+- [ ] SDL_SetJoystickEventsEnabled
+- [ ] SDL_SetJoystickLED
+- [ ] SDL_SetJoystickPlayerIndex
+- [ ] SDL_SetJoystickVirtualAxis
+- [ ] SDL_SetJoystickVirtualBall
+- [ ] SDL_SetJoystickVirtualButton
+- [ ] SDL_SetJoystickVirtualHat
+- [ ] SDL_SetJoystickVirtualTouchpad
+- [ ] SDL_SetLinuxThreadPriority
+- [ ] SDL_SetLinuxThreadPriorityAndPolicy
+- [ ] SDL_SetLogOutputFunction
+- [ ] SDL_SetLogPriorities
+- [x] SDL_SetLogPriority
+- [ ] SDL_SetLogPriorityPrefix
+- [ ] SDL_SetMainReady
+- [ ] SDL_SetMemoryFunctions
+- [ ] SDL_SetModState
+- [ ] SDL_SetNumberProperty
+- [ ] SDL_SetPaletteColors
+- [ ] SDL_SetPointerProperty
+- [ ] SDL_SetPointerPropertyWithCleanup
+- [x] SDL_SetPrimarySelectionText
+- [ ] SDL_SetRelativeMouseTransform
+- [ ] SDL_SetRenderClipRect
+- [ ] SDL_SetRenderColorScale
+- [ ] SDL_SetRenderDrawBlendMode
+- [ ] SDL_SetRenderDrawColor
+- [ ] SDL_SetRenderDrawColorFloat
+- [ ] SDL_SetRenderLogicalPresentation
+- [ ] SDL_SetRenderScale
+- [ ] SDL_SetRenderTarget
+- [ ] SDL_SetRenderTextureAddressMode
+- [ ] SDL_SetRenderViewport
+- [ ] SDL_SetRenderVSync
+- [ ] SDL_SetScancodeName
+- [ ] SDL_SetStringProperty
+- [ ] SDL_SetSurfaceAlphaMod
+- [ ] SDL_SetSurfaceBlendMode
+- [ ] SDL_SetSurfaceClipRect
+- [ ] SDL_SetSurfaceColorKey
+- [ ] SDL_SetSurfaceColorMod
+- [ ] SDL_SetSurfaceColorspace
+- [ ] SDL_SetSurfacePalette
+- [ ] SDL_SetSurfaceRLE
+- [ ] SDL_SetTextInputArea
+- [ ] SDL_SetTextureAlphaMod
+- [ ] SDL_SetTextureAlphaModFloat
+- [ ] SDL_SetTextureBlendMode
+- [ ] SDL_SetTextureColorMod
+- [ ] SDL_SetTextureColorModFloat
+- [ ] SDL_SetTexturePalette
+- [ ] SDL_SetTextureScaleMode
+- [ ] SDL_SetTLS
+- [x] SDL_SetTrayEntryCallback
+- [x] SDL_SetTrayEntryChecked
+- [x] SDL_SetTrayEntryEnabled
+- [x] SDL_SetTrayEntryLabel
+- [x] SDL_SetTrayIcon
+- [x] SDL_SetTrayTooltip
+- [ ] SDL_SetWindowAlwaysOnTop
+- [ ] SDL_SetWindowAspectRatio
+- [ ] SDL_SetWindowBordered
+- [ ] SDL_SetWindowFillDocument
+- [ ] SDL_SetWindowFocusable
+- [ ] SDL_SetWindowFullscreen
+- [ ] SDL_SetWindowFullscreenMode
+- [ ] SDL_SetWindowHitTest
+- [ ] SDL_SetWindowIcon
+- [ ] SDL_SetWindowKeyboardGrab
+- [ ] SDL_SetWindowMaximumSize
+- [ ] SDL_SetWindowMinimumSize
+- [ ] SDL_SetWindowModal
+- [ ] SDL_SetWindowMouseGrab
+- [ ] SDL_SetWindowMouseRect
+- [ ] SDL_SetWindowOpacity
+- [ ] SDL_SetWindowParent
+- [ ] SDL_SetWindowPosition
+- [ ] SDL_SetWindowProgressState
+- [ ] SDL_SetWindowProgressValue
+- [ ] SDL_SetWindowRelativeMouseMode
+- [ ] SDL_SetWindowResizable
+- [ ] SDL_SetWindowShape
+- [ ] SDL_SetWindowSize
+- [ ] SDL_SetWindowsMessageHook
+- [ ] SDL_SetWindowSurfaceVSync
+- [ ] SDL_SetWindowTitle
+- [ ] SDL_SetX11EventHook
+- [ ] SDL_ShouldInit
+- [ ] SDL_ShouldQuit
+- [ ] SDL_ShowAndroidToast
+- [ ] SDL_ShowCursor
+- [ ] SDL_ShowFileDialogWithProperties
+- [x] SDL_ShowMessageBox
+- [ ] SDL_ShowNotification
+- [ ] SDL_ShowNotificationWithProperties
+- [x] SDL_ShowOpenFileDialog
+- [x] SDL_ShowOpenFolderDialog
+- [x] SDL_ShowSaveFileDialog
+- [x] SDL_ShowSimpleMessageBox
+- [ ] SDL_ShowWindow
+- [ ] SDL_ShowWindowSystemMenu
+- [ ] SDL_SignalAsyncIOQueue
+- [ ] SDL_SignalCondition
+- [ ] SDL_SignalSemaphore
+- [ ] SDL_sin
+- [ ] SDL_sinf
+- [ ] SDL_size_add_check_overflow
+- [ ] SDL_size_mul_check_overflow
+- [ ] SDL_snprintf
+- [ ] SDL_sqrt
+- [ ] SDL_sqrtf
+- [ ] SDL_srand
+- [ ] SDL_sscanf
+- [ ] SDL_StartTextInput
+- [ ] SDL_StartTextInputWithProperties
+- [ ] SDL_StepBackUTF8
+- [ ] SDL_StepUTF8
+- [ ] SDL_StopHapticEffect
+- [ ] SDL_StopHapticEffects
+- [ ] SDL_StopHapticRumble
+- [ ] SDL_StopTextInput
+- [ ] SDL_StorageReady
+- [ ] SDL_strcasecmp
+- [ ] SDL_strcasestr
+- [ ] SDL_strchr
+- [ ] SDL_strcmp
+- [ ] SDL_strdup
+- [ ] SDL_StretchSurface
+- [ ] SDL_StringToGUID
+- [ ] SDL_strlcat
+- [ ] SDL_strlcpy
+- [ ] SDL_strlen
+- [ ] SDL_strlwr
+- [ ] SDL_strncasecmp
+- [ ] SDL_strncmp
+- [ ] SDL_strndup
+- [ ] SDL_strnlen
+- [ ] SDL_strnstr
+- [ ] SDL_strpbrk
+- [ ] SDL_strrchr
+- [ ] SDL_strrev
+- [ ] SDL_strstr
+- [ ] SDL_strtod
+- [ ] SDL_strtok_r
+- [ ] SDL_strtol
+- [ ] SDL_strtoll
+- [ ] SDL_strtoul
+- [ ] SDL_strtoull
+- [ ] SDL_strupr
+- [x] SDL_SubmitGPUCommandBuffer
+- [ ] SDL_SubmitGPUCommandBufferAndAcquireFence
+- [ ] SDL_SurfaceHasAlternateImages
+- [ ] SDL_SurfaceHasColorKey
+- [ ] SDL_SurfaceHasRLE
+- [ ] SDL_Swap16
+- [ ] SDL_Swap32
+- [ ] SDL_Swap64
+- [ ] SDL_SwapFloat
+- [ ] SDL_swprintf
+- [ ] SDL_SyncWindow
+- [ ] SDL_tan
+- [ ] SDL_tanf
+- [ ] SDL_TellIO
+- [ ] SDL_TextInputActive
+- [ ] SDL_TimeFromWindows
+- [ ] SDL_TimeToDateTime
+- [ ] SDL_TimeToWindows
+- [ ] SDL_tolower
+- [ ] SDL_toupper
+- [ ] SDL_trunc
+- [ ] SDL_truncf
+- [ ] SDL_TryLockJoysticks
+- [ ] SDL_TryLockMutex
+- [ ] SDL_TryLockRWLockForReading
+- [ ] SDL_TryLockRWLockForWriting
+- [ ] SDL_TryLockSpinlock
+- [ ] SDL_TryWaitSemaphore
+- [ ] SDL_UCS4ToUTF8
+- [ ] SDL_uitoa
+- [ ] SDL_ulltoa
+- [ ] SDL_ultoa
+- [ ] SDL_UnbindAudioStream
+- [ ] SDL_UnbindAudioStreams
+- [ ] SDL_UnloadObject
+- [ ] SDL_UnlockAudioStream
+- [ ] SDL_UnlockJoysticks
+- [ ] SDL_UnlockMutex
+- [ ] SDL_UnlockProperties
+- [ ] SDL_UnlockRWLock
+- [ ] SDL_UnlockSpinlock
+- [ ] SDL_UnlockSurface
+- [ ] SDL_UnlockTexture
+- [x] SDL_UnmapGPUTransferBuffer
+- [ ] SDL_UnregisterApp
+- [ ] SDL_unsetenv_unsafe
+- [ ] SDL_UnsetEnvironmentVariable
+- [ ] SDL_UpdateGamepads
+- [ ] SDL_UpdateHapticEffect
+- [ ] SDL_UpdateJoysticks
+- [ ] SDL_UpdateNVTexture
+- [ ] SDL_UpdateSensors
+- [ ] SDL_UpdateTexture
+- [x] SDL_UpdateTrays
+- [ ] SDL_UpdateWindowSurface
+- [ ] SDL_UpdateWindowSurfaceRects
+- [ ] SDL_UpdateYUVTexture
+- [x] SDL_UploadToGPUBuffer
+- [x] SDL_UploadToGPUTexture
+- [ ] SDL_utf8strlcpy
+- [ ] SDL_utf8strlen
+- [ ] SDL_utf8strnlen
+- [ ] SDL_vasprintf
+- [ ] SDL_vsnprintf
+- [ ] SDL_vsscanf
+- [ ] SDL_vswprintf
+- [ ] SDL_Vulkan_CreateSurface
+- [ ] SDL_Vulkan_DestroySurface
+- [ ] SDL_Vulkan_GetInstanceExtensions
+- [ ] SDL_Vulkan_GetPresentationSupport
+- [ ] SDL_Vulkan_GetVkGetInstanceProcAddr
+- [ ] SDL_Vulkan_LoadLibrary
+- [ ] SDL_Vulkan_UnloadLibrary
+- [x] SDL_WaitAndAcquireGPUSwapchainTexture
+- [ ] SDL_WaitAsyncIOResult
+- [ ] SDL_WaitCondition
+- [ ] SDL_WaitConditionTimeout
+- [ ] SDL_WaitEvent
+- [ ] SDL_WaitEventTimeout
+- [ ] SDL_WaitForGPUFences
+- [ ] SDL_WaitForGPUIdle
+- [ ] SDL_WaitForGPUSwapchain
+- [ ] SDL_WaitProcess
+- [ ] SDL_WaitSemaphore
+- [ ] SDL_WaitSemaphoreTimeout
+- [ ] SDL_WaitThread
+- [ ] SDL_WarpMouseGlobal
+- [ ] SDL_WarpMouseInWindow
+- [x] SDL_WasInit
+- [ ] SDL_wcscasecmp
+- [ ] SDL_wcscmp
+- [ ] SDL_wcsdup
+- [ ] SDL_wcslcat
+- [ ] SDL_wcslcpy
+- [ ] SDL_wcslen
+- [ ] SDL_wcsncasecmp
+- [ ] SDL_wcsncmp
+- [ ] SDL_wcsnlen
+- [ ] SDL_wcsnstr
+- [ ] SDL_wcsstr
+- [ ] SDL_wcstol
+- [ ] SDL_wcstoll
+- [ ] SDL_wcstoul
+- [ ] SDL_wcstoull
+- [ ] SDL_WindowHasSurface
+- [x] SDL_WindowSupportsGPUPresentMode
+- [x] SDL_WindowSupportsGPUSwapchainComposition
+- [ ] SDL_WriteAsyncIO
+- [ ] SDL_WriteIO
+- [ ] SDL_WriteS16BE
+- [ ] SDL_WriteS16LE
+- [ ] SDL_WriteS32BE
+- [ ] SDL_WriteS32LE
+- [ ] SDL_WriteS64BE
+- [ ] SDL_WriteS64LE
+- [ ] SDL_WriteS8
+- [ ] SDL_WriteStorageFile
+- [ ] SDL_WriteSurfacePixel
+- [ ] SDL_WriteSurfacePixelFloat
+- [ ] SDL_WriteU16BE
+- [ ] SDL_WriteU16LE
+- [ ] SDL_WriteU32BE
+- [ ] SDL_WriteU32LE
+- [ ] SDL_WriteU64BE
+- [ ] SDL_WriteU64LE
+- [ ] SDL_WriteU8
+
+### Datatypes
+
+- [ ] SDL_AppEvent_func
+- [ ] SDL_AppInit_func
+- [ ] SDL_AppIterate_func
+- [ ] SDL_AppQuit_func
+- [ ] SDL_AssertionHandler
+- [ ] SDL_AsyncIO
+- [ ] SDL_AsyncIOQueue
+- [ ] SDL_AudioDeviceID
+- [ ] SDL_AudioPostmixCallback
+- [ ] SDL_AudioStream
+- [ ] SDL_AudioStreamCallback
+- [ ] SDL_AudioStreamDataCompleteCallback
+- [ ] SDL_BlendMode
+- [ ] SDL_calloc_func
+- [ ] SDL_Camera
+- [ ] SDL_CameraID
+- [ ] SDL_CleanupPropertyCallback
+- [x] SDL_ClipboardCleanupCallback
+- [x] SDL_ClipboardDataCallback
+- [ ] SDL_CompareCallback
+- [ ] SDL_CompareCallback_r
+- [ ] SDL_Condition
+- [ ] SDL_Cursor
+- [x] SDL_DialogFileCallback
+- [ ] SDL_DisplayID
+- [ ] SDL_DisplayModeData
+- [ ] SDL_EGLAttrib
+- [ ] SDL_EGLAttribArrayCallback
+- [ ] SDL_EGLConfig
+- [ ] SDL_EGLDisplay
+- [ ] SDL_EGLint
+- [ ] SDL_EGLIntArrayCallback
+- [ ] SDL_EGLSurface
+- [ ] SDL_EnumerateDirectoryCallback
+- [ ] SDL_EnumeratePropertiesCallback
+- [ ] SDL_Environment
+- [ ] SDL_EventFilter
+- [ ] SDL_FingerID
+- [ ] SDL_free_func
+- [ ] SDL_FunctionPointer
+- [ ] SDL_Gamepad
+- [ ] SDL_GLContext
+- [ ] SDL_GLContextFlag
+- [ ] SDL_GLContextReleaseFlag
+- [ ] SDL_GLContextResetNotification
+- [ ] SDL_GlobFlags
+- [ ] SDL_GLProfile
+- [x] SDL_GPUBuffer
+- [x] SDL_GPUBufferUsageFlags
+- [x] SDL_GPUColorComponentFlags
+- [x] SDL_GPUCommandBuffer
+- [x] SDL_GPUComputePass
+- [x] SDL_GPUComputePipeline
+- [x] SDL_GPUCopyPass
+- [x] SDL_GPUDevice
+- [ ] SDL_GPUFence
+- [x] SDL_GPUGraphicsPipeline
+- [x] SDL_GPURenderPass
+- [ ] SDL_GPURenderState
+- [x] SDL_GPUSampler
+- [x] SDL_GPUShader
+- [x] SDL_GPUShaderFormat
+- [x] SDL_GPUTexture
+- [x] SDL_GPUTextureUsageFlags
+- [ ] SDL_GPUTransferBuffer
+- [ ] SDL_Haptic
+- [ ] SDL_HapticDirectionType
+- [ ] SDL_HapticEffectID
+- [ ] SDL_HapticEffectType
+- [ ] SDL_HapticID
+- [ ] SDL_hid_device
+- [ ] SDL_HintCallback
+- [ ] SDL_HitTest
+- [ ] SDL_iconv_t
+- [x] SDL_InitFlags
+- [ ] SDL_iOSAnimationCallback
+- [ ] SDL_IOStream
+- [ ] SDL_Joystick
+- [ ] SDL_JoystickID
+- [ ] SDL_KeyboardID
+- [x] SDL_Keycode
+- [x] SDL_Keymod
+- [ ] SDL_LogOutputFunction
+- [ ] SDL_main_func
+- [ ] SDL_MainThreadCallback
+- [ ] SDL_malloc_func
+- [x] SDL_MessageBoxButtonFlags
+- [x] SDL_MessageBoxFlags
+- [ ] SDL_MetalView
+- [x] SDL_MouseButtonFlags
+- [ ] SDL_MouseID
+- [ ] SDL_MouseMotionTransformCallback
+- [ ] SDL_Mutex
+- [ ] SDL_NSTimerCallback
+- [ ] SDL_PenID
+- [x] SDL_PenInputFlags
+- [ ] SDL_Process
+- [ ] SDL_PropertiesID
+- [ ] SDL_realloc_func
+- [ ] SDL_Renderer
+- [ ] SDL_RequestAndroidPermissionCallback
+- [ ] SDL_RWLock
+- [ ] SDL_Semaphore
+- [ ] SDL_Sensor
+- [ ] SDL_SensorID
+- [ ] SDL_SharedObject
+- [ ] SDL_SpinLock
+- [ ] SDL_Storage
+- [ ] SDL_SurfaceFlags
+- [ ] SDL_Thread
+- [ ] SDL_ThreadFunction
+- [ ] SDL_ThreadID
+- [ ] SDL_Time
+- [ ] SDL_TimerCallback
+- [ ] SDL_TimerID
+- [ ] SDL_TLSDestructorCallback
+- [ ] SDL_TLSID
+- [ ] SDL_TouchID
+- [x] SDL_Tray
+- [x] SDL_TrayCallback
+- [ ] SDL_TrayClickCallback
+- [x] SDL_TrayEntry
+- [x] SDL_TrayEntryFlags
+- [x] SDL_TrayMenu
+- [x] SDL_Window
+- [x] SDL_WindowFlags
+- [ ] SDL_WindowID
+- [ ] SDL_WindowsMessageHook
+- [ ] SDL_X11EventHook
+
+### Structs
+
+- [ ] SDL_AssertData
+- [ ] SDL_AsyncIOOutcome
+- [ ] SDL_AtomicInt
+- [ ] SDL_AtomicU32
+- [x] SDL_AudioDeviceEvent
+- [ ] SDL_AudioSpec
+- [x] SDL_CameraDeviceEvent
+- [ ] SDL_CameraSpec
+- [x] SDL_ClipboardEvent
+- [ ] SDL_Color
+- [x] SDL_CommonEvent
+- [ ] SDL_CursorFrameInfo
+- [ ] SDL_DateTime
+- [x] SDL_DialogFileFilter
+- [x] SDL_DisplayEvent
+- [ ] SDL_DisplayMode
+- [x] SDL_DropEvent
+- [x] SDL_Event
+- [x] SDL_FColor
+- [ ] SDL_Finger
+- [x] SDL_FPoint
+- [x] SDL_FRect
+- [x] SDL_GamepadAxisEvent
+- [ ] SDL_GamepadBinding
+- [x] SDL_GamepadButtonEvent
+- [ ] SDL_GamepadCapSenseEvent
+- [x] SDL_GamepadDeviceEvent
+- [x] SDL_GamepadSensorEvent
+- [x] SDL_GamepadTouchpadEvent
+- [x] SDL_GPUBlitInfo
+- [x] SDL_GPUBlitRegion
+- [x] SDL_GPUBufferBinding
+- [x] SDL_GPUBufferCreateInfo
+- [x] SDL_GPUBufferLocation
+- [x] SDL_GPUBufferRegion
+- [x] SDL_GPUColorTargetBlendState
+- [x] SDL_GPUColorTargetDescription
+- [x] SDL_GPUColorTargetInfo
+- [x] SDL_GPUComputePipelineCreateInfo
+- [x] SDL_GPUDepthStencilState
+- [x] SDL_GPUDepthStencilTargetInfo
+- [x] SDL_GPUGraphicsPipelineCreateInfo
+- [x] SDL_GPUGraphicsPipelineTargetInfo
+- [ ] SDL_GPUIndexedIndirectDrawCommand
+- [ ] SDL_GPUIndirectDispatchCommand
+- [ ] SDL_GPUIndirectDrawCommand
+- [x] SDL_GPUMultisampleState
+- [x] SDL_GPURasterizerState
+- [ ] SDL_GPURenderStateCreateInfo
+- [x] SDL_GPUSamplerCreateInfo
+- [x] SDL_GPUShaderCreateInfo
+- [x] SDL_GPUStencilOpState
+- [x] SDL_GPUStorageBufferReadWriteBinding
+- [x] SDL_GPUStorageTextureReadWriteBinding
+- [x] SDL_GPUTextureCreateInfo
+- [x] SDL_GPUTextureLocation
+- [x] SDL_GPUTextureRegion
+- [x] SDL_GPUTextureSamplerBinding
+- [x] SDL_GPUTextureTransferInfo
+- [x] SDL_GPUTransferBufferCreateInfo
+- [x] SDL_GPUTransferBufferLocation
+- [x] SDL_GPUVertexAttribute
+- [x] SDL_GPUVertexBufferDescription
+- [x] SDL_GPUVertexInputState
+- [x] SDL_GPUViewport
+- [ ] SDL_GPUVulkanOptions
+- [ ] SDL_GUID
+- [ ] SDL_HapticCondition
+- [ ] SDL_HapticConstant
+- [ ] SDL_HapticCustom
+- [ ] SDL_HapticDirection
+- [ ] SDL_HapticEffect
+- [ ] SDL_HapticLeftRight
+- [ ] SDL_HapticPeriodic
+- [ ] SDL_HapticRamp
+- [ ] SDL_hid_device_info
+- [ ] SDL_InitState
+- [ ] SDL_IOStreamInterface
+- [x] SDL_JoyAxisEvent
+- [x] SDL_JoyBallEvent
+- [x] SDL_JoyBatteryEvent
+- [x] SDL_JoyButtonEvent
+- [x] SDL_JoyDeviceEvent
+- [x] SDL_JoyHatEvent
+- [x] SDL_KeyboardDeviceEvent
+- [x] SDL_KeyboardEvent
+- [x] SDL_Locale
+- [x] SDL_MessageBoxButtonData
+- [x] SDL_MessageBoxColor
+- [x] SDL_MessageBoxColorScheme
+- [x] SDL_MessageBoxData
+- [x] SDL_MouseButtonEvent
+- [x] SDL_MouseDeviceEvent
+- [x] SDL_MouseMotionEvent
+- [x] SDL_MouseWheelEvent
+- [ ] SDL_NotificationAction
+- [ ] SDL_NotificationEvent
+- [ ] SDL_Palette
+- [ ] SDL_PathInfo
+- [x] SDL_PenAxisEvent
+- [x] SDL_PenButtonEvent
+- [x] SDL_PenMotionEvent
+- [x] SDL_PenProximityEvent
+- [x] SDL_PenTouchEvent
+- [x] SDL_PinchFingerEvent
+- [ ] SDL_PixelFormatDetails
+- [x] SDL_Point
+- [x] SDL_QuitEvent
+- [x] SDL_Rect
+- [x] SDL_RenderEvent
+- [x] SDL_SensorEvent
+- [ ] SDL_StorageInterface
+- [x] SDL_Surface
+- [x] SDL_TextEditingCandidatesEvent
+- [x] SDL_TextEditingEvent
+- [x] SDL_TextInputEvent
+- [ ] SDL_Texture
+- [x] SDL_TouchFingerEvent
+- [x] SDL_UserEvent
+- [ ] SDL_Vertex
+- [ ] SDL_VirtualJoystickDesc
+- [ ] SDL_VirtualJoystickSensorDesc
+- [ ] SDL_VirtualJoystickTouchpadDesc
+- [x] SDL_WindowEvent
+
+### Enums
+
+- [ ] SDL_AppResult
+- [ ] SDL_ArrayOrder
+- [ ] SDL_AssertState
+- [ ] SDL_AsyncIOResult
+- [ ] SDL_AsyncIOTaskType
+- [ ] SDL_AudioFormat
+- [ ] SDL_BitmapOrder
+- [ ] SDL_BlendFactor
+- [ ] SDL_BlendOperation
+- [ ] SDL_CameraPermissionState
+- [ ] SDL_CameraPosition
+- [ ] SDL_Capitalization
+- [ ] SDL_ChromaLocation
+- [ ] SDL_ColorPrimaries
+- [ ] SDL_ColorRange
+- [ ] SDL_Colorspace
+- [ ] SDL_ColorType
+- [ ] SDL_DateFormat
+- [x] SDL_DisplayOrientation
+- [ ] SDL_EnumerationResult
+- [ ] SDL_EventAction
+- [ ] SDL_EventType
+- [x] SDL_FileDialogType
+- [ ] SDL_FlashOperation
+- [x] SDL_FlipMode
+- [ ] SDL_Folder
+- [ ] SDL_GamepadAxis
+- [ ] SDL_GamepadBindingType
+- [ ] SDL_GamepadButton
+- [ ] SDL_GamepadButtonLabel
+- [ ] SDL_GamepadCapSenseType
+- [ ] SDL_GamepadType
+- [ ] SDL_GLAttr
+- [x] SDL_GPUBlendFactor
+- [x] SDL_GPUBlendOp
+- [x] SDL_GPUCompareOp
+- [x] SDL_GPUCubeMapFace
+- [x] SDL_GPUCullMode
+- [x] SDL_GPUFillMode
+- [x] SDL_GPUFilter
+- [x] SDL_GPUFrontFace
+- [x] SDL_GPUIndexElementSize
+- [x] SDL_GPULoadOp
+- [x] SDL_GPUPresentMode
+- [x] SDL_GPUPrimitiveType
+- [x] SDL_GPUSampleCount
+- [x] SDL_GPUSamplerAddressMode
+- [x] SDL_GPUSamplerMipmapMode
+- [x] SDL_GPUShaderStage
+- [x] SDL_GPUStencilOp
+- [x] SDL_GPUStoreOp
+- [x] SDL_GPUSwapchainComposition
+- [x] SDL_GPUTextureFormat
+- [x] SDL_GPUTextureType
+- [x] SDL_GPUTransferBufferUsage
+- [x] SDL_GPUVertexElementFormat
+- [x] SDL_GPUVertexInputRate
+- [ ] SDL_hid_bus_type
+- [ ] SDL_HintPriority
+- [ ] SDL_HitTestResult
+- [ ] SDL_InitStatus
+- [ ] SDL_IOStatus
+- [ ] SDL_IOWhence
+- [ ] SDL_JoystickConnectionState
+- [ ] SDL_JoystickType
+- [x] SDL_LogCategory
+- [x] SDL_LogPriority
+- [ ] SDL_MatrixCoefficients
+- [ ] SDL_MessageBoxColorType
+- [x] SDL_MouseWheelDirection
+- [ ] SDL_PackedLayout
+- [ ] SDL_PackedOrder
+- [ ] SDL_PathType
+- [x] SDL_PenAxis
+- [ ] SDL_PenDeviceType
+- [ ] SDL_PixelFormat
+- [ ] SDL_PixelType
+- [x] SDL_PowerState
+- [ ] SDL_ProcessIO
+- [ ] SDL_ProgressState
+- [ ] SDL_PropertyType
+- [ ] SDL_RendererLogicalPresentation
+- [ ] SDL_Sandbox
+- [ ] SDL_ScaleMode
+- [x] SDL_Scancode
+- [ ] SDL_SensorType
+- [ ] SDL_SystemCursor
+- [ ] SDL_SystemTheme
+- [ ] SDL_TextInputType
+- [ ] SDL_TextureAccess
+- [ ] SDL_TextureAddressMode
+- [ ] SDL_ThreadPriority
+- [ ] SDL_ThreadState
+- [ ] SDL_TimeFormat
+- [ ] SDL_TouchDeviceType
+- [ ] SDL_TransferCharacteristics
+
+### Macros
+
+- [ ] SDL_ACQUIRE
+- [ ] SDL_ACQUIRE_SHARED
+- [ ] SDL_ACQUIRED_AFTER
+- [ ] SDL_ACQUIRED_BEFORE
+- [ ] SDL_ALIGNED
+- [ ] SDL_ALLOC_SIZE
+- [ ] SDL_ALPHA_OPAQUE
+- [ ] SDL_ALPHA_OPAQUE_FLOAT
+- [ ] SDL_ALPHA_TRANSPARENT
+- [ ] SDL_ALPHA_TRANSPARENT_FLOAT
+- [ ] SDL_ALTIVEC_INTRINSICS
+- [ ] SDL_ANALYZER_NORETURN
+- [ ] SDL_ANDROID_EXTERNAL_STORAGE_READ
+- [ ] SDL_ANDROID_EXTERNAL_STORAGE_WRITE
+- [ ] SDL_arraysize
+- [ ] SDL_assert
+- [ ] SDL_assert_always
+- [ ] SDL_ASSERT_CAPABILITY
+- [ ] SDL_ASSERT_FILE
+- [ ] SDL_ASSERT_LEVEL
+- [ ] SDL_assert_paranoid
+- [ ] SDL_assert_release
+- [ ] SDL_ASSERT_SHARED_CAPABILITY
+- [ ] SDL_AssertBreakpoint
+- [ ] SDL_AtomicDecRef
+- [ ] SDL_AtomicIncRef
+- [ ] SDL_AUDIO_BITSIZE
+- [ ] SDL_AUDIO_BYTESIZE
+- [ ] SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK
+- [ ] SDL_AUDIO_DEVICE_DEFAULT_RECORDING
+- [ ] SDL_AUDIO_FRAMESIZE
+- [ ] SDL_AUDIO_ISBIGENDIAN
+- [ ] SDL_AUDIO_ISFLOAT
+- [ ] SDL_AUDIO_ISINT
+- [ ] SDL_AUDIO_ISLITTLEENDIAN
+- [ ] SDL_AUDIO_ISSIGNED
+- [ ] SDL_AUDIO_ISUNSIGNED
+- [ ] SDL_AUDIO_MASK_BIG_ENDIAN
+- [ ] SDL_AUDIO_MASK_BITSIZE
+- [ ] SDL_AUDIO_MASK_FLOAT
+- [ ] SDL_AUDIO_MASK_SIGNED
+- [ ] SDL_AVX2_INTRINSICS
+- [ ] SDL_AVX512F_INTRINSICS
+- [ ] SDL_AVX_INTRINSICS
+- [ ] SDL_BIG_ENDIAN
+- [ ] SDL_BITSPERPIXEL
+- [ ] SDL_BLENDMODE_ADD
+- [ ] SDL_BLENDMODE_ADD_PREMULTIPLIED
+- [ ] SDL_BLENDMODE_BLEND
+- [ ] SDL_BLENDMODE_BLEND_PREMULTIPLIED
+- [ ] SDL_BLENDMODE_INVALID
+- [ ] SDL_BLENDMODE_MOD
+- [ ] SDL_BLENDMODE_MUL
+- [ ] SDL_BLENDMODE_NONE
+- [ ] SDL_BUTTON_LEFT
+- [ ] SDL_BUTTON_LMASK
+- [ ] SDL_BUTTON_MASK
+- [ ] SDL_BUTTON_MIDDLE
+- [ ] SDL_BUTTON_MMASK
+- [ ] SDL_BUTTON_RIGHT
+- [ ] SDL_BUTTON_RMASK
+- [ ] SDL_BUTTON_X1
+- [ ] SDL_BUTTON_X1MASK
+- [ ] SDL_BUTTON_X2
+- [ ] SDL_BUTTON_X2MASK
+- [ ] SDL_BYTEORDER
+- [ ] SDL_BYTESPERPIXEL
+- [ ] SDL_CACHELINE_SIZE
+- [ ] SDL_CAPABILITY
+- [ ] SDL_clamp
+- [ ] SDL_COLORSPACECHROMA
+- [ ] SDL_COLORSPACEMATRIX
+- [ ] SDL_COLORSPACEPRIMARIES
+- [ ] SDL_COLORSPACERANGE
+- [ ] SDL_COLORSPACETRANSFER
+- [ ] SDL_COLORSPACETYPE
+- [ ] SDL_COMPILE_TIME_ASSERT
+- [ ] SDL_CompilerBarrier
+- [ ] SDL_const_cast
+- [ ] SDL_copyp
+- [ ] SDL_CPUPauseInstruction
+- [ ] SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE
+- [ ] SDL_DECLSPEC
+- [ ] SDL_DEFINE_AUDIO_FORMAT
+- [ ] SDL_DEFINE_COLORSPACE
+- [ ] SDL_DEFINE_PIXELFORMAT
+- [ ] SDL_DEFINE_PIXELFOURCC
+- [ ] SDL_DEPRECATED
+- [ ] SDL_disabled_assert
+- [ ] SDL_ELF_NOTE_DLOPEN
+- [ ] SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED
+- [ ] SDL_ELF_NOTE_DLOPEN_PRIORITY_REQUIRED
+- [ ] SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED
+- [ ] SDL_enabled_assert
+- [ ] SDL_EXCLUDES
+- [ ] SDL_FALLTHROUGH
+- [ ] SDL_FILE
+- [ ] SDL_FLOATWORDORDER
+- [ ] SDL_FLT_EPSILON
+- [ ] SDL_FORCE_INLINE
+- [ ] SDL_FOURCC
+- [ ] SDL_FUNCTION
+- [ ] SDL_FUNCTION_POINTER_IS_VOID_POINTER
+- [ ] SDL_GL_CONTEXT_DEBUG_FLAG
+- [ ] SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG
+- [ ] SDL_GL_CONTEXT_PROFILE_COMPATIBILITY
+- [ ] SDL_GL_CONTEXT_PROFILE_CORE
+- [ ] SDL_GL_CONTEXT_PROFILE_ES
+- [ ] SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
+- [ ] SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE
+- [ ] SDL_GL_CONTEXT_RESET_ISOLATION_FLAG
+- [ ] SDL_GL_CONTEXT_RESET_LOSE_CONTEXT
+- [ ] SDL_GL_CONTEXT_RESET_NO_NOTIFICATION
+- [ ] SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG
+- [ ] SDL_GLOB_CASEINSENSITIVE
+- [ ] SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+- [ ] SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+- [ ] SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ
+- [ ] SDL_GPU_BUFFERUSAGE_INDEX
+- [ ] SDL_GPU_BUFFERUSAGE_INDIRECT
+- [ ] SDL_GPU_BUFFERUSAGE_VERTEX
+- [ ] SDL_GPU_COLORCOMPONENT_A
+- [ ] SDL_GPU_COLORCOMPONENT_B
+- [ ] SDL_GPU_COLORCOMPONENT_G
+- [ ] SDL_GPU_COLORCOMPONENT_R
+- [ ] SDL_GPU_RENDERER
+- [ ] SDL_GPU_SHADERFORMAT_DXBC
+- [ ] SDL_GPU_SHADERFORMAT_DXIL
+- [ ] SDL_GPU_SHADERFORMAT_INVALID
+- [ ] SDL_GPU_SHADERFORMAT_METALLIB
+- [ ] SDL_GPU_SHADERFORMAT_MSL
+- [ ] SDL_GPU_SHADERFORMAT_PRIVATE
+- [ ] SDL_GPU_SHADERFORMAT_SPIRV
+- [ ] SDL_GPU_TEXTUREUSAGE_COLOR_TARGET
+- [ ] SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_READ
+- [ ] SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_SIMULTANEOUS_READ_WRITE
+- [ ] SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE
+- [ ] SDL_GPU_TEXTUREUSAGE_DEPTH_STENCIL_TARGET
+- [ ] SDL_GPU_TEXTUREUSAGE_GRAPHICS_STORAGE_READ
+- [ ] SDL_GPU_TEXTUREUSAGE_SAMPLER
+- [ ] SDL_GUARDED_BY
+- [ ] SDL_HAPTIC_AUTOCENTER
+- [ ] SDL_HAPTIC_CARTESIAN
+- [ ] SDL_HAPTIC_CONSTANT
+- [ ] SDL_HAPTIC_CUSTOM
+- [ ] SDL_HAPTIC_DAMPER
+- [ ] SDL_HAPTIC_FRICTION
+- [ ] SDL_HAPTIC_GAIN
+- [ ] SDL_HAPTIC_INERTIA
+- [ ] SDL_HAPTIC_INFINITY
+- [ ] SDL_HAPTIC_LEFTRIGHT
+- [ ] SDL_HAPTIC_PAUSE
+- [ ] SDL_HAPTIC_POLAR
+- [ ] SDL_HAPTIC_RAMP
+- [ ] SDL_HAPTIC_RESERVED1
+- [ ] SDL_HAPTIC_RESERVED2
+- [ ] SDL_HAPTIC_RESERVED3
+- [ ] SDL_HAPTIC_SAWTOOTHDOWN
+- [ ] SDL_HAPTIC_SAWTOOTHUP
+- [ ] SDL_HAPTIC_SINE
+- [ ] SDL_HAPTIC_SPHERICAL
+- [ ] SDL_HAPTIC_SPRING
+- [ ] SDL_HAPTIC_SQUARE
+- [ ] SDL_HAPTIC_STATUS
+- [ ] SDL_HAPTIC_STEERING_AXIS
+- [ ] SDL_HAPTIC_TRIANGLE
+- [ ] SDL_HAS_BUILTIN
+- [ ] SDL_HAS_EXTENSION
+- [ ] SDL_HAS_TARGET_ATTRIBS
+- [ ] SDL_HAT_CENTERED
+- [ ] SDL_HAT_DOWN
+- [ ] SDL_HAT_LEFT
+- [ ] SDL_HAT_LEFTDOWN
+- [ ] SDL_HAT_LEFTUP
+- [ ] SDL_HAT_RIGHT
+- [ ] SDL_HAT_RIGHTDOWN
+- [ ] SDL_HAT_RIGHTUP
+- [ ] SDL_HAT_UP
+- [ ] SDL_HINT_ALLOW_ALT_TAB_WHILE_GRABBED
+- [ ] SDL_HINT_ANDROID_ALLOW_PERSISTENT_FOLDER_ACCESS
+- [ ] SDL_HINT_ANDROID_ALLOW_RECREATE_ACTIVITY
+- [ ] SDL_HINT_ANDROID_BLOCK_ON_PAUSE
+- [ ] SDL_HINT_ANDROID_LOW_LATENCY_AUDIO
+- [ ] SDL_HINT_ANDROID_TRAP_BACK_BUTTON
+- [ ] SDL_HINT_APP_ID
+- [ ] SDL_HINT_APP_NAME
+- [ ] SDL_HINT_APPLE_TV_CONTROLLER_UI_EVENTS
+- [ ] SDL_HINT_APPLE_TV_REMOTE_ALLOW_ROTATION
+- [ ] SDL_HINT_ASSERT
+- [ ] SDL_HINT_AUDIO_ALSA_DEFAULT_DEVICE
+- [ ] SDL_HINT_AUDIO_ALSA_DEFAULT_PLAYBACK_DEVICE
+- [ ] SDL_HINT_AUDIO_ALSA_DEFAULT_RECORDING_DEVICE
+- [ ] SDL_HINT_AUDIO_CATEGORY
+- [ ] SDL_HINT_AUDIO_CHANNELS
+- [ ] SDL_HINT_AUDIO_DEVICE_APP_ICON_NAME
+- [ ] SDL_HINT_AUDIO_DEVICE_RAW_STREAM
+- [ ] SDL_HINT_AUDIO_DEVICE_SAMPLE_FRAMES
+- [ ] SDL_HINT_AUDIO_DEVICE_STREAM_NAME
+- [ ] SDL_HINT_AUDIO_DEVICE_STREAM_ROLE
+- [ ] SDL_HINT_AUDIO_DISK_INPUT_FILE
+- [ ] SDL_HINT_AUDIO_DISK_OUTPUT_FILE
+- [ ] SDL_HINT_AUDIO_DISK_TIMESCALE
+- [ ] SDL_HINT_AUDIO_DRIVER
+- [ ] SDL_HINT_AUDIO_DUCK_OTHERS
+- [ ] SDL_HINT_AUDIO_DUMMY_TIMESCALE
+- [ ] SDL_HINT_AUDIO_FORMAT
+- [ ] SDL_HINT_AUDIO_FREQUENCY
+- [ ] SDL_HINT_AUDIO_INCLUDE_MONITORS
+- [ ] SDL_HINT_AUTO_UPDATE_JOYSTICKS
+- [ ] SDL_HINT_AUTO_UPDATE_SENSORS
+- [ ] SDL_HINT_BMP_SAVE_LEGACY_FORMAT
+- [ ] SDL_HINT_CAMERA_DRIVER
+- [ ] SDL_HINT_CPU_FEATURE_MASK
+- [ ] SDL_HINT_DISPLAY_USABLE_BOUNDS
+- [ ] SDL_HINT_DOS_ALLOW_DIRECT_FRAMEBUFFER
+- [ ] SDL_HINT_EGL_LIBRARY
+- [ ] SDL_HINT_EMSCRIPTEN_ASYNCIFY
+- [ ] SDL_HINT_EMSCRIPTEN_CANVAS_SELECTOR
+- [ ] SDL_HINT_EMSCRIPTEN_KEYBOARD_ELEMENT
+- [ ] SDL_HINT_ENABLE_SCREEN_KEYBOARD
+- [ ] SDL_HINT_EVDEV_DEVICES
+- [ ] SDL_HINT_EVENT_LOGGING
+- [ ] SDL_HINT_FILE_DIALOG_DRIVER
+- [ ] SDL_HINT_FORCE_RAISEWINDOW
+- [ ] SDL_HINT_FRAMEBUFFER_ACCELERATION
+- [ ] SDL_HINT_GAMECONTROLLER_IGNORE_DEVICES
+- [ ] SDL_HINT_GAMECONTROLLER_IGNORE_DEVICES_EXCEPT
+- [ ] SDL_HINT_GAMECONTROLLER_SENSOR_FUSION
+- [ ] SDL_HINT_GAMECONTROLLERCONFIG
+- [ ] SDL_HINT_GAMECONTROLLERCONFIG_FILE
+- [ ] SDL_HINT_GAMECONTROLLERTYPE
+- [ ] SDL_HINT_GDK_TEXTINPUT_DEFAULT_TEXT
+- [ ] SDL_HINT_GDK_TEXTINPUT_DESCRIPTION
+- [ ] SDL_HINT_GDK_TEXTINPUT_MAX_LENGTH
+- [ ] SDL_HINT_GDK_TEXTINPUT_SCOPE
+- [ ] SDL_HINT_GDK_TEXTINPUT_TITLE
+- [ ] SDL_HINT_GPU_DRIVER
+- [ ] SDL_HINT_HIDAPI_ENUMERATE_ONLY_CONTROLLERS
+- [ ] SDL_HINT_HIDAPI_IGNORE_DEVICES
+- [ ] SDL_HINT_HIDAPI_LIBUSB
+- [ ] SDL_HINT_HIDAPI_LIBUSB_GAMECUBE
+- [ ] SDL_HINT_HIDAPI_LIBUSB_WHITELIST
+- [ ] SDL_HINT_HIDAPI_UDEV
+- [ ] SDL_HINT_IME_IMPLEMENTED_UI
+- [ ] SDL_HINT_INVALID_PARAM_CHECKS
+- [ ] SDL_HINT_IOS_HIDE_HOME_INDICATOR
+- [ ] SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS
+- [ ] SDL_HINT_JOYSTICK_ARCADESTICK_DEVICES
+- [ ] SDL_HINT_JOYSTICK_ARCADESTICK_DEVICES_EXCLUDED
+- [ ] SDL_HINT_JOYSTICK_BLACKLIST_DEVICES
+- [ ] SDL_HINT_JOYSTICK_BLACKLIST_DEVICES_EXCLUDED
+- [ ] SDL_HINT_JOYSTICK_DEVICE
+- [ ] SDL_HINT_JOYSTICK_DIRECTINPUT
+- [ ] SDL_HINT_JOYSTICK_DRUM_DEVICES
+- [ ] SDL_HINT_JOYSTICK_ENHANCED_REPORTS
+- [ ] SDL_HINT_JOYSTICK_FLIGHTSTICK_DEVICES
+- [ ] SDL_HINT_JOYSTICK_FLIGHTSTICK_DEVICES_EXCLUDED
+- [ ] SDL_HINT_JOYSTICK_GAMECUBE_DEVICES
+- [ ] SDL_HINT_JOYSTICK_GAMECUBE_DEVICES_EXCLUDED
+- [ ] SDL_HINT_JOYSTICK_GAMEINPUT
+- [ ] SDL_HINT_JOYSTICK_GAMEINPUT_RAW
+- [ ] SDL_HINT_JOYSTICK_GUITAR_DEVICES
+- [ ] SDL_HINT_JOYSTICK_HAPTIC_AXES
+- [ ] SDL_HINT_JOYSTICK_HIDAPI
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_8BITDO
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_COMBINE_JOY_CONS
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_FLYDIGI
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_GAMECUBE
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_GAMECUBE_RUMBLE_BRAKE
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_GAMESIR
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_GIP
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_GIP_RESET_FOR_METADATA
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_JOY_CONS
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_JOYCON_HOME_LED
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_LG4FF
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_LUNA
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_NINTENDO_CLASSIC
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_PS3
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_PS3_SIXAXIS_DRIVER
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_PS4
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_PS4_REPORT_INTERVAL
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_PS5
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_PS5_PLAYER_LED
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_SHIELD
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_SINPUT
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_STADIA
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_STEAM
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_STEAM_HOME_LED
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_STEAM_HORI
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_STEAMDECK
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_SWITCH
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_SWITCH2
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_SWITCH_HOME_LED
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_SWITCH_PLAYER_LED
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_VERTICAL_JOY_CONS
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_WII
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_WII_PLAYER_LED
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_XBOX
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_XBOX_360
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_XBOX_360_PLAYER_LED
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_XBOX_360_WIRELESS
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_XBOX_ONE
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_XBOX_ONE_HOME_LED
+- [ ] SDL_HINT_JOYSTICK_HIDAPI_ZUIKI
+- [ ] SDL_HINT_JOYSTICK_IOKIT
+- [ ] SDL_HINT_JOYSTICK_LINUX_CLASSIC
+- [ ] SDL_HINT_JOYSTICK_LINUX_DEADZONES
+- [ ] SDL_HINT_JOYSTICK_LINUX_DIGITAL_HATS
+- [ ] SDL_HINT_JOYSTICK_LINUX_HAT_DEADZONES
+- [ ] SDL_HINT_JOYSTICK_MFI
+- [ ] SDL_HINT_JOYSTICK_RAWINPUT
+- [ ] SDL_HINT_JOYSTICK_RAWINPUT_CORRELATE_XINPUT
+- [ ] SDL_HINT_JOYSTICK_ROG_CHAKRAM
+- [ ] SDL_HINT_JOYSTICK_THREAD
+- [ ] SDL_HINT_JOYSTICK_THROTTLE_DEVICES
+- [ ] SDL_HINT_JOYSTICK_THROTTLE_DEVICES_EXCLUDED
+- [ ] SDL_HINT_JOYSTICK_WGI
+- [ ] SDL_HINT_JOYSTICK_WHEEL_DEVICES
+- [ ] SDL_HINT_JOYSTICK_WHEEL_DEVICES_EXCLUDED
+- [ ] SDL_HINT_JOYSTICK_ZERO_CENTERED_DEVICES
+- [ ] SDL_HINT_KEYCODE_OPTIONS
+- [ ] SDL_HINT_KMSDRM_ATOMIC
+- [ ] SDL_HINT_KMSDRM_DEVICE_INDEX
+- [ ] SDL_HINT_KMSDRM_REQUIRE_DRM_MASTER
+- [ ] SDL_HINT_LOGGING
+- [ ] SDL_HINT_MAC_BACKGROUND_APP
+- [ ] SDL_HINT_MAC_CTRL_CLICK_EMULATE_RIGHT_CLICK
+- [ ] SDL_HINT_MAC_OPENGL_ASYNC_DISPATCH
+- [ ] SDL_HINT_MAC_OPTION_AS_ALT
+- [ ] SDL_HINT_MAC_PRESS_AND_HOLD
+- [ ] SDL_HINT_MAC_SCROLL_MOMENTUM
+- [ ] SDL_HINT_MAIN_CALLBACK_RATE
+- [ ] SDL_HINT_MOUSE_AUTO_CAPTURE
+- [ ] SDL_HINT_MOUSE_DEFAULT_SYSTEM_CURSOR
+- [ ] SDL_HINT_MOUSE_DOUBLE_CLICK_RADIUS
+- [ ] SDL_HINT_MOUSE_DOUBLE_CLICK_TIME
+- [ ] SDL_HINT_MOUSE_DPI_SCALE_CURSORS
+- [ ] SDL_HINT_MOUSE_EMULATE_WARP_WITH_RELATIVE
+- [ ] SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH
+- [ ] SDL_HINT_MOUSE_NORMAL_SPEED_SCALE
+- [ ] SDL_HINT_MOUSE_RELATIVE_CURSOR_VISIBLE
+- [ ] SDL_HINT_MOUSE_RELATIVE_MODE_CENTER
+- [ ] SDL_HINT_MOUSE_RELATIVE_SPEED_SCALE
+- [ ] SDL_HINT_MOUSE_RELATIVE_SYSTEM_SCALE
+- [ ] SDL_HINT_MOUSE_RELATIVE_WARP_MOTION
+- [ ] SDL_HINT_MOUSE_TOUCH_EVENTS
+- [ ] SDL_HINT_MUTE_CONSOLE_KEYBOARD
+- [ ] SDL_HINT_NO_SIGNAL_HANDLERS
+- [ ] SDL_HINT_OPENGL_ES_DRIVER
+- [ ] SDL_HINT_OPENGL_FORCE_SRGB_CAPABLE
+- [ ] SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER
+- [ ] SDL_HINT_OPENGL_LIBRARY
+- [ ] SDL_HINT_OPENVR_LIBRARY
+- [ ] SDL_HINT_OPENXR_LIBRARY
+- [ ] SDL_HINT_ORIENTATIONS
+- [ ] SDL_HINT_PEN_MOUSE_EVENTS
+- [ ] SDL_HINT_PEN_TOUCH_EVENTS
+- [ ] SDL_HINT_POLL_SENTINEL
+- [ ] SDL_HINT_PREFERRED_LOCALES
+- [ ] SDL_HINT_PS2_GS_HEIGHT
+- [ ] SDL_HINT_PS2_GS_MODE
+- [ ] SDL_HINT_PS2_GS_PROGRESSIVE
+- [ ] SDL_HINT_PS2_GS_WIDTH
+- [ ] SDL_HINT_QUIT_ON_LAST_WINDOW_CLOSE
+- [ ] SDL_HINT_RENDER_DIRECT3D11_DEBUG
+- [ ] SDL_HINT_RENDER_DIRECT3D11_WARP
+- [ ] SDL_HINT_RENDER_DIRECT3D_THREADSAFE
+- [ ] SDL_HINT_RENDER_DRIVER
+- [ ] SDL_HINT_RENDER_GPU_DEBUG
+- [ ] SDL_HINT_RENDER_GPU_LOW_POWER
+- [ ] SDL_HINT_RENDER_LINE_METHOD
+- [ ] SDL_HINT_RENDER_METAL_PREFER_LOW_POWER_DEVICE
+- [ ] SDL_HINT_RENDER_VSYNC
+- [ ] SDL_HINT_RENDER_VULKAN_DEBUG
+- [ ] SDL_HINT_RETURN_KEY_HIDES_IME
+- [ ] SDL_HINT_ROG_GAMEPAD_MICE
+- [ ] SDL_HINT_ROG_GAMEPAD_MICE_EXCLUDED
+- [ ] SDL_HINT_RPI_VIDEO_LAYER
+- [ ] SDL_HINT_SCREENSAVER_INHIBIT_ACTIVITY_NAME
+- [ ] SDL_HINT_SHUTDOWN_DBUS_ON_QUIT
+- [ ] SDL_HINT_STORAGE_TITLE_DRIVER
+- [ ] SDL_HINT_STORAGE_USER_DRIVER
+- [ ] SDL_HINT_THREAD_FORCE_REALTIME_TIME_CRITICAL
+- [ ] SDL_HINT_THREAD_PRIORITY_POLICY
+- [ ] SDL_HINT_TIMER_RESOLUTION
+- [ ] SDL_HINT_TOUCH_MOUSE_EVENTS
+- [ ] SDL_HINT_TRACKPAD_IS_TOUCH_ONLY
+- [ ] SDL_HINT_TV_REMOTE_AS_JOYSTICK
+- [ ] SDL_HINT_VIDEO_ALLOW_SCREENSAVER
+- [ ] SDL_HINT_VIDEO_DISPLAY_PRIORITY
+- [ ] SDL_HINT_VIDEO_DOUBLE_BUFFER
+- [ ] SDL_HINT_VIDEO_DRIVER
+- [ ] SDL_HINT_VIDEO_DUMMY_SAVE_FRAMES
+- [ ] SDL_HINT_VIDEO_EGL_ALLOW_GETDISPLAY_FALLBACK
+- [ ] SDL_HINT_VIDEO_FORCE_EGL
+- [ ] SDL_HINT_VIDEO_MAC_FULLSCREEN_MENU_VISIBILITY
+- [ ] SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES
+- [ ] SDL_HINT_VIDEO_MATCH_EXCLUSIVE_MODE_ON_MOVE
+- [ ] SDL_HINT_VIDEO_METAL_AUTO_RESIZE_DRAWABLE
+- [ ] SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS
+- [ ] SDL_HINT_VIDEO_OFFSCREEN_SAVE_FRAMES
+- [ ] SDL_HINT_VIDEO_SYNC_WINDOW_OPERATIONS
+- [ ] SDL_HINT_VIDEO_WAYLAND_ALLOW_LIBDECOR
+- [ ] SDL_HINT_VIDEO_WAYLAND_MODE_EMULATION
+- [ ] SDL_HINT_VIDEO_WAYLAND_MODE_SCALING
+- [ ] SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR
+- [ ] SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY
+- [ ] SDL_HINT_VIDEO_WIN_D3DCOMPILER
+- [ ] SDL_HINT_VIDEO_X11_ENABLE_XSYNC_EXT
+- [ ] SDL_HINT_VIDEO_X11_EXTERNAL_WINDOW_INPUT
+- [ ] SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR
+- [ ] SDL_HINT_VIDEO_X11_NET_WM_PING
+- [ ] SDL_HINT_VIDEO_X11_NODIRECTCOLOR
+- [ ] SDL_HINT_VIDEO_X11_SCALING_FACTOR
+- [ ] SDL_HINT_VIDEO_X11_VISUALID
+- [ ] SDL_HINT_VIDEO_X11_WINDOW_VISUALID
+- [ ] SDL_HINT_VIDEO_X11_XRANDR
+- [ ] SDL_HINT_VITA_ENABLE_BACK_TOUCH
+- [ ] SDL_HINT_VITA_ENABLE_FRONT_TOUCH
+- [ ] SDL_HINT_VITA_MODULE_PATH
+- [ ] SDL_HINT_VITA_PVR_INIT
+- [ ] SDL_HINT_VITA_PVR_OPENGL
+- [ ] SDL_HINT_VITA_RESOLUTION
+- [ ] SDL_HINT_VITA_TOUCH_MOUSE_DEVICE
+- [ ] SDL_HINT_VULKAN_DISPLAY
+- [ ] SDL_HINT_VULKAN_LIBRARY
+- [ ] SDL_HINT_WAVE_CHUNK_LIMIT
+- [ ] SDL_HINT_WAVE_FACT_CHUNK
+- [ ] SDL_HINT_WAVE_RIFF_CHUNK_SIZE
+- [ ] SDL_HINT_WAVE_TRUNCATION
+- [ ] SDL_HINT_WINDOW_ACTIVATE_WHEN_RAISED
+- [ ] SDL_HINT_WINDOW_ACTIVATE_WHEN_SHOWN
+- [ ] SDL_HINT_WINDOW_ALLOW_TOPMOST
+- [ ] SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN
+- [ ] SDL_HINT_WINDOWS_CLOSE_ON_ALT_F4
+- [ ] SDL_HINT_WINDOWS_ENABLE_MENU_MNEMONICS
+- [ ] SDL_HINT_WINDOWS_ENABLE_MESSAGELOOP
+- [ ] SDL_HINT_WINDOWS_ERASE_BACKGROUND_MODE
+- [ ] SDL_HINT_WINDOWS_FORCE_SEMAPHORE_KERNEL
+- [ ] SDL_HINT_WINDOWS_GAMEINPUT
+- [ ] SDL_HINT_WINDOWS_INTRESOURCE_ICON
+- [ ] SDL_HINT_WINDOWS_INTRESOURCE_ICON_SMALL
+- [ ] SDL_HINT_WINDOWS_RAW_KEYBOARD
+- [ ] SDL_HINT_WINDOWS_RAW_KEYBOARD_EXCLUDE_HOTKEYS
+- [ ] SDL_HINT_WINDOWS_RAW_KEYBOARD_INPUTSINK
+- [ ] SDL_HINT_WINDOWS_USE_D3D9EX
+- [ ] SDL_HINT_X11_FORCE_OVERRIDE_REDIRECT
+- [ ] SDL_HINT_X11_WINDOW_TYPE
+- [ ] SDL_HINT_X11_XCB_LIBRARY
+- [ ] SDL_HINT_XINPUT_ENABLED
+- [ ] SDL_ICONV_E2BIG
+- [ ] SDL_ICONV_EILSEQ
+- [ ] SDL_ICONV_EINVAL
+- [ ] SDL_ICONV_ERROR
+- [ ] SDL_iconv_utf8_locale
+- [ ] SDL_iconv_utf8_ucs2
+- [ ] SDL_iconv_utf8_ucs4
+- [ ] SDL_iconv_wchar_utf8
+- [ ] SDL_IN_BYTECAP
+- [ ] SDL_INIT_AUDIO
+- [ ] SDL_INIT_CAMERA
+- [ ] SDL_INIT_EVENTS
+- [ ] SDL_INIT_GAMEPAD
+- [ ] SDL_INIT_HAPTIC
+- [ ] SDL_INIT_INTERFACE
+- [ ] SDL_INIT_JOYSTICK
+- [ ] SDL_INIT_SENSOR
+- [ ] SDL_INIT_VIDEO
+- [ ] SDL_INLINE
+- [ ] SDL_INOUT_Z_CAP
+- [ ] SDL_INVALID_UNICODE_CODEPOINT
+- [ ] SDL_InvalidParamError
+- [ ] SDL_ISCOLORSPACE_FULL_RANGE
+- [ ] SDL_ISCOLORSPACE_LIMITED_RANGE
+- [ ] SDL_ISCOLORSPACE_MATRIX_BT2020_NCL
+- [ ] SDL_ISCOLORSPACE_MATRIX_BT601
+- [ ] SDL_ISCOLORSPACE_MATRIX_BT709
+- [ ] SDL_ISPIXELFORMAT_10BIT
+- [ ] SDL_ISPIXELFORMAT_ALPHA
+- [ ] SDL_ISPIXELFORMAT_ARRAY
+- [ ] SDL_ISPIXELFORMAT_FLOAT
+- [ ] SDL_ISPIXELFORMAT_FOURCC
+- [ ] SDL_ISPIXELFORMAT_INDEXED
+- [ ] SDL_ISPIXELFORMAT_PACKED
+- [ ] SDL_JOYSTICK_AXIS_MAX
+- [ ] SDL_JOYSTICK_AXIS_MIN
+- [ ] SDL_KMOD_ALT
+- [ ] SDL_KMOD_CAPS
+- [ ] SDL_KMOD_CTRL
+- [ ] SDL_KMOD_GUI
+- [ ] SDL_KMOD_LALT
+- [ ] SDL_KMOD_LCTRL
+- [ ] SDL_KMOD_LEVEL5
+- [ ] SDL_KMOD_LGUI
+- [ ] SDL_KMOD_LSHIFT
+- [ ] SDL_KMOD_MODE
+- [ ] SDL_KMOD_NONE
+- [ ] SDL_KMOD_NUM
+- [ ] SDL_KMOD_RALT
+- [ ] SDL_KMOD_RCTRL
+- [ ] SDL_KMOD_RGUI
+- [ ] SDL_KMOD_RSHIFT
+- [ ] SDL_KMOD_SCROLL
+- [ ] SDL_KMOD_SHIFT
+- [ ] SDL_LASX_INTRINSICS
+- [ ] SDL_LIL_ENDIAN
+- [ ] SDL_LINE
+- [ ] SDL_LSX_INTRINSICS
+- [ ] SDL_MAIN_AVAILABLE
+- [ ] SDL_MAIN_HANDLED
+- [ ] SDL_MAIN_NEEDED
+- [ ] SDL_MAIN_USE_CALLBACKS
+- [ ] SDL_MAJOR_VERSION
+- [ ] SDL_MALLOC
+- [ ] SDL_max
+- [ ] SDL_MAX_SINT16
+- [ ] SDL_MAX_SINT32
+- [ ] SDL_MAX_SINT64
+- [ ] SDL_MAX_SINT8
+- [ ] SDL_MAX_TIME
+- [ ] SDL_MAX_UINT16
+- [ ] SDL_MAX_UINT32
+- [ ] SDL_MAX_UINT64
+- [ ] SDL_MAX_UINT8
+- [ ] SDL_MemoryBarrierAcquire
+- [ ] SDL_MemoryBarrierRelease
+- [ ] SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT
+- [ ] SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT
+- [ ] SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT
+- [ ] SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT
+- [ ] SDL_MESSAGEBOX_ERROR
+- [ ] SDL_MESSAGEBOX_INFORMATION
+- [ ] SDL_MESSAGEBOX_WARNING
+- [ ] SDL_MICRO_VERSION
+- [ ] SDL_min
+- [ ] SDL_MIN_SINT16
+- [ ] SDL_MIN_SINT32
+- [ ] SDL_MIN_SINT64
+- [ ] SDL_MIN_SINT8
+- [ ] SDL_MIN_TIME
+- [ ] SDL_MIN_UINT16
+- [ ] SDL_MIN_UINT32
+- [ ] SDL_MIN_UINT64
+- [ ] SDL_MIN_UINT8
+- [ ] SDL_MINOR_VERSION
+- [ ] SDL_MMX_INTRINSICS
+- [ ] SDL_MOUSE_TOUCHID
+- [ ] SDL_MS_PER_SECOND
+- [ ] SDL_MS_TO_NS
+- [ ] SDL_MUSTLOCK
+- [ ] SDL_NEON_INTRINSICS
+- [ ] SDL_NO_THREAD_SAFETY_ANALYSIS
+- [ ] SDL_NODISCARD
+- [ ] SDL_NOLONGLONG
+- [ ] SDL_NORETURN
+- [ ] SDL_NS_PER_MS
+- [ ] SDL_NS_PER_SECOND
+- [ ] SDL_NS_PER_US
+- [ ] SDL_NS_TO_MS
+- [ ] SDL_NS_TO_SECONDS
+- [ ] SDL_NS_TO_US
+- [ ] SDL_NULL_WHILE_LOOP_CONDITION
+- [ ] SDL_OUT_BYTECAP
+- [ ] SDL_OUT_CAP
+- [ ] SDL_OUT_Z_BYTECAP
+- [ ] SDL_OUT_Z_CAP
+- [ ] SDL_PEN_INPUT_BUTTON_1
+- [ ] SDL_PEN_INPUT_BUTTON_2
+- [ ] SDL_PEN_INPUT_BUTTON_3
+- [ ] SDL_PEN_INPUT_BUTTON_4
+- [ ] SDL_PEN_INPUT_BUTTON_5
+- [ ] SDL_PEN_INPUT_DOWN
+- [ ] SDL_PEN_INPUT_ERASER_TIP
+- [ ] SDL_PEN_INPUT_IN_PROXIMITY
+- [ ] SDL_PEN_MOUSEID
+- [ ] SDL_PEN_TOUCHID
+- [ ] SDL_PI_D
+- [ ] SDL_PI_F
+- [ ] SDL_PIXELFLAG
+- [ ] SDL_PIXELLAYOUT
+- [ ] SDL_PIXELORDER
+- [ ] SDL_PIXELTYPE
+- [ ] SDL_PLATFORM_3DS
+- [ ] SDL_PLATFORM_AIX
+- [ ] SDL_PLATFORM_ANDROID
+- [ ] SDL_PLATFORM_APPLE
+- [ ] SDL_PLATFORM_BSDI
+- [ ] SDL_PLATFORM_CYGWIN
+- [ ] SDL_PLATFORM_DOS
+- [ ] SDL_PLATFORM_EMSCRIPTEN
+- [ ] SDL_PLATFORM_FREEBSD
+- [ ] SDL_PLATFORM_GDK
+- [ ] SDL_PLATFORM_HAIKU
+- [ ] SDL_PLATFORM_HPUX
+- [ ] SDL_PLATFORM_HURD
+- [ ] SDL_PLATFORM_IOS
+- [ ] SDL_PLATFORM_IRIX
+- [ ] SDL_PLATFORM_LINUX
+- [ ] SDL_PLATFORM_MACOS
+- [ ] SDL_PLATFORM_NETBSD
+- [ ] SDL_PLATFORM_NGAGE
+- [ ] SDL_PLATFORM_OPENBSD
+- [ ] SDL_PLATFORM_OS2
+- [ ] SDL_PLATFORM_OSF
+- [ ] SDL_PLATFORM_PS2
+- [ ] SDL_PLATFORM_PSP
+- [ ] SDL_PLATFORM_QNXNTO
+- [ ] SDL_PLATFORM_RISCOS
+- [ ] SDL_PLATFORM_SOLARIS
+- [ ] SDL_PLATFORM_TVOS
+- [ ] SDL_PLATFORM_UNIX
+- [ ] SDL_PLATFORM_VISIONOS
+- [ ] SDL_PLATFORM_VITA
+- [ ] SDL_PLATFORM_WIN32
+- [ ] SDL_PLATFORM_WINDOWS
+- [ ] SDL_PLATFORM_WINGDK
+- [ ] SDL_PLATFORM_XBOXONE
+- [ ] SDL_PLATFORM_XBOXSERIES
+- [ ] SDL_PRILL_PREFIX
+- [ ] SDL_PRILLd
+- [ ] SDL_PRILLu
+- [ ] SDL_PRILLx
+- [ ] SDL_PRILLX
+- [ ] SDL_PRINTF_FORMAT_STRING
+- [ ] SDL_PRINTF_VARARG_FUNC
+- [ ] SDL_PRINTF_VARARG_FUNCV
+- [ ] SDL_PRIs32
+- [ ] SDL_PRIs64
+- [ ] SDL_PRIu32
+- [ ] SDL_PRIu64
+- [ ] SDL_PRIX32
+- [ ] SDL_PRIx32
+- [ ] SDL_PRIx64
+- [ ] SDL_PRIX64
+- [ ] SDL_PROP_APP_METADATA_COPYRIGHT_STRING
+- [ ] SDL_PROP_APP_METADATA_CREATOR_STRING
+- [ ] SDL_PROP_APP_METADATA_IDENTIFIER_STRING
+- [ ] SDL_PROP_APP_METADATA_NAME_STRING
+- [ ] SDL_PROP_APP_METADATA_TYPE_STRING
+- [ ] SDL_PROP_APP_METADATA_URL_STRING
+- [ ] SDL_PROP_APP_METADATA_VERSION_STRING
+- [ ] SDL_PROP_AUDIOSTREAM_AUTO_CLEANUP_BOOLEAN
+- [ ] SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN
+- [ ] SDL_PROP_DISPLAY_KMSDRM_PANEL_ORIENTATION_NUMBER
+- [ ] SDL_PROP_DISPLAY_WAYLAND_WL_OUTPUT_POINTER
+- [ ] SDL_PROP_DISPLAY_WINDOWS_HMONITOR_POINTER
+- [ ] SDL_PROP_FILE_DIALOG_ACCEPT_STRING
+- [ ] SDL_PROP_FILE_DIALOG_CANCEL_STRING
+- [ ] SDL_PROP_FILE_DIALOG_FILTERS_POINTER
+- [ ] SDL_PROP_FILE_DIALOG_LOCATION_STRING
+- [ ] SDL_PROP_FILE_DIALOG_MANY_BOOLEAN
+- [ ] SDL_PROP_FILE_DIALOG_NFILTERS_NUMBER
+- [ ] SDL_PROP_FILE_DIALOG_TITLE_STRING
+- [ ] SDL_PROP_FILE_DIALOG_WINDOW_POINTER
+- [ ] SDL_PROP_GAMEPAD_CAP_MONO_LED_BOOLEAN
+- [ ] SDL_PROP_GAMEPAD_CAP_PLAYER_LED_BOOLEAN
+- [ ] SDL_PROP_GAMEPAD_CAP_RGB_LED_BOOLEAN
+- [ ] SDL_PROP_GAMEPAD_CAP_RUMBLE_BOOLEAN
+- [ ] SDL_PROP_GAMEPAD_CAP_TRIGGER_RUMBLE_BOOLEAN
+- [ ] SDL_PROP_GLOBAL_NOTIFICATION_HEADER_ICON_STRING
+- [ ] SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_POINTER
+- [ ] SDL_PROP_GPU_BUFFER_CREATE_NAME_STRING
+- [ ] SDL_PROP_GPU_COMPUTEPIPELINE_CREATE_NAME_STRING
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_D3D12_AGILITY_SDK_PATH_STRING
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_D3D12_AGILITY_SDK_VERSION_NUMBER
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_D3D12_ALLOW_FEWER_RESOURCE_SLOTS_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_D3D12_SEMANTIC_NAME_STRING
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_DEBUGMODE_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_FEATURE_ANISOTROPY_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_FEATURE_CLIP_DISTANCE_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_FEATURE_DEPTH_CLAMPING_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_FEATURE_INDIRECT_DRAW_FIRST_INSTANCE_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_METAL_ALLOW_MACFAMILY1
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_METAL_ALLOW_MACFAMILY1_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_PREFERLOWPOWER_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_SHADERS_DXBC_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_SHADERS_DXIL_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_SHADERS_METALLIB_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_SHADERS_MSL_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_SHADERS_PRIVATE_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_SHADERS_SPIRV_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_VERBOSE_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_VULKAN_OPTIONS_POINTER
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_VULKAN_REQUIRE_HARDWARE_ACCELERATION
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_VULKAN_REQUIRE_HARDWARE_ACCELERATION_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_XR_APPLICATION_NAME_STRING
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_XR_APPLICATION_VERSION_NUMBER
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_XR_ENABLE_BOOLEAN
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_XR_ENGINE_NAME_STRING
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_XR_ENGINE_VERSION_NUMBER
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_XR_EXTENSION_COUNT_NUMBER
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_XR_EXTENSION_NAMES_POINTER
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_XR_FORM_FACTOR_NUMBER
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_XR_INSTANCE_POINTER
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_XR_LAYER_COUNT_NUMBER
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_XR_LAYER_NAMES_POINTER
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_XR_SYSTEM_ID_POINTER
+- [ ] SDL_PROP_GPU_DEVICE_CREATE_XR_VERSION_NUMBER
+- [ ] SDL_PROP_GPU_DEVICE_DRIVER_INFO_STRING
+- [ ] SDL_PROP_GPU_DEVICE_DRIVER_NAME_STRING
+- [ ] SDL_PROP_GPU_DEVICE_DRIVER_VERSION_STRING
+- [ ] SDL_PROP_GPU_DEVICE_NAME_STRING
+- [ ] SDL_PROP_GPU_GRAPHICSPIPELINE_CREATE_NAME_STRING
+- [ ] SDL_PROP_GPU_SAMPLER_CREATE_NAME_STRING
+- [ ] SDL_PROP_GPU_SHADER_CREATE_NAME_STRING
+- [ ] SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_A_FLOAT
+- [ ] SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_B_FLOAT
+- [ ] SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_DEPTH_FLOAT
+- [ ] SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_G_FLOAT
+- [ ] SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_R_FLOAT
+- [ ] SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_STENCIL_NUMBER
+- [ ] SDL_PROP_GPU_TEXTURE_CREATE_NAME_STRING
+- [ ] SDL_PROP_GPU_TRANSFERBUFFER_CREATE_NAME_STRING
+- [ ] SDL_PROP_HIDAPI_LIBUSB_DEVICE_HANDLE_POINTER
+- [ ] SDL_PROP_IOSTREAM_ANDROID_AASSET_POINTER
+- [ ] SDL_PROP_IOSTREAM_DYNAMIC_CHUNKSIZE_NUMBER
+- [ ] SDL_PROP_IOSTREAM_DYNAMIC_MEMORY_POINTER
+- [ ] SDL_PROP_IOSTREAM_FILE_DESCRIPTOR_NUMBER
+- [ ] SDL_PROP_IOSTREAM_MEMORY_FREE_FUNC
+- [ ] SDL_PROP_IOSTREAM_MEMORY_FREE_FUNC_POINTER
+- [ ] SDL_PROP_IOSTREAM_MEMORY_POINTER
+- [ ] SDL_PROP_IOSTREAM_MEMORY_SIZE_NUMBER
+- [ ] SDL_PROP_IOSTREAM_STDIO_FILE_POINTER
+- [ ] SDL_PROP_IOSTREAM_WINDOWS_HANDLE_POINTER
+- [ ] SDL_PROP_JOYSTICK_CAP_MONO_LED_BOOLEAN
+- [ ] SDL_PROP_JOYSTICK_CAP_PLAYER_LED_BOOLEAN
+- [ ] SDL_PROP_JOYSTICK_CAP_RGB_LED_BOOLEAN
+- [ ] SDL_PROP_JOYSTICK_CAP_RUMBLE_BOOLEAN
+- [ ] SDL_PROP_JOYSTICK_CAP_TRIGGER_RUMBLE_BOOLEAN
+- [ ] SDL_PROP_NAME_STRING
+- [ ] SDL_PROP_PROCESS_BACKGROUND_BOOLEAN
+- [ ] SDL_PROP_PROCESS_CREATE_ARGS_POINTER
+- [ ] SDL_PROP_PROCESS_CREATE_BACKGROUND_BOOLEAN
+- [ ] SDL_PROP_PROCESS_CREATE_CMDLINE_STRING
+- [ ] SDL_PROP_PROCESS_CREATE_ENVIRONMENT_POINTER
+- [ ] SDL_PROP_PROCESS_CREATE_STDERR_NUMBER
+- [ ] SDL_PROP_PROCESS_CREATE_STDERR_POINTER
+- [ ] SDL_PROP_PROCESS_CREATE_STDERR_TO_STDOUT_BOOLEAN
+- [ ] SDL_PROP_PROCESS_CREATE_STDIN_NUMBER
+- [ ] SDL_PROP_PROCESS_CREATE_STDIN_POINTER
+- [ ] SDL_PROP_PROCESS_CREATE_STDOUT_NUMBER
+- [ ] SDL_PROP_PROCESS_CREATE_STDOUT_POINTER
+- [ ] SDL_PROP_PROCESS_CREATE_WORKING_DIRECTORY_STRING
+- [ ] SDL_PROP_PROCESS_PID_NUMBER
+- [ ] SDL_PROP_PROCESS_STDERR_POINTER
+- [ ] SDL_PROP_PROCESS_STDIN_POINTER
+- [ ] SDL_PROP_PROCESS_STDOUT_POINTER
+- [ ] SDL_PROP_RENDERER_CREATE_GPU_DEVICE_POINTER
+- [ ] SDL_PROP_RENDERER_CREATE_GPU_SHADERS_DXIL_BOOLEAN
+- [ ] SDL_PROP_RENDERER_CREATE_GPU_SHADERS_MSL_BOOLEAN
+- [ ] SDL_PROP_RENDERER_CREATE_GPU_SHADERS_SPIRV_BOOLEAN
+- [ ] SDL_PROP_RENDERER_CREATE_NAME_STRING
+- [ ] SDL_PROP_RENDERER_CREATE_OUTPUT_COLORSPACE_NUMBER
+- [ ] SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER
+- [ ] SDL_PROP_RENDERER_CREATE_SURFACE_POINTER
+- [ ] SDL_PROP_RENDERER_CREATE_VULKAN_DEVICE_POINTER
+- [ ] SDL_PROP_RENDERER_CREATE_VULKAN_GRAPHICS_QUEUE_FAMILY_INDEX_NUMBER
+- [ ] SDL_PROP_RENDERER_CREATE_VULKAN_INSTANCE_POINTER
+- [ ] SDL_PROP_RENDERER_CREATE_VULKAN_PHYSICAL_DEVICE_POINTER
+- [ ] SDL_PROP_RENDERER_CREATE_VULKAN_PRESENT_QUEUE_FAMILY_INDEX_NUMBER
+- [ ] SDL_PROP_RENDERER_CREATE_VULKAN_SURFACE_NUMBER
+- [ ] SDL_PROP_RENDERER_CREATE_WINDOW_POINTER
+- [ ] SDL_PROP_RENDERER_D3D11_DEVICE_POINTER
+- [ ] SDL_PROP_RENDERER_D3D11_SWAPCHAIN_POINTER
+- [ ] SDL_PROP_RENDERER_D3D12_COMMAND_QUEUE_POINTER
+- [ ] SDL_PROP_RENDERER_D3D12_DEVICE_POINTER
+- [ ] SDL_PROP_RENDERER_D3D12_SWAPCHAIN_POINTER
+- [ ] SDL_PROP_RENDERER_D3D9_DEVICE_POINTER
+- [ ] SDL_PROP_RENDERER_GPU_DEVICE_POINTER
+- [ ] SDL_PROP_RENDERER_HDR_ENABLED_BOOLEAN
+- [ ] SDL_PROP_RENDERER_HDR_HEADROOM_FLOAT
+- [ ] SDL_PROP_RENDERER_MAX_TEXTURE_SIZE_NUMBER
+- [ ] SDL_PROP_RENDERER_NAME_STRING
+- [ ] SDL_PROP_RENDERER_OUTPUT_COLORSPACE_NUMBER
+- [ ] SDL_PROP_RENDERER_SDR_WHITE_POINT_FLOAT
+- [ ] SDL_PROP_RENDERER_SURFACE_POINTER
+- [ ] SDL_PROP_RENDERER_TEXTURE_FORMATS_POINTER
+- [ ] SDL_PROP_RENDERER_TEXTURE_WRAPPING_BOOLEAN
+- [ ] SDL_PROP_RENDERER_VSYNC_NUMBER
+- [ ] SDL_PROP_RENDERER_VULKAN_DEVICE_POINTER
+- [ ] SDL_PROP_RENDERER_VULKAN_GRAPHICS_QUEUE_FAMILY_INDEX_NUMBER
+- [ ] SDL_PROP_RENDERER_VULKAN_INSTANCE_POINTER
+- [ ] SDL_PROP_RENDERER_VULKAN_PHYSICAL_DEVICE_POINTER
+- [ ] SDL_PROP_RENDERER_VULKAN_PRESENT_QUEUE_FAMILY_INDEX_NUMBER
+- [ ] SDL_PROP_RENDERER_VULKAN_SURFACE_NUMBER
+- [ ] SDL_PROP_RENDERER_VULKAN_SWAPCHAIN_IMAGE_COUNT_NUMBER
+- [ ] SDL_PROP_RENDERER_WINDOW_POINTER
+- [ ] SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT
+- [ ] SDL_PROP_SURFACE_HOTSPOT_X_NUMBER
+- [ ] SDL_PROP_SURFACE_HOTSPOT_Y_NUMBER
+- [ ] SDL_PROP_SURFACE_ROTATION_FLOAT
+- [ ] SDL_PROP_SURFACE_SDR_WHITE_POINT_FLOAT
+- [ ] SDL_PROP_SURFACE_TONEMAP_OPERATOR_STRING
+- [ ] SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER
+- [ ] SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN
+- [ ] SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER
+- [ ] SDL_PROP_TEXTINPUT_DEFAULT_TEXT_STRING
+- [ ] SDL_PROP_TEXTINPUT_MAX_LENGTH_NUMBER
+- [ ] SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN
+- [ ] SDL_PROP_TEXTINPUT_PLACEHOLDER_STRING
+- [ ] SDL_PROP_TEXTINPUT_TITLE_STRING
+- [ ] SDL_PROP_TEXTINPUT_TYPE_NUMBER
+- [ ] SDL_PROP_TEXTURE_ACCESS_NUMBER
+- [ ] SDL_PROP_TEXTURE_COLORSPACE_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_ACCESS_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_COLORSPACE_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_POINTER
+- [ ] SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_U_POINTER
+- [ ] SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_V_POINTER
+- [ ] SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_POINTER
+- [ ] SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_U_POINTER
+- [ ] SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_V_POINTER
+- [ ] SDL_PROP_TEXTURE_CREATE_FORMAT_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_POINTER
+- [ ] SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_U_POINTER
+- [ ] SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_UV_POINTER
+- [ ] SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_V_POINTER
+- [ ] SDL_PROP_TEXTURE_CREATE_HDR_HEADROOM_FLOAT
+- [ ] SDL_PROP_TEXTURE_CREATE_HEIGHT_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_METAL_PIXELBUFFER_POINTER
+- [ ] SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_U_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_UV_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_V_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_U_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_UV_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_V_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_PALETTE_POINTER
+- [ ] SDL_PROP_TEXTURE_CREATE_SDR_WHITE_POINT_FLOAT
+- [ ] SDL_PROP_TEXTURE_CREATE_VULKAN_LAYOUT_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER
+- [ ] SDL_PROP_TEXTURE_CREATE_WIDTH_NUMBER
+- [ ] SDL_PROP_TEXTURE_D3D11_TEXTURE_POINTER
+- [ ] SDL_PROP_TEXTURE_D3D11_TEXTURE_U_POINTER
+- [ ] SDL_PROP_TEXTURE_D3D11_TEXTURE_V_POINTER
+- [ ] SDL_PROP_TEXTURE_D3D12_TEXTURE_POINTER
+- [ ] SDL_PROP_TEXTURE_D3D12_TEXTURE_U_POINTER
+- [ ] SDL_PROP_TEXTURE_D3D12_TEXTURE_V_POINTER
+- [ ] SDL_PROP_TEXTURE_FORMAT_NUMBER
+- [ ] SDL_PROP_TEXTURE_GPU_TEXTURE_POINTER
+- [ ] SDL_PROP_TEXTURE_GPU_TEXTURE_U_POINTER
+- [ ] SDL_PROP_TEXTURE_GPU_TEXTURE_UV_POINTER
+- [ ] SDL_PROP_TEXTURE_GPU_TEXTURE_V_POINTER
+- [ ] SDL_PROP_TEXTURE_HDR_HEADROOM_FLOAT
+- [ ] SDL_PROP_TEXTURE_HEIGHT_NUMBER
+- [ ] SDL_PROP_TEXTURE_OPENGL_TEX_H_FLOAT
+- [ ] SDL_PROP_TEXTURE_OPENGL_TEX_W_FLOAT
+- [ ] SDL_PROP_TEXTURE_OPENGL_TEXTURE_NUMBER
+- [ ] SDL_PROP_TEXTURE_OPENGL_TEXTURE_TARGET_NUMBER
+- [ ] SDL_PROP_TEXTURE_OPENGL_TEXTURE_U_NUMBER
+- [ ] SDL_PROP_TEXTURE_OPENGL_TEXTURE_UV_NUMBER
+- [ ] SDL_PROP_TEXTURE_OPENGL_TEXTURE_V_NUMBER
+- [ ] SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_NUMBER
+- [ ] SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_TARGET_NUMBER
+- [ ] SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_U_NUMBER
+- [ ] SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_UV_NUMBER
+- [ ] SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_V_NUMBER
+- [ ] SDL_PROP_TEXTURE_SDR_WHITE_POINT_FLOAT
+- [ ] SDL_PROP_TEXTURE_VULKAN_TEXTURE_NUMBER
+- [ ] SDL_PROP_TEXTURE_WIDTH_NUMBER
+- [ ] SDL_PROP_THREAD_CREATE_ENTRY_FUNCTION_POINTER
+- [ ] SDL_PROP_THREAD_CREATE_NAME_STRING
+- [ ] SDL_PROP_THREAD_CREATE_STACKSIZE_NUMBER
+- [ ] SDL_PROP_THREAD_CREATE_USERDATA_POINTER
+- [ ] SDL_PROP_TRAY_CREATE_DOUBLECLICK_CALLBACK_POINTER
+- [ ] SDL_PROP_TRAY_CREATE_ICON_POINTER
+- [ ] SDL_PROP_TRAY_CREATE_LEFTCLICK_CALLBACK_POINTER
+- [ ] SDL_PROP_TRAY_CREATE_MIDDLECLICK_CALLBACK_POINTER
+- [ ] SDL_PROP_TRAY_CREATE_RIGHTCLICK_CALLBACK_POINTER
+- [ ] SDL_PROP_TRAY_CREATE_TOOLTIP_STRING
+- [ ] SDL_PROP_TRAY_CREATE_USERDATA_POINTER
+- [ ] SDL_PROP_WINDOW_ANDROID_SURFACE_POINTER
+- [ ] SDL_PROP_WINDOW_ANDROID_WINDOW_POINTER
+- [ ] SDL_PROP_WINDOW_COCOA_METAL_VIEW_TAG_NUMBER
+- [ ] SDL_PROP_WINDOW_COCOA_WINDOW_POINTER
+- [ ] SDL_PROP_WINDOW_CREATE_ALWAYS_ON_TOP_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_COCOA_VIEW_POINTER
+- [ ] SDL_PROP_WINDOW_CREATE_COCOA_WINDOW_POINTER
+- [ ] SDL_PROP_WINDOW_CREATE_CONSTRAIN_POPUP_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_CURVATURE_FLOAT
+- [ ] SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_CANVAS_ID
+- [ ] SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_CANVAS_ID_STRING
+- [ ] SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_KEYBOARD_ELEMENT
+- [ ] SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING
+- [ ] SDL_PROP_WINDOW_CREATE_EXTERNAL_GRAPHICS_CONTEXT_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER
+- [ ] SDL_PROP_WINDOW_CREATE_FOCUSABLE_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_FULLSCREEN_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER
+- [ ] SDL_PROP_WINDOW_CREATE_HIDDEN_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_HIGH_PIXEL_DENSITY_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_MAXIMIZED_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_MENU_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_METAL_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_MINIMIZED_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_MODAL_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_MOUSE_GRABBED_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_OPENGL_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_PARENT_POINTER
+- [ ] SDL_PROP_WINDOW_CREATE_RESIZABLE_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_TITLE_STRING
+- [ ] SDL_PROP_WINDOW_CREATE_TOOLTIP_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_TRANSPARENT_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_UTILITY_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_VISIONOS_SETTINGS_STRING
+- [ ] SDL_PROP_WINDOW_CREATE_VULKAN_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_WAYLAND_CREATE_EGL_WINDOW_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN
+- [ ] SDL_PROP_WINDOW_CREATE_WAYLAND_WL_SURFACE_POINTER
+- [ ] SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER
+- [ ] SDL_PROP_WINDOW_CREATE_WIN32_HWND_POINTER
+- [ ] SDL_PROP_WINDOW_CREATE_WIN32_PIXEL_FORMAT_HWND_POINTER
+- [ ] SDL_PROP_WINDOW_CREATE_WINDOWSCENE_POINTER
+- [ ] SDL_PROP_WINDOW_CREATE_X11_WINDOW_NUMBER
+- [ ] SDL_PROP_WINDOW_CREATE_X_NUMBER
+- [ ] SDL_PROP_WINDOW_CREATE_Y_NUMBER
+- [ ] SDL_PROP_WINDOW_CURVATURE_FLOAT
+- [ ] SDL_PROP_WINDOW_EMSCRIPTEN_CANVAS_ID
+- [ ] SDL_PROP_WINDOW_EMSCRIPTEN_CANVAS_ID_STRING
+- [ ] SDL_PROP_WINDOW_EMSCRIPTEN_KEYBOARD_ELEMENT
+- [ ] SDL_PROP_WINDOW_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING
+- [ ] SDL_PROP_WINDOW_HDR_ENABLED_BOOLEAN
+- [ ] SDL_PROP_WINDOW_HDR_HEADROOM_FLOAT
+- [ ] SDL_PROP_WINDOW_KMSDRM_DEVICE_INDEX_NUMBER
+- [ ] SDL_PROP_WINDOW_KMSDRM_DRM_FD_NUMBER
+- [ ] SDL_PROP_WINDOW_KMSDRM_GBM_DEVICE_POINTER
+- [ ] SDL_PROP_WINDOW_OPENVR_OVERLAY_ID_NUMBER
+- [ ] SDL_PROP_WINDOW_QNX_SURFACE_POINTER
+- [ ] SDL_PROP_WINDOW_QNX_WINDOW_POINTER
+- [ ] SDL_PROP_WINDOW_SDR_WHITE_LEVEL_FLOAT
+- [ ] SDL_PROP_WINDOW_SHAPE_POINTER
+- [ ] SDL_PROP_WINDOW_UIKIT_METAL_VIEW_TAG_NUMBER
+- [ ] SDL_PROP_WINDOW_UIKIT_OPENGL_FRAMEBUFFER_NUMBER
+- [ ] SDL_PROP_WINDOW_UIKIT_OPENGL_RENDERBUFFER_NUMBER
+- [ ] SDL_PROP_WINDOW_UIKIT_OPENGL_RESOLVE_FRAMEBUFFER_NUMBER
+- [ ] SDL_PROP_WINDOW_UIKIT_WINDOW_POINTER
+- [ ] SDL_PROP_WINDOW_VISIONOS_SETTINGS_STRING
+- [ ] SDL_PROP_WINDOW_VIVANTE_DISPLAY_POINTER
+- [ ] SDL_PROP_WINDOW_VIVANTE_SURFACE_POINTER
+- [ ] SDL_PROP_WINDOW_VIVANTE_WINDOW_POINTER
+- [ ] SDL_PROP_WINDOW_WAYLAND_DISPLAY_POINTER
+- [ ] SDL_PROP_WINDOW_WAYLAND_EGL_WINDOW_POINTER
+- [ ] SDL_PROP_WINDOW_WAYLAND_SURFACE_POINTER
+- [ ] SDL_PROP_WINDOW_WAYLAND_VIEWPORT_POINTER
+- [ ] SDL_PROP_WINDOW_WAYLAND_XDG_POPUP_POINTER
+- [ ] SDL_PROP_WINDOW_WAYLAND_XDG_POSITIONER_POINTER
+- [ ] SDL_PROP_WINDOW_WAYLAND_XDG_SURFACE_POINTER
+- [ ] SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_EXPORT_HANDLE_STRING
+- [ ] SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_POINTER
+- [ ] SDL_PROP_WINDOW_WIN32_HDC_POINTER
+- [ ] SDL_PROP_WINDOW_WIN32_HWND_POINTER
+- [ ] SDL_PROP_WINDOW_WIN32_INSTANCE_POINTER
+- [ ] SDL_PROP_WINDOW_X11_DISPLAY_POINTER
+- [ ] SDL_PROP_WINDOW_X11_SCREEN_NUMBER
+- [ ] SDL_PROP_WINDOW_X11_WINDOW_NUMBER
+- [ ] SDL_PT_GUARDED_BY
+- [ ] SDL_reinterpret_cast
+- [ ] SDL_RELEASE
+- [ ] SDL_RELEASE_GENERIC
+- [ ] SDL_RELEASE_SHARED
+- [ ] SDL_RENDERER_VSYNC_ADAPTIVE
+- [ ] SDL_RENDERER_VSYNC_DISABLED
+- [ ] SDL_REQUIRES
+- [ ] SDL_REQUIRES_SHARED
+- [ ] SDL_RESTRICT
+- [ ] SDL_RETURN_CAPABILITY
+- [ ] SDL_REVISION
+- [ ] SDL_SCANCODE_TO_KEYCODE
+- [ ] SDL_SCANF_FORMAT_STRING
+- [ ] SDL_SCANF_VARARG_FUNC
+- [ ] SDL_SCANF_VARARG_FUNCV
+- [ ] SDL_SCOPED_CAPABILITY
+- [ ] SDL_SECONDS_TO_NS
+- [ ] SDL_SINT64_C
+- [ ] SDL_SIZE_MAX
+- [ ] SDL_SOFTWARE_RENDERER
+- [ ] SDL_SSE2_INTRINSICS
+- [ ] SDL_SSE3_INTRINSICS
+- [ ] SDL_SSE4_1_INTRINSICS
+- [ ] SDL_SSE4_2_INTRINSICS
+- [ ] SDL_SSE_INTRINSICS
+- [ ] SDL_stack_alloc
+- [ ] SDL_stack_free
+- [ ] SDL_STANDARD_GRAVITY
+- [ ] SDL_static_cast
+- [ ] SDL_STRINGIFY_ARG
+- [ ] SDL_SURFACE_LOCK_NEEDED
+- [ ] SDL_SURFACE_LOCKED
+- [ ] SDL_SURFACE_PREALLOCATED
+- [ ] SDL_SURFACE_SIMD_ALIGNED
+- [ ] SDL_SVE2_INTRINSICS
+- [ ] SDL_Swap16BE
+- [ ] SDL_Swap16LE
+- [ ] SDL_Swap32BE
+- [ ] SDL_Swap32LE
+- [ ] SDL_Swap64BE
+- [ ] SDL_Swap64LE
+- [ ] SDL_SwapFloatBE
+- [ ] SDL_SwapFloatLE
+- [ ] SDL_TARGETING
+- [ ] SDL_THREAD_ANNOTATION_ATTRIBUTE__
+- [ ] SDL_TOUCH_MOUSEID
+- [ ] SDL_TRAYENTRY_BUTTON
+- [ ] SDL_TRAYENTRY_CHECKBOX
+- [ ] SDL_TRAYENTRY_CHECKED
+- [ ] SDL_TRAYENTRY_DISABLED
+- [ ] SDL_TRAYENTRY_SUBMENU
+- [ ] SDL_TriggerBreakpoint
+- [ ] SDL_TRY_ACQUIRE
+- [ ] SDL_TRY_ACQUIRE_SHARED
+- [ ] SDL_UINT64_C
+- [ ] SDL_Unsupported
+- [ ] SDL_US_PER_SECOND
+- [ ] SDL_US_TO_NS
+- [ ] SDL_VERSION
+- [ ] SDL_VERSION_ATLEAST
+- [ ] SDL_VERSIONNUM
+- [ ] SDL_VERSIONNUM_MAJOR
+- [ ] SDL_VERSIONNUM_MICRO
+- [ ] SDL_VERSIONNUM_MINOR
+- [ ] SDL_WINAPI_FAMILY_PHONE
+- [ ] SDL_WINDOW_ALWAYS_ON_TOP
+- [ ] SDL_WINDOW_BORDERLESS
+- [ ] SDL_WINDOW_EXTERNAL
+- [ ] SDL_WINDOW_FILL_DOCUMENT
+- [ ] SDL_WINDOW_FULLSCREEN
+- [ ] SDL_WINDOW_HIDDEN
+- [ ] SDL_WINDOW_HIGH_PIXEL_DENSITY
+- [ ] SDL_WINDOW_INPUT_FOCUS
+- [ ] SDL_WINDOW_KEYBOARD_GRABBED
+- [ ] SDL_WINDOW_MAXIMIZED
+- [ ] SDL_WINDOW_METAL
+- [ ] SDL_WINDOW_MINIMIZED
+- [ ] SDL_WINDOW_MODAL
+- [ ] SDL_WINDOW_MOUSE_CAPTURE
+- [ ] SDL_WINDOW_MOUSE_FOCUS
+- [ ] SDL_WINDOW_MOUSE_GRABBED
+- [ ] SDL_WINDOW_MOUSE_RELATIVE_MODE
+- [ ] SDL_WINDOW_NOT_FOCUSABLE
+- [ ] SDL_WINDOW_OCCLUDED
+- [ ] SDL_WINDOW_OPENGL
+- [ ] SDL_WINDOW_POPUP_MENU
+- [ ] SDL_WINDOW_RESIZABLE
+- [ ] SDL_WINDOW_SURFACE_VSYNC_ADAPTIVE
+- [ ] SDL_WINDOW_SURFACE_VSYNC_DISABLED
+- [ ] SDL_WINDOW_TOOLTIP
+- [ ] SDL_WINDOW_TRANSPARENT
+- [ ] SDL_WINDOW_UTILITY
+- [ ] SDL_WINDOW_VULKAN
+- [ ] SDL_WINDOWPOS_CENTERED
+- [ ] SDL_WINDOWPOS_CENTERED_DISPLAY
+- [ ] SDL_WINDOWPOS_CENTERED_MASK
+- [ ] SDL_WINDOWPOS_ISCENTERED
+- [ ] SDL_WINDOWPOS_ISUNDEFINED
+- [ ] SDL_WINDOWPOS_UNDEFINED
+- [ ] SDL_WINDOWPOS_UNDEFINED_DISPLAY
+- [ ] SDL_WINDOWPOS_UNDEFINED_MASK
+- [ ] SDL_WPRINTF_VARARG_FUNC
+- [ ] SDL_WPRINTF_VARARG_FUNCV
+- [ ] SDL_zero
+- [ ] SDL_zeroa
+- [ ] SDL_zerop
+
+
+## Implemented
+
+### Implemented Categories
+
+- CategoryClipboard
+- CategoryCPUInfo
+- CategoryDialog
+- CategoryError
+- CategoryEvents
+- CategoryGPU
+- CategoryInit
+- CategoryKeycode
+- CategoryLocale
+- CategoryLog
+- CategoryMessagebox
+- CategoryMisc
+- CategoryMouse
+- CategoryPen
+- CategoryPixels
+- CategoryPlatform
+- CategoryPower
+- CategoryRect
+- CategoryScancode
+- CategorySurface
+- CategoryTimer
+- CategoryTray
+- CategoryVideo
+
+### Implemented Functions
+
+- SDL_AcquireGPUCommandBuffer
+- SDL_AcquireGPUSwapchainTexture
+- SDL_BeginGPUComputePass
+- SDL_BeginGPUCopyPass
+- SDL_BeginGPURenderPass
+- SDL_BindGPUComputePipeline
+- SDL_BindGPUComputeSamplers
+- SDL_BindGPUComputeStorageBuffers
+- SDL_BindGPUComputeStorageTextures
+- SDL_BindGPUFragmentSamplers
+- SDL_BindGPUFragmentStorageBuffers
+- SDL_BindGPUFragmentStorageTextures
+- SDL_BindGPUGraphicsPipeline
+- SDL_BindGPUIndexBuffer
+- SDL_BindGPUVertexBuffers
+- SDL_BindGPUVertexSamplers
+- SDL_BindGPUVertexStorageBuffers
+- SDL_BindGPUVertexStorageTextures
+- SDL_BlitGPUTexture
+- SDL_CalculateGPUTextureFormatSize
+- SDL_CancelGPUCommandBuffer
+- SDL_ClaimWindowForGPUDevice
+- SDL_ClearClipboardData
+- SDL_ClearError
+- SDL_CopyGPUBufferToBuffer
+- SDL_CopyGPUTextureToTexture
+- SDL_CreateGPUBuffer
+- SDL_CreateGPUComputePipeline
+- SDL_CreateGPUDevice
+- SDL_CreateGPUGraphicsPipeline
+- SDL_CreateGPUSampler
+- SDL_CreateGPUShader
+- SDL_CreateGPUTexture
+- SDL_CreateGPUTransferBuffer
+- SDL_CreateTray
+- SDL_CreateTrayMenu
+- SDL_CreateTraySubmenu
+- SDL_CreateWindow
+- SDL_DestroyGPUDevice
+- SDL_DestroyTray
+- SDL_DestroyWindow
+- SDL_DispatchGPUCompute
+- SDL_DispatchGPUComputeIndirect
+- SDL_DrawGPUIndexedPrimitives
+- SDL_DrawGPUIndexedPrimitivesIndirect
+- SDL_DrawGPUPrimitives
+- SDL_DrawGPUPrimitivesIndirect
+- SDL_EndGPUComputePass
+- SDL_EndGPUCopyPass
+- SDL_EndGPURenderPass
+- SDL_free
+- SDL_GetClipboardData
+- SDL_GetClipboardMimeTypes
+- SDL_GetClipboardText
+- SDL_GetCPUCacheLineSize
+- SDL_GetError
+- SDL_GetGPUSwapchainTextureFormat
+- SDL_GetNumLogicalCPUCores
+- SDL_GetPlatform
+- SDL_GetPowerInfo
+- SDL_GetPreferredLocales
+- SDL_GetPrimarySelectionText
+- SDL_GetRectAndLineIntersection
+- SDL_GetRectAndLineIntersectionFloat
+- SDL_GetRectEnclosingPoints
+- SDL_GetRectEnclosingPointsFloat
+- SDL_GetRectIntersection
+- SDL_GetRectIntersectionFloat
+- SDL_GetRectUnion
+- SDL_GetRectUnionFloat
+- SDL_GetSystemPageSize
+- SDL_GetSystemRAM
+- SDL_GetTicks
+- SDL_GetTicksNS
+- SDL_GetTrayEntryChecked
+- SDL_GetTrayEntryEnabled
+- SDL_GetTrayEntryLabel
+- SDL_GetWindowDisplayScale
+- SDL_GetWindowID
+- SDL_GetWindowSize
+- SDL_GetWindowSizeInPixels
+- SDL_HasClipboardData
+- SDL_HasClipboardText
+- SDL_HasPrimarySelectionText
+- SDL_HasRectIntersection
+- SDL_HasRectIntersectionFloat
+- SDL_Init
+- SDL_InitSubSystem
+- SDL_InsertTrayEntryAt
+- SDL_MapGPUTransferBuffer
+- SDL_OpenURL
+- SDL_PointInRect
+- SDL_PointInRectFloat
+- SDL_PollEvent
+- SDL_PushGPUComputeUniformData
+- SDL_PushGPUFragmentUniformData
+- SDL_PushGPUVertexUniformData
+- SDL_Quit
+- SDL_QuitSubSystem
+- SDL_RectEmpty
+- SDL_RectEmptyFloat
+- SDL_RectsEqual
+- SDL_RectsEqualEpsilon
+- SDL_RectsEqualFloat
+- SDL_RectToFRect
+- SDL_ReleaseGPUBuffer
+- SDL_ReleaseGPUComputePipeline
+- SDL_ReleaseGPUGraphicsPipeline
+- SDL_ReleaseGPUSampler
+- SDL_ReleaseGPUShader
+- SDL_ReleaseGPUTexture
+- SDL_ReleaseGPUTransferBuffer
+- SDL_ReleaseWindowFromGPUDevice
+- SDL_RemoveTrayEntry
+- SDL_SetAppMetadata
+- SDL_SetAppMetadataProperty
+- SDL_SetClipboardData
+- SDL_SetClipboardText
+- SDL_SetError
+- SDL_SetGPUScissor
+- SDL_SetGPUSwapchainParameters
+- SDL_SetGPUViewport
+- SDL_SetLogPriority
+- SDL_SetPrimarySelectionText
+- SDL_SetTrayEntryCallback
+- SDL_SetTrayEntryChecked
+- SDL_SetTrayEntryEnabled
+- SDL_SetTrayEntryLabel
+- SDL_SetTrayIcon
+- SDL_SetTrayTooltip
+- SDL_ShowMessageBox
+- SDL_ShowOpenFileDialog
+- SDL_ShowOpenFolderDialog
+- SDL_ShowSaveFileDialog
+- SDL_ShowSimpleMessageBox
+- SDL_SubmitGPUCommandBuffer
+- SDL_UnmapGPUTransferBuffer
+- SDL_UpdateTrays
+- SDL_UploadToGPUBuffer
+- SDL_UploadToGPUTexture
+- SDL_WaitAndAcquireGPUSwapchainTexture
+- SDL_WasInit
+- SDL_WindowSupportsGPUPresentMode
+- SDL_WindowSupportsGPUSwapchainComposition
+
+### Implemented Datatypes
+
+- SDL_ClipboardCleanupCallback
+- SDL_ClipboardDataCallback
+- SDL_DialogFileCallback
+- SDL_GPUBuffer
+- SDL_GPUBufferUsageFlags
+- SDL_GPUColorComponentFlags
+- SDL_GPUCommandBuffer
+- SDL_GPUComputePass
+- SDL_GPUComputePipeline
+- SDL_GPUCopyPass
+- SDL_GPUDevice
+- SDL_GPUGraphicsPipeline
+- SDL_GPURenderPass
+- SDL_GPUSampler
+- SDL_GPUShader
+- SDL_GPUShaderFormat
+- SDL_GPUTexture
+- SDL_GPUTextureUsageFlags
+- SDL_InitFlags
+- SDL_Keycode
+- SDL_Keymod
+- SDL_MessageBoxButtonFlags
+- SDL_MessageBoxFlags
+- SDL_MouseButtonFlags
+- SDL_PenInputFlags
+- SDL_Tray
+- SDL_TrayCallback
+- SDL_TrayEntry
+- SDL_TrayEntryFlags
+- SDL_TrayMenu
+- SDL_Window
+- SDL_WindowFlags
+
+### Implemented Structs
+
+- SDL_AudioDeviceEvent
+- SDL_CameraDeviceEvent
+- SDL_ClipboardEvent
+- SDL_CommonEvent
+- SDL_DialogFileFilter
+- SDL_DisplayEvent
+- SDL_DropEvent
+- SDL_Event
+- SDL_FColor
+- SDL_FPoint
+- SDL_FRect
+- SDL_GamepadAxisEvent
+- SDL_GamepadButtonEvent
+- SDL_GamepadDeviceEvent
+- SDL_GamepadSensorEvent
+- SDL_GamepadTouchpadEvent
+- SDL_GPUBlitInfo
+- SDL_GPUBlitRegion
+- SDL_GPUBufferBinding
+- SDL_GPUBufferCreateInfo
+- SDL_GPUBufferLocation
+- SDL_GPUBufferRegion
+- SDL_GPUColorTargetBlendState
+- SDL_GPUColorTargetDescription
+- SDL_GPUColorTargetInfo
+- SDL_GPUComputePipelineCreateInfo
+- SDL_GPUDepthStencilState
+- SDL_GPUDepthStencilTargetInfo
+- SDL_GPUGraphicsPipelineCreateInfo
+- SDL_GPUGraphicsPipelineTargetInfo
+- SDL_GPUMultisampleState
+- SDL_GPURasterizerState
+- SDL_GPUSamplerCreateInfo
+- SDL_GPUShaderCreateInfo
+- SDL_GPUStencilOpState
+- SDL_GPUStorageBufferReadWriteBinding
+- SDL_GPUStorageTextureReadWriteBinding
+- SDL_GPUTextureCreateInfo
+- SDL_GPUTextureLocation
+- SDL_GPUTextureRegion
+- SDL_GPUTextureSamplerBinding
+- SDL_GPUTextureTransferInfo
+- SDL_GPUTransferBufferCreateInfo
+- SDL_GPUTransferBufferLocation
+- SDL_GPUVertexAttribute
+- SDL_GPUVertexBufferDescription
+- SDL_GPUVertexInputState
+- SDL_GPUViewport
+- SDL_JoyAxisEvent
+- SDL_JoyBallEvent
+- SDL_JoyBatteryEvent
+- SDL_JoyButtonEvent
+- SDL_JoyDeviceEvent
+- SDL_JoyHatEvent
+- SDL_KeyboardDeviceEvent
+- SDL_KeyboardEvent
+- SDL_Locale
+- SDL_MessageBoxButtonData
+- SDL_MessageBoxColor
+- SDL_MessageBoxColorScheme
+- SDL_MessageBoxData
+- SDL_MouseButtonEvent
+- SDL_MouseDeviceEvent
+- SDL_MouseMotionEvent
+- SDL_MouseWheelEvent
+- SDL_PenAxisEvent
+- SDL_PenButtonEvent
+- SDL_PenMotionEvent
+- SDL_PenProximityEvent
+- SDL_PenTouchEvent
+- SDL_PinchFingerEvent
+- SDL_Point
+- SDL_QuitEvent
+- SDL_Rect
+- SDL_RenderEvent
+- SDL_SensorEvent
+- SDL_Surface
+- SDL_TextEditingCandidatesEvent
+- SDL_TextEditingEvent
+- SDL_TextInputEvent
+- SDL_TouchFingerEvent
+- SDL_UserEvent
+- SDL_WindowEvent
+
+### Implemented Enums
+
+- SDL_DisplayOrientation
+- SDL_FileDialogType
+- SDL_FlipMode
+- SDL_GPUBlendFactor
+- SDL_GPUBlendOp
+- SDL_GPUCompareOp
+- SDL_GPUCubeMapFace
+- SDL_GPUCullMode
+- SDL_GPUFillMode
+- SDL_GPUFilter
+- SDL_GPUFrontFace
+- SDL_GPUIndexElementSize
+- SDL_GPULoadOp
+- SDL_GPUPresentMode
+- SDL_GPUPrimitiveType
+- SDL_GPUSampleCount
+- SDL_GPUSamplerAddressMode
+- SDL_GPUSamplerMipmapMode
+- SDL_GPUShaderStage
+- SDL_GPUStencilOp
+- SDL_GPUStoreOp
+- SDL_GPUSwapchainComposition
+- SDL_GPUTextureFormat
+- SDL_GPUTextureType
+- SDL_GPUTransferBufferUsage
+- SDL_GPUVertexElementFormat
+- SDL_GPUVertexInputRate
+- SDL_LogCategory
+- SDL_LogPriority
+- SDL_MouseWheelDirection
+- SDL_PenAxis
+- SDL_PowerState
+- SDL_Scancode
+
+### Implemented Macros
+
+
+
+## Missing
+
+### Missing Categories
+
+- CategoryAssert
+- CategoryAsyncIO
+- CategoryAtomic
+- CategoryAudio
+- CategoryBits
+- CategoryBlendmode
+- CategoryCamera
+- CategoryDlopenNotes
+- CategoryEndian
+- CategoryFilesystem
+- CategoryGamepad
+- CategoryGUID
+- CategoryHaptic
+- CategoryHIDAPI
+- CategoryHints
+- CategoryIntrinsics
+- CategoryIOStream
+- CategoryJoystick
+- CategoryKeyboard
+- CategoryMain
+- CategoryMetal
+- CategoryMutex
+- CategoryProcess
+- CategoryProperties
+- CategoryRender
+- CategorySensor
+- CategorySharedObject
+- CategoryStdinc
+- CategoryStorage
+- CategorySystem
+- CategoryThread
+- CategoryTime
+- CategoryTouch
+- CategoryVersion
+- CategoryVulkan
+
+### Missing Functions
+
+- SDL_abs
+- SDL_acos
+- SDL_acosf
+- SDL_AcquireCameraFrame
+- SDL_AddAtomicInt
+- SDL_AddAtomicU32
+- SDL_AddEventWatch
+- SDL_AddGamepadMapping
+- SDL_AddGamepadMappingsFromFile
+- SDL_AddGamepadMappingsFromIO
+- SDL_AddHintCallback
+- SDL_AddSurfaceAlternateImage
+- SDL_AddTimer
+- SDL_AddTimerNS
+- SDL_AddVulkanRenderSemaphores
+- SDL_aligned_alloc
+- SDL_aligned_alloc_zero
+- SDL_aligned_free
+- SDL_AppEvent
+- SDL_AppInit
+- SDL_AppIterate
+- SDL_AppQuit
+- SDL_asin
+- SDL_asinf
+- SDL_asprintf
+- SDL_AsyncIOFromFile
+- SDL_atan
+- SDL_atan2
+- SDL_atan2f
+- SDL_atanf
+- SDL_atof
+- SDL_atoi
+- SDL_AttachVirtualJoystick
+- SDL_AudioDevicePaused
+- SDL_AudioStreamDevicePaused
+- SDL_BindAudioStream
+- SDL_BindAudioStreams
+- SDL_BlitSurface
+- SDL_BlitSurface9Grid
+- SDL_BlitSurfaceScaled
+- SDL_BlitSurfaceTiled
+- SDL_BlitSurfaceTiledWithScale
+- SDL_BlitSurfaceUnchecked
+- SDL_BlitSurfaceUncheckedScaled
+- SDL_BroadcastCondition
+- SDL_bsearch
+- SDL_bsearch_r
+- SDL_calloc
+- SDL_CaptureMouse
+- SDL_ceil
+- SDL_ceilf
+- SDL_CleanupTLS
+- SDL_ClearAudioStream
+- SDL_ClearComposition
+- SDL_ClearProperty
+- SDL_ClearSurface
+- SDL_ClickTrayEntry
+- SDL_CloseAsyncIO
+- SDL_CloseAudioDevice
+- SDL_CloseCamera
+- SDL_CloseGamepad
+- SDL_CloseHaptic
+- SDL_CloseIO
+- SDL_CloseJoystick
+- SDL_CloseSensor
+- SDL_CloseStorage
+- SDL_CompareAndSwapAtomicInt
+- SDL_CompareAndSwapAtomicPointer
+- SDL_CompareAndSwapAtomicU32
+- SDL_ComposeCustomBlendMode
+- SDL_ConvertAudioSamples
+- SDL_ConvertEventToRenderCoordinates
+- SDL_ConvertPixels
+- SDL_ConvertPixelsAndColorspace
+- SDL_ConvertSurface
+- SDL_ConvertSurfaceAndColorspace
+- SDL_CopyFile
+- SDL_CopyProperties
+- SDL_copysign
+- SDL_copysignf
+- SDL_CopyStorageFile
+- SDL_cos
+- SDL_cosf
+- SDL_crc16
+- SDL_crc32
+- SDL_CreateAnimatedCursor
+- SDL_CreateAsyncIOQueue
+- SDL_CreateAudioStream
+- SDL_CreateColorCursor
+- SDL_CreateCondition
+- SDL_CreateCursor
+- SDL_CreateDirectory
+- SDL_CreateEnvironment
+- SDL_CreateGPUDeviceWithProperties
+- SDL_CreateGPURenderer
+- SDL_CreateGPURenderState
+- SDL_CreateGPUXRSession
+- SDL_CreateGPUXRSwapchain
+- SDL_CreateHapticEffect
+- SDL_CreateMutex
+- SDL_CreatePalette
+- SDL_CreatePopupWindow
+- SDL_CreateProcess
+- SDL_CreateProcessWithProperties
+- SDL_CreateProperties
+- SDL_CreateRenderer
+- SDL_CreateRendererWithProperties
+- SDL_CreateRWLock
+- SDL_CreateSemaphore
+- SDL_CreateSoftwareRenderer
+- SDL_CreateStorageDirectory
+- SDL_CreateSurface
+- SDL_CreateSurfaceFrom
+- SDL_CreateSurfacePalette
+- SDL_CreateSystemCursor
+- SDL_CreateTexture
+- SDL_CreateTextureFromSurface
+- SDL_CreateTextureWithProperties
+- SDL_CreateThread
+- SDL_CreateThreadWithProperties
+- SDL_CreateTrayWithProperties
+- SDL_CreateWindowAndRenderer
+- SDL_CreateWindowWithProperties
+- SDL_CursorVisible
+- SDL_DateTimeToTime
+- SDL_Delay
+- SDL_DelayNS
+- SDL_DelayPrecise
+- SDL_DestroyAsyncIOQueue
+- SDL_DestroyAudioStream
+- SDL_DestroyCondition
+- SDL_DestroyCursor
+- SDL_DestroyEnvironment
+- SDL_DestroyGPURenderState
+- SDL_DestroyGPUXRSwapchain
+- SDL_DestroyHapticEffect
+- SDL_DestroyMutex
+- SDL_DestroyPalette
+- SDL_DestroyProcess
+- SDL_DestroyProperties
+- SDL_DestroyRenderer
+- SDL_DestroyRWLock
+- SDL_DestroySemaphore
+- SDL_DestroySurface
+- SDL_DestroyTexture
+- SDL_DestroyWindowSurface
+- SDL_DetachThread
+- SDL_DetachVirtualJoystick
+- SDL_DisableScreenSaver
+- SDL_DownloadFromGPUBuffer
+- SDL_DownloadFromGPUTexture
+- SDL_DuplicateSurface
+- SDL_EGL_GetCurrentConfig
+- SDL_EGL_GetCurrentDisplay
+- SDL_EGL_GetProcAddress
+- SDL_EGL_GetWindowSurface
+- SDL_EGL_SetAttributeCallbacks
+- SDL_EnableScreenSaver
+- SDL_EnterAppMainCallbacks
+- SDL_EnumerateDirectory
+- SDL_EnumerateProperties
+- SDL_EnumerateStorageDirectory
+- SDL_EventEnabled
+- SDL_exp
+- SDL_expf
+- SDL_fabs
+- SDL_fabsf
+- SDL_FillSurfaceRect
+- SDL_FillSurfaceRects
+- SDL_FilterEvents
+- SDL_FlashWindow
+- SDL_FlipSurface
+- SDL_floor
+- SDL_floorf
+- SDL_FlushAudioStream
+- SDL_FlushEvent
+- SDL_FlushEvents
+- SDL_FlushIO
+- SDL_FlushRenderer
+- SDL_fmod
+- SDL_fmodf
+- SDL_GamepadConnected
+- SDL_GamepadEventsEnabled
+- SDL_GamepadHasAxis
+- SDL_GamepadHasButton
+- SDL_GamepadHasCapSense
+- SDL_GamepadHasSensor
+- SDL_GamepadSensorEnabled
+- SDL_GDKResumeGPU
+- SDL_GDKResumeRenderer
+- SDL_GDKSuspendComplete
+- SDL_GDKSuspendGPU
+- SDL_GDKSuspendRenderer
+- SDL_GenerateMipmapsForGPUTexture
+- SDL_GetAndroidActivity
+- SDL_GetAndroidCachePath
+- SDL_GetAndroidExternalStoragePath
+- SDL_GetAndroidExternalStorageState
+- SDL_GetAndroidInternalStoragePath
+- SDL_GetAndroidJNIEnv
+- SDL_GetAndroidSDKVersion
+- SDL_GetAppMetadataProperty
+- SDL_GetAssertionHandler
+- SDL_GetAssertionReport
+- SDL_GetAsyncIOResult
+- SDL_GetAsyncIOSize
+- SDL_GetAtomicInt
+- SDL_GetAtomicPointer
+- SDL_GetAtomicU32
+- SDL_GetAudioDeviceChannelMap
+- SDL_GetAudioDeviceFormat
+- SDL_GetAudioDeviceGain
+- SDL_GetAudioDeviceName
+- SDL_GetAudioDriver
+- SDL_GetAudioFormatName
+- SDL_GetAudioPlaybackDevices
+- SDL_GetAudioRecordingDevices
+- SDL_GetAudioStreamAvailable
+- SDL_GetAudioStreamData
+- SDL_GetAudioStreamDevice
+- SDL_GetAudioStreamFormat
+- SDL_GetAudioStreamFrequencyRatio
+- SDL_GetAudioStreamGain
+- SDL_GetAudioStreamInputChannelMap
+- SDL_GetAudioStreamOutputChannelMap
+- SDL_GetAudioStreamProperties
+- SDL_GetAudioStreamQueued
+- SDL_GetBasePath
+- SDL_GetBooleanProperty
+- SDL_GetCameraDriver
+- SDL_GetCameraFormat
+- SDL_GetCameraID
+- SDL_GetCameraName
+- SDL_GetCameraPermissionState
+- SDL_GetCameraPosition
+- SDL_GetCameraProperties
+- SDL_GetCameras
+- SDL_GetCameraSupportedFormats
+- SDL_GetClosestFullscreenDisplayMode
+- SDL_GetCurrentAudioDriver
+- SDL_GetCurrentCameraDriver
+- SDL_GetCurrentDirectory
+- SDL_GetCurrentDisplayMode
+- SDL_GetCurrentDisplayOrientation
+- SDL_GetCurrentRenderOutputSize
+- SDL_GetCurrentThreadID
+- SDL_GetCurrentTime
+- SDL_GetCurrentVideoDriver
+- SDL_GetCursor
+- SDL_GetDateTimeLocalePreferences
+- SDL_GetDayOfWeek
+- SDL_GetDayOfYear
+- SDL_GetDaysInMonth
+- SDL_GetDefaultAssertionHandler
+- SDL_GetDefaultCursor
+- SDL_GetDefaultLogOutputFunction
+- SDL_GetDefaultTextureScaleMode
+- SDL_GetDesktopDisplayMode
+- SDL_GetDirect3D9AdapterIndex
+- SDL_GetDisplayBounds
+- SDL_GetDisplayContentScale
+- SDL_GetDisplayForPoint
+- SDL_GetDisplayForRect
+- SDL_GetDisplayForWindow
+- SDL_GetDisplayName
+- SDL_GetDisplayProperties
+- SDL_GetDisplays
+- SDL_GetDisplayUsableBounds
+- SDL_GetDXGIOutputInfo
+- SDL_getenv
+- SDL_getenv_unsafe
+- SDL_GetEnvironment
+- SDL_GetEnvironmentVariable
+- SDL_GetEnvironmentVariables
+- SDL_GetEventDescription
+- SDL_GetEventFilter
+- SDL_GetFloatProperty
+- SDL_GetFullscreenDisplayModes
+- SDL_GetGamepadAppleSFSymbolsNameForAxis
+- SDL_GetGamepadAppleSFSymbolsNameForButton
+- SDL_GetGamepadAxis
+- SDL_GetGamepadAxisFromString
+- SDL_GetGamepadBindings
+- SDL_GetGamepadButton
+- SDL_GetGamepadButtonFromString
+- SDL_GetGamepadButtonLabel
+- SDL_GetGamepadButtonLabelForType
+- SDL_GetGamepadCapSense
+- SDL_GetGamepadConnectionState
+- SDL_GetGamepadFirmwareVersion
+- SDL_GetGamepadFromID
+- SDL_GetGamepadFromPlayerIndex
+- SDL_GetGamepadGUIDForID
+- SDL_GetGamepadID
+- SDL_GetGamepadJoystick
+- SDL_GetGamepadMapping
+- SDL_GetGamepadMappingForGUID
+- SDL_GetGamepadMappingForID
+- SDL_GetGamepadMappings
+- SDL_GetGamepadName
+- SDL_GetGamepadNameForID
+- SDL_GetGamepadPath
+- SDL_GetGamepadPathForID
+- SDL_GetGamepadPlayerIndex
+- SDL_GetGamepadPlayerIndexForID
+- SDL_GetGamepadPowerInfo
+- SDL_GetGamepadProduct
+- SDL_GetGamepadProductForID
+- SDL_GetGamepadProductVersion
+- SDL_GetGamepadProductVersionForID
+- SDL_GetGamepadProperties
+- SDL_GetGamepads
+- SDL_GetGamepadSensorData
+- SDL_GetGamepadSensorDataRate
+- SDL_GetGamepadSerial
+- SDL_GetGamepadSteamHandle
+- SDL_GetGamepadStringForAxis
+- SDL_GetGamepadStringForButton
+- SDL_GetGamepadStringForType
+- SDL_GetGamepadTouchpadFinger
+- SDL_GetGamepadType
+- SDL_GetGamepadTypeForID
+- SDL_GetGamepadTypeFromString
+- SDL_GetGamepadVendor
+- SDL_GetGamepadVendorForID
+- SDL_GetGDKDefaultUser
+- SDL_GetGDKTaskQueue
+- SDL_GetGlobalMouseState
+- SDL_GetGlobalProperties
+- SDL_GetGPUDeviceDriver
+- SDL_GetGPUDeviceProperties
+- SDL_GetGPUDriver
+- SDL_GetGPURendererDevice
+- SDL_GetGPUShaderFormats
+- SDL_GetGPUTextureFormatFromPixelFormat
+- SDL_GetGPUXRSwapchainFormats
+- SDL_GetGrabbedWindow
+- SDL_GetHapticEffectStatus
+- SDL_GetHapticFeatures
+- SDL_GetHapticFromID
+- SDL_GetHapticID
+- SDL_GetHapticName
+- SDL_GetHapticNameForID
+- SDL_GetHaptics
+- SDL_GetHint
+- SDL_GetHintBoolean
+- SDL_GetIOProperties
+- SDL_GetIOSize
+- SDL_GetIOStatus
+- SDL_GetJoystickAxis
+- SDL_GetJoystickAxisInitialState
+- SDL_GetJoystickBall
+- SDL_GetJoystickButton
+- SDL_GetJoystickConnectionState
+- SDL_GetJoystickFirmwareVersion
+- SDL_GetJoystickFromID
+- SDL_GetJoystickFromPlayerIndex
+- SDL_GetJoystickGUID
+- SDL_GetJoystickGUIDForID
+- SDL_GetJoystickGUIDInfo
+- SDL_GetJoystickHat
+- SDL_GetJoystickID
+- SDL_GetJoystickName
+- SDL_GetJoystickNameForID
+- SDL_GetJoystickPath
+- SDL_GetJoystickPathForID
+- SDL_GetJoystickPlayerIndex
+- SDL_GetJoystickPlayerIndexForID
+- SDL_GetJoystickPowerInfo
+- SDL_GetJoystickProduct
+- SDL_GetJoystickProductForID
+- SDL_GetJoystickProductVersion
+- SDL_GetJoystickProductVersionForID
+- SDL_GetJoystickProperties
+- SDL_GetJoysticks
+- SDL_GetJoystickSerial
+- SDL_GetJoystickType
+- SDL_GetJoystickTypeForID
+- SDL_GetJoystickVendor
+- SDL_GetJoystickVendorForID
+- SDL_GetKeyboardFocus
+- SDL_GetKeyboardNameForID
+- SDL_GetKeyboards
+- SDL_GetKeyboardState
+- SDL_GetKeyFromName
+- SDL_GetKeyFromScancode
+- SDL_GetKeyName
+- SDL_GetLogOutputFunction
+- SDL_GetLogPriority
+- SDL_GetMasksForPixelFormat
+- SDL_GetMaxHapticEffects
+- SDL_GetMaxHapticEffectsPlaying
+- SDL_GetMemoryFunctions
+- SDL_GetMice
+- SDL_GetModState
+- SDL_GetMouseFocus
+- SDL_GetMouseNameForID
+- SDL_GetMouseState
+- SDL_GetNaturalDisplayOrientation
+- SDL_GetNumAllocations
+- SDL_GetNumAudioDrivers
+- SDL_GetNumberProperty
+- SDL_GetNumCameraDrivers
+- SDL_GetNumGamepadTouchpadFingers
+- SDL_GetNumGamepadTouchpads
+- SDL_GetNumGPUDrivers
+- SDL_GetNumHapticAxes
+- SDL_GetNumJoystickAxes
+- SDL_GetNumJoystickBalls
+- SDL_GetNumJoystickButtons
+- SDL_GetNumJoystickHats
+- SDL_GetNumRenderDrivers
+- SDL_GetNumVideoDrivers
+- SDL_GetOriginalMemoryFunctions
+- SDL_GetPathInfo
+- SDL_GetPenDeviceType
+- SDL_GetPerformanceCounter
+- SDL_GetPerformanceFrequency
+- SDL_GetPixelFormatDetails
+- SDL_GetPixelFormatForMasks
+- SDL_GetPixelFormatFromGPUTextureFormat
+- SDL_GetPixelFormatName
+- SDL_GetPointerProperty
+- SDL_GetPrefPath
+- SDL_GetPrimaryDisplay
+- SDL_GetProcessInput
+- SDL_GetProcessOutput
+- SDL_GetProcessProperties
+- SDL_GetPropertyType
+- SDL_GetRealGamepadType
+- SDL_GetRealGamepadTypeForID
+- SDL_GetRelativeMouseState
+- SDL_GetRenderClipRect
+- SDL_GetRenderColorScale
+- SDL_GetRenderDrawBlendMode
+- SDL_GetRenderDrawColor
+- SDL_GetRenderDrawColorFloat
+- SDL_GetRenderDriver
+- SDL_GetRenderer
+- SDL_GetRendererFromTexture
+- SDL_GetRendererName
+- SDL_GetRendererProperties
+- SDL_GetRenderLogicalPresentation
+- SDL_GetRenderLogicalPresentationRect
+- SDL_GetRenderMetalCommandEncoder
+- SDL_GetRenderMetalLayer
+- SDL_GetRenderOutputSize
+- SDL_GetRenderSafeArea
+- SDL_GetRenderScale
+- SDL_GetRenderTarget
+- SDL_GetRenderTextureAddressMode
+- SDL_GetRenderViewport
+- SDL_GetRenderVSync
+- SDL_GetRenderWindow
+- SDL_GetRevision
+- SDL_GetRGB
+- SDL_GetRGBA
+- SDL_GetSandbox
+- SDL_GetScancodeFromKey
+- SDL_GetScancodeFromName
+- SDL_GetScancodeName
+- SDL_GetSemaphoreValue
+- SDL_GetSensorData
+- SDL_GetSensorFromID
+- SDL_GetSensorID
+- SDL_GetSensorName
+- SDL_GetSensorNameForID
+- SDL_GetSensorNonPortableType
+- SDL_GetSensorNonPortableTypeForID
+- SDL_GetSensorProperties
+- SDL_GetSensors
+- SDL_GetSensorType
+- SDL_GetSensorTypeForID
+- SDL_GetSilenceValueForFormat
+- SDL_GetSIMDAlignment
+- SDL_GetStorageFileSize
+- SDL_GetStoragePathInfo
+- SDL_GetStorageSpaceRemaining
+- SDL_GetStringProperty
+- SDL_GetSurfaceAlphaMod
+- SDL_GetSurfaceBlendMode
+- SDL_GetSurfaceClipRect
+- SDL_GetSurfaceColorKey
+- SDL_GetSurfaceColorMod
+- SDL_GetSurfaceColorspace
+- SDL_GetSurfaceImages
+- SDL_GetSurfacePalette
+- SDL_GetSurfaceProperties
+- SDL_GetSystemTheme
+- SDL_GetTextInputArea
+- SDL_GetTextureAlphaMod
+- SDL_GetTextureAlphaModFloat
+- SDL_GetTextureBlendMode
+- SDL_GetTextureColorMod
+- SDL_GetTextureColorModFloat
+- SDL_GetTexturePalette
+- SDL_GetTextureProperties
+- SDL_GetTextureScaleMode
+- SDL_GetTextureSize
+- SDL_GetThreadID
+- SDL_GetThreadName
+- SDL_GetThreadState
+- SDL_GetTLS
+- SDL_GetTouchDeviceName
+- SDL_GetTouchDevices
+- SDL_GetTouchDeviceType
+- SDL_GetTouchFingers
+- SDL_GetTrayEntries
+- SDL_GetTrayEntryParent
+- SDL_GetTrayMenu
+- SDL_GetTrayMenuParentEntry
+- SDL_GetTrayMenuParentTray
+- SDL_GetTraySubmenu
+- SDL_GetUserFolder
+- SDL_GetVersion
+- SDL_GetVideoDriver
+- SDL_GetWindowAspectRatio
+- SDL_GetWindowBordersSize
+- SDL_GetWindowFlags
+- SDL_GetWindowFromEvent
+- SDL_GetWindowFromID
+- SDL_GetWindowFullscreenMode
+- SDL_GetWindowICCProfile
+- SDL_GetWindowKeyboardGrab
+- SDL_GetWindowMaximumSize
+- SDL_GetWindowMinimumSize
+- SDL_GetWindowMouseGrab
+- SDL_GetWindowMouseRect
+- SDL_GetWindowOpacity
+- SDL_GetWindowParent
+- SDL_GetWindowPixelDensity
+- SDL_GetWindowPixelFormat
+- SDL_GetWindowPosition
+- SDL_GetWindowProgressState
+- SDL_GetWindowProgressValue
+- SDL_GetWindowProperties
+- SDL_GetWindowRelativeMouseMode
+- SDL_GetWindows
+- SDL_GetWindowSafeArea
+- SDL_GetWindowSurface
+- SDL_GetWindowSurfaceVSync
+- SDL_GetWindowTitle
+- SDL_GL_CreateContext
+- SDL_GL_DestroyContext
+- SDL_GL_ExtensionSupported
+- SDL_GL_GetAttribute
+- SDL_GL_GetCurrentContext
+- SDL_GL_GetCurrentWindow
+- SDL_GL_GetProcAddress
+- SDL_GL_GetSwapInterval
+- SDL_GL_LoadLibrary
+- SDL_GL_MakeCurrent
+- SDL_GL_ResetAttributes
+- SDL_GL_SetAttribute
+- SDL_GL_SetSwapInterval
+- SDL_GL_SwapWindow
+- SDL_GL_UnloadLibrary
+- SDL_GlobDirectory
+- SDL_GlobStorageDirectory
+- SDL_GPUSupportsProperties
+- SDL_GPUSupportsShaderFormats
+- SDL_GPUTextureFormatTexelBlockSize
+- SDL_GPUTextureSupportsFormat
+- SDL_GPUTextureSupportsSampleCount
+- SDL_GUIDToString
+- SDL_HapticEffectSupported
+- SDL_HapticRumbleSupported
+- SDL_HasAltiVec
+- SDL_HasARMSIMD
+- SDL_HasAVX
+- SDL_HasAVX2
+- SDL_HasAVX512F
+- SDL_HasEvent
+- SDL_HasEvents
+- SDL_HasExactlyOneBitSet32
+- SDL_HasGamepad
+- SDL_HasJoystick
+- SDL_HasKeyboard
+- SDL_HasLASX
+- SDL_HasLSX
+- SDL_HasMMX
+- SDL_HasMouse
+- SDL_HasNEON
+- SDL_HasProperty
+- SDL_HasScreenKeyboardSupport
+- SDL_HasSSE
+- SDL_HasSSE2
+- SDL_HasSSE3
+- SDL_HasSSE41
+- SDL_HasSSE42
+- SDL_HasSVE2
+- SDL_hid_ble_scan
+- SDL_hid_close
+- SDL_hid_device_change_count
+- SDL_hid_enumerate
+- SDL_hid_exit
+- SDL_hid_free_enumeration
+- SDL_hid_get_device_info
+- SDL_hid_get_feature_report
+- SDL_hid_get_indexed_string
+- SDL_hid_get_input_report
+- SDL_hid_get_manufacturer_string
+- SDL_hid_get_product_string
+- SDL_hid_get_properties
+- SDL_hid_get_report_descriptor
+- SDL_hid_get_serial_number_string
+- SDL_hid_init
+- SDL_hid_open
+- SDL_hid_open_path
+- SDL_hid_read
+- SDL_hid_read_timeout
+- SDL_hid_send_feature_report
+- SDL_hid_set_nonblocking
+- SDL_hid_write
+- SDL_HideCursor
+- SDL_HideWindow
+- SDL_iconv
+- SDL_iconv_close
+- SDL_iconv_open
+- SDL_iconv_string
+- SDL_InitHapticRumble
+- SDL_InsertGPUDebugLabel
+- SDL_IOFromConstMem
+- SDL_IOFromDynamicMem
+- SDL_IOFromFile
+- SDL_IOFromMem
+- SDL_IOprintf
+- SDL_IOvprintf
+- SDL_isalnum
+- SDL_isalpha
+- SDL_IsAudioDevicePhysical
+- SDL_IsAudioDevicePlayback
+- SDL_isblank
+- SDL_IsChromebook
+- SDL_iscntrl
+- SDL_IsDeXMode
+- SDL_isdigit
+- SDL_IsGamepad
+- SDL_isgraph
+- SDL_isinf
+- SDL_isinff
+- SDL_IsJoystickHaptic
+- SDL_IsJoystickVirtual
+- SDL_islower
+- SDL_IsMainThread
+- SDL_IsMouseHaptic
+- SDL_isnan
+- SDL_isnanf
+- SDL_IsPhone
+- SDL_isprint
+- SDL_ispunct
+- SDL_isspace
+- SDL_IsTablet
+- SDL_IsTV
+- SDL_isupper
+- SDL_isxdigit
+- SDL_itoa
+- SDL_JoystickConnected
+- SDL_JoystickEventsEnabled
+- SDL_KillProcess
+- SDL_lltoa
+- SDL_LoadBMP
+- SDL_LoadBMP_IO
+- SDL_LoadFile
+- SDL_LoadFile_IO
+- SDL_LoadFileAsync
+- SDL_LoadFunction
+- SDL_LoadJPG
+- SDL_LoadJPG_IO
+- SDL_LoadObject
+- SDL_LoadPNG
+- SDL_LoadPNG_IO
+- SDL_LoadSurface
+- SDL_LoadSurface_IO
+- SDL_LoadWAV
+- SDL_LoadWAV_IO
+- SDL_LockAudioStream
+- SDL_LockJoysticks
+- SDL_LockMutex
+- SDL_LockProperties
+- SDL_LockRWLockForReading
+- SDL_LockRWLockForWriting
+- SDL_LockSpinlock
+- SDL_LockSurface
+- SDL_LockTexture
+- SDL_LockTextureToSurface
+- SDL_Log
+- SDL_log
+- SDL_log10
+- SDL_log10f
+- SDL_LogCritical
+- SDL_LogDebug
+- SDL_LogError
+- SDL_logf
+- SDL_LogInfo
+- SDL_LogMessage
+- SDL_LogMessageV
+- SDL_LogTrace
+- SDL_LogVerbose
+- SDL_LogWarn
+- SDL_lround
+- SDL_lroundf
+- SDL_ltoa
+- SDL_main
+- SDL_malloc
+- SDL_MapRGB
+- SDL_MapRGBA
+- SDL_MapSurfaceRGB
+- SDL_MapSurfaceRGBA
+- SDL_MaximizeWindow
+- SDL_memcmp
+- SDL_memcpy
+- SDL_memmove
+- SDL_MemoryBarrierAcquireFunction
+- SDL_MemoryBarrierReleaseFunction
+- SDL_memset
+- SDL_memset4
+- SDL_Metal_CreateView
+- SDL_Metal_DestroyView
+- SDL_Metal_GetLayer
+- SDL_MinimizeWindow
+- SDL_MixAudio
+- SDL_modf
+- SDL_modff
+- SDL_MostSignificantBitIndex32
+- SDL_murmur3_32
+- SDL_OnApplicationDidChangeStatusBarOrientation
+- SDL_OnApplicationDidEnterBackground
+- SDL_OnApplicationDidEnterForeground
+- SDL_OnApplicationDidReceiveMemoryWarning
+- SDL_OnApplicationWillEnterBackground
+- SDL_OnApplicationWillEnterForeground
+- SDL_OnApplicationWillTerminate
+- SDL_OpenAudioDevice
+- SDL_OpenAudioDeviceStream
+- SDL_OpenCamera
+- SDL_OpenFileStorage
+- SDL_OpenGamepad
+- SDL_OpenHaptic
+- SDL_OpenHapticFromJoystick
+- SDL_OpenHapticFromMouse
+- SDL_OpenIO
+- SDL_OpenJoystick
+- SDL_OpenSensor
+- SDL_OpenStorage
+- SDL_OpenTitleStorage
+- SDL_OpenUserStorage
+- SDL_OpenXR_GetXrGetInstanceProcAddr
+- SDL_OpenXR_LoadLibrary
+- SDL_OpenXR_UnloadLibrary
+- SDL_OutOfMemory
+- SDL_PauseAudioDevice
+- SDL_PauseAudioStreamDevice
+- SDL_PauseHaptic
+- SDL_PeepEvents
+- SDL_PlayHapticRumble
+- SDL_PopGPUDebugGroup
+- SDL_pow
+- SDL_powf
+- SDL_PremultiplyAlpha
+- SDL_PremultiplySurfaceAlpha
+- SDL_PumpEvents
+- SDL_PushEvent
+- SDL_PushGPUDebugGroup
+- SDL_PutAudioStreamData
+- SDL_PutAudioStreamDataNoCopy
+- SDL_PutAudioStreamPlanarData
+- SDL_qsort
+- SDL_qsort_r
+- SDL_QueryGPUFence
+- SDL_RaiseWindow
+- SDL_rand
+- SDL_rand_bits
+- SDL_rand_bits_r
+- SDL_rand_r
+- SDL_randf
+- SDL_randf_r
+- SDL_ReadAsyncIO
+- SDL_ReadIO
+- SDL_ReadProcess
+- SDL_ReadS16BE
+- SDL_ReadS16LE
+- SDL_ReadS32BE
+- SDL_ReadS32LE
+- SDL_ReadS64BE
+- SDL_ReadS64LE
+- SDL_ReadS8
+- SDL_ReadStorageFile
+- SDL_ReadSurfacePixel
+- SDL_ReadSurfacePixelFloat
+- SDL_ReadU16BE
+- SDL_ReadU16LE
+- SDL_ReadU32BE
+- SDL_ReadU32LE
+- SDL_ReadU64BE
+- SDL_ReadU64LE
+- SDL_ReadU8
+- SDL_realloc
+- SDL_RegisterApp
+- SDL_RegisterEvents
+- SDL_ReleaseCameraFrame
+- SDL_ReleaseGPUFence
+- SDL_ReloadGamepadMappings
+- SDL_RemoveEventWatch
+- SDL_RemoveHintCallback
+- SDL_RemoveNotification
+- SDL_RemovePath
+- SDL_RemoveStoragePath
+- SDL_RemoveSurfaceAlternateImages
+- SDL_RemoveTimer
+- SDL_RenamePath
+- SDL_RenameStoragePath
+- SDL_RenderClear
+- SDL_RenderClipEnabled
+- SDL_RenderCoordinatesFromWindow
+- SDL_RenderCoordinatesToWindow
+- SDL_RenderDebugText
+- SDL_RenderDebugTextFormat
+- SDL_RenderFillRect
+- SDL_RenderFillRects
+- SDL_RenderGeometry
+- SDL_RenderGeometryRaw
+- SDL_RenderLine
+- SDL_RenderLines
+- SDL_RenderPoint
+- SDL_RenderPoints
+- SDL_RenderPresent
+- SDL_RenderReadPixels
+- SDL_RenderRect
+- SDL_RenderRects
+- SDL_RenderTexture
+- SDL_RenderTexture9Grid
+- SDL_RenderTexture9GridTiled
+- SDL_RenderTextureAffine
+- SDL_RenderTextureRotated
+- SDL_RenderTextureTiled
+- SDL_RenderViewportSet
+- SDL_ReportAssertion
+- SDL_RequestAndroidPermission
+- SDL_RequestNotificationPermission
+- SDL_ResetAssertionReport
+- SDL_ResetHint
+- SDL_ResetHints
+- SDL_ResetKeyboard
+- SDL_ResetLogPriorities
+- SDL_RestoreWindow
+- SDL_ResumeAudioDevice
+- SDL_ResumeAudioStreamDevice
+- SDL_ResumeHaptic
+- SDL_RotateSurface
+- SDL_round
+- SDL_roundf
+- SDL_RumbleGamepad
+- SDL_RumbleGamepadTriggers
+- SDL_RumbleJoystick
+- SDL_RumbleJoystickTriggers
+- SDL_RunApp
+- SDL_RunHapticEffect
+- SDL_RunOnMainThread
+- SDL_SaveBMP
+- SDL_SaveBMP_IO
+- SDL_SaveFile
+- SDL_SaveFile_IO
+- SDL_SavePNG
+- SDL_SavePNG_IO
+- SDL_scalbn
+- SDL_scalbnf
+- SDL_ScaleSurface
+- SDL_ScreenKeyboardShown
+- SDL_ScreenSaverEnabled
+- SDL_SeekIO
+- SDL_SendAndroidBackButton
+- SDL_SendAndroidMessage
+- SDL_SendGamepadEffect
+- SDL_SendJoystickEffect
+- SDL_SendJoystickVirtualSensorData
+- SDL_SetAssertionHandler
+- SDL_SetAtomicInt
+- SDL_SetAtomicPointer
+- SDL_SetAtomicU32
+- SDL_SetAudioDeviceGain
+- SDL_SetAudioPostmixCallback
+- SDL_SetAudioStreamFormat
+- SDL_SetAudioStreamFrequencyRatio
+- SDL_SetAudioStreamGain
+- SDL_SetAudioStreamGetCallback
+- SDL_SetAudioStreamInputChannelMap
+- SDL_SetAudioStreamOutputChannelMap
+- SDL_SetAudioStreamPutCallback
+- SDL_SetBooleanProperty
+- SDL_SetCurrentThreadPriority
+- SDL_SetCursor
+- SDL_SetDefaultTextureScaleMode
+- SDL_setenv_unsafe
+- SDL_SetEnvironmentVariable
+- SDL_SetErrorV
+- SDL_SetEventEnabled
+- SDL_SetEventFilter
+- SDL_SetFloatProperty
+- SDL_SetGamepadEventsEnabled
+- SDL_SetGamepadLED
+- SDL_SetGamepadMapping
+- SDL_SetGamepadPlayerIndex
+- SDL_SetGamepadSensorEnabled
+- SDL_SetGPUAllowedFramesInFlight
+- SDL_SetGPUBlendConstants
+- SDL_SetGPUBufferName
+- SDL_SetGPURenderState
+- SDL_SetGPURenderStateFragmentUniforms
+- SDL_SetGPURenderStateSamplerBindings
+- SDL_SetGPURenderStateStorageBuffers
+- SDL_SetGPURenderStateStorageTextures
+- SDL_SetGPUStencilReference
+- SDL_SetGPUTextureName
+- SDL_SetHapticAutocenter
+- SDL_SetHapticGain
+- SDL_SetHint
+- SDL_SetHintWithPriority
+- SDL_SetInitialized
+- SDL_SetiOSAnimationCallback
+- SDL_SetiOSEventPump
+- SDL_SetJoystickEventsEnabled
+- SDL_SetJoystickLED
+- SDL_SetJoystickPlayerIndex
+- SDL_SetJoystickVirtualAxis
+- SDL_SetJoystickVirtualBall
+- SDL_SetJoystickVirtualButton
+- SDL_SetJoystickVirtualHat
+- SDL_SetJoystickVirtualTouchpad
+- SDL_SetLinuxThreadPriority
+- SDL_SetLinuxThreadPriorityAndPolicy
+- SDL_SetLogOutputFunction
+- SDL_SetLogPriorities
+- SDL_SetLogPriorityPrefix
+- SDL_SetMainReady
+- SDL_SetMemoryFunctions
+- SDL_SetModState
+- SDL_SetNumberProperty
+- SDL_SetPaletteColors
+- SDL_SetPointerProperty
+- SDL_SetPointerPropertyWithCleanup
+- SDL_SetRelativeMouseTransform
+- SDL_SetRenderClipRect
+- SDL_SetRenderColorScale
+- SDL_SetRenderDrawBlendMode
+- SDL_SetRenderDrawColor
+- SDL_SetRenderDrawColorFloat
+- SDL_SetRenderLogicalPresentation
+- SDL_SetRenderScale
+- SDL_SetRenderTarget
+- SDL_SetRenderTextureAddressMode
+- SDL_SetRenderViewport
+- SDL_SetRenderVSync
+- SDL_SetScancodeName
+- SDL_SetStringProperty
+- SDL_SetSurfaceAlphaMod
+- SDL_SetSurfaceBlendMode
+- SDL_SetSurfaceClipRect
+- SDL_SetSurfaceColorKey
+- SDL_SetSurfaceColorMod
+- SDL_SetSurfaceColorspace
+- SDL_SetSurfacePalette
+- SDL_SetSurfaceRLE
+- SDL_SetTextInputArea
+- SDL_SetTextureAlphaMod
+- SDL_SetTextureAlphaModFloat
+- SDL_SetTextureBlendMode
+- SDL_SetTextureColorMod
+- SDL_SetTextureColorModFloat
+- SDL_SetTexturePalette
+- SDL_SetTextureScaleMode
+- SDL_SetTLS
+- SDL_SetWindowAlwaysOnTop
+- SDL_SetWindowAspectRatio
+- SDL_SetWindowBordered
+- SDL_SetWindowFillDocument
+- SDL_SetWindowFocusable
+- SDL_SetWindowFullscreen
+- SDL_SetWindowFullscreenMode
+- SDL_SetWindowHitTest
+- SDL_SetWindowIcon
+- SDL_SetWindowKeyboardGrab
+- SDL_SetWindowMaximumSize
+- SDL_SetWindowMinimumSize
+- SDL_SetWindowModal
+- SDL_SetWindowMouseGrab
+- SDL_SetWindowMouseRect
+- SDL_SetWindowOpacity
+- SDL_SetWindowParent
+- SDL_SetWindowPosition
+- SDL_SetWindowProgressState
+- SDL_SetWindowProgressValue
+- SDL_SetWindowRelativeMouseMode
+- SDL_SetWindowResizable
+- SDL_SetWindowShape
+- SDL_SetWindowSize
+- SDL_SetWindowsMessageHook
+- SDL_SetWindowSurfaceVSync
+- SDL_SetWindowTitle
+- SDL_SetX11EventHook
+- SDL_ShouldInit
+- SDL_ShouldQuit
+- SDL_ShowAndroidToast
+- SDL_ShowCursor
+- SDL_ShowFileDialogWithProperties
+- SDL_ShowNotification
+- SDL_ShowNotificationWithProperties
+- SDL_ShowWindow
+- SDL_ShowWindowSystemMenu
+- SDL_SignalAsyncIOQueue
+- SDL_SignalCondition
+- SDL_SignalSemaphore
+- SDL_sin
+- SDL_sinf
+- SDL_size_add_check_overflow
+- SDL_size_mul_check_overflow
+- SDL_snprintf
+- SDL_sqrt
+- SDL_sqrtf
+- SDL_srand
+- SDL_sscanf
+- SDL_StartTextInput
+- SDL_StartTextInputWithProperties
+- SDL_StepBackUTF8
+- SDL_StepUTF8
+- SDL_StopHapticEffect
+- SDL_StopHapticEffects
+- SDL_StopHapticRumble
+- SDL_StopTextInput
+- SDL_StorageReady
+- SDL_strcasecmp
+- SDL_strcasestr
+- SDL_strchr
+- SDL_strcmp
+- SDL_strdup
+- SDL_StretchSurface
+- SDL_StringToGUID
+- SDL_strlcat
+- SDL_strlcpy
+- SDL_strlen
+- SDL_strlwr
+- SDL_strncasecmp
+- SDL_strncmp
+- SDL_strndup
+- SDL_strnlen
+- SDL_strnstr
+- SDL_strpbrk
+- SDL_strrchr
+- SDL_strrev
+- SDL_strstr
+- SDL_strtod
+- SDL_strtok_r
+- SDL_strtol
+- SDL_strtoll
+- SDL_strtoul
+- SDL_strtoull
+- SDL_strupr
+- SDL_SubmitGPUCommandBufferAndAcquireFence
+- SDL_SurfaceHasAlternateImages
+- SDL_SurfaceHasColorKey
+- SDL_SurfaceHasRLE
+- SDL_Swap16
+- SDL_Swap32
+- SDL_Swap64
+- SDL_SwapFloat
+- SDL_swprintf
+- SDL_SyncWindow
+- SDL_tan
+- SDL_tanf
+- SDL_TellIO
+- SDL_TextInputActive
+- SDL_TimeFromWindows
+- SDL_TimeToDateTime
+- SDL_TimeToWindows
+- SDL_tolower
+- SDL_toupper
+- SDL_trunc
+- SDL_truncf
+- SDL_TryLockJoysticks
+- SDL_TryLockMutex
+- SDL_TryLockRWLockForReading
+- SDL_TryLockRWLockForWriting
+- SDL_TryLockSpinlock
+- SDL_TryWaitSemaphore
+- SDL_UCS4ToUTF8
+- SDL_uitoa
+- SDL_ulltoa
+- SDL_ultoa
+- SDL_UnbindAudioStream
+- SDL_UnbindAudioStreams
+- SDL_UnloadObject
+- SDL_UnlockAudioStream
+- SDL_UnlockJoysticks
+- SDL_UnlockMutex
+- SDL_UnlockProperties
+- SDL_UnlockRWLock
+- SDL_UnlockSpinlock
+- SDL_UnlockSurface
+- SDL_UnlockTexture
+- SDL_UnregisterApp
+- SDL_unsetenv_unsafe
+- SDL_UnsetEnvironmentVariable
+- SDL_UpdateGamepads
+- SDL_UpdateHapticEffect
+- SDL_UpdateJoysticks
+- SDL_UpdateNVTexture
+- SDL_UpdateSensors
+- SDL_UpdateTexture
+- SDL_UpdateWindowSurface
+- SDL_UpdateWindowSurfaceRects
+- SDL_UpdateYUVTexture
+- SDL_utf8strlcpy
+- SDL_utf8strlen
+- SDL_utf8strnlen
+- SDL_vasprintf
+- SDL_vsnprintf
+- SDL_vsscanf
+- SDL_vswprintf
+- SDL_Vulkan_CreateSurface
+- SDL_Vulkan_DestroySurface
+- SDL_Vulkan_GetInstanceExtensions
+- SDL_Vulkan_GetPresentationSupport
+- SDL_Vulkan_GetVkGetInstanceProcAddr
+- SDL_Vulkan_LoadLibrary
+- SDL_Vulkan_UnloadLibrary
+- SDL_WaitAsyncIOResult
+- SDL_WaitCondition
+- SDL_WaitConditionTimeout
+- SDL_WaitEvent
+- SDL_WaitEventTimeout
+- SDL_WaitForGPUFences
+- SDL_WaitForGPUIdle
+- SDL_WaitForGPUSwapchain
+- SDL_WaitProcess
+- SDL_WaitSemaphore
+- SDL_WaitSemaphoreTimeout
+- SDL_WaitThread
+- SDL_WarpMouseGlobal
+- SDL_WarpMouseInWindow
+- SDL_wcscasecmp
+- SDL_wcscmp
+- SDL_wcsdup
+- SDL_wcslcat
+- SDL_wcslcpy
+- SDL_wcslen
+- SDL_wcsncasecmp
+- SDL_wcsncmp
+- SDL_wcsnlen
+- SDL_wcsnstr
+- SDL_wcsstr
+- SDL_wcstol
+- SDL_wcstoll
+- SDL_wcstoul
+- SDL_wcstoull
+- SDL_WindowHasSurface
+- SDL_WriteAsyncIO
+- SDL_WriteIO
+- SDL_WriteS16BE
+- SDL_WriteS16LE
+- SDL_WriteS32BE
+- SDL_WriteS32LE
+- SDL_WriteS64BE
+- SDL_WriteS64LE
+- SDL_WriteS8
+- SDL_WriteStorageFile
+- SDL_WriteSurfacePixel
+- SDL_WriteSurfacePixelFloat
+- SDL_WriteU16BE
+- SDL_WriteU16LE
+- SDL_WriteU32BE
+- SDL_WriteU32LE
+- SDL_WriteU64BE
+- SDL_WriteU64LE
+- SDL_WriteU8
+
+### Missing Datatypes
+
+- SDL_AppEvent_func
+- SDL_AppInit_func
+- SDL_AppIterate_func
+- SDL_AppQuit_func
+- SDL_AssertionHandler
+- SDL_AsyncIO
+- SDL_AsyncIOQueue
+- SDL_AudioDeviceID
+- SDL_AudioPostmixCallback
+- SDL_AudioStream
+- SDL_AudioStreamCallback
+- SDL_AudioStreamDataCompleteCallback
+- SDL_BlendMode
+- SDL_calloc_func
+- SDL_Camera
+- SDL_CameraID
+- SDL_CleanupPropertyCallback
+- SDL_CompareCallback
+- SDL_CompareCallback_r
+- SDL_Condition
+- SDL_Cursor
+- SDL_DisplayID
+- SDL_DisplayModeData
+- SDL_EGLAttrib
+- SDL_EGLAttribArrayCallback
+- SDL_EGLConfig
+- SDL_EGLDisplay
+- SDL_EGLint
+- SDL_EGLIntArrayCallback
+- SDL_EGLSurface
+- SDL_EnumerateDirectoryCallback
+- SDL_EnumeratePropertiesCallback
+- SDL_Environment
+- SDL_EventFilter
+- SDL_FingerID
+- SDL_free_func
+- SDL_FunctionPointer
+- SDL_Gamepad
+- SDL_GLContext
+- SDL_GLContextFlag
+- SDL_GLContextReleaseFlag
+- SDL_GLContextResetNotification
+- SDL_GlobFlags
+- SDL_GLProfile
+- SDL_GPUFence
+- SDL_GPURenderState
+- SDL_GPUTransferBuffer
+- SDL_Haptic
+- SDL_HapticDirectionType
+- SDL_HapticEffectID
+- SDL_HapticEffectType
+- SDL_HapticID
+- SDL_hid_device
+- SDL_HintCallback
+- SDL_HitTest
+- SDL_iconv_t
+- SDL_iOSAnimationCallback
+- SDL_IOStream
+- SDL_Joystick
+- SDL_JoystickID
+- SDL_KeyboardID
+- SDL_LogOutputFunction
+- SDL_main_func
+- SDL_MainThreadCallback
+- SDL_malloc_func
+- SDL_MetalView
+- SDL_MouseID
+- SDL_MouseMotionTransformCallback
+- SDL_Mutex
+- SDL_NSTimerCallback
+- SDL_PenID
+- SDL_Process
+- SDL_PropertiesID
+- SDL_realloc_func
+- SDL_Renderer
+- SDL_RequestAndroidPermissionCallback
+- SDL_RWLock
+- SDL_Semaphore
+- SDL_Sensor
+- SDL_SensorID
+- SDL_SharedObject
+- SDL_SpinLock
+- SDL_Storage
+- SDL_SurfaceFlags
+- SDL_Thread
+- SDL_ThreadFunction
+- SDL_ThreadID
+- SDL_Time
+- SDL_TimerCallback
+- SDL_TimerID
+- SDL_TLSDestructorCallback
+- SDL_TLSID
+- SDL_TouchID
+- SDL_TrayClickCallback
+- SDL_WindowID
+- SDL_WindowsMessageHook
+- SDL_X11EventHook
+
+### Missing Structs
+
+- SDL_AssertData
+- SDL_AsyncIOOutcome
+- SDL_AtomicInt
+- SDL_AtomicU32
+- SDL_AudioSpec
+- SDL_CameraSpec
+- SDL_Color
+- SDL_CursorFrameInfo
+- SDL_DateTime
+- SDL_DisplayMode
+- SDL_Finger
+- SDL_GamepadBinding
+- SDL_GamepadCapSenseEvent
+- SDL_GPUIndexedIndirectDrawCommand
+- SDL_GPUIndirectDispatchCommand
+- SDL_GPUIndirectDrawCommand
+- SDL_GPURenderStateCreateInfo
+- SDL_GPUVulkanOptions
+- SDL_GUID
+- SDL_HapticCondition
+- SDL_HapticConstant
+- SDL_HapticCustom
+- SDL_HapticDirection
+- SDL_HapticEffect
+- SDL_HapticLeftRight
+- SDL_HapticPeriodic
+- SDL_HapticRamp
+- SDL_hid_device_info
+- SDL_InitState
+- SDL_IOStreamInterface
+- SDL_NotificationAction
+- SDL_NotificationEvent
+- SDL_Palette
+- SDL_PathInfo
+- SDL_PixelFormatDetails
+- SDL_StorageInterface
+- SDL_Texture
+- SDL_Vertex
+- SDL_VirtualJoystickDesc
+- SDL_VirtualJoystickSensorDesc
+- SDL_VirtualJoystickTouchpadDesc
+
+### Missing Enums
+
+- SDL_AppResult
+- SDL_ArrayOrder
+- SDL_AssertState
+- SDL_AsyncIOResult
+- SDL_AsyncIOTaskType
+- SDL_AudioFormat
+- SDL_BitmapOrder
+- SDL_BlendFactor
+- SDL_BlendOperation
+- SDL_CameraPermissionState
+- SDL_CameraPosition
+- SDL_Capitalization
+- SDL_ChromaLocation
+- SDL_ColorPrimaries
+- SDL_ColorRange
+- SDL_Colorspace
+- SDL_ColorType
+- SDL_DateFormat
+- SDL_EnumerationResult
+- SDL_EventAction
+- SDL_EventType
+- SDL_FlashOperation
+- SDL_Folder
+- SDL_GamepadAxis
+- SDL_GamepadBindingType
+- SDL_GamepadButton
+- SDL_GamepadButtonLabel
+- SDL_GamepadCapSenseType
+- SDL_GamepadType
+- SDL_GLAttr
+- SDL_hid_bus_type
+- SDL_HintPriority
+- SDL_HitTestResult
+- SDL_InitStatus
+- SDL_IOStatus
+- SDL_IOWhence
+- SDL_JoystickConnectionState
+- SDL_JoystickType
+- SDL_MatrixCoefficients
+- SDL_MessageBoxColorType
+- SDL_PackedLayout
+- SDL_PackedOrder
+- SDL_PathType
+- SDL_PenDeviceType
+- SDL_PixelFormat
+- SDL_PixelType
+- SDL_ProcessIO
+- SDL_ProgressState
+- SDL_PropertyType
+- SDL_RendererLogicalPresentation
+- SDL_Sandbox
+- SDL_ScaleMode
+- SDL_SensorType
+- SDL_SystemCursor
+- SDL_SystemTheme
+- SDL_TextInputType
+- SDL_TextureAccess
+- SDL_TextureAddressMode
+- SDL_ThreadPriority
+- SDL_ThreadState
+- SDL_TimeFormat
+- SDL_TouchDeviceType
+- SDL_TransferCharacteristics
+
+### Missing Macros
+
+- SDL_ACQUIRE
+- SDL_ACQUIRE_SHARED
+- SDL_ACQUIRED_AFTER
+- SDL_ACQUIRED_BEFORE
+- SDL_ALIGNED
+- SDL_ALLOC_SIZE
+- SDL_ALPHA_OPAQUE
+- SDL_ALPHA_OPAQUE_FLOAT
+- SDL_ALPHA_TRANSPARENT
+- SDL_ALPHA_TRANSPARENT_FLOAT
+- SDL_ALTIVEC_INTRINSICS
+- SDL_ANALYZER_NORETURN
+- SDL_ANDROID_EXTERNAL_STORAGE_READ
+- SDL_ANDROID_EXTERNAL_STORAGE_WRITE
+- SDL_arraysize
+- SDL_assert
+- SDL_assert_always
+- SDL_ASSERT_CAPABILITY
+- SDL_ASSERT_FILE
+- SDL_ASSERT_LEVEL
+- SDL_assert_paranoid
+- SDL_assert_release
+- SDL_ASSERT_SHARED_CAPABILITY
+- SDL_AssertBreakpoint
+- SDL_AtomicDecRef
+- SDL_AtomicIncRef
+- SDL_AUDIO_BITSIZE
+- SDL_AUDIO_BYTESIZE
+- SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK
+- SDL_AUDIO_DEVICE_DEFAULT_RECORDING
+- SDL_AUDIO_FRAMESIZE
+- SDL_AUDIO_ISBIGENDIAN
+- SDL_AUDIO_ISFLOAT
+- SDL_AUDIO_ISINT
+- SDL_AUDIO_ISLITTLEENDIAN
+- SDL_AUDIO_ISSIGNED
+- SDL_AUDIO_ISUNSIGNED
+- SDL_AUDIO_MASK_BIG_ENDIAN
+- SDL_AUDIO_MASK_BITSIZE
+- SDL_AUDIO_MASK_FLOAT
+- SDL_AUDIO_MASK_SIGNED
+- SDL_AVX2_INTRINSICS
+- SDL_AVX512F_INTRINSICS
+- SDL_AVX_INTRINSICS
+- SDL_BIG_ENDIAN
+- SDL_BITSPERPIXEL
+- SDL_BLENDMODE_ADD
+- SDL_BLENDMODE_ADD_PREMULTIPLIED
+- SDL_BLENDMODE_BLEND
+- SDL_BLENDMODE_BLEND_PREMULTIPLIED
+- SDL_BLENDMODE_INVALID
+- SDL_BLENDMODE_MOD
+- SDL_BLENDMODE_MUL
+- SDL_BLENDMODE_NONE
+- SDL_BUTTON_LEFT
+- SDL_BUTTON_LMASK
+- SDL_BUTTON_MASK
+- SDL_BUTTON_MIDDLE
+- SDL_BUTTON_MMASK
+- SDL_BUTTON_RIGHT
+- SDL_BUTTON_RMASK
+- SDL_BUTTON_X1
+- SDL_BUTTON_X1MASK
+- SDL_BUTTON_X2
+- SDL_BUTTON_X2MASK
+- SDL_BYTEORDER
+- SDL_BYTESPERPIXEL
+- SDL_CACHELINE_SIZE
+- SDL_CAPABILITY
+- SDL_clamp
+- SDL_COLORSPACECHROMA
+- SDL_COLORSPACEMATRIX
+- SDL_COLORSPACEPRIMARIES
+- SDL_COLORSPACERANGE
+- SDL_COLORSPACETRANSFER
+- SDL_COLORSPACETYPE
+- SDL_COMPILE_TIME_ASSERT
+- SDL_CompilerBarrier
+- SDL_const_cast
+- SDL_copyp
+- SDL_CPUPauseInstruction
+- SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE
+- SDL_DECLSPEC
+- SDL_DEFINE_AUDIO_FORMAT
+- SDL_DEFINE_COLORSPACE
+- SDL_DEFINE_PIXELFORMAT
+- SDL_DEFINE_PIXELFOURCC
+- SDL_DEPRECATED
+- SDL_disabled_assert
+- SDL_ELF_NOTE_DLOPEN
+- SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED
+- SDL_ELF_NOTE_DLOPEN_PRIORITY_REQUIRED
+- SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED
+- SDL_enabled_assert
+- SDL_EXCLUDES
+- SDL_FALLTHROUGH
+- SDL_FILE
+- SDL_FLOATWORDORDER
+- SDL_FLT_EPSILON
+- SDL_FORCE_INLINE
+- SDL_FOURCC
+- SDL_FUNCTION
+- SDL_FUNCTION_POINTER_IS_VOID_POINTER
+- SDL_GL_CONTEXT_DEBUG_FLAG
+- SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG
+- SDL_GL_CONTEXT_PROFILE_COMPATIBILITY
+- SDL_GL_CONTEXT_PROFILE_CORE
+- SDL_GL_CONTEXT_PROFILE_ES
+- SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
+- SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE
+- SDL_GL_CONTEXT_RESET_ISOLATION_FLAG
+- SDL_GL_CONTEXT_RESET_LOSE_CONTEXT
+- SDL_GL_CONTEXT_RESET_NO_NOTIFICATION
+- SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG
+- SDL_GLOB_CASEINSENSITIVE
+- SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ
+- SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE
+- SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ
+- SDL_GPU_BUFFERUSAGE_INDEX
+- SDL_GPU_BUFFERUSAGE_INDIRECT
+- SDL_GPU_BUFFERUSAGE_VERTEX
+- SDL_GPU_COLORCOMPONENT_A
+- SDL_GPU_COLORCOMPONENT_B
+- SDL_GPU_COLORCOMPONENT_G
+- SDL_GPU_COLORCOMPONENT_R
+- SDL_GPU_RENDERER
+- SDL_GPU_SHADERFORMAT_DXBC
+- SDL_GPU_SHADERFORMAT_DXIL
+- SDL_GPU_SHADERFORMAT_INVALID
+- SDL_GPU_SHADERFORMAT_METALLIB
+- SDL_GPU_SHADERFORMAT_MSL
+- SDL_GPU_SHADERFORMAT_PRIVATE
+- SDL_GPU_SHADERFORMAT_SPIRV
+- SDL_GPU_TEXTUREUSAGE_COLOR_TARGET
+- SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_READ
+- SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_SIMULTANEOUS_READ_WRITE
+- SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE
+- SDL_GPU_TEXTUREUSAGE_DEPTH_STENCIL_TARGET
+- SDL_GPU_TEXTUREUSAGE_GRAPHICS_STORAGE_READ
+- SDL_GPU_TEXTUREUSAGE_SAMPLER
+- SDL_GUARDED_BY
+- SDL_HAPTIC_AUTOCENTER
+- SDL_HAPTIC_CARTESIAN
+- SDL_HAPTIC_CONSTANT
+- SDL_HAPTIC_CUSTOM
+- SDL_HAPTIC_DAMPER
+- SDL_HAPTIC_FRICTION
+- SDL_HAPTIC_GAIN
+- SDL_HAPTIC_INERTIA
+- SDL_HAPTIC_INFINITY
+- SDL_HAPTIC_LEFTRIGHT
+- SDL_HAPTIC_PAUSE
+- SDL_HAPTIC_POLAR
+- SDL_HAPTIC_RAMP
+- SDL_HAPTIC_RESERVED1
+- SDL_HAPTIC_RESERVED2
+- SDL_HAPTIC_RESERVED3
+- SDL_HAPTIC_SAWTOOTHDOWN
+- SDL_HAPTIC_SAWTOOTHUP
+- SDL_HAPTIC_SINE
+- SDL_HAPTIC_SPHERICAL
+- SDL_HAPTIC_SPRING
+- SDL_HAPTIC_SQUARE
+- SDL_HAPTIC_STATUS
+- SDL_HAPTIC_STEERING_AXIS
+- SDL_HAPTIC_TRIANGLE
+- SDL_HAS_BUILTIN
+- SDL_HAS_EXTENSION
+- SDL_HAS_TARGET_ATTRIBS
+- SDL_HAT_CENTERED
+- SDL_HAT_DOWN
+- SDL_HAT_LEFT
+- SDL_HAT_LEFTDOWN
+- SDL_HAT_LEFTUP
+- SDL_HAT_RIGHT
+- SDL_HAT_RIGHTDOWN
+- SDL_HAT_RIGHTUP
+- SDL_HAT_UP
+- SDL_HINT_ALLOW_ALT_TAB_WHILE_GRABBED
+- SDL_HINT_ANDROID_ALLOW_PERSISTENT_FOLDER_ACCESS
+- SDL_HINT_ANDROID_ALLOW_RECREATE_ACTIVITY
+- SDL_HINT_ANDROID_BLOCK_ON_PAUSE
+- SDL_HINT_ANDROID_LOW_LATENCY_AUDIO
+- SDL_HINT_ANDROID_TRAP_BACK_BUTTON
+- SDL_HINT_APP_ID
+- SDL_HINT_APP_NAME
+- SDL_HINT_APPLE_TV_CONTROLLER_UI_EVENTS
+- SDL_HINT_APPLE_TV_REMOTE_ALLOW_ROTATION
+- SDL_HINT_ASSERT
+- SDL_HINT_AUDIO_ALSA_DEFAULT_DEVICE
+- SDL_HINT_AUDIO_ALSA_DEFAULT_PLAYBACK_DEVICE
+- SDL_HINT_AUDIO_ALSA_DEFAULT_RECORDING_DEVICE
+- SDL_HINT_AUDIO_CATEGORY
+- SDL_HINT_AUDIO_CHANNELS
+- SDL_HINT_AUDIO_DEVICE_APP_ICON_NAME
+- SDL_HINT_AUDIO_DEVICE_RAW_STREAM
+- SDL_HINT_AUDIO_DEVICE_SAMPLE_FRAMES
+- SDL_HINT_AUDIO_DEVICE_STREAM_NAME
+- SDL_HINT_AUDIO_DEVICE_STREAM_ROLE
+- SDL_HINT_AUDIO_DISK_INPUT_FILE
+- SDL_HINT_AUDIO_DISK_OUTPUT_FILE
+- SDL_HINT_AUDIO_DISK_TIMESCALE
+- SDL_HINT_AUDIO_DRIVER
+- SDL_HINT_AUDIO_DUCK_OTHERS
+- SDL_HINT_AUDIO_DUMMY_TIMESCALE
+- SDL_HINT_AUDIO_FORMAT
+- SDL_HINT_AUDIO_FREQUENCY
+- SDL_HINT_AUDIO_INCLUDE_MONITORS
+- SDL_HINT_AUTO_UPDATE_JOYSTICKS
+- SDL_HINT_AUTO_UPDATE_SENSORS
+- SDL_HINT_BMP_SAVE_LEGACY_FORMAT
+- SDL_HINT_CAMERA_DRIVER
+- SDL_HINT_CPU_FEATURE_MASK
+- SDL_HINT_DISPLAY_USABLE_BOUNDS
+- SDL_HINT_DOS_ALLOW_DIRECT_FRAMEBUFFER
+- SDL_HINT_EGL_LIBRARY
+- SDL_HINT_EMSCRIPTEN_ASYNCIFY
+- SDL_HINT_EMSCRIPTEN_CANVAS_SELECTOR
+- SDL_HINT_EMSCRIPTEN_KEYBOARD_ELEMENT
+- SDL_HINT_ENABLE_SCREEN_KEYBOARD
+- SDL_HINT_EVDEV_DEVICES
+- SDL_HINT_EVENT_LOGGING
+- SDL_HINT_FILE_DIALOG_DRIVER
+- SDL_HINT_FORCE_RAISEWINDOW
+- SDL_HINT_FRAMEBUFFER_ACCELERATION
+- SDL_HINT_GAMECONTROLLER_IGNORE_DEVICES
+- SDL_HINT_GAMECONTROLLER_IGNORE_DEVICES_EXCEPT
+- SDL_HINT_GAMECONTROLLER_SENSOR_FUSION
+- SDL_HINT_GAMECONTROLLERCONFIG
+- SDL_HINT_GAMECONTROLLERCONFIG_FILE
+- SDL_HINT_GAMECONTROLLERTYPE
+- SDL_HINT_GDK_TEXTINPUT_DEFAULT_TEXT
+- SDL_HINT_GDK_TEXTINPUT_DESCRIPTION
+- SDL_HINT_GDK_TEXTINPUT_MAX_LENGTH
+- SDL_HINT_GDK_TEXTINPUT_SCOPE
+- SDL_HINT_GDK_TEXTINPUT_TITLE
+- SDL_HINT_GPU_DRIVER
+- SDL_HINT_HIDAPI_ENUMERATE_ONLY_CONTROLLERS
+- SDL_HINT_HIDAPI_IGNORE_DEVICES
+- SDL_HINT_HIDAPI_LIBUSB
+- SDL_HINT_HIDAPI_LIBUSB_GAMECUBE
+- SDL_HINT_HIDAPI_LIBUSB_WHITELIST
+- SDL_HINT_HIDAPI_UDEV
+- SDL_HINT_IME_IMPLEMENTED_UI
+- SDL_HINT_INVALID_PARAM_CHECKS
+- SDL_HINT_IOS_HIDE_HOME_INDICATOR
+- SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS
+- SDL_HINT_JOYSTICK_ARCADESTICK_DEVICES
+- SDL_HINT_JOYSTICK_ARCADESTICK_DEVICES_EXCLUDED
+- SDL_HINT_JOYSTICK_BLACKLIST_DEVICES
+- SDL_HINT_JOYSTICK_BLACKLIST_DEVICES_EXCLUDED
+- SDL_HINT_JOYSTICK_DEVICE
+- SDL_HINT_JOYSTICK_DIRECTINPUT
+- SDL_HINT_JOYSTICK_DRUM_DEVICES
+- SDL_HINT_JOYSTICK_ENHANCED_REPORTS
+- SDL_HINT_JOYSTICK_FLIGHTSTICK_DEVICES
+- SDL_HINT_JOYSTICK_FLIGHTSTICK_DEVICES_EXCLUDED
+- SDL_HINT_JOYSTICK_GAMECUBE_DEVICES
+- SDL_HINT_JOYSTICK_GAMECUBE_DEVICES_EXCLUDED
+- SDL_HINT_JOYSTICK_GAMEINPUT
+- SDL_HINT_JOYSTICK_GAMEINPUT_RAW
+- SDL_HINT_JOYSTICK_GUITAR_DEVICES
+- SDL_HINT_JOYSTICK_HAPTIC_AXES
+- SDL_HINT_JOYSTICK_HIDAPI
+- SDL_HINT_JOYSTICK_HIDAPI_8BITDO
+- SDL_HINT_JOYSTICK_HIDAPI_COMBINE_JOY_CONS
+- SDL_HINT_JOYSTICK_HIDAPI_FLYDIGI
+- SDL_HINT_JOYSTICK_HIDAPI_GAMECUBE
+- SDL_HINT_JOYSTICK_HIDAPI_GAMECUBE_RUMBLE_BRAKE
+- SDL_HINT_JOYSTICK_HIDAPI_GAMESIR
+- SDL_HINT_JOYSTICK_HIDAPI_GIP
+- SDL_HINT_JOYSTICK_HIDAPI_GIP_RESET_FOR_METADATA
+- SDL_HINT_JOYSTICK_HIDAPI_JOY_CONS
+- SDL_HINT_JOYSTICK_HIDAPI_JOYCON_HOME_LED
+- SDL_HINT_JOYSTICK_HIDAPI_LG4FF
+- SDL_HINT_JOYSTICK_HIDAPI_LUNA
+- SDL_HINT_JOYSTICK_HIDAPI_NINTENDO_CLASSIC
+- SDL_HINT_JOYSTICK_HIDAPI_PS3
+- SDL_HINT_JOYSTICK_HIDAPI_PS3_SIXAXIS_DRIVER
+- SDL_HINT_JOYSTICK_HIDAPI_PS4
+- SDL_HINT_JOYSTICK_HIDAPI_PS4_REPORT_INTERVAL
+- SDL_HINT_JOYSTICK_HIDAPI_PS5
+- SDL_HINT_JOYSTICK_HIDAPI_PS5_PLAYER_LED
+- SDL_HINT_JOYSTICK_HIDAPI_SHIELD
+- SDL_HINT_JOYSTICK_HIDAPI_SINPUT
+- SDL_HINT_JOYSTICK_HIDAPI_STADIA
+- SDL_HINT_JOYSTICK_HIDAPI_STEAM
+- SDL_HINT_JOYSTICK_HIDAPI_STEAM_HOME_LED
+- SDL_HINT_JOYSTICK_HIDAPI_STEAM_HORI
+- SDL_HINT_JOYSTICK_HIDAPI_STEAMDECK
+- SDL_HINT_JOYSTICK_HIDAPI_SWITCH
+- SDL_HINT_JOYSTICK_HIDAPI_SWITCH2
+- SDL_HINT_JOYSTICK_HIDAPI_SWITCH_HOME_LED
+- SDL_HINT_JOYSTICK_HIDAPI_SWITCH_PLAYER_LED
+- SDL_HINT_JOYSTICK_HIDAPI_VERTICAL_JOY_CONS
+- SDL_HINT_JOYSTICK_HIDAPI_WII
+- SDL_HINT_JOYSTICK_HIDAPI_WII_PLAYER_LED
+- SDL_HINT_JOYSTICK_HIDAPI_XBOX
+- SDL_HINT_JOYSTICK_HIDAPI_XBOX_360
+- SDL_HINT_JOYSTICK_HIDAPI_XBOX_360_PLAYER_LED
+- SDL_HINT_JOYSTICK_HIDAPI_XBOX_360_WIRELESS
+- SDL_HINT_JOYSTICK_HIDAPI_XBOX_ONE
+- SDL_HINT_JOYSTICK_HIDAPI_XBOX_ONE_HOME_LED
+- SDL_HINT_JOYSTICK_HIDAPI_ZUIKI
+- SDL_HINT_JOYSTICK_IOKIT
+- SDL_HINT_JOYSTICK_LINUX_CLASSIC
+- SDL_HINT_JOYSTICK_LINUX_DEADZONES
+- SDL_HINT_JOYSTICK_LINUX_DIGITAL_HATS
+- SDL_HINT_JOYSTICK_LINUX_HAT_DEADZONES
+- SDL_HINT_JOYSTICK_MFI
+- SDL_HINT_JOYSTICK_RAWINPUT
+- SDL_HINT_JOYSTICK_RAWINPUT_CORRELATE_XINPUT
+- SDL_HINT_JOYSTICK_ROG_CHAKRAM
+- SDL_HINT_JOYSTICK_THREAD
+- SDL_HINT_JOYSTICK_THROTTLE_DEVICES
+- SDL_HINT_JOYSTICK_THROTTLE_DEVICES_EXCLUDED
+- SDL_HINT_JOYSTICK_WGI
+- SDL_HINT_JOYSTICK_WHEEL_DEVICES
+- SDL_HINT_JOYSTICK_WHEEL_DEVICES_EXCLUDED
+- SDL_HINT_JOYSTICK_ZERO_CENTERED_DEVICES
+- SDL_HINT_KEYCODE_OPTIONS
+- SDL_HINT_KMSDRM_ATOMIC
+- SDL_HINT_KMSDRM_DEVICE_INDEX
+- SDL_HINT_KMSDRM_REQUIRE_DRM_MASTER
+- SDL_HINT_LOGGING
+- SDL_HINT_MAC_BACKGROUND_APP
+- SDL_HINT_MAC_CTRL_CLICK_EMULATE_RIGHT_CLICK
+- SDL_HINT_MAC_OPENGL_ASYNC_DISPATCH
+- SDL_HINT_MAC_OPTION_AS_ALT
+- SDL_HINT_MAC_PRESS_AND_HOLD
+- SDL_HINT_MAC_SCROLL_MOMENTUM
+- SDL_HINT_MAIN_CALLBACK_RATE
+- SDL_HINT_MOUSE_AUTO_CAPTURE
+- SDL_HINT_MOUSE_DEFAULT_SYSTEM_CURSOR
+- SDL_HINT_MOUSE_DOUBLE_CLICK_RADIUS
+- SDL_HINT_MOUSE_DOUBLE_CLICK_TIME
+- SDL_HINT_MOUSE_DPI_SCALE_CURSORS
+- SDL_HINT_MOUSE_EMULATE_WARP_WITH_RELATIVE
+- SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH
+- SDL_HINT_MOUSE_NORMAL_SPEED_SCALE
+- SDL_HINT_MOUSE_RELATIVE_CURSOR_VISIBLE
+- SDL_HINT_MOUSE_RELATIVE_MODE_CENTER
+- SDL_HINT_MOUSE_RELATIVE_SPEED_SCALE
+- SDL_HINT_MOUSE_RELATIVE_SYSTEM_SCALE
+- SDL_HINT_MOUSE_RELATIVE_WARP_MOTION
+- SDL_HINT_MOUSE_TOUCH_EVENTS
+- SDL_HINT_MUTE_CONSOLE_KEYBOARD
+- SDL_HINT_NO_SIGNAL_HANDLERS
+- SDL_HINT_OPENGL_ES_DRIVER
+- SDL_HINT_OPENGL_FORCE_SRGB_CAPABLE
+- SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER
+- SDL_HINT_OPENGL_LIBRARY
+- SDL_HINT_OPENVR_LIBRARY
+- SDL_HINT_OPENXR_LIBRARY
+- SDL_HINT_ORIENTATIONS
+- SDL_HINT_PEN_MOUSE_EVENTS
+- SDL_HINT_PEN_TOUCH_EVENTS
+- SDL_HINT_POLL_SENTINEL
+- SDL_HINT_PREFERRED_LOCALES
+- SDL_HINT_PS2_GS_HEIGHT
+- SDL_HINT_PS2_GS_MODE
+- SDL_HINT_PS2_GS_PROGRESSIVE
+- SDL_HINT_PS2_GS_WIDTH
+- SDL_HINT_QUIT_ON_LAST_WINDOW_CLOSE
+- SDL_HINT_RENDER_DIRECT3D11_DEBUG
+- SDL_HINT_RENDER_DIRECT3D11_WARP
+- SDL_HINT_RENDER_DIRECT3D_THREADSAFE
+- SDL_HINT_RENDER_DRIVER
+- SDL_HINT_RENDER_GPU_DEBUG
+- SDL_HINT_RENDER_GPU_LOW_POWER
+- SDL_HINT_RENDER_LINE_METHOD
+- SDL_HINT_RENDER_METAL_PREFER_LOW_POWER_DEVICE
+- SDL_HINT_RENDER_VSYNC
+- SDL_HINT_RENDER_VULKAN_DEBUG
+- SDL_HINT_RETURN_KEY_HIDES_IME
+- SDL_HINT_ROG_GAMEPAD_MICE
+- SDL_HINT_ROG_GAMEPAD_MICE_EXCLUDED
+- SDL_HINT_RPI_VIDEO_LAYER
+- SDL_HINT_SCREENSAVER_INHIBIT_ACTIVITY_NAME
+- SDL_HINT_SHUTDOWN_DBUS_ON_QUIT
+- SDL_HINT_STORAGE_TITLE_DRIVER
+- SDL_HINT_STORAGE_USER_DRIVER
+- SDL_HINT_THREAD_FORCE_REALTIME_TIME_CRITICAL
+- SDL_HINT_THREAD_PRIORITY_POLICY
+- SDL_HINT_TIMER_RESOLUTION
+- SDL_HINT_TOUCH_MOUSE_EVENTS
+- SDL_HINT_TRACKPAD_IS_TOUCH_ONLY
+- SDL_HINT_TV_REMOTE_AS_JOYSTICK
+- SDL_HINT_VIDEO_ALLOW_SCREENSAVER
+- SDL_HINT_VIDEO_DISPLAY_PRIORITY
+- SDL_HINT_VIDEO_DOUBLE_BUFFER
+- SDL_HINT_VIDEO_DRIVER
+- SDL_HINT_VIDEO_DUMMY_SAVE_FRAMES
+- SDL_HINT_VIDEO_EGL_ALLOW_GETDISPLAY_FALLBACK
+- SDL_HINT_VIDEO_FORCE_EGL
+- SDL_HINT_VIDEO_MAC_FULLSCREEN_MENU_VISIBILITY
+- SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES
+- SDL_HINT_VIDEO_MATCH_EXCLUSIVE_MODE_ON_MOVE
+- SDL_HINT_VIDEO_METAL_AUTO_RESIZE_DRAWABLE
+- SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS
+- SDL_HINT_VIDEO_OFFSCREEN_SAVE_FRAMES
+- SDL_HINT_VIDEO_SYNC_WINDOW_OPERATIONS
+- SDL_HINT_VIDEO_WAYLAND_ALLOW_LIBDECOR
+- SDL_HINT_VIDEO_WAYLAND_MODE_EMULATION
+- SDL_HINT_VIDEO_WAYLAND_MODE_SCALING
+- SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR
+- SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY
+- SDL_HINT_VIDEO_WIN_D3DCOMPILER
+- SDL_HINT_VIDEO_X11_ENABLE_XSYNC_EXT
+- SDL_HINT_VIDEO_X11_EXTERNAL_WINDOW_INPUT
+- SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR
+- SDL_HINT_VIDEO_X11_NET_WM_PING
+- SDL_HINT_VIDEO_X11_NODIRECTCOLOR
+- SDL_HINT_VIDEO_X11_SCALING_FACTOR
+- SDL_HINT_VIDEO_X11_VISUALID
+- SDL_HINT_VIDEO_X11_WINDOW_VISUALID
+- SDL_HINT_VIDEO_X11_XRANDR
+- SDL_HINT_VITA_ENABLE_BACK_TOUCH
+- SDL_HINT_VITA_ENABLE_FRONT_TOUCH
+- SDL_HINT_VITA_MODULE_PATH
+- SDL_HINT_VITA_PVR_INIT
+- SDL_HINT_VITA_PVR_OPENGL
+- SDL_HINT_VITA_RESOLUTION
+- SDL_HINT_VITA_TOUCH_MOUSE_DEVICE
+- SDL_HINT_VULKAN_DISPLAY
+- SDL_HINT_VULKAN_LIBRARY
+- SDL_HINT_WAVE_CHUNK_LIMIT
+- SDL_HINT_WAVE_FACT_CHUNK
+- SDL_HINT_WAVE_RIFF_CHUNK_SIZE
+- SDL_HINT_WAVE_TRUNCATION
+- SDL_HINT_WINDOW_ACTIVATE_WHEN_RAISED
+- SDL_HINT_WINDOW_ACTIVATE_WHEN_SHOWN
+- SDL_HINT_WINDOW_ALLOW_TOPMOST
+- SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN
+- SDL_HINT_WINDOWS_CLOSE_ON_ALT_F4
+- SDL_HINT_WINDOWS_ENABLE_MENU_MNEMONICS
+- SDL_HINT_WINDOWS_ENABLE_MESSAGELOOP
+- SDL_HINT_WINDOWS_ERASE_BACKGROUND_MODE
+- SDL_HINT_WINDOWS_FORCE_SEMAPHORE_KERNEL
+- SDL_HINT_WINDOWS_GAMEINPUT
+- SDL_HINT_WINDOWS_INTRESOURCE_ICON
+- SDL_HINT_WINDOWS_INTRESOURCE_ICON_SMALL
+- SDL_HINT_WINDOWS_RAW_KEYBOARD
+- SDL_HINT_WINDOWS_RAW_KEYBOARD_EXCLUDE_HOTKEYS
+- SDL_HINT_WINDOWS_RAW_KEYBOARD_INPUTSINK
+- SDL_HINT_WINDOWS_USE_D3D9EX
+- SDL_HINT_X11_FORCE_OVERRIDE_REDIRECT
+- SDL_HINT_X11_WINDOW_TYPE
+- SDL_HINT_X11_XCB_LIBRARY
+- SDL_HINT_XINPUT_ENABLED
+- SDL_ICONV_E2BIG
+- SDL_ICONV_EILSEQ
+- SDL_ICONV_EINVAL
+- SDL_ICONV_ERROR
+- SDL_iconv_utf8_locale
+- SDL_iconv_utf8_ucs2
+- SDL_iconv_utf8_ucs4
+- SDL_iconv_wchar_utf8
+- SDL_IN_BYTECAP
+- SDL_INIT_AUDIO
+- SDL_INIT_CAMERA
+- SDL_INIT_EVENTS
+- SDL_INIT_GAMEPAD
+- SDL_INIT_HAPTIC
+- SDL_INIT_INTERFACE
+- SDL_INIT_JOYSTICK
+- SDL_INIT_SENSOR
+- SDL_INIT_VIDEO
+- SDL_INLINE
+- SDL_INOUT_Z_CAP
+- SDL_INVALID_UNICODE_CODEPOINT
+- SDL_InvalidParamError
+- SDL_ISCOLORSPACE_FULL_RANGE
+- SDL_ISCOLORSPACE_LIMITED_RANGE
+- SDL_ISCOLORSPACE_MATRIX_BT2020_NCL
+- SDL_ISCOLORSPACE_MATRIX_BT601
+- SDL_ISCOLORSPACE_MATRIX_BT709
+- SDL_ISPIXELFORMAT_10BIT
+- SDL_ISPIXELFORMAT_ALPHA
+- SDL_ISPIXELFORMAT_ARRAY
+- SDL_ISPIXELFORMAT_FLOAT
+- SDL_ISPIXELFORMAT_FOURCC
+- SDL_ISPIXELFORMAT_INDEXED
+- SDL_ISPIXELFORMAT_PACKED
+- SDL_JOYSTICK_AXIS_MAX
+- SDL_JOYSTICK_AXIS_MIN
+- SDL_KMOD_ALT
+- SDL_KMOD_CAPS
+- SDL_KMOD_CTRL
+- SDL_KMOD_GUI
+- SDL_KMOD_LALT
+- SDL_KMOD_LCTRL
+- SDL_KMOD_LEVEL5
+- SDL_KMOD_LGUI
+- SDL_KMOD_LSHIFT
+- SDL_KMOD_MODE
+- SDL_KMOD_NONE
+- SDL_KMOD_NUM
+- SDL_KMOD_RALT
+- SDL_KMOD_RCTRL
+- SDL_KMOD_RGUI
+- SDL_KMOD_RSHIFT
+- SDL_KMOD_SCROLL
+- SDL_KMOD_SHIFT
+- SDL_LASX_INTRINSICS
+- SDL_LIL_ENDIAN
+- SDL_LINE
+- SDL_LSX_INTRINSICS
+- SDL_MAIN_AVAILABLE
+- SDL_MAIN_HANDLED
+- SDL_MAIN_NEEDED
+- SDL_MAIN_USE_CALLBACKS
+- SDL_MAJOR_VERSION
+- SDL_MALLOC
+- SDL_max
+- SDL_MAX_SINT16
+- SDL_MAX_SINT32
+- SDL_MAX_SINT64
+- SDL_MAX_SINT8
+- SDL_MAX_TIME
+- SDL_MAX_UINT16
+- SDL_MAX_UINT32
+- SDL_MAX_UINT64
+- SDL_MAX_UINT8
+- SDL_MemoryBarrierAcquire
+- SDL_MemoryBarrierRelease
+- SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT
+- SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT
+- SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT
+- SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT
+- SDL_MESSAGEBOX_ERROR
+- SDL_MESSAGEBOX_INFORMATION
+- SDL_MESSAGEBOX_WARNING
+- SDL_MICRO_VERSION
+- SDL_min
+- SDL_MIN_SINT16
+- SDL_MIN_SINT32
+- SDL_MIN_SINT64
+- SDL_MIN_SINT8
+- SDL_MIN_TIME
+- SDL_MIN_UINT16
+- SDL_MIN_UINT32
+- SDL_MIN_UINT64
+- SDL_MIN_UINT8
+- SDL_MINOR_VERSION
+- SDL_MMX_INTRINSICS
+- SDL_MOUSE_TOUCHID
+- SDL_MS_PER_SECOND
+- SDL_MS_TO_NS
+- SDL_MUSTLOCK
+- SDL_NEON_INTRINSICS
+- SDL_NO_THREAD_SAFETY_ANALYSIS
+- SDL_NODISCARD
+- SDL_NOLONGLONG
+- SDL_NORETURN
+- SDL_NS_PER_MS
+- SDL_NS_PER_SECOND
+- SDL_NS_PER_US
+- SDL_NS_TO_MS
+- SDL_NS_TO_SECONDS
+- SDL_NS_TO_US
+- SDL_NULL_WHILE_LOOP_CONDITION
+- SDL_OUT_BYTECAP
+- SDL_OUT_CAP
+- SDL_OUT_Z_BYTECAP
+- SDL_OUT_Z_CAP
+- SDL_PEN_INPUT_BUTTON_1
+- SDL_PEN_INPUT_BUTTON_2
+- SDL_PEN_INPUT_BUTTON_3
+- SDL_PEN_INPUT_BUTTON_4
+- SDL_PEN_INPUT_BUTTON_5
+- SDL_PEN_INPUT_DOWN
+- SDL_PEN_INPUT_ERASER_TIP
+- SDL_PEN_INPUT_IN_PROXIMITY
+- SDL_PEN_MOUSEID
+- SDL_PEN_TOUCHID
+- SDL_PI_D
+- SDL_PI_F
+- SDL_PIXELFLAG
+- SDL_PIXELLAYOUT
+- SDL_PIXELORDER
+- SDL_PIXELTYPE
+- SDL_PLATFORM_3DS
+- SDL_PLATFORM_AIX
+- SDL_PLATFORM_ANDROID
+- SDL_PLATFORM_APPLE
+- SDL_PLATFORM_BSDI
+- SDL_PLATFORM_CYGWIN
+- SDL_PLATFORM_DOS
+- SDL_PLATFORM_EMSCRIPTEN
+- SDL_PLATFORM_FREEBSD
+- SDL_PLATFORM_GDK
+- SDL_PLATFORM_HAIKU
+- SDL_PLATFORM_HPUX
+- SDL_PLATFORM_HURD
+- SDL_PLATFORM_IOS
+- SDL_PLATFORM_IRIX
+- SDL_PLATFORM_LINUX
+- SDL_PLATFORM_MACOS
+- SDL_PLATFORM_NETBSD
+- SDL_PLATFORM_NGAGE
+- SDL_PLATFORM_OPENBSD
+- SDL_PLATFORM_OS2
+- SDL_PLATFORM_OSF
+- SDL_PLATFORM_PS2
+- SDL_PLATFORM_PSP
+- SDL_PLATFORM_QNXNTO
+- SDL_PLATFORM_RISCOS
+- SDL_PLATFORM_SOLARIS
+- SDL_PLATFORM_TVOS
+- SDL_PLATFORM_UNIX
+- SDL_PLATFORM_VISIONOS
+- SDL_PLATFORM_VITA
+- SDL_PLATFORM_WIN32
+- SDL_PLATFORM_WINDOWS
+- SDL_PLATFORM_WINGDK
+- SDL_PLATFORM_XBOXONE
+- SDL_PLATFORM_XBOXSERIES
+- SDL_PRILL_PREFIX
+- SDL_PRILLd
+- SDL_PRILLu
+- SDL_PRILLx
+- SDL_PRILLX
+- SDL_PRINTF_FORMAT_STRING
+- SDL_PRINTF_VARARG_FUNC
+- SDL_PRINTF_VARARG_FUNCV
+- SDL_PRIs32
+- SDL_PRIs64
+- SDL_PRIu32
+- SDL_PRIu64
+- SDL_PRIX32
+- SDL_PRIx32
+- SDL_PRIx64
+- SDL_PRIX64
+- SDL_PROP_APP_METADATA_COPYRIGHT_STRING
+- SDL_PROP_APP_METADATA_CREATOR_STRING
+- SDL_PROP_APP_METADATA_IDENTIFIER_STRING
+- SDL_PROP_APP_METADATA_NAME_STRING
+- SDL_PROP_APP_METADATA_TYPE_STRING
+- SDL_PROP_APP_METADATA_URL_STRING
+- SDL_PROP_APP_METADATA_VERSION_STRING
+- SDL_PROP_AUDIOSTREAM_AUTO_CLEANUP_BOOLEAN
+- SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN
+- SDL_PROP_DISPLAY_KMSDRM_PANEL_ORIENTATION_NUMBER
+- SDL_PROP_DISPLAY_WAYLAND_WL_OUTPUT_POINTER
+- SDL_PROP_DISPLAY_WINDOWS_HMONITOR_POINTER
+- SDL_PROP_FILE_DIALOG_ACCEPT_STRING
+- SDL_PROP_FILE_DIALOG_CANCEL_STRING
+- SDL_PROP_FILE_DIALOG_FILTERS_POINTER
+- SDL_PROP_FILE_DIALOG_LOCATION_STRING
+- SDL_PROP_FILE_DIALOG_MANY_BOOLEAN
+- SDL_PROP_FILE_DIALOG_NFILTERS_NUMBER
+- SDL_PROP_FILE_DIALOG_TITLE_STRING
+- SDL_PROP_FILE_DIALOG_WINDOW_POINTER
+- SDL_PROP_GAMEPAD_CAP_MONO_LED_BOOLEAN
+- SDL_PROP_GAMEPAD_CAP_PLAYER_LED_BOOLEAN
+- SDL_PROP_GAMEPAD_CAP_RGB_LED_BOOLEAN
+- SDL_PROP_GAMEPAD_CAP_RUMBLE_BOOLEAN
+- SDL_PROP_GAMEPAD_CAP_TRIGGER_RUMBLE_BOOLEAN
+- SDL_PROP_GLOBAL_NOTIFICATION_HEADER_ICON_STRING
+- SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_POINTER
+- SDL_PROP_GPU_BUFFER_CREATE_NAME_STRING
+- SDL_PROP_GPU_COMPUTEPIPELINE_CREATE_NAME_STRING
+- SDL_PROP_GPU_DEVICE_CREATE_D3D12_AGILITY_SDK_PATH_STRING
+- SDL_PROP_GPU_DEVICE_CREATE_D3D12_AGILITY_SDK_VERSION_NUMBER
+- SDL_PROP_GPU_DEVICE_CREATE_D3D12_ALLOW_FEWER_RESOURCE_SLOTS_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_D3D12_SEMANTIC_NAME_STRING
+- SDL_PROP_GPU_DEVICE_CREATE_DEBUGMODE_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_FEATURE_ANISOTROPY_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_FEATURE_CLIP_DISTANCE_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_FEATURE_DEPTH_CLAMPING_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_FEATURE_INDIRECT_DRAW_FIRST_INSTANCE_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_METAL_ALLOW_MACFAMILY1
+- SDL_PROP_GPU_DEVICE_CREATE_METAL_ALLOW_MACFAMILY1_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING
+- SDL_PROP_GPU_DEVICE_CREATE_PREFERLOWPOWER_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_SHADERS_DXBC_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_SHADERS_DXIL_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_SHADERS_METALLIB_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_SHADERS_MSL_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_SHADERS_PRIVATE_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_SHADERS_SPIRV_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_VERBOSE_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_VULKAN_OPTIONS_POINTER
+- SDL_PROP_GPU_DEVICE_CREATE_VULKAN_REQUIRE_HARDWARE_ACCELERATION
+- SDL_PROP_GPU_DEVICE_CREATE_VULKAN_REQUIRE_HARDWARE_ACCELERATION_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_XR_APPLICATION_NAME_STRING
+- SDL_PROP_GPU_DEVICE_CREATE_XR_APPLICATION_VERSION_NUMBER
+- SDL_PROP_GPU_DEVICE_CREATE_XR_ENABLE_BOOLEAN
+- SDL_PROP_GPU_DEVICE_CREATE_XR_ENGINE_NAME_STRING
+- SDL_PROP_GPU_DEVICE_CREATE_XR_ENGINE_VERSION_NUMBER
+- SDL_PROP_GPU_DEVICE_CREATE_XR_EXTENSION_COUNT_NUMBER
+- SDL_PROP_GPU_DEVICE_CREATE_XR_EXTENSION_NAMES_POINTER
+- SDL_PROP_GPU_DEVICE_CREATE_XR_FORM_FACTOR_NUMBER
+- SDL_PROP_GPU_DEVICE_CREATE_XR_INSTANCE_POINTER
+- SDL_PROP_GPU_DEVICE_CREATE_XR_LAYER_COUNT_NUMBER
+- SDL_PROP_GPU_DEVICE_CREATE_XR_LAYER_NAMES_POINTER
+- SDL_PROP_GPU_DEVICE_CREATE_XR_SYSTEM_ID_POINTER
+- SDL_PROP_GPU_DEVICE_CREATE_XR_VERSION_NUMBER
+- SDL_PROP_GPU_DEVICE_DRIVER_INFO_STRING
+- SDL_PROP_GPU_DEVICE_DRIVER_NAME_STRING
+- SDL_PROP_GPU_DEVICE_DRIVER_VERSION_STRING
+- SDL_PROP_GPU_DEVICE_NAME_STRING
+- SDL_PROP_GPU_GRAPHICSPIPELINE_CREATE_NAME_STRING
+- SDL_PROP_GPU_SAMPLER_CREATE_NAME_STRING
+- SDL_PROP_GPU_SHADER_CREATE_NAME_STRING
+- SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_A_FLOAT
+- SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_B_FLOAT
+- SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_DEPTH_FLOAT
+- SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_G_FLOAT
+- SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_R_FLOAT
+- SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_STENCIL_NUMBER
+- SDL_PROP_GPU_TEXTURE_CREATE_NAME_STRING
+- SDL_PROP_GPU_TRANSFERBUFFER_CREATE_NAME_STRING
+- SDL_PROP_HIDAPI_LIBUSB_DEVICE_HANDLE_POINTER
+- SDL_PROP_IOSTREAM_ANDROID_AASSET_POINTER
+- SDL_PROP_IOSTREAM_DYNAMIC_CHUNKSIZE_NUMBER
+- SDL_PROP_IOSTREAM_DYNAMIC_MEMORY_POINTER
+- SDL_PROP_IOSTREAM_FILE_DESCRIPTOR_NUMBER
+- SDL_PROP_IOSTREAM_MEMORY_FREE_FUNC
+- SDL_PROP_IOSTREAM_MEMORY_FREE_FUNC_POINTER
+- SDL_PROP_IOSTREAM_MEMORY_POINTER
+- SDL_PROP_IOSTREAM_MEMORY_SIZE_NUMBER
+- SDL_PROP_IOSTREAM_STDIO_FILE_POINTER
+- SDL_PROP_IOSTREAM_WINDOWS_HANDLE_POINTER
+- SDL_PROP_JOYSTICK_CAP_MONO_LED_BOOLEAN
+- SDL_PROP_JOYSTICK_CAP_PLAYER_LED_BOOLEAN
+- SDL_PROP_JOYSTICK_CAP_RGB_LED_BOOLEAN
+- SDL_PROP_JOYSTICK_CAP_RUMBLE_BOOLEAN
+- SDL_PROP_JOYSTICK_CAP_TRIGGER_RUMBLE_BOOLEAN
+- SDL_PROP_NAME_STRING
+- SDL_PROP_PROCESS_BACKGROUND_BOOLEAN
+- SDL_PROP_PROCESS_CREATE_ARGS_POINTER
+- SDL_PROP_PROCESS_CREATE_BACKGROUND_BOOLEAN
+- SDL_PROP_PROCESS_CREATE_CMDLINE_STRING
+- SDL_PROP_PROCESS_CREATE_ENVIRONMENT_POINTER
+- SDL_PROP_PROCESS_CREATE_STDERR_NUMBER
+- SDL_PROP_PROCESS_CREATE_STDERR_POINTER
+- SDL_PROP_PROCESS_CREATE_STDERR_TO_STDOUT_BOOLEAN
+- SDL_PROP_PROCESS_CREATE_STDIN_NUMBER
+- SDL_PROP_PROCESS_CREATE_STDIN_POINTER
+- SDL_PROP_PROCESS_CREATE_STDOUT_NUMBER
+- SDL_PROP_PROCESS_CREATE_STDOUT_POINTER
+- SDL_PROP_PROCESS_CREATE_WORKING_DIRECTORY_STRING
+- SDL_PROP_PROCESS_PID_NUMBER
+- SDL_PROP_PROCESS_STDERR_POINTER
+- SDL_PROP_PROCESS_STDIN_POINTER
+- SDL_PROP_PROCESS_STDOUT_POINTER
+- SDL_PROP_RENDERER_CREATE_GPU_DEVICE_POINTER
+- SDL_PROP_RENDERER_CREATE_GPU_SHADERS_DXIL_BOOLEAN
+- SDL_PROP_RENDERER_CREATE_GPU_SHADERS_MSL_BOOLEAN
+- SDL_PROP_RENDERER_CREATE_GPU_SHADERS_SPIRV_BOOLEAN
+- SDL_PROP_RENDERER_CREATE_NAME_STRING
+- SDL_PROP_RENDERER_CREATE_OUTPUT_COLORSPACE_NUMBER
+- SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER
+- SDL_PROP_RENDERER_CREATE_SURFACE_POINTER
+- SDL_PROP_RENDERER_CREATE_VULKAN_DEVICE_POINTER
+- SDL_PROP_RENDERER_CREATE_VULKAN_GRAPHICS_QUEUE_FAMILY_INDEX_NUMBER
+- SDL_PROP_RENDERER_CREATE_VULKAN_INSTANCE_POINTER
+- SDL_PROP_RENDERER_CREATE_VULKAN_PHYSICAL_DEVICE_POINTER
+- SDL_PROP_RENDERER_CREATE_VULKAN_PRESENT_QUEUE_FAMILY_INDEX_NUMBER
+- SDL_PROP_RENDERER_CREATE_VULKAN_SURFACE_NUMBER
+- SDL_PROP_RENDERER_CREATE_WINDOW_POINTER
+- SDL_PROP_RENDERER_D3D11_DEVICE_POINTER
+- SDL_PROP_RENDERER_D3D11_SWAPCHAIN_POINTER
+- SDL_PROP_RENDERER_D3D12_COMMAND_QUEUE_POINTER
+- SDL_PROP_RENDERER_D3D12_DEVICE_POINTER
+- SDL_PROP_RENDERER_D3D12_SWAPCHAIN_POINTER
+- SDL_PROP_RENDERER_D3D9_DEVICE_POINTER
+- SDL_PROP_RENDERER_GPU_DEVICE_POINTER
+- SDL_PROP_RENDERER_HDR_ENABLED_BOOLEAN
+- SDL_PROP_RENDERER_HDR_HEADROOM_FLOAT
+- SDL_PROP_RENDERER_MAX_TEXTURE_SIZE_NUMBER
+- SDL_PROP_RENDERER_NAME_STRING
+- SDL_PROP_RENDERER_OUTPUT_COLORSPACE_NUMBER
+- SDL_PROP_RENDERER_SDR_WHITE_POINT_FLOAT
+- SDL_PROP_RENDERER_SURFACE_POINTER
+- SDL_PROP_RENDERER_TEXTURE_FORMATS_POINTER
+- SDL_PROP_RENDERER_TEXTURE_WRAPPING_BOOLEAN
+- SDL_PROP_RENDERER_VSYNC_NUMBER
+- SDL_PROP_RENDERER_VULKAN_DEVICE_POINTER
+- SDL_PROP_RENDERER_VULKAN_GRAPHICS_QUEUE_FAMILY_INDEX_NUMBER
+- SDL_PROP_RENDERER_VULKAN_INSTANCE_POINTER
+- SDL_PROP_RENDERER_VULKAN_PHYSICAL_DEVICE_POINTER
+- SDL_PROP_RENDERER_VULKAN_PRESENT_QUEUE_FAMILY_INDEX_NUMBER
+- SDL_PROP_RENDERER_VULKAN_SURFACE_NUMBER
+- SDL_PROP_RENDERER_VULKAN_SWAPCHAIN_IMAGE_COUNT_NUMBER
+- SDL_PROP_RENDERER_WINDOW_POINTER
+- SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT
+- SDL_PROP_SURFACE_HOTSPOT_X_NUMBER
+- SDL_PROP_SURFACE_HOTSPOT_Y_NUMBER
+- SDL_PROP_SURFACE_ROTATION_FLOAT
+- SDL_PROP_SURFACE_SDR_WHITE_POINT_FLOAT
+- SDL_PROP_SURFACE_TONEMAP_OPERATOR_STRING
+- SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER
+- SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN
+- SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER
+- SDL_PROP_TEXTINPUT_DEFAULT_TEXT_STRING
+- SDL_PROP_TEXTINPUT_MAX_LENGTH_NUMBER
+- SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN
+- SDL_PROP_TEXTINPUT_PLACEHOLDER_STRING
+- SDL_PROP_TEXTINPUT_TITLE_STRING
+- SDL_PROP_TEXTINPUT_TYPE_NUMBER
+- SDL_PROP_TEXTURE_ACCESS_NUMBER
+- SDL_PROP_TEXTURE_COLORSPACE_NUMBER
+- SDL_PROP_TEXTURE_CREATE_ACCESS_NUMBER
+- SDL_PROP_TEXTURE_CREATE_COLORSPACE_NUMBER
+- SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_POINTER
+- SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_U_POINTER
+- SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_V_POINTER
+- SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_POINTER
+- SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_U_POINTER
+- SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_V_POINTER
+- SDL_PROP_TEXTURE_CREATE_FORMAT_NUMBER
+- SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_POINTER
+- SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_U_POINTER
+- SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_UV_POINTER
+- SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_V_POINTER
+- SDL_PROP_TEXTURE_CREATE_HDR_HEADROOM_FLOAT
+- SDL_PROP_TEXTURE_CREATE_HEIGHT_NUMBER
+- SDL_PROP_TEXTURE_CREATE_METAL_PIXELBUFFER_POINTER
+- SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_NUMBER
+- SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_U_NUMBER
+- SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_UV_NUMBER
+- SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_V_NUMBER
+- SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_NUMBER
+- SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_U_NUMBER
+- SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_UV_NUMBER
+- SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_V_NUMBER
+- SDL_PROP_TEXTURE_CREATE_PALETTE_POINTER
+- SDL_PROP_TEXTURE_CREATE_SDR_WHITE_POINT_FLOAT
+- SDL_PROP_TEXTURE_CREATE_VULKAN_LAYOUT_NUMBER
+- SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER
+- SDL_PROP_TEXTURE_CREATE_WIDTH_NUMBER
+- SDL_PROP_TEXTURE_D3D11_TEXTURE_POINTER
+- SDL_PROP_TEXTURE_D3D11_TEXTURE_U_POINTER
+- SDL_PROP_TEXTURE_D3D11_TEXTURE_V_POINTER
+- SDL_PROP_TEXTURE_D3D12_TEXTURE_POINTER
+- SDL_PROP_TEXTURE_D3D12_TEXTURE_U_POINTER
+- SDL_PROP_TEXTURE_D3D12_TEXTURE_V_POINTER
+- SDL_PROP_TEXTURE_FORMAT_NUMBER
+- SDL_PROP_TEXTURE_GPU_TEXTURE_POINTER
+- SDL_PROP_TEXTURE_GPU_TEXTURE_U_POINTER
+- SDL_PROP_TEXTURE_GPU_TEXTURE_UV_POINTER
+- SDL_PROP_TEXTURE_GPU_TEXTURE_V_POINTER
+- SDL_PROP_TEXTURE_HDR_HEADROOM_FLOAT
+- SDL_PROP_TEXTURE_HEIGHT_NUMBER
+- SDL_PROP_TEXTURE_OPENGL_TEX_H_FLOAT
+- SDL_PROP_TEXTURE_OPENGL_TEX_W_FLOAT
+- SDL_PROP_TEXTURE_OPENGL_TEXTURE_NUMBER
+- SDL_PROP_TEXTURE_OPENGL_TEXTURE_TARGET_NUMBER
+- SDL_PROP_TEXTURE_OPENGL_TEXTURE_U_NUMBER
+- SDL_PROP_TEXTURE_OPENGL_TEXTURE_UV_NUMBER
+- SDL_PROP_TEXTURE_OPENGL_TEXTURE_V_NUMBER
+- SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_NUMBER
+- SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_TARGET_NUMBER
+- SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_U_NUMBER
+- SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_UV_NUMBER
+- SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_V_NUMBER
+- SDL_PROP_TEXTURE_SDR_WHITE_POINT_FLOAT
+- SDL_PROP_TEXTURE_VULKAN_TEXTURE_NUMBER
+- SDL_PROP_TEXTURE_WIDTH_NUMBER
+- SDL_PROP_THREAD_CREATE_ENTRY_FUNCTION_POINTER
+- SDL_PROP_THREAD_CREATE_NAME_STRING
+- SDL_PROP_THREAD_CREATE_STACKSIZE_NUMBER
+- SDL_PROP_THREAD_CREATE_USERDATA_POINTER
+- SDL_PROP_TRAY_CREATE_DOUBLECLICK_CALLBACK_POINTER
+- SDL_PROP_TRAY_CREATE_ICON_POINTER
+- SDL_PROP_TRAY_CREATE_LEFTCLICK_CALLBACK_POINTER
+- SDL_PROP_TRAY_CREATE_MIDDLECLICK_CALLBACK_POINTER
+- SDL_PROP_TRAY_CREATE_RIGHTCLICK_CALLBACK_POINTER
+- SDL_PROP_TRAY_CREATE_TOOLTIP_STRING
+- SDL_PROP_TRAY_CREATE_USERDATA_POINTER
+- SDL_PROP_WINDOW_ANDROID_SURFACE_POINTER
+- SDL_PROP_WINDOW_ANDROID_WINDOW_POINTER
+- SDL_PROP_WINDOW_COCOA_METAL_VIEW_TAG_NUMBER
+- SDL_PROP_WINDOW_COCOA_WINDOW_POINTER
+- SDL_PROP_WINDOW_CREATE_ALWAYS_ON_TOP_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_COCOA_VIEW_POINTER
+- SDL_PROP_WINDOW_CREATE_COCOA_WINDOW_POINTER
+- SDL_PROP_WINDOW_CREATE_CONSTRAIN_POPUP_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_CURVATURE_FLOAT
+- SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_CANVAS_ID
+- SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_CANVAS_ID_STRING
+- SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_KEYBOARD_ELEMENT
+- SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING
+- SDL_PROP_WINDOW_CREATE_EXTERNAL_GRAPHICS_CONTEXT_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER
+- SDL_PROP_WINDOW_CREATE_FOCUSABLE_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_FULLSCREEN_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER
+- SDL_PROP_WINDOW_CREATE_HIDDEN_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_HIGH_PIXEL_DENSITY_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_MAXIMIZED_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_MENU_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_METAL_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_MINIMIZED_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_MODAL_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_MOUSE_GRABBED_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_OPENGL_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_PARENT_POINTER
+- SDL_PROP_WINDOW_CREATE_RESIZABLE_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_TITLE_STRING
+- SDL_PROP_WINDOW_CREATE_TOOLTIP_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_TRANSPARENT_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_UTILITY_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_VISIONOS_SETTINGS_STRING
+- SDL_PROP_WINDOW_CREATE_VULKAN_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_WAYLAND_CREATE_EGL_WINDOW_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN
+- SDL_PROP_WINDOW_CREATE_WAYLAND_WL_SURFACE_POINTER
+- SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER
+- SDL_PROP_WINDOW_CREATE_WIN32_HWND_POINTER
+- SDL_PROP_WINDOW_CREATE_WIN32_PIXEL_FORMAT_HWND_POINTER
+- SDL_PROP_WINDOW_CREATE_WINDOWSCENE_POINTER
+- SDL_PROP_WINDOW_CREATE_X11_WINDOW_NUMBER
+- SDL_PROP_WINDOW_CREATE_X_NUMBER
+- SDL_PROP_WINDOW_CREATE_Y_NUMBER
+- SDL_PROP_WINDOW_CURVATURE_FLOAT
+- SDL_PROP_WINDOW_EMSCRIPTEN_CANVAS_ID
+- SDL_PROP_WINDOW_EMSCRIPTEN_CANVAS_ID_STRING
+- SDL_PROP_WINDOW_EMSCRIPTEN_KEYBOARD_ELEMENT
+- SDL_PROP_WINDOW_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING
+- SDL_PROP_WINDOW_HDR_ENABLED_BOOLEAN
+- SDL_PROP_WINDOW_HDR_HEADROOM_FLOAT
+- SDL_PROP_WINDOW_KMSDRM_DEVICE_INDEX_NUMBER
+- SDL_PROP_WINDOW_KMSDRM_DRM_FD_NUMBER
+- SDL_PROP_WINDOW_KMSDRM_GBM_DEVICE_POINTER
+- SDL_PROP_WINDOW_OPENVR_OVERLAY_ID_NUMBER
+- SDL_PROP_WINDOW_QNX_SURFACE_POINTER
+- SDL_PROP_WINDOW_QNX_WINDOW_POINTER
+- SDL_PROP_WINDOW_SDR_WHITE_LEVEL_FLOAT
+- SDL_PROP_WINDOW_SHAPE_POINTER
+- SDL_PROP_WINDOW_UIKIT_METAL_VIEW_TAG_NUMBER
+- SDL_PROP_WINDOW_UIKIT_OPENGL_FRAMEBUFFER_NUMBER
+- SDL_PROP_WINDOW_UIKIT_OPENGL_RENDERBUFFER_NUMBER
+- SDL_PROP_WINDOW_UIKIT_OPENGL_RESOLVE_FRAMEBUFFER_NUMBER
+- SDL_PROP_WINDOW_UIKIT_WINDOW_POINTER
+- SDL_PROP_WINDOW_VISIONOS_SETTINGS_STRING
+- SDL_PROP_WINDOW_VIVANTE_DISPLAY_POINTER
+- SDL_PROP_WINDOW_VIVANTE_SURFACE_POINTER
+- SDL_PROP_WINDOW_VIVANTE_WINDOW_POINTER
+- SDL_PROP_WINDOW_WAYLAND_DISPLAY_POINTER
+- SDL_PROP_WINDOW_WAYLAND_EGL_WINDOW_POINTER
+- SDL_PROP_WINDOW_WAYLAND_SURFACE_POINTER
+- SDL_PROP_WINDOW_WAYLAND_VIEWPORT_POINTER
+- SDL_PROP_WINDOW_WAYLAND_XDG_POPUP_POINTER
+- SDL_PROP_WINDOW_WAYLAND_XDG_POSITIONER_POINTER
+- SDL_PROP_WINDOW_WAYLAND_XDG_SURFACE_POINTER
+- SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_EXPORT_HANDLE_STRING
+- SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_POINTER
+- SDL_PROP_WINDOW_WIN32_HDC_POINTER
+- SDL_PROP_WINDOW_WIN32_HWND_POINTER
+- SDL_PROP_WINDOW_WIN32_INSTANCE_POINTER
+- SDL_PROP_WINDOW_X11_DISPLAY_POINTER
+- SDL_PROP_WINDOW_X11_SCREEN_NUMBER
+- SDL_PROP_WINDOW_X11_WINDOW_NUMBER
+- SDL_PT_GUARDED_BY
+- SDL_reinterpret_cast
+- SDL_RELEASE
+- SDL_RELEASE_GENERIC
+- SDL_RELEASE_SHARED
+- SDL_RENDERER_VSYNC_ADAPTIVE
+- SDL_RENDERER_VSYNC_DISABLED
+- SDL_REQUIRES
+- SDL_REQUIRES_SHARED
+- SDL_RESTRICT
+- SDL_RETURN_CAPABILITY
+- SDL_REVISION
+- SDL_SCANCODE_TO_KEYCODE
+- SDL_SCANF_FORMAT_STRING
+- SDL_SCANF_VARARG_FUNC
+- SDL_SCANF_VARARG_FUNCV
+- SDL_SCOPED_CAPABILITY
+- SDL_SECONDS_TO_NS
+- SDL_SINT64_C
+- SDL_SIZE_MAX
+- SDL_SOFTWARE_RENDERER
+- SDL_SSE2_INTRINSICS
+- SDL_SSE3_INTRINSICS
+- SDL_SSE4_1_INTRINSICS
+- SDL_SSE4_2_INTRINSICS
+- SDL_SSE_INTRINSICS
+- SDL_stack_alloc
+- SDL_stack_free
+- SDL_STANDARD_GRAVITY
+- SDL_static_cast
+- SDL_STRINGIFY_ARG
+- SDL_SURFACE_LOCK_NEEDED
+- SDL_SURFACE_LOCKED
+- SDL_SURFACE_PREALLOCATED
+- SDL_SURFACE_SIMD_ALIGNED
+- SDL_SVE2_INTRINSICS
+- SDL_Swap16BE
+- SDL_Swap16LE
+- SDL_Swap32BE
+- SDL_Swap32LE
+- SDL_Swap64BE
+- SDL_Swap64LE
+- SDL_SwapFloatBE
+- SDL_SwapFloatLE
+- SDL_TARGETING
+- SDL_THREAD_ANNOTATION_ATTRIBUTE__
+- SDL_TOUCH_MOUSEID
+- SDL_TRAYENTRY_BUTTON
+- SDL_TRAYENTRY_CHECKBOX
+- SDL_TRAYENTRY_CHECKED
+- SDL_TRAYENTRY_DISABLED
+- SDL_TRAYENTRY_SUBMENU
+- SDL_TriggerBreakpoint
+- SDL_TRY_ACQUIRE
+- SDL_TRY_ACQUIRE_SHARED
+- SDL_UINT64_C
+- SDL_Unsupported
+- SDL_US_PER_SECOND
+- SDL_US_TO_NS
+- SDL_VERSION
+- SDL_VERSION_ATLEAST
+- SDL_VERSIONNUM
+- SDL_VERSIONNUM_MAJOR
+- SDL_VERSIONNUM_MICRO
+- SDL_VERSIONNUM_MINOR
+- SDL_WINAPI_FAMILY_PHONE
+- SDL_WINDOW_ALWAYS_ON_TOP
+- SDL_WINDOW_BORDERLESS
+- SDL_WINDOW_EXTERNAL
+- SDL_WINDOW_FILL_DOCUMENT
+- SDL_WINDOW_FULLSCREEN
+- SDL_WINDOW_HIDDEN
+- SDL_WINDOW_HIGH_PIXEL_DENSITY
+- SDL_WINDOW_INPUT_FOCUS
+- SDL_WINDOW_KEYBOARD_GRABBED
+- SDL_WINDOW_MAXIMIZED
+- SDL_WINDOW_METAL
+- SDL_WINDOW_MINIMIZED
+- SDL_WINDOW_MODAL
+- SDL_WINDOW_MOUSE_CAPTURE
+- SDL_WINDOW_MOUSE_FOCUS
+- SDL_WINDOW_MOUSE_GRABBED
+- SDL_WINDOW_MOUSE_RELATIVE_MODE
+- SDL_WINDOW_NOT_FOCUSABLE
+- SDL_WINDOW_OCCLUDED
+- SDL_WINDOW_OPENGL
+- SDL_WINDOW_POPUP_MENU
+- SDL_WINDOW_RESIZABLE
+- SDL_WINDOW_SURFACE_VSYNC_ADAPTIVE
+- SDL_WINDOW_SURFACE_VSYNC_DISABLED
+- SDL_WINDOW_TOOLTIP
+- SDL_WINDOW_TRANSPARENT
+- SDL_WINDOW_UTILITY
+- SDL_WINDOW_VULKAN
+- SDL_WINDOWPOS_CENTERED
+- SDL_WINDOWPOS_CENTERED_DISPLAY
+- SDL_WINDOWPOS_CENTERED_MASK
+- SDL_WINDOWPOS_ISCENTERED
+- SDL_WINDOWPOS_ISUNDEFINED
+- SDL_WINDOWPOS_UNDEFINED
+- SDL_WINDOWPOS_UNDEFINED_DISPLAY
+- SDL_WINDOWPOS_UNDEFINED_MASK
+- SDL_WPRINTF_VARARG_FUNC
+- SDL_WPRINTF_VARARG_FUNCV
+- SDL_zero
+- SDL_zeroa
+- SDL_zerop
+

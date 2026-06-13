@@ -1,6 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
-/// @apiNote SDL_GPUStencilOp
+/// @sdlAPI SDL_GPUStencilOp
 public enum StencilOp {
     INVALID,
     KEEP,

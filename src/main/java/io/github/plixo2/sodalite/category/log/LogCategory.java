@@ -1,6 +1,6 @@
 package io.github.plixo2.sodalite.category.log;
 
-/// @apiNote SDL_LogCategory
+/// @sdlAPI SDL_LogCategory
 public enum LogCategory {
     APPLICATION,
     ERROR,

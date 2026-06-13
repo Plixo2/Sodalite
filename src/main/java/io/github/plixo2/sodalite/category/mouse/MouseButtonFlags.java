@@ -11,7 +11,7 @@ import static org.libsdl.sdl.SDL3_h.*;
 
 /// Annotation for the bitmask of {@link MouseButton} values.
 ///
-/// @apiNote SDL_MouseButtonFlags
+/// @sdlAPI SDL_MouseButtonFlags
 @MagicConstant(flagsFromClass = MouseButton.class)
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.TYPE_USE})

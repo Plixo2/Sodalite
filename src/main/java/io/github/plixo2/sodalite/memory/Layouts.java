@@ -2,6 +2,7 @@ package io.github.plixo2.sodalite.memory;
 
 
 import org.libsdl.sdl.SDL_GPUIndexedIndirectDrawCommand;
+import org.libsdl.sdl.SDL_GPUIndirectDispatchCommand;
 import org.libsdl.sdl.SDL_GPUIndirectDrawCommand;
 
 import java.lang.foreign.MemoryLayout;
@@ -33,6 +34,7 @@ public class Layouts {
 
     public static MemoryLayout PRIMITIVES_INDIRECT_DRAW_COMMAND = SDL_GPUIndirectDrawCommand.layout();
     public static MemoryLayout INDEXED_INDIRECT_DRAW_COMMAND = SDL_GPUIndexedIndirectDrawCommand.layout();
+    public static MemoryLayout INDIRECT_DISPATCH_COMMAND = SDL_GPUIndirectDispatchCommand.layout();
 
     private static MemoryLayout floatVector(int count) {
         return MemoryLayout.sequenceLayout(count, ValueLayout.JAVA_FLOAT);

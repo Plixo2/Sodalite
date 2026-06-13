@@ -6,7 +6,7 @@ import java.lang.foreign.MemorySegment;
 
 import static io.github.plixo2.sodalite.Internal.*;
 
-/// @apiNote SDL_GPUTextureRegion
+/// @sdlAPI SDL_GPUTextureRegion
 public record TextureRegion(
         Texture texture,
         long mipLevel,
@@ -137,7 +137,8 @@ public record TextureRegion(
                 0,
                 0, 0,
                 0,
-                texture.width(), texture.height(),
+                texture.width() >> mipLevel,
+                texture.height() >> mipLevel,
                 1
         );
     }
@@ -168,7 +169,8 @@ public record TextureRegion(
                 index,
                 0, 0,
                 0,
-                texture.width(), texture.height(),
+                texture.width() >> mipLevel,
+                texture.height() >> mipLevel,
                 1
         );
     }
@@ -184,11 +186,14 @@ public record TextureRegion(
             long mipLevel
     ) {
         ensureTexture(texture, TextureType.TEXTURE_3D, mipLevel);
-        return TextureRegion.of(texture,
+        return TextureRegion.of(
+                texture,
                 mipLevel,
                 0,
                 0, 0, 0,
-                texture.width(), texture.height(), texture.layerCountOrDepth()
+                texture.width() >> mipLevel,
+                texture.height() >> mipLevel,
+                texture.layerCountOrDepth() >> mipLevel
         );
     }
 
@@ -205,12 +210,14 @@ public record TextureRegion(
             CubeMapFace face
     ) {
         ensureTexture(texture, TextureType.TEXTURE_CUBE, mipLevel);
-        return TextureRegion.of(texture,
+        return TextureRegion.of(
+                texture,
                 mipLevel,
                 face.code(),
                 0, 0,
                 0,
-                texture.width(), texture.height(),
+                texture.width() >> mipLevel,
+                texture.height() >> mipLevel,
                 1
         );
     }
@@ -233,12 +240,14 @@ public record TextureRegion(
 
         var correctLayer = cubeArrayIndex(texture, index, face);
 
-        return TextureRegion.of(texture,
+        return TextureRegion.of(
+                texture,
                 mipLevel,
                 correctLayer,
                 0, 0,
                 0,
-                texture.width(), texture.height(),
+                texture.width() >> mipLevel,
+                texture.height() >> mipLevel,
                 1
         );
     }
@@ -247,14 +256,14 @@ public record TextureRegion(
         SDL_GPUTextureRegion.initialize(
                 segment,
                 this.texture.segment(),
-                (int)this.mipLevel,
-                (int)this.layer,
-                (int)this.x,
-                (int)this.y,
-                (int)this.z,
-                (int)this.width,
-                (int)this.height,
-                (int)this.depth
+                (int) this.mipLevel,
+                (int) this.layer,
+                (int) this.x,
+                (int) this.y,
+                (int) this.z,
+                (int) this.width,
+                (int) this.height,
+                (int) this.depth
         );
     }
 
@@ -274,7 +283,7 @@ public record TextureRegion(
         }
     }
 
-    private static long cubeArrayIndex(Texture texture, long index, CubeMapFace face) {
+    static long cubeArrayIndex(Texture texture, long index, CubeMapFace face) {
         var correctLayer = index * 6 + face.code();
         var layerCount = texture.layerCountOrDepth();
         if (correctLayer >= layerCount) {
@@ -283,14 +292,20 @@ public record TextureRegion(
             var suffix = hasCorrectLayerCount
                     ? " (" + (layerCount / 6) + " cube maps)"
                     : ". Note that the texture has a layer count that is not a multiple of 6"
-                    + ", which is required for cube map arrays";
-
+                      + ", which is required for cube map arrays";
 
             throw new IllegalArgumentException(
                     "The index must be less than the number of layers in the texture."
-                            + "Calculated layer " + correctLayer + " for index " + index + " and face " +
-                            face
-                            + ", but the texture has only " + layerCount + " layers" + suffix
+                    + "Calculated layer "
+                    + correctLayer
+                    + " for index "
+                    + index
+                    + " and face "
+                    + face
+                    + ", but the texture has only "
+                    + layerCount
+                    + " layers"
+                    + suffix
             );
         }
         return correctLayer;

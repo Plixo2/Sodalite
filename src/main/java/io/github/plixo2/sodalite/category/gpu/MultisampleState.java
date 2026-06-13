@@ -5,7 +5,7 @@ import org.libsdl.sdl.SDL_GPUMultisampleState;
 
 import java.lang.foreign.MemorySegment;
 
-/// @apiNote SDL_GPUMultisampleState
+/// @sdlAPI SDL_GPUMultisampleState
 public record MultisampleState(
         SampleCount sampleCount,
         boolean enableAlphaToCoverage

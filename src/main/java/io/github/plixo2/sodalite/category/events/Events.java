@@ -9,8 +9,9 @@ import java.lang.foreign.MemorySegment;
 
 import static org.libsdl.sdl.SDL3_h.*;
 
+/// @sdlCategory CategoryEvents
 public class Events {
-
+    private Events() {}
 
     /// Should be called on the main thread.
     /// @return true if there are more events, false otherwise.
@@ -36,7 +37,7 @@ public class Events {
     /// This method will also call {@link PendingFrees#drain()}
     /// to free any resources that were queued for freeing after the last event.
     ///
-    /// @apiNote SDL_PollEvent
+    /// @sdlAPI SDL_PollEvent
     private static boolean pollSingleEvent(
             Arena arena,
             @Nullable EventConsumer consumer

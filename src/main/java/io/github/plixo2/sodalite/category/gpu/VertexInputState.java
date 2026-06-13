@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/// @apiNote SDL_GPUVertexInputState
+import static io.github.plixo2.sodalite.Internal.*;
+
+/// @sdlAPI SDL_GPUVertexInputState
 public record VertexInputState(
     BufferDescriptions vertexBufferDescriptions,
     Attributes vertexAttributes
@@ -60,7 +62,7 @@ public record VertexInputState(
         }
     }
 
-    /// @apiNote SDL_GPUVertexBufferDescription
+    /// @sdlAPI SDL_GPUVertexBufferDescription
     public record VertexBufferDescription(
         int bindingSlot,
         int pitchAkaStride,
@@ -78,11 +80,16 @@ public record VertexInputState(
                 long pitchAkaStride,
                 VertexInputRate inputRate
         ) {
-            return new VertexBufferDescription(bindingSlot, (int) pitchAkaStride, inputRate);
+
+            return new VertexBufferDescription(
+                    bindingSlot,
+                    assertU32(pitchAkaStride, "pitchAkaStride"),
+                    inputRate
+            );
         }
     }
 
-    /// @apiNote SDL_GPUVertexAttribute
+    /// @sdlAPI SDL_GPUVertexAttribute
     public record VertexAttribute(
         int location,
         int bufferSlot,
@@ -99,7 +106,7 @@ public record VertexInputState(
         }
     }
 
-    /// @apiNote SDL_GPUVertexInputRate
+    /// @sdlAPI SDL_GPUVertexInputRate
     public enum VertexInputRate {
         VERTEX,
         INSTANCE,

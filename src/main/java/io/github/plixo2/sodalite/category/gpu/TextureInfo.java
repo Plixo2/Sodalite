@@ -2,7 +2,7 @@ package io.github.plixo2.sodalite.category.gpu;
 
 
 
-/// Call {@link TextureCreateInfo#create)}, {@link TextureBuilder#build} or
+/// Call {@link TextureCreateInfo#create}, {@link TextureBuilder#build} or
 /// {@link Texture#createEmpty} to create the texture.
 ///
 /// @see TextureCreateInfo

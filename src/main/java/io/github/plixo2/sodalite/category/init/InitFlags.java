@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 import static org.libsdl.sdl.SDL3_h.*;
 
-/// @apiNote SDL_InitFlags
+/// @sdlAPI SDL_InitFlags
 @MagicConstant(flagsFromClass = InitFlags.class)
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.TYPE_USE})

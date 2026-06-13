@@ -3,7 +3,7 @@ package io.github.plixo2.sodalite.category.gpu;
 
 import org.jetbrains.annotations.Nullable;
 
-/// @apiNote SDL_GPUTextureFormat
+/// @sdlAPI SDL_GPUTextureFormat
 public enum TextureFormat {
 
     INVALID,
@@ -136,6 +136,21 @@ public enum TextureFormat {
             return null;
         }
         return values[code];
+    }
+
+    public long calculateTextureSize(
+            long width,
+            long height,
+            long depthOrLayerCount
+    ) {
+        return GPU.calculateTextureSize(this, width, height, depthOrLayerCount);
+    }
+
+    public long calculateTextureSize(
+            long width,
+            long height
+    ) {
+        return calculateTextureSize(width, height, 1);
     }
     
     public int code() {

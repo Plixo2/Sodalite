@@ -1,6 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
-/// @apiNote SDL_GPUVertexElementFormat
+/// @sdlAPI SDL_GPUVertexElementFormat
 public enum VertexElementFormat {
     INVALID,
 

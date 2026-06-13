@@ -9,7 +9,7 @@ import java.lang.foreign.MemorySegment;
 import java.lang.foreign.SegmentAllocator;
 import java.util.List;
 
-/// @apiNote SDL_GPUGraphicsPipelineTargetInfo
+/// @sdlAPI SDL_GPUGraphicsPipelineTargetInfo
 public record GraphicsPipelineTargetInfo(
     List<ColorTargetDescription> colorTargetDescriptions,
     @Nullable TextureFormat depthStencilFormat

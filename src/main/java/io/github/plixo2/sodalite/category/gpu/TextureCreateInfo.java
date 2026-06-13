@@ -6,7 +6,7 @@ import org.libsdl.sdl.SDL_GPUTextureCreateInfo;
 import java.lang.foreign.MemorySegment;
 
 /// Consider using {@link TextureBuilder}
-/// @apiNote SDL_GPUTextureCreateInfo
+/// @sdlAPI SDL_GPUTextureCreateInfo
 public record TextureCreateInfo(
         TextureType type,
         TextureFormat format,

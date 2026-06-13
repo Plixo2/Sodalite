@@ -4,9 +4,11 @@ import org.jetbrains.annotations.Range;
 
 import static org.libsdl.sdl.SDL3_h.*;
 
+/// @sdlCategory CategoryLog
 public class Log {
+    private Log() {}
 
-    /// @apiNote SDL_SetLogPriority
+    /// @sdlAPI SDL_SetLogPriority
     public static void setLogPriority(
             LogCategory category,
             LogPriority priority
@@ -17,7 +19,7 @@ public class Log {
     /// Set the priority of a custom log category. \
     /// Equivalent to `SDL_SetLogPriority(SDL_LOG_CATEGORY_CUSTOM + customCategory, priority)`.
     ///
-    /// @apiNote SDL_SetLogPriority
+    /// @sdlAPI SDL_SetLogPriority
     public static void setLogPriorityCustom(
             @Range(from = 0, to = Integer.MAX_VALUE) int customCategory,
             LogPriority priority

@@ -4,7 +4,7 @@ import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 
 
-/// @apiNote Keys for SDL_CreateGPUDevice
+/// Keys for `SDL_CreateGPUDevice`
 public enum PreferredGPUDriver {
 
     VULKAN,

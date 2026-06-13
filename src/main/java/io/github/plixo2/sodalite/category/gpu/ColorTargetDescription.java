@@ -1,6 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
-/// @apiNote SDL_GPUColorTargetDescription
+/// @sdlAPI SDL_GPUColorTargetDescription
 public record ColorTargetDescription(
         TextureFormat format,
         ColorTargetBlendState blendState

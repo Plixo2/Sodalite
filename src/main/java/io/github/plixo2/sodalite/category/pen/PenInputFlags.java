@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 import static org.libsdl.sdl.SDL3_h.*;
 
-/// @apiNote SDL_PenInputFlags
+/// @sdlAPI SDL_PenInputFlags
 @MagicConstant(flagsFromClass = PenInputFlags.class)
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.TYPE_USE})

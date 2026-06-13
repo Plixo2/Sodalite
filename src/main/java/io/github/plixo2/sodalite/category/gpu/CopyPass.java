@@ -4,8 +4,9 @@ package io.github.plixo2.sodalite.category.gpu;
 import lombok.Getter;
 
 import java.lang.foreign.MemorySegment;
+import java.security.PublicKey;
 
-/// @apiNote SDL_GPUCopyPass
+/// @sdlAPI SDL_GPUCopyPass
 public class CopyPass implements AutoCloseable {
 
     private final MemorySegment segment;
@@ -81,7 +82,6 @@ public class CopyPass implements AutoCloseable {
             long size,
             Cycle cycle
     ) {
-        ensureNotEnded();
         GPU.uploadToGPUBuffer(
             this,
             src,
@@ -107,7 +107,6 @@ public class CopyPass implements AutoCloseable {
             TextureRegion region,
             Cycle cycle
     ) {
-        ensureNotEnded();
         GPU.uploadToGPUTexture(
                 this,
                 src,
@@ -117,5 +116,47 @@ public class CopyPass implements AutoCloseable {
         );
     }
 
+    public void copy(
+            Buffer source,
+            long sourceOffset,
+            Buffer destination,
+            long destinationOffset,
+            long size,
+            Cycle cycle
+    ) {
+        GPU.copyBuffer(
+                this,
+                source,
+                sourceOffset,
+                destination,
+                destinationOffset,
+                size,
+                cycle
+        );
+    }
+
+    /// [CopyPass#copy] does transfer the memory directly. \
+    /// [CommandBuffer#blit] will 'render' source onto destination,
+    /// which allows for scaling and filtering.
+    ///
+    /// @see CommandBuffer#blit
+    public void copy(
+            TextureLocation source,
+            TextureLocation destination,
+            long width,
+            long height,
+            long depth,
+            Cycle cycle
+    ) {
+        GPU.copyTexture(
+                this,
+                source,
+                destination,
+                width,
+                height,
+                depth,
+                cycle
+        );
+    }
 
 }

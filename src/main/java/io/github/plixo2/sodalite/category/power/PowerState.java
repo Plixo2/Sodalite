@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 import static org.libsdl.sdl.SDL3_h.*;
 
-/// @apiNote SDL_PowerState
+/// @sdlAPI SDL_PowerState
 @RequiredArgsConstructor
 public enum PowerState {
     ERROR(SDL_POWERSTATE_ERROR()),

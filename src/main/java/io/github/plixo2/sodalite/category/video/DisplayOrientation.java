@@ -3,7 +3,7 @@ package io.github.plixo2.sodalite.category.video;
 
 import io.github.plixo2.sodalite.Internal;
 
-/// @apiNote SDL_DisplayOrientation
+/// @sdlAPI SDL_DisplayOrientation
 public enum DisplayOrientation {
     UNKNOWN,
     LANDSCAPE,

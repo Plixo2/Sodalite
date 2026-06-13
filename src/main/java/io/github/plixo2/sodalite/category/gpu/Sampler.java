@@ -7,7 +7,7 @@ import lombok.Getter;
 
 import java.lang.foreign.MemorySegment;
 
-/// @apiNote SDL_GPUSampler
+/// @sdlAPI SDL_GPUSampler
 public class Sampler extends ResourceObject implements SamplerInfo {
 
     private final MemorySegment segment;

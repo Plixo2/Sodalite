@@ -4,7 +4,7 @@ import org.libsdl.sdl.SDL_GPURasterizerState;
 
 import java.lang.foreign.MemorySegment;
 
-/// @apiNote SDL_GPURasterizerState
+/// @sdlAPI SDL_GPURasterizerState
 public record RasterizerState(
         FillMode fillMode,
         CullMode cullMode,

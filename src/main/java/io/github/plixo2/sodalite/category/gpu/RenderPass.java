@@ -1,19 +1,18 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 
-import lombok.Getter;
+import io.github.plixo2.sodalite.category.rect.Rect;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4f;
 import org.libsdl.sdl.SDL_FColor;
 import org.libsdl.sdl.SDL_GPUColorTargetInfo;
 import org.libsdl.sdl.SDL_GPUDepthStencilTargetInfo;
 
-import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.util.Objects;
 
 
-/// @apiNote SDL_GPURenderPass
+/// @sdlAPI SDL_GPURenderPass
 public class RenderPass implements AutoCloseable {
 
     private final MemorySegment segment;
@@ -32,6 +31,15 @@ public class RenderPass implements AutoCloseable {
         return this.segment;
     }
 
+    @Override
+    public void close() {
+        if (this.isEnded) {
+            throw new IllegalStateException("Render pass has already been ended");
+        }
+        GPU.endGPURenderPass(this);
+        this.isEnded = true;
+    }
+
     public void bindPipeline(GraphicsPipeline pipeline) {
         GPU.bindGPUGraphicsPipeline(this, pipeline);
     }
@@ -41,14 +49,29 @@ public class RenderPass implements AutoCloseable {
             Buffer buffer,
             int bufferOffset
     ) {
-        GPU.bindGPUVertexBuffer(this, slot, buffer, bufferOffset);
+        GPU.bindVertexBuffer(this, slot, buffer, bufferOffset);
     }
 
     public void bindVertexBuffer(
             int slot,
             Buffer buffer
     ) {
-        GPU.bindGPUVertexBuffer(this, slot, buffer, 0);
+        GPU.bindVertexBuffer(this, slot, buffer, 0);
+    }
+
+    public void bindIndexBuffer(
+            Buffer buffer,
+            int bufferOffset,
+            IndexElementSize indexElementSize
+    ) {
+        GPU.bindIndexBuffer(this, buffer, bufferOffset, indexElementSize);
+    }
+
+    public void bindIndexBuffer(
+            Buffer buffer,
+            IndexElementSize indexElementSize
+    ) {
+        GPU.bindIndexBuffer(this, buffer, 0, indexElementSize);
     }
 
     public void bindVertexStorageBuffer(
@@ -82,6 +105,7 @@ public class RenderPass implements AutoCloseable {
                 samplers
         );
     }
+
     public void bindFragmentSamplers(
             int firstSlot,
             Texture[] textures,
@@ -94,6 +118,42 @@ public class RenderPass implements AutoCloseable {
                 sampler
         );
     }
+
+    public void bindFragmentStorageBuffer(
+            int slot,
+            Buffer buffer
+    ) {
+        GPU.bindFragmentStorageBuffer(this, slot, buffer);
+    }
+
+    public void bindFragmentStorageTexture(
+            int slot,
+            Texture texture
+    ) {
+        GPU.bindFragmentStorageTexture(this, slot, texture);
+    }
+
+
+    public void bindVertexSampler(
+            int slot,
+            Texture texture,
+            Sampler sampler
+    ) {
+        GPU.bindVertexSampler(
+                this,
+                slot,
+                texture,
+                sampler
+        );
+    }
+
+    public void bindVertexStorageTexture(
+            int slot,
+            Texture texture
+    ) {
+        GPU.bindVertexStorageTexture(this, slot, texture);
+    }
+
 
     public void drawPrimitives(
             int numVertices,
@@ -147,30 +207,33 @@ public class RenderPass implements AutoCloseable {
         GPU.setGPUScissor(this, x, y, width, height);
     }
 
+    public void setScissor(
+            Rect rect
+    ) {
+        setScissor(rect.x(), rect.y(), rect.width(), rect.height());
+    }
 
-    @Override
-    public void close() {
-        if (this.isEnded) {
-            throw new IllegalStateException("Render pass has already been ended");
-        }
-        GPU.endGPURenderPass(this);
-        this.isEnded = true;
+    public void setViewport(Viewport viewport) {
+        GPU.setGPUViewport(this, viewport);
     }
 
 
-    /// @apiNote SDL_GPUColorTargetInfo
+
+
+    /// @sdlAPI SDL_GPUColorTargetInfo
+    @Setter
     public static class ColorTargetInfo {
-        public Texture texture;
-        public int mipLevel = 0;
-        public int layerOrDepthPlane = 0;
-        public Vector4f clearColor = new Vector4f();
-        public LoadOp loadOp;
-        public StoreOp storeOp = StoreOp.STORE;
-        public @Nullable Texture resolveTexture = null;
-        public int resolveMipLevel = 0;
-        public int resolveLayer = 0;
-        public Cycle cycle;
-        public Cycle cycleResolveTexture = Cycle.FALSE;
+        private Texture texture;
+        private int mipLevel = 0;
+        private int layerOrDepthPlane = 0;
+        private Vector4f clearColor = new Vector4f();
+        private LoadOp loadOp;
+        private StoreOp storeOp = StoreOp.STORE;
+        private @Nullable Texture resolveTexture = null;
+        private int resolveMipLevel = 0;
+        private int resolveLayer = 0;
+        private Cycle cycle;
+        private Cycle cycleResolveTexture = Cycle.FALSE;
 
         private ColorTargetInfo(
                 Texture texture,
@@ -224,10 +287,10 @@ public class RenderPass implements AutoCloseable {
         void put(MemorySegment segment) {
             SDL_GPUColorTargetInfo.initialize(
                     segment,
-                    Objects.requireNonNull(this.texture).segment(),
+                    this.texture.segment(),
                     this.mipLevel,
                     this.layerOrDepthPlane,
-                    Fcolor(this.clearColor),
+                    fColor(SDL_GPUColorTargetInfo.clear_color(segment), this.clearColor),
                     this.loadOp.code(),
                     this.storeOp.code(),
                     this.resolveTexture == null ? MemorySegment.NULL : this.resolveTexture.segment(),
@@ -241,18 +304,19 @@ public class RenderPass implements AutoCloseable {
     }
 
 
-    /// @apiNote SDL_GPUDepthStencilTargetInfo
+    /// @sdlAPI SDL_GPUDepthStencilTargetInfo
+    @Setter
     public static class DepthStencilTargetInfo {
-        public Texture texture;
-        public float clearDepth = 0f;
-        public LoadOp loadOp;
-        public StoreOp storeOp = StoreOp.STORE;
-        public LoadOp stencilLoadOp = LoadOp.DONT_CARE;
-        public StoreOp stencilStoreOp = StoreOp.DONT_CARE;
-        public Cycle cycle;
-        public byte clearStencil = 0;
-        public byte mip_level = 0;
-        public byte layer = 0;
+        private Texture texture;
+        private float clearDepth = 0f;
+        private LoadOp loadOp;
+        private StoreOp storeOp = StoreOp.STORE;
+        private LoadOp stencilLoadOp = LoadOp.DONT_CARE;
+        private StoreOp stencilStoreOp = StoreOp.DONT_CARE;
+        private Cycle cycle;
+        private int clearStencil = 0;
+        private int mip_level = 0;
+        private int layer = 0;
 
         private DepthStencilTargetInfo(
                 Texture texture,
@@ -289,29 +353,38 @@ public class RenderPass implements AutoCloseable {
         }
 
         void put(MemorySegment segment) {
+            if (this.clearDepth < 0 || this.clearDepth > 255) {
+                throw new IllegalArgumentException("Clear depth must be between 0 and 255");
+            }
+            if (this.mip_level < 0 || this.mip_level > 255) {
+                throw new IllegalArgumentException("Mip level must be between 0 and 255");
+            }
+            if (this.layer < 0 || this.layer > 255) {
+                throw new IllegalArgumentException("Layer must be between 0 and 255");
+            }
+
             SDL_GPUDepthStencilTargetInfo.initialize(
                     segment,
-                    Objects.requireNonNull(this.texture).segment(),
+                    this.texture.segment(),
                     this.clearDepth,
                     this.loadOp.code(),
                     this.storeOp.code(),
                     this.stencilLoadOp.code(),
                     this.stencilStoreOp.code(),
                     this.cycle.value(),
-                    this.clearStencil,
-                    this.mip_level,
-                    this.layer
+                    (byte) this.clearStencil,
+                    (byte) this.mip_level,
+                    (byte) this.layer
             );
         }
 
     }
 
-    private static final MemorySegment colorSegment = Arena.global().allocate(SDL_FColor.layout());
 
-    /// @apiNote SDL_FColor
-    private static MemorySegment Fcolor(Vector4f color) {
-        SDL_FColor.initialize(colorSegment, color.x, color.y, color.z, color.w);
-        return colorSegment;
+    /// @sdlAPI SDL_FColor
+    private static MemorySegment fColor(MemorySegment segment, Vector4f color) {
+        SDL_FColor.initialize(segment, color.x, color.y, color.z, color.w);
+        return segment;
     }
 
 
