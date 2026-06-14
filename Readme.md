@@ -1,4 +1,4 @@
 
 ![Logo.svg](Logo.svg)
 
-[Progress.md](Progress)
+[Progress](Progress.md)
