@@ -1,10 +1,8 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 
-import lombok.Getter;
 
 import java.lang.foreign.MemorySegment;
-import java.security.PublicKey;
 
 /// @sdlAPI SDL_GPUCopyPass
 public class CopyPass implements AutoCloseable {

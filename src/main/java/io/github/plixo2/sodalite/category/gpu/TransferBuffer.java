@@ -6,7 +6,7 @@ import lombok.Getter;
 
 import java.lang.foreign.MemorySegment;
 
-
+/// @sdlAPI SDL_GPUTransferBuffer
 public class TransferBuffer extends ResourceObject {
 
     private final MemorySegment segment;

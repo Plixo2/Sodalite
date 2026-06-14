@@ -48,4 +48,5 @@ bin/
 /resources/ui_rect/vertex.hlsl
 /resources/ui_rect/fragment.hlsl
 /resources/compileShaders.bat
-/resources/tests/test/*.png
+/resources/tests/
+/CategoryAPI.md

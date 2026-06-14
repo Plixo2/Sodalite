@@ -7,6 +7,7 @@ import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.RequiredArgsConstructor;
 
 import java.lang.foreign.MemorySegment;
+import java.util.Objects;
 
 /// @sdlAPI SDL_GPUDevice
 public class Device extends ResourceObject {
@@ -170,9 +171,16 @@ public class Device extends ResourceObject {
 
     @CheckReturnValue
     public CommandBuffer acquireCommandBuffer() {
-        return GPU.acquireGPUCommandBuffer(this);
+        return GPU.acquireGPUCommandBuffer(null, this);
     }
 
+    @CheckReturnValue
+    public CommandBuffer acquireCommandBuffer(FenceReference fenceReference) {
+        return GPU.acquireGPUCommandBuffer(
+                fenceReference,
+                this
+        );
+    }
 
     /// Will release the window claim when closed
     @RequiredArgsConstructor

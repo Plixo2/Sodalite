@@ -270,13 +270,14 @@ static void runFor(
             var time = Timer.getTicksNS();
             fpsCounter++;
 
-            if (time - lastTimeFPS >= Timer.NS_PER_SECOND) {
-//                var freeMemory = Runtime.getRuntime().freeMemory() / (1024 * 1024);
-//                var totalMemory = Runtime.getRuntime().totalMemory() / (1024 * 1024);
-//                var usedMemory = totalMemory - freeMemory;
-//                System.out.println("FPS: " + fpsCounter + " | Memory Usage: " + usedMemory + " MB / " + totalMemory + " MB");
+            var secondPassed = time - lastTimeFPS >= Timer.NS_PER_SECOND;
+            if (secondPassed) {
+                var freeMemory = Runtime.getRuntime().freeMemory() / (1024 * 1024);
+                var totalMemory = Runtime.getRuntime().totalMemory() / (1024 * 1024);
+                var usedMemory = totalMemory - freeMemory;
+                System.out.println("FPS: " + fpsCounter + " | Memory Usage: " + usedMemory + " MB / " + totalMemory + " MB");
 
-                System.out.println("FPS: " + fpsCounter);
+//                System.out.println("FPS: " + fpsCounter);
                 fpsCounter = 0;
                 var timeOver = time - lastTimeFPS - Timer.NS_PER_SECOND;
                 lastTimeFPS = time - timeOver;
@@ -285,31 +286,26 @@ static void runFor(
             var delta = (float) ((time - lastTime) / 1e9d);
             lastTime = time;
 
-//            instance.projectionMatrix.rotate(delta * 5f, 0f, 1f, 0f);
-
             try (var commandBuffer = gpu.acquireCommandBuffer()) {
-
                 var swapchain = commandBuffer.waitAndAcquireSwapchainTexture(window);
                 if (swapchain == null) {
                     continue;
                 }
 
                 instance.newMsaaTexture(
-                        appResources,
-                        gpu,
-                        swapchainFormat,
-                        swapchain.width(),
+                        appResources, gpu, swapchainFormat, swapchain.width(),
                         swapchain.height()
                 );
 
                 var clearColor = new Vector4f(0.1f, 0.2f, 0.3f, 1.0f);
-                var colorTarget0 = RenderPass.ColorTargetInfo.resolve(
-                        instance.msaaTexture,
-                        clearColor,
-                        swapchain,
-                        Cycle.FALSE,
-                        Cycle.FALSE
-                );
+                var colorTarget0 =
+                        RenderPass.ColorTargetInfo.resolve(
+                                instance.msaaTexture,
+                                clearColor,
+                                swapchain,
+                                Cycle.FALSE,
+                                Cycle.FALSE
+                        );
 
                 render.beginFrame(
                         instance.projectionMatrix,
@@ -318,8 +314,10 @@ static void runFor(
                 );
 
                 render.drawRect(
-                        0, 0,
-                        500, 500,
+                        0,
+                        0,
+                        500,
+                        500,
                         new Vector4f(1f, 0f, 1f, 1f),
                         30f,
                         new Vector4f(0f, 1f, 1f, 1f),
@@ -333,8 +331,10 @@ static void runFor(
                     var t = testTextures.get(i);
                     var x = i * 30;
                     render.drawTexture(
-                            x, 0,
-                            x + 400, 400,
+                            x,
+                            0,
+                            x + 400,
+                            400,
                             new Vector4f(1f, 1f, 1f, 1f),
                             t,
                             pixelated
@@ -343,29 +343,28 @@ static void runFor(
                 render.transform().identity();
 
                 render.drawRect(
-                        500, 500,
-                        700, 600,
+                        500,
+                        500,
+                        700,
+                        600,
                         new Vector4f(0.1f, 0.15f, 0.2f, 1f),
                         3f,
                         new Vector4f(1f, 1f, 1f, 1f),
                         5f
                 );
 
-                try (var copypass = commandBuffer.beginCopyPass()){
+                try (var copypass = commandBuffer.beginCopyPass()) {
                     render.upload(gpu, copypass);
                 }
 
                 try (var renderPass = commandBuffer.beginRenderPass(null, colorTarget0)) {
-
                     render.renderFrame(renderPass, commandBuffer);
-
                 }
             }
         }
     }
 
 }
-
 
 static Texture loadTexture(
         ResourceSet resources,

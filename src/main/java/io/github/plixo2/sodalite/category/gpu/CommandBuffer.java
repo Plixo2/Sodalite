@@ -4,6 +4,8 @@ package io.github.plixo2.sodalite.category.gpu;
 import com.google.errorprone.annotations.CheckReturnValue;
 import io.github.plixo2.sodalite.category.video.Window;
 import io.github.plixo2.sodalite.memory.WriteBuffer;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.foreign.MemorySegment;
@@ -12,14 +14,70 @@ import java.lang.foreign.MemorySegment;
 public class CommandBuffer implements AutoCloseable {
 
     private final MemorySegment segment;
+    private final Device device;
+
+    @Getter
     private boolean isCanceled = false;
+    @Getter
     private boolean isSubmitted = false;
+
+    private final @Nullable FenceReference fenceReference;
 
     @Nullable Texture acquiredSwapchainTexture;
 
-    CommandBuffer(MemorySegment segment) {
+    CommandBuffer(
+            @Nullable FenceReference fenceReference,
+            Device device,
+            MemorySegment segment
+    ) {
+        this.fenceReference = fenceReference;
+        if (fenceReference != null) {
+            fenceReference.setCommandBuffer(this);
+        }
+        this.device = device;
         this.segment = segment;
     }
+
+    public MemorySegment segment() {
+        if (this.isCanceled) {
+            throw new IllegalStateException("Command buffer has been canceled");
+        } else if (this.isSubmitted) {
+            throw new IllegalStateException("Command buffer has already been submitted");
+        }
+        return this.segment;
+    }
+
+    @Override
+    public void close() {
+        if (this.acquiredSwapchainTexture != null) {
+            this.acquiredSwapchainTexture.markReleased();
+        }
+        if (!this.isCanceled) {
+            if (this.isSubmitted) {
+                throw new IllegalStateException("Command buffer has already been submitted");
+            }
+            if (this.fenceReference != null) {
+                this.fenceReference.setFence(
+                        GPU.submitCommandBufferAndAcquire(
+                                this.device,
+                                this
+                        )
+                );
+            } else {
+                GPU.submitGPUCommandBuffer(this);
+            }
+            this.isSubmitted = true;
+        }
+    }
+
+    public void cancel() {
+        if (this.isSubmitted) {
+            throw new IllegalStateException("Command buffer has already been submitted");
+        }
+        this.isCanceled = true;
+        GPU.cancelGPUCommandBuffer(this);
+    }
+
 
     public @Nullable Texture waitAndAcquireSwapchainTexture(Window window) {
         return GPU.waitAndAcquireGPUSwapchainTexture(this, window);
@@ -99,34 +157,6 @@ public class CommandBuffer implements AutoCloseable {
         blit(info);
     }
 
-    public MemorySegment segment() {
-        if (this.isCanceled) {
-            throw new IllegalStateException("Command buffer has been canceled");
-        } else if (this.isSubmitted) {
-            throw new IllegalStateException("Command buffer has already been submitted");
-        }
-        return this.segment;
-    }
 
-    public void cancel() {
-        if (this.isSubmitted) {
-            throw new IllegalStateException("Command buffer has already been submitted");
-        }
-        this.isCanceled = true;
-        GPU.cancelGPUCommandBuffer(this);
-    }
 
-    @Override
-    public void close() {
-        if (this.acquiredSwapchainTexture != null) {
-            this.acquiredSwapchainTexture.markReleased();
-        }
-        if (!this.isCanceled) {
-            if (this.isSubmitted) {
-                throw new IllegalStateException("Command buffer has already been submitted");
-            }
-            GPU.submitGPUCommandBuffer(this);
-            this.isSubmitted = true;
-        }
-    }
 }

@@ -1,11 +1,11 @@
 [Progress](#sdl-api)
 
-10.9% Functions implemented \
-24.8% Datatypes implemented \
+11.2% Functions implemented \
+25.6% Datatypes implemented \
 66.9% Structs implemented \
 34.4% Enums implemented \
 0.0% Macros implemented \
-11.3% total
+11.5% total
 
 - [Categories](#categories)
 - [Functions](#functions)
@@ -965,7 +965,7 @@
 - [ ] SDL_PutAudioStreamPlanarData
 - [ ] SDL_qsort
 - [ ] SDL_qsort_r
-- [ ] SDL_QueryGPUFence
+- [x] SDL_QueryGPUFence
 - [x] SDL_Quit
 - [x] SDL_QuitSubSystem
 - [ ] SDL_RaiseWindow
@@ -1007,7 +1007,7 @@
 - [ ] SDL_ReleaseCameraFrame
 - [x] SDL_ReleaseGPUBuffer
 - [x] SDL_ReleaseGPUComputePipeline
-- [ ] SDL_ReleaseGPUFence
+- [x] SDL_ReleaseGPUFence
 - [x] SDL_ReleaseGPUGraphicsPipeline
 - [x] SDL_ReleaseGPUSampler
 - [x] SDL_ReleaseGPUShader
@@ -1292,7 +1292,7 @@
 - [ ] SDL_strtoull
 - [ ] SDL_strupr
 - [x] SDL_SubmitGPUCommandBuffer
-- [ ] SDL_SubmitGPUCommandBufferAndAcquireFence
+- [x] SDL_SubmitGPUCommandBufferAndAcquireFence
 - [ ] SDL_SurfaceHasAlternateImages
 - [ ] SDL_SurfaceHasColorKey
 - [ ] SDL_SurfaceHasRLE
@@ -1370,7 +1370,7 @@
 - [ ] SDL_WaitConditionTimeout
 - [ ] SDL_WaitEvent
 - [ ] SDL_WaitEventTimeout
-- [ ] SDL_WaitForGPUFences
+- [x] SDL_WaitForGPUFences
 - [ ] SDL_WaitForGPUIdle
 - [ ] SDL_WaitForGPUSwapchain
 - [ ] SDL_WaitProcess
@@ -1475,7 +1475,7 @@
 - [x] SDL_GPUComputePipeline
 - [x] SDL_GPUCopyPass
 - [x] SDL_GPUDevice
-- [ ] SDL_GPUFence
+- [x] SDL_GPUFence
 - [x] SDL_GPUGraphicsPipeline
 - [x] SDL_GPURenderPass
 - [ ] SDL_GPURenderState
@@ -2972,6 +2972,7 @@
 - SDL_PushGPUComputeUniformData
 - SDL_PushGPUFragmentUniformData
 - SDL_PushGPUVertexUniformData
+- SDL_QueryGPUFence
 - SDL_Quit
 - SDL_QuitSubSystem
 - SDL_RectEmpty
@@ -2982,6 +2983,7 @@
 - SDL_RectToFRect
 - SDL_ReleaseGPUBuffer
 - SDL_ReleaseGPUComputePipeline
+- SDL_ReleaseGPUFence
 - SDL_ReleaseGPUGraphicsPipeline
 - SDL_ReleaseGPUSampler
 - SDL_ReleaseGPUShader
@@ -3011,11 +3013,13 @@
 - SDL_ShowSaveFileDialog
 - SDL_ShowSimpleMessageBox
 - SDL_SubmitGPUCommandBuffer
+- SDL_SubmitGPUCommandBufferAndAcquireFence
 - SDL_UnmapGPUTransferBuffer
 - SDL_UpdateTrays
 - SDL_UploadToGPUBuffer
 - SDL_UploadToGPUTexture
 - SDL_WaitAndAcquireGPUSwapchainTexture
+- SDL_WaitForGPUFences
 - SDL_WasInit
 - SDL_WindowSupportsGPUPresentMode
 - SDL_WindowSupportsGPUSwapchainComposition
@@ -3033,6 +3037,7 @@
 - SDL_GPUComputePipeline
 - SDL_GPUCopyPass
 - SDL_GPUDevice
+- SDL_GPUFence
 - SDL_GPUGraphicsPipeline
 - SDL_GPURenderPass
 - SDL_GPUSampler
@@ -3992,7 +3997,6 @@
 - SDL_PutAudioStreamPlanarData
 - SDL_qsort
 - SDL_qsort_r
-- SDL_QueryGPUFence
 - SDL_RaiseWindow
 - SDL_rand
 - SDL_rand_bits
@@ -4024,7 +4028,6 @@
 - SDL_RegisterApp
 - SDL_RegisterEvents
 - SDL_ReleaseCameraFrame
-- SDL_ReleaseGPUFence
 - SDL_ReloadGamepadMappings
 - SDL_RemoveEventWatch
 - SDL_RemoveHintCallback
@@ -4280,7 +4283,6 @@
 - SDL_strtoul
 - SDL_strtoull
 - SDL_strupr
-- SDL_SubmitGPUCommandBufferAndAcquireFence
 - SDL_SurfaceHasAlternateImages
 - SDL_SurfaceHasColorKey
 - SDL_SurfaceHasRLE
@@ -4353,7 +4355,6 @@
 - SDL_WaitConditionTimeout
 - SDL_WaitEvent
 - SDL_WaitEventTimeout
-- SDL_WaitForGPUFences
 - SDL_WaitForGPUIdle
 - SDL_WaitForGPUSwapchain
 - SDL_WaitProcess
@@ -4444,7 +4445,6 @@
 - SDL_GLContextResetNotification
 - SDL_GlobFlags
 - SDL_GLProfile
-- SDL_GPUFence
 - SDL_GPURenderState
 - SDL_GPUTransferBuffer
 - SDL_Haptic

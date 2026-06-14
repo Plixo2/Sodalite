@@ -103,9 +103,16 @@ public final class GPU {
     }
 
     /// @sdlAPI SDL_AcquireGPUCommandBuffer
-    static CommandBuffer acquireGPUCommandBuffer(Device gpuDevice) {
+    static CommandBuffer acquireGPUCommandBuffer(
+            @Nullable FenceReference fenceReference,
+            Device gpuDevice
+    ) {
         var commandBuffer = check(SDL_AcquireGPUCommandBuffer(gpuDevice.segment()));
-        return new CommandBuffer(commandBuffer);
+        return new CommandBuffer(
+                fenceReference,
+                gpuDevice,
+                commandBuffer
+        );
     }
 
     /// @sdlAPI SDL_SubmitGPUCommandBuffer
@@ -1221,5 +1228,76 @@ public final class GPU {
             );
         }
     }
+
+    /// @sdlAPI SDL_ReleaseGPUFence
+    static void releaseFence(
+            Device device,
+            MemorySegment segment
+    ) {
+        SDL_ReleaseGPUFence(
+                device.segment(),
+                segment
+        );
+    }
+
+    /// @sdlAPI SDL_QueryGPUFence
+    static boolean queryFence(
+            Device device,
+            Fence fence
+    ) {
+        return SDL_QueryGPUFence(
+                device.segment(),
+                fence.segment()
+        );
+    }
+
+    /// @sdlAPI SDL_WaitForGPUFences
+    static void waitForFences(
+            Device device,
+            boolean waitAll,
+            Fence[] fence
+    ) {
+        try (var arena = Arena.ofConfined()) {
+            var pointerBuffer = arena.allocate(ValueLayout.ADDRESS, fence.length);
+            for (var i = 0; i < fence.length; i++) {
+                pointerBuffer.set(ValueLayout.ADDRESS, i, fence[i].segment());
+            }
+            check(SDL_WaitForGPUFences(
+                    device.segment(),
+                    waitAll,
+                    pointerBuffer,
+                    fence.length
+            ));
+        }
+    }
+
+    /// @sdlAPI SDL_WaitForGPUFences
+    static void waitForFence(
+            Device device,
+            Fence fence
+    ) {
+        try (var arena = Arena.ofConfined()) {
+            var pointerBuffer = arena.allocate(ValueLayout.ADDRESS);
+            pointerBuffer.set(ValueLayout.ADDRESS, 0, fence.segment());
+            check(SDL_WaitForGPUFences(
+                    device.segment(),
+                    true,
+                    pointerBuffer,
+                    1
+            ));
+        }
+    }
+
+    /// @sdlAPI SDL_SubmitGPUCommandBufferAndAcquireFence
+    static Fence submitCommandBufferAndAcquire(
+            Device device,
+            CommandBuffer commandBuffer
+    ) {
+        var fence = check(SDL_SubmitGPUCommandBufferAndAcquireFence(
+                commandBuffer.segment()
+        ));
+        return new Fence(device, fence);
+    }
+
 
 }
