@@ -4,6 +4,7 @@ import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.ref.Cleaner;
 
+/// @see ResourceSet#ofAuto() for more details on this class.
 final class AutoResourceSet implements ResourceSet {
     private static final Cleaner CLEANER = Cleaner.create();
 

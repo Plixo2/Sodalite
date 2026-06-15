@@ -422,7 +422,7 @@ void run() throws IOException {
                 staticResourc,
                 ShaderFormat.SPIRV,
                 true,
-                PreferredGPUDriver.VULKAN
+                PreferredDriver.VULKAN
         );
         time("GPU Creation");
 

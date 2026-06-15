@@ -5,10 +5,6 @@ import io.github.plixo2.sodalite.Internal;
 public abstract class ResourceObject {
     private boolean released = false;
 
-    public boolean isReleased() {
-        return this.released;
-    }
-
     public void ensureNotReleased() {
         if (!Internal.ASSERTIONS_ENABLED || !this.released) {
             return;

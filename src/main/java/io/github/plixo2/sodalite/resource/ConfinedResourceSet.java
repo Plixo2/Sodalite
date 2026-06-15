@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/// @see ResourceSet#ofConfined() for more details on this class.
 final class ConfinedResourceSet extends ResourceObject implements ResourceSet {
 
     private List<Resource> resources = new ArrayList<>();

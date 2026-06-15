@@ -28,13 +28,14 @@ public final class GPU {
             ResourceSet resources,
             @ShaderFormat int shaderFormat,
             boolean debugMode,
-            PreferredGPUDriver preferredDriver
+            PreferredDriver preferredDriver
     ) {
 
         if (!Init.wasInit(InitFlags.VIDEO)) {
+            // The Video video subsystem is required to create a Device!
             // Creating a window does initialize the video subsystem, so
-            // we might as well do it here for consistency
-            // as it is required to create a Device
+            // we might as well do it here for consistency,
+            // since this method might be called before any window is created.
             Init.initSubSystem(InitFlags.VIDEO);
         }
 

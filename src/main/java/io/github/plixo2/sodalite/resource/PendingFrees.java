@@ -19,8 +19,9 @@ public class PendingFrees {
         return () -> pendingAutoFrees.add(resource);
     }
 
-    /// Called on application shutdown
-    public static void freeAll() {
+    /// Called on application shutdown.
+    /// Dont call this method directly
+    public static void freeGlobal() {
         pendingAutoFrees.clear();
 
         openAutoResources.forEach(Resource::free);
@@ -35,8 +36,9 @@ public class PendingFrees {
         globalResources.clear();
     }
 
-    /// Drains the free list.
-    /// @sdlAPI This should be called on the main thread.
+    /// Drains the free list for the resources registered to the auto resource set.
+    ///
+    /// @threadSafety This should be called on the main thread.
     public static void drain() {
         Resource resource;
         while ((resource = pendingAutoFrees.poll()) != null) {

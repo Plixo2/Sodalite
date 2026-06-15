@@ -18,7 +18,7 @@ public class Init {
         check(SDL_Init(flags));
     }
 
-    /// Does exactly the same thing as {@link #init}
+    /// Does exactly the same thing as [#init]
     ///
     /// @sdlAPI SDL_InitSubSystem
     public static void initSubSystem(@InitFlags int flags) {
@@ -36,11 +36,11 @@ public class Init {
         SDL_QuitSubSystem(flags);
     }
 
-    /// Should only be called on the main thread.
     /// @sdlAPI SDL_Quit
+    /// @threadSafety This function should only be called on the main thread
     public static void quit() {
         try {
-            PendingFrees.freeAll();
+            PendingFrees.freeGlobal();
         } finally {
             SDL_Quit();
         }

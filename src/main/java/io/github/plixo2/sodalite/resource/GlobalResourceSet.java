@@ -4,7 +4,7 @@ package io.github.plixo2.sodalite.resource;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 
-
+/// @see ResourceSet#global() for more details on this class.
 final class GlobalResourceSet implements ResourceSet {
     private static final Arena ARENA = Arena.global();
 

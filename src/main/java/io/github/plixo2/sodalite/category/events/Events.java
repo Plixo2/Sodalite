@@ -14,54 +14,64 @@ import static org.libsdl.sdl.SDL3_h.*;
 public class Events {
     private Events() {}
 
-    /// Should be called on the main thread.
+    /// This method will also call {@link PendingFrees#drain()}
+    ///
     /// @return true if there are more events, false otherwise.
+    /// @threadSafety This function should only be called on the main thread
     public static boolean pollEvent(EventConsumer consumer) {
         try (var arena = Arena.ofConfined()) {
-            return pollSingleEvent(arena, consumer);
+            return pollSingleEvent(
+                    SDL_Event.allocate(arena),
+                    consumer
+            );
         }
     }
 
-    /// Should be called on the main thread.
+    /// This method will also call {@link PendingFrees#drain()}
+    ///
+    /// @threadSafety This function should only be called on the main thread
     public static void pollEvents(EventConsumer consumer) {
         try (var arena = Arena.ofConfined()) {
+            var eventOut = SDL_Event.allocate(arena);
             //noinspection StatementWithEmptyBody
-            while (pollSingleEvent(arena, consumer)) {
+            while (pollSingleEvent(eventOut, consumer)) {
                 // nothing
             }
         }
     }
-    /// Should be called on the main thread.
+
+    /// This method will also call {@link PendingFrees#drain()}
+    ///
+    /// @threadSafety This function should only be called on the main thread
     public static void pollEvents(EventConsumer... consumers) {
         try (var arena = Arena.ofConfined()) {
+            var eventOut = SDL_Event.allocate(arena);
             //noinspection StatementWithEmptyBody
-            while (pollSingleEvent(arena, consumers)) {
+            while (pollSingleEvent(eventOut, consumers)) {
                 // nothing
             }
         }
     }
 
-    /// Should be called on the main thread.
+    /// This method will also call {@link PendingFrees#drain()}
+    ///
+    /// @threadSafety This function should only be called on the main thread
     public static void pollEvents(List<? extends EventConsumer> consumers) {
         try (var arena = Arena.ofConfined()) {
+            var eventOut = SDL_Event.allocate(arena);
             //noinspection StatementWithEmptyBody
-            while (pollSingleEvent(arena, consumers)) {
+            while (pollSingleEvent(eventOut, consumers)) {
                 // nothing
             }
         }
     }
 
-    /// Should be called on the main thread.
-    ///
-    /// This method will also call {@link PendingFrees#drain()}
-    /// to free any resources that were queued for freeing after the last event.
-    ///
+
     /// @sdlAPI SDL_PollEvent
     private static boolean pollSingleEvent(
-            Arena arena,
+            MemorySegment eventOut,
             EventConsumer consumer
     ) {
-        MemorySegment eventOut = SDL_Event.allocate(arena);
         var hasEvent = SDL_PollEvent(eventOut);
         if (hasEvent) {
             EventDispatch.dispatch(consumer, eventOut);
@@ -73,10 +83,9 @@ public class Events {
     }
 
     private static boolean pollSingleEvent(
-            Arena arena,
+            MemorySegment eventOut,
             EventConsumer... consumers
     ) {
-        MemorySegment eventOut = SDL_Event.allocate(arena);
         var hasEvent = SDL_PollEvent(eventOut);
         if (hasEvent) {
             for (var consumer : consumers) {
@@ -90,10 +99,9 @@ public class Events {
     }
 
     private static boolean pollSingleEvent(
-            Arena arena,
+            MemorySegment eventOut,
             List<? extends EventConsumer> consumers
     ) {
-        MemorySegment eventOut = SDL_Event.allocate(arena);
         var hasEvent = SDL_PollEvent(eventOut);
         if (hasEvent) {
             for (var consumer : consumers) {

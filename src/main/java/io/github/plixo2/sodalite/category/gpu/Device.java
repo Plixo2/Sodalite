@@ -7,7 +7,6 @@ import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.RequiredArgsConstructor;
 
 import java.lang.foreign.MemorySegment;
-import java.util.Objects;
 
 /// @sdlAPI SDL_GPUDevice
 public class Device extends ResourceObject {
@@ -21,6 +20,11 @@ public class Device extends ResourceObject {
         this.segment = segment;
     }
 
+    public MemorySegment segment() {
+        ensureNotReleased();
+        return this.segment;
+    }
+
     /// @return a AutoCloseable, which will release the claim when closed.
     @CheckReturnValue
     public WindowClaim claimWindow(Window window) {
@@ -28,9 +32,11 @@ public class Device extends ResourceObject {
         return new WindowClaim(window);
     }
 
-    public void releaseWindow(Window window) {
-        GPU.releaseWindowFromGPUDevice(this, window);
+    @CheckReturnValue
+    public CommandBuffer acquireCommandBuffer() {
+        return GPU.acquireGPUCommandBuffer(this);
     }
+
 
     public TextureFormat getSwapchainTextureFormat(Window window) {
         return GPU.getGPUSwapchainTextureFormat(this, window);
@@ -164,15 +170,6 @@ public class Device extends ResourceObject {
         }
     }
 
-    public MemorySegment segment() {
-        ensureNotReleased();
-        return this.segment;
-    }
-
-    @CheckReturnValue
-    public CommandBuffer acquireCommandBuffer() {
-        return GPU.acquireGPUCommandBuffer(this);
-    }
 
     /// Will release the window claim when closed
     @RequiredArgsConstructor
@@ -181,7 +178,7 @@ public class Device extends ResourceObject {
 
         @Override
         public void close() {
-            Device.this.releaseWindow(this.window);
+            GPU.releaseWindowFromGPUDevice(Device.this, this.window);
         }
     }
 

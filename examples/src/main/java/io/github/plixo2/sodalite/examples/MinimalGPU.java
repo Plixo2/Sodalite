@@ -41,7 +41,7 @@ class MinimalGPU implements EventConsumer {
                 // enable debug mode (validation layers, debug messages, etc.)
                 true,
                 // the SDL choose the best driver
-                PreferredGPUDriver.OPTIMAL
+                PreferredDriver.OPTIMAL
         );
     }
 

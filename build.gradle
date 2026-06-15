@@ -37,7 +37,12 @@ dependencies {
 }
 
 javadoc {
-    options.tags = ["sdlAPI:a:SDL API:", "sdlOther:a:Other SDL Symbols:", "sdlCategory:a:SDL Category:"]
+    options.tags = [
+            "sdlAPI:a:SDL API:",
+            "sdlOther:a:Other SDL Symbols:",
+            "sdlCategory:a:SDL Category:",
+            "threadSafety:a:Thread Safety:",
+    ]
 }
 
 //tasks.javadoc {

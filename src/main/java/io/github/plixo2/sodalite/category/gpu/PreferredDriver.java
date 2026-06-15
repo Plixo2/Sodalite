@@ -5,7 +5,7 @@ import java.lang.foreign.MemorySegment;
 
 
 /// Keys for `SDL_CreateGPUDevice`
-public enum PreferredGPUDriver {
+public enum PreferredDriver {
 
     VULKAN,
     METAL,
