@@ -104,12 +104,10 @@ public final class GPU {
 
     /// @sdlAPI SDL_AcquireGPUCommandBuffer
     static CommandBuffer acquireGPUCommandBuffer(
-            @Nullable FenceReference fenceReference,
             Device gpuDevice
     ) {
         var commandBuffer = check(SDL_AcquireGPUCommandBuffer(gpuDevice.segment()));
         return new CommandBuffer(
-                fenceReference,
                 gpuDevice,
                 commandBuffer
         );
@@ -139,9 +137,8 @@ public final class GPU {
             int bufferOffset
     ) {
         try (var arena = Arena.ofConfined()) {
-            var bufferBinding = SDL_GPUBufferBinding.allocate(arena);
-            SDL_GPUBufferBinding.initialize(
-                    bufferBinding,
+            var bufferBinding = SDL_GPUBufferBinding.create(
+                    arena,
                     buffer.segment(),
                     bufferOffset
             );
@@ -430,15 +427,13 @@ public final class GPU {
     ) {
 
         try (var arena = Arena.ofConfined()) {
-            var transferBufferLocation = SDL_GPUTransferBufferLocation.allocate(arena);
-            SDL_GPUTransferBufferLocation.initialize(
-                    transferBufferLocation,
+            var transferBufferLocation = SDL_GPUTransferBufferLocation.create(
+                    arena,
                     transferBuffer.segment(),
                     assertU32(srcOffset, "srcOffset")
             );
-            var bufferLocation = SDL_GPUBufferRegion.allocate(arena);
-            SDL_GPUBufferRegion.initialize(
-                    bufferLocation,
+            var bufferLocation = SDL_GPUBufferRegion.create(
+                    arena,
                     dstBuffer.segment(),
                     assertU32(dstOffset, "dstOffset"),
                     assertU32(size, "size")
@@ -1290,13 +1285,14 @@ public final class GPU {
 
     /// @sdlAPI SDL_SubmitGPUCommandBufferAndAcquireFence
     static Fence submitCommandBufferAndAcquire(
+            ResourceSet resources,
             Device device,
             CommandBuffer commandBuffer
     ) {
         var fence = check(SDL_SubmitGPUCommandBufferAndAcquireFence(
                 commandBuffer.segment()
         ));
-        return new Fence(device, fence);
+        return new Fence(resources, device, fence);
     }
 
 

@@ -171,15 +171,7 @@ public class Device extends ResourceObject {
 
     @CheckReturnValue
     public CommandBuffer acquireCommandBuffer() {
-        return GPU.acquireGPUCommandBuffer(null, this);
-    }
-
-    @CheckReturnValue
-    public CommandBuffer acquireCommandBuffer(FenceReference fenceReference) {
-        return GPU.acquireGPUCommandBuffer(
-                fenceReference,
-                this
-        );
+        return GPU.acquireGPUCommandBuffer(this);
     }
 
     /// Will release the window claim when closed

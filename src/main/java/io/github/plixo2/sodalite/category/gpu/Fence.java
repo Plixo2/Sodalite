@@ -1,36 +1,28 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import io.github.plixo2.sodalite.resource.ResourceObject;
+import io.github.plixo2.sodalite.resource.ResourceSet;
+
 import java.lang.foreign.MemorySegment;
 
 /// @sdlAPI SDL_GPUFence
-public class Fence implements AutoCloseable {
+public class Fence extends ResourceObject {
     private final Device device;
     private final MemorySegment segment;
 
-    private boolean released = false;
-
     Fence(
+            ResourceSet resources,
             Device device,
             MemorySegment segment
     ) {
+        resources.register(this, () ->  GPU.releaseFence(device, segment));
         this.device = device;
         this.segment = segment;
     }
 
     public MemorySegment segment() {
-        if (this.released) {
-            throw new IllegalStateException("Fence has already been released");
-        }
+        ensureNotReleased();
         return this.segment;
-    }
-
-    @Override
-    public void close() {
-        if (this.released) {
-            throw new IllegalStateException("Fence has already been released");
-        }
-        GPU.releaseFence(this.device, this.segment);
-        this.released = true;
     }
 
     public boolean query() {
@@ -42,9 +34,13 @@ public class Fence implements AutoCloseable {
     }
 
     public static void waitAll(
-            Device device,
             Fence... fences
     ) {
+        if (fences.length == 0) {
+            return;
+        }
+        var device = fences[0].device;
+
         for (var fence : fences) {
             if (fence.device != device) {
                 throw new IllegalArgumentException("All fences must belong to the same device");
@@ -55,9 +51,13 @@ public class Fence implements AutoCloseable {
     }
 
     public static void waitAny(
-            Device device,
             Fence... fences
     ) {
+        if (fences.length == 0) {
+            return;
+        }
+        var device = fences[0].device;
+
         for (var fence : fences) {
             if (fence.device != device) {
                 throw new IllegalArgumentException("All fences must belong to the same device");

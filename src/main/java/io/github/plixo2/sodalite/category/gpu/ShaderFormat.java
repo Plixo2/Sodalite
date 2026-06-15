@@ -23,4 +23,5 @@ public @interface ShaderFormat {
     int MSL = SDL_GPU_SHADERFORMAT_MSL();
     int METALLIB = SDL_GPU_SHADERFORMAT_METALLIB();
 
+
 }

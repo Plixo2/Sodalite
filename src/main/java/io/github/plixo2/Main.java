@@ -1,8 +1,7 @@
 
 
-import io.github.plixo2.sodalite.category.clipboard.Clipboard;
-import io.github.plixo2.sodalite.category.error.Error;
-import io.github.plixo2.sodalite.category.tray.Tray;
+import io.github.plixo2.sodalite.category.version.Version;
+import io.github.plixo2.sodalite.category.version.VersionTarget;
 import io.github.plixo2.sodalite.file.ImageChannels;
 import io.github.plixo2.sodalite.file.ImageDynamicRange;
 import io.github.plixo2.sodalite.file.ImageLoader;
@@ -20,6 +19,7 @@ import io.github.plixo2.sodalite.category.log.LogPriority;
 import io.github.plixo2.sodalite.category.video.Video;
 import io.github.plixo2.sodalite.category.video.WindowFlags;
 import io.github.plixo2.uiiii.Render;
+import lombok.RequiredArgsConstructor;
 import org.joml.Math;
 import org.joml.Matrix4f;
 import org.joml.Vector2i;
@@ -50,14 +50,15 @@ static StructLayout vertexLayout = MemoryLayout.structLayout(
 
 static WriteBuffer<?> createVerticies() {
     var buffer = ConstantWriteBuffer.allocate(ResourceSet.global(), vertexLayout, 4);
-    buffer.writeFloats(0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f);
-    buffer.writeFloats(1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f);
-    buffer.writeFloats(0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f);
-    buffer.writeFloats(1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f);
+    buffer.writeFloats(0.0f, 0.0f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f,   0.0f, 1.0f);
+    buffer.writeFloats(1.0f, 0.0f, 0.0f,   1.0f, 1.0f, 0.0f, 1.0f,   1.0f, 1.0f);
+    buffer.writeFloats(0.0f, 1.0f, 0.0f,   1.0f, 0.0f, 1.0f, 1.0f,   0.0f, 0.0f);
+    buffer.writeFloats(1.0f, 1.0f, 0.0f,   1.0f, 0.0f, 1.0f, 1.0f,   1.0f, 0.0f);
     return buffer;
 }
 
-static class Instance {
+@RequiredArgsConstructor
+static class Instance implements EventConsumer {
     boolean running = true;
     WriteBuffer<?> verticies = createVerticies();
 
@@ -65,6 +66,9 @@ static class Instance {
 
     ResourceSet msaaTextureSet = null;
     Texture msaaTexture = null;
+
+    final Window window;
+    final Device gpu;
 
     void newMsaaTexture(
             ResourceSet parentResources,
@@ -92,16 +96,48 @@ static class Instance {
         );
 
     }
-}
 
 
+    @Override
+    public void onWindowCloseRequested(long timestamp, int windowID) {
+        if (windowID != this.window.id()) {
+            return;
+        }
+        this.running = false;
+    }
 
-static void runFor(
-        Instance instance,
-        Device gpu,
-        Window window
-) throws IOException {
-    try (var appResources = ResourceSet.ofConfined()) {
+    @Override
+    public void onWindowPixelSizeChanged(
+            long timestamp,
+            int windowID,
+            int width,
+            int height
+    ) {
+        if (windowID != this.window.id()) {
+            return;
+        }
+
+        this.projectionMatrix.identity().ortho(
+                0,
+                width,
+                height,
+                0,
+                -1.0f,
+                1.0f
+        );
+    }
+
+    @Override
+    public void onWindowDisplayScaleChanged(long timestamp, int windowID) {
+        if (windowID != this.window.id()) {
+            return;
+        }
+        var scale = this.window.getDisplayScale();
+        System.out.println("Window display scale changed: " + scale);
+    }
+
+
+    void run(ResourceSet appResources) throws IOException {
 
 //        var tray = Tray.createTray(appResources, null, "Tray stuff");
 //        var menu = tray.createMenu();
@@ -133,7 +169,7 @@ static void runFor(
 //        menu.addSubmenu("Submenu").addButton("In submenu");
 
 //        System.out.println("Clipboard.getMimeTypes() = " + Clipboard.getMimeTypes());
-        gpu.setSwapchainParameters(window, SwapchainComposition.SDR, PresentMode.VSYNC);
+        this.gpu.setSwapchainParameters(this.window, SwapchainComposition.SDR, PresentMode.VSYNC);
 
         var exampleSamplers = new Sampler[14];
         for (var i = 0; i < exampleSamplers.length; i++) {
@@ -141,37 +177,37 @@ static void runFor(
                     Filter.LINEAR,
                     SamplerAddressMode.REPEAT,
                     0f
-            ).build(appResources, gpu);
+            ).build(appResources, this.gpu);
         }
         var pixelated = SamplerBuilder.of(
                 Filter.NEAREST,
                 SamplerAddressMode.REPEAT,
                 0f
-        ).build(appResources, gpu);
+        ).build(appResources, this.gpu);
 
 
         Texture exampleTexture;
 
 
-        var vertexBuffer = gpu.createBuffer(
+        var vertexBuffer = this.gpu.createBuffer(
                 appResources,
                 BufferUsageFlags.VERTEX,
-                instance.verticies.capacity()
+                this.verticies.capacity()
         );
 
         var testTextures = new ArrayList<Texture>();
 
-        try (var uploadCommandBuffer = gpu.acquireCommandBuffer()) {
+        try (var uploadCommandBuffer = this.gpu.acquireCommandBuffer()) {
 
             {
-                var vertexTransferBuffer = gpu.createTransferBuffer(
+                var vertexTransferBuffer = this.gpu.createTransferBuffer(
                         appResources,
                         TransferBufferUsage.UPLOAD,
-                        instance.verticies.capacity()
+                        this.verticies.capacity()
                 );
-                try (var mapped = gpu.mapTransferBuffer(vertexTransferBuffer, Cycle.FALSE)) {
+                try (var mapped = this.gpu.mapTransferBuffer(vertexTransferBuffer, Cycle.FALSE)) {
                     var memory = mapped.memory();
-                    memory.copyFrom(instance.verticies.memory());
+                    memory.copyFrom(this.verticies.memory());
                 }
                 try (var copy = uploadCommandBuffer.beginCopyPass()) {
                     copy.upload(vertexTransferBuffer, vertexBuffer, Cycle.FALSE);
@@ -181,7 +217,7 @@ static void runFor(
             {
                 exampleTexture = loadTexture(
                         appResources,
-                        gpu,
+                        this.gpu,
                         uploadCommandBuffer,
                         Path.of("resources/example.png")
                 );
@@ -191,7 +227,7 @@ static void runFor(
                 var path = Path.of("resources/tests/test (" + i + ").png");
                 var texture = loadTexture(
                         appResources,
-                        gpu,
+                        this.gpu,
                         uploadCommandBuffer,
                         path
                 );
@@ -202,13 +238,13 @@ static void runFor(
         var exampleTextures = new Texture[exampleSamplers.length];
         Arrays.fill(exampleTextures, exampleTexture);
 
-        var swapchainFormat = gpu.getSwapchainTextureFormat(window);
+        var swapchainFormat = this.gpu.getSwapchainTextureFormat(this.window);
 
-        var windowSizeInPixels = window.getSizeInPixels(new Vector2i());
+        var windowSizeInPixels = this.window.getSizeInPixels(new Vector2i());
 
-        instance.newMsaaTexture(
+        this.newMsaaTexture(
                 appResources,
-                gpu,
+                this.gpu,
                 swapchainFormat,
                 windowSizeInPixels.x,
                 windowSizeInPixels.y
@@ -216,68 +252,28 @@ static void runFor(
 
         time("Resource Creation");
 
-        var render = new Render(gpu, appResources, instance.msaaTexture);
+        var render = new Render(this.gpu, appResources, this.msaaTexture);
 
         time("Render Creation");
 
         var lastTimeFPS = Timer.getTicksNS();
         var fpsCounter = 0;
 
-        var events = new EventConsumer() {
-            @Override
-            public void onWindowCloseRequested(long timestamp, int windowID) {
-                if (windowID != window.id()) {
-                    return;
-                }
-                instance.running = false;
-            }
-
-            @Override
-            public void onWindowPixelSizeChanged(
-                    long timestamp,
-                    int windowID,
-                    int width,
-                    int height
-            ) {
-                if (windowID != window.id()) {
-                    return;
-                }
-
-                instance.projectionMatrix.identity().ortho(
-                        0,
-                        width,
-                        height,
-                        0,
-                        -1.0f,
-                        1.0f
-                );
-            }
-
-            @Override
-            public void onWindowDisplayScaleChanged(long timestamp, int windowID) {
-                if (windowID != window.id()) {
-                    return;
-                }
-                var scale = window.getDisplayScale();
-                System.out.println("Window display scale changed: " + scale);
-            }
-        };
-
         long lastTime = Timer.getTicksNS();
-        while (instance.running) {
-            Events.pollEvents(events);
+        while (this.running) {
+            Events.pollEvents(this);
 
             var time = Timer.getTicksNS();
             fpsCounter++;
 
             var secondPassed = time - lastTimeFPS >= Timer.NS_PER_SECOND;
             if (secondPassed) {
-                var freeMemory = Runtime.getRuntime().freeMemory() / (1024 * 1024);
-                var totalMemory = Runtime.getRuntime().totalMemory() / (1024 * 1024);
-                var usedMemory = totalMemory - freeMemory;
-                System.out.println("FPS: " + fpsCounter + " | Memory Usage: " + usedMemory + " MB / " + totalMemory + " MB");
+//                var freeMemory = Runtime.getRuntime().freeMemory() / (1024 * 1024);
+//                var totalMemory = Runtime.getRuntime().totalMemory() / (1024 * 1024);
+//                var usedMemory = totalMemory - freeMemory;
+//                System.out.println("FPS: " + fpsCounter + " | Memory Usage: " + usedMemory + " MB / " + totalMemory + " MB");
 
-//                System.out.println("FPS: " + fpsCounter);
+                System.out.println("FPS: " + fpsCounter);
                 fpsCounter = 0;
                 var timeOver = time - lastTimeFPS - Timer.NS_PER_SECOND;
                 lastTimeFPS = time - timeOver;
@@ -286,21 +282,24 @@ static void runFor(
             var delta = (float) ((time - lastTime) / 1e9d);
             lastTime = time;
 
-            try (var commandBuffer = gpu.acquireCommandBuffer()) {
-                var swapchain = commandBuffer.waitAndAcquireSwapchainTexture(window);
+            try (var commandBuffer = this.gpu.acquireCommandBuffer()) {
+                var swapchain = commandBuffer.waitAndAcquireSwapchainTexture(this.window);
                 if (swapchain == null) {
                     continue;
                 }
 
-                instance.newMsaaTexture(
-                        appResources, gpu, swapchainFormat, swapchain.width(),
+                this.newMsaaTexture(
+                        appResources,
+                        this.gpu,
+                        swapchainFormat,
+                        swapchain.width(),
                         swapchain.height()
                 );
 
                 var clearColor = new Vector4f(0.1f, 0.2f, 0.3f, 1.0f);
                 var colorTarget0 =
                         RenderPass.ColorTargetInfo.resolve(
-                                instance.msaaTexture,
+                                this.msaaTexture,
                                 clearColor,
                                 swapchain,
                                 Cycle.FALSE,
@@ -308,7 +307,7 @@ static void runFor(
                         );
 
                 render.beginFrame(
-                        instance.projectionMatrix,
+                        this.projectionMatrix,
                         swapchain.width(),
                         swapchain.height()
                 );
@@ -354,7 +353,7 @@ static void runFor(
                 );
 
                 try (var copypass = commandBuffer.beginCopyPass()) {
-                    render.upload(gpu, copypass);
+                    render.upload(this.gpu, copypass);
                 }
 
                 try (var renderPass = commandBuffer.beginRenderPass(null, colorTarget0)) {
@@ -363,8 +362,8 @@ static void runFor(
             }
         }
     }
-
 }
+
 
 static Texture loadTexture(
         ResourceSet resources,
@@ -415,7 +414,7 @@ void run() throws IOException {
         var window = Video.createWindow(
                 staticResourc,
                 "Hello World",
-                800,600,
+                800, 600,
                 WindowFlags.RESIZABLE | WindowFlags.HIGH_PIXEL_DENSITY
         );
         time("Window Creation");
@@ -427,9 +426,12 @@ void run() throws IOException {
         );
         time("GPU Creation");
 
-
-        try (var _ = gpu.claimWindow(window)) {
-            runFor(new Instance(), gpu, window);
+        try (
+                var _ = gpu.claimWindow(window);
+                var appResources = ResourceSet.ofConfined()
+        ) {
+            var instance = new Instance(window, gpu);
+            instance.run(appResources);
         }
     }
 
@@ -439,8 +441,14 @@ void main() throws IOException {
     startTime = Timer.getTicksNS();
     System.setProperty("joml.format", "false");
 
-    Init.setAppMetaData("Hello World", "1.0.0", "com.example.helloworld");
+    Init.setAppMetaData("Sodalite", "0.0.1", "io.github.plixo2.Sodalite");
     Log.setLogPriority(LogCategory.GPU, LogPriority.DEBUG);
+    System.out.println("Compiled against SDL version " + Version.getVersion(VersionTarget.COMPILED));
+    System.out.println("Linked against SDL version " + Version.getVersion(VersionTarget.LINKED));
+    System.out.println("Compiled against SDL revision " + Version.getRevision(VersionTarget.COMPILED));
+    System.out.println("Linked against SDL revision " + Version.getRevision(VersionTarget.LINKED));
+
+
     time("Initialization");
     try {
         run();
@@ -455,6 +463,6 @@ static void time(String location) {
     var currentTime = Timer.getTicksNS();
     var delta = (currentTime - startTime) / 1e6d;
 
-    System.out.println(location + " + " + String.format("%.2f", delta) + " ms");
+    System.out.println(location + " +" + String.format("%.2f", delta) + " ms");
 
 }

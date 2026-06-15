@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 final class ConfinedResourceSet extends ResourceObject implements ResourceSet {
 
-
     private List<Resource> resources = new ArrayList<>();
     private List<ResourceObject> objects = new ArrayList<>();
 

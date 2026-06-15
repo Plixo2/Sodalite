@@ -1,11 +1,11 @@
 [Progress](#sdl-api)
 
-11.2% Functions implemented \
-25.6% Datatypes implemented \
+11.4% Functions implemented \
+26.4% Datatypes implemented \
 66.9% Structs implemented \
 34.4% Enums implemented \
-0.0% Macros implemented \
-11.5% total
+0.2% Macros implemented \
+11.7% total
 
 - [Categories](#categories)
 - [Functions](#functions)
@@ -93,7 +93,7 @@
 - [x] CategoryTimer
 - [ ] CategoryTouch
 - [x] CategoryTray
-- [ ] CategoryVersion
+- [x] CategoryVersion
 - [x] CategoryVideo
 - [ ] CategoryVulkan
 
@@ -623,7 +623,7 @@
 - [ ] SDL_GetRenderViewport
 - [ ] SDL_GetRenderVSync
 - [ ] SDL_GetRenderWindow
-- [ ] SDL_GetRevision
+- [x] SDL_GetRevision
 - [ ] SDL_GetRGB
 - [ ] SDL_GetRGBA
 - [ ] SDL_GetSandbox
@@ -690,7 +690,7 @@
 - [ ] SDL_GetTrayMenuParentTray
 - [ ] SDL_GetTraySubmenu
 - [ ] SDL_GetUserFolder
-- [ ] SDL_GetVersion
+- [x] SDL_GetVersion
 - [ ] SDL_GetVideoDriver
 - [ ] SDL_GetWindowAspectRatio
 - [ ] SDL_GetWindowBordersSize
@@ -1484,7 +1484,7 @@
 - [x] SDL_GPUShaderFormat
 - [x] SDL_GPUTexture
 - [x] SDL_GPUTextureUsageFlags
-- [ ] SDL_GPUTransferBuffer
+- [x] SDL_GPUTransferBuffer
 - [ ] SDL_Haptic
 - [ ] SDL_HapticDirectionType
 - [ ] SDL_HapticEffectID
@@ -2747,7 +2747,7 @@
 - [ ] SDL_REQUIRES_SHARED
 - [ ] SDL_RESTRICT
 - [ ] SDL_RETURN_CAPABILITY
-- [ ] SDL_REVISION
+- [x] SDL_REVISION
 - [ ] SDL_SCANCODE_TO_KEYCODE
 - [ ] SDL_SCANF_FORMAT_STRING
 - [ ] SDL_SCANF_VARARG_FUNC
@@ -2795,7 +2795,7 @@
 - [ ] SDL_Unsupported
 - [ ] SDL_US_PER_SECOND
 - [ ] SDL_US_TO_NS
-- [ ] SDL_VERSION
+- [x] SDL_VERSION
 - [ ] SDL_VERSION_ATLEAST
 - [ ] SDL_VERSIONNUM
 - [ ] SDL_VERSIONNUM_MAJOR
@@ -2871,6 +2871,7 @@
 - CategorySurface
 - CategoryTimer
 - CategoryTray
+- CategoryVersion
 - CategoryVideo
 
 ### Implemented Functions
@@ -2945,6 +2946,7 @@
 - SDL_GetRectIntersectionFloat
 - SDL_GetRectUnion
 - SDL_GetRectUnionFloat
+- SDL_GetRevision
 - SDL_GetSystemPageSize
 - SDL_GetSystemRAM
 - SDL_GetTicks
@@ -2952,6 +2954,7 @@
 - SDL_GetTrayEntryChecked
 - SDL_GetTrayEntryEnabled
 - SDL_GetTrayEntryLabel
+- SDL_GetVersion
 - SDL_GetWindowDisplayScale
 - SDL_GetWindowID
 - SDL_GetWindowSize
@@ -3045,6 +3048,7 @@
 - SDL_GPUShaderFormat
 - SDL_GPUTexture
 - SDL_GPUTextureUsageFlags
+- SDL_GPUTransferBuffer
 - SDL_InitFlags
 - SDL_Keycode
 - SDL_Keymod
@@ -3184,6 +3188,8 @@
 
 ### Implemented Macros
 
+- SDL_REVISION
+- SDL_VERSION
 
 
 ## Missing
@@ -3223,7 +3229,6 @@
 - CategoryThread
 - CategoryTime
 - CategoryTouch
-- CategoryVersion
 - CategoryVulkan
 
 ### Missing Functions
@@ -3682,7 +3687,6 @@
 - SDL_GetRenderViewport
 - SDL_GetRenderVSync
 - SDL_GetRenderWindow
-- SDL_GetRevision
 - SDL_GetRGB
 - SDL_GetRGBA
 - SDL_GetSandbox
@@ -3742,7 +3746,6 @@
 - SDL_GetTrayMenuParentTray
 - SDL_GetTraySubmenu
 - SDL_GetUserFolder
-- SDL_GetVersion
 - SDL_GetVideoDriver
 - SDL_GetWindowAspectRatio
 - SDL_GetWindowBordersSize
@@ -4446,7 +4449,6 @@
 - SDL_GlobFlags
 - SDL_GLProfile
 - SDL_GPURenderState
-- SDL_GPUTransferBuffer
 - SDL_Haptic
 - SDL_HapticDirectionType
 - SDL_HapticEffectID
@@ -5579,7 +5581,6 @@
 - SDL_REQUIRES_SHARED
 - SDL_RESTRICT
 - SDL_RETURN_CAPABILITY
-- SDL_REVISION
 - SDL_SCANCODE_TO_KEYCODE
 - SDL_SCANF_FORMAT_STRING
 - SDL_SCANF_VARARG_FUNC
@@ -5627,7 +5628,6 @@
 - SDL_Unsupported
 - SDL_US_PER_SECOND
 - SDL_US_TO_NS
-- SDL_VERSION
 - SDL_VERSION_ATLEAST
 - SDL_VERSIONNUM
 - SDL_VERSIONNUM_MAJOR

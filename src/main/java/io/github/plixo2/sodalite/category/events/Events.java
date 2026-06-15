@@ -6,6 +6,7 @@ import org.libsdl.sdl.SDL_Event;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
+import java.util.List;
 
 import static org.libsdl.sdl.SDL3_h.*;
 
@@ -15,7 +16,7 @@ public class Events {
 
     /// Should be called on the main thread.
     /// @return true if there are more events, false otherwise.
-    public static boolean pollEvent(@Nullable EventConsumer consumer) {
+    public static boolean pollEvent(EventConsumer consumer) {
         try (var arena = Arena.ofConfined()) {
             return pollSingleEvent(arena, consumer);
         }
@@ -30,7 +31,25 @@ public class Events {
             }
         }
     }
+    /// Should be called on the main thread.
+    public static void pollEvents(EventConsumer... consumers) {
+        try (var arena = Arena.ofConfined()) {
+            //noinspection StatementWithEmptyBody
+            while (pollSingleEvent(arena, consumers)) {
+                // nothing
+            }
+        }
+    }
 
+    /// Should be called on the main thread.
+    public static void pollEvents(List<? extends EventConsumer> consumers) {
+        try (var arena = Arena.ofConfined()) {
+            //noinspection StatementWithEmptyBody
+            while (pollSingleEvent(arena, consumers)) {
+                // nothing
+            }
+        }
+    }
 
     /// Should be called on the main thread.
     ///
@@ -40,12 +59,27 @@ public class Events {
     /// @sdlAPI SDL_PollEvent
     private static boolean pollSingleEvent(
             Arena arena,
-            @Nullable EventConsumer consumer
+            EventConsumer consumer
     ) {
         MemorySegment eventOut = SDL_Event.allocate(arena);
         var hasEvent = SDL_PollEvent(eventOut);
         if (hasEvent) {
-            if (consumer != null) {
+            EventDispatch.dispatch(consumer, eventOut);
+            return true;
+        } else {
+            PendingFrees.drain();
+            return false;
+        }
+    }
+
+    private static boolean pollSingleEvent(
+            Arena arena,
+            EventConsumer... consumers
+    ) {
+        MemorySegment eventOut = SDL_Event.allocate(arena);
+        var hasEvent = SDL_PollEvent(eventOut);
+        if (hasEvent) {
+            for (var consumer : consumers) {
                 EventDispatch.dispatch(consumer, eventOut);
             }
             return true;
@@ -55,4 +89,20 @@ public class Events {
         }
     }
 
+    private static boolean pollSingleEvent(
+            Arena arena,
+            List<? extends EventConsumer> consumers
+    ) {
+        MemorySegment eventOut = SDL_Event.allocate(arena);
+        var hasEvent = SDL_PollEvent(eventOut);
+        if (hasEvent) {
+            for (var consumer : consumers) {
+                EventDispatch.dispatch(consumer, eventOut);
+            }
+            return true;
+        } else {
+            PendingFrees.drain();
+            return false;
+        }
+    }
 }

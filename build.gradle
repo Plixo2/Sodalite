@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
 }
 
 group = 'io.github.plixo2'
@@ -30,7 +30,7 @@ dependencies {
     implementation "org.lwjgl:lwjgl-stb"
     implementation "org.lwjgl:lwjgl::$lwjglNatives"
     implementation "org.lwjgl:lwjgl-stb::$lwjglNatives"
-    implementation "org.joml:joml:${jomlVersion}"
+    api "org.joml:joml:${jomlVersion}"
 
     implementation files("SDL-3.4.jar")
 //    implementation files("Hematite-4.0.jar")

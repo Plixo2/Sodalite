@@ -4,11 +4,12 @@ package io.github.plixo2.sodalite.category.gpu;
 import com.google.errorprone.annotations.CheckReturnValue;
 import io.github.plixo2.sodalite.category.video.Window;
 import io.github.plixo2.sodalite.memory.WriteBuffer;
+import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.foreign.MemorySegment;
+import java.util.function.Consumer;
 
 /// @sdlAPI SDL_GPUCommandBuffer
 public class CommandBuffer implements AutoCloseable {
@@ -21,19 +22,13 @@ public class CommandBuffer implements AutoCloseable {
     @Getter
     private boolean isSubmitted = false;
 
-    private final @Nullable FenceReference fenceReference;
 
     @Nullable Texture acquiredSwapchainTexture;
 
     CommandBuffer(
-            @Nullable FenceReference fenceReference,
             Device device,
             MemorySegment segment
     ) {
-        this.fenceReference = fenceReference;
-        if (fenceReference != null) {
-            fenceReference.setCommandBuffer(this);
-        }
         this.device = device;
         this.segment = segment;
     }
@@ -51,24 +46,38 @@ public class CommandBuffer implements AutoCloseable {
     public void close() {
         if (this.acquiredSwapchainTexture != null) {
             this.acquiredSwapchainTexture.markReleased();
+            this.acquiredSwapchainTexture = null;
         }
-        if (!this.isCanceled) {
-            if (this.isSubmitted) {
-                throw new IllegalStateException("Command buffer has already been submitted");
-            }
-            if (this.fenceReference != null) {
-                this.fenceReference.setFence(
-                        GPU.submitCommandBufferAndAcquire(
-                                this.device,
-                                this
-                        )
-                );
-            } else {
-                GPU.submitGPUCommandBuffer(this);
-            }
-            this.isSubmitted = true;
+        if (this.isSubmitted) {
+            throw new IllegalStateException("Command buffer has already been submitted");
         }
+        if (this.isCanceled) {
+            return;
+        }
+        GPU.submitGPUCommandBuffer(this);
+        this.isSubmitted = true;
     }
+
+    public Fence closeAndAcquireFence(ResourceSet resources) {
+        if (this.acquiredSwapchainTexture != null) {
+            this.acquiredSwapchainTexture.markReleased();
+            this.acquiredSwapchainTexture = null;
+        }
+        if (this.isSubmitted) {
+            throw new IllegalStateException("Command buffer has already been submitted");
+        }
+        if (this.isCanceled) {
+            throw new IllegalStateException("Command buffer has been canceled");
+        }
+        var fence = GPU.submitCommandBufferAndAcquire(
+                resources,
+                this.device,
+                this
+        );
+        this.isSubmitted = true;
+        return fence;
+    }
+
 
     public void cancel() {
         if (this.isSubmitted) {
