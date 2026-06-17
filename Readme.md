@@ -22,7 +22,7 @@ including explanations.
 <summary>Minimal Example</summary>
 
 
-Minimal GPU example using `SDL_gpu`, [originally written in C by Hamdy Elzanqali](https://hamdy-elzanqali.medium.com/let-there-be-triangles-sdl-gpu-edition-bd82cf2ef615)
+Minimal `Hello Triangle` example using `SDL_gpu`, [originally written in C by Hamdy Elzanqali](https://hamdy-elzanqali.medium.com/let-there-be-triangles-sdl-gpu-edition-bd82cf2ef615)
 
 
 ```java
