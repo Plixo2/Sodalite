@@ -19,10 +19,18 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
       - name: Gradle Permissions
         run: chmod +x ./gradlew
-      - name: Check SDL3 availability
-        run: apt-cache search libsdl3
-      - name: Check SDL3 availability
-        run: apt-cache search libsdl3-dev
+      - name: Install SDL3 dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build cmake git build-essential
+      - name: Build SDL3
+        run: |
+          git clone https://github.com/libsdl-org/SDL.git
+          cd SDL
+          cmake -S . -B build -G Ninja -DSDL_SHARED=ON -DSDL_STATIC=OFF
+          cmake --build build -j$(nproc)
+          sudo cmake --install build
+          sudo ldconfig
 
       - name: test with Gradle
         run: ./gradlew clean test --no-build-cache
