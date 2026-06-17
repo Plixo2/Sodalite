@@ -39,9 +39,9 @@ public class GPUHelloTriangle implements Callbacks {
     WriteBuffer<?> vertices;
     {
         this.vertices = ConstantWriteBuffer.allocate(ResourceSet.global(), Vertex, 3)
-                                           .writeFloats( 0.0f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f)
-                                           .writeFloats(-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 0.0f, 1.0f)
-                                           .writeFloats( 0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 1.0f, 1.0f);
+                       .writeFloats( 0.0f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f)
+                       .writeFloats(-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 0.0f, 1.0f)
+                       .writeFloats( 0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 1.0f, 1.0f);
     }
 
     /// struct UniformBuffer
