@@ -8,20 +8,17 @@ import org.libsdl.sdl.SDL_ClipboardDataCallback;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /// Helper for ClipboardDataCallback
 /// @sdlAPI SDL_ClipboardCleanupCallback
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class OpenClipboardData implements
+class OpenClipboardData implements
         SDL_ClipboardDataCallback.Function,
         SDL_ClipboardCleanupCallback.Function
 {
     private final Arena arena;
     private final ClipboardDataCallback callback;
-    private final List<Arena> perCallArenas = new ArrayList<>();
 
     private boolean closed = false;
 
@@ -42,7 +39,6 @@ public class OpenClipboardData implements
         var asString = mime_type.getString(0);
 
         var result = Objects.requireNonNull(this.callback.get(this.arena, asString));
-
         if (result.address() == 0) {
             size.set(ValueLayout.JAVA_LONG, 0, 0);
             return MemorySegment.NULL;

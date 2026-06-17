@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-public class SanityChecks {
+public class SanityTests {
+
     @Test
     public void progressCheck() throws IOException {
         new ProgressCheck().main(new String[]{"--dry"});

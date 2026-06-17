@@ -88,7 +88,7 @@ public class FRect {
     }
 
     /// @sdlAPI SDL_HasRectIntersectionFloat
-    public boolean inserts(FRect rect) {
+    public boolean intersects(FRect rect) {
         return this.x <= rect.x + rect.width && this.x + this.width >= rect.x
                 && this.y <= rect.y + rect.height && this.y + this.height >= rect.y;
     }

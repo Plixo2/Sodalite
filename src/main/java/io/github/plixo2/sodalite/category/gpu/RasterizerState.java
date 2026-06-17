@@ -32,6 +32,14 @@ public record RasterizerState(
         );
     }
 
+    public static RasterizerState defaultValue() {
+        return new RasterizerState(
+                FillMode.FILL,
+                CullMode.BACK,
+                FrontFace.DEFAULT()
+        );
+    }
+
     public static RasterizerState of(
             FillMode fillMode,
             CullMode cullMode,

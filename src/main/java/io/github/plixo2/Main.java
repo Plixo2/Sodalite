@@ -1,5 +1,6 @@
 
 
+import io.github.plixo2.sodalite.category.clipboard.Clipboard;
 import io.github.plixo2.sodalite.category.version.Version;
 import io.github.plixo2.sodalite.category.version.VersionTarget;
 import io.github.plixo2.sodalite.file.ImageChannels;
@@ -139,6 +140,7 @@ static class Instance implements EventConsumer {
 
 
     void run(ResourceSet appResources) throws IOException {
+
 
 //        var tray = Tray.createTray(appResources, null, "Tray stuff");
 //        var menu = tray.createMenu();

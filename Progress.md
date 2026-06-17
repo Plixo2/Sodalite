@@ -27,11 +27,11 @@ Feature complete:
 Almost feature complete:
 - `CategoryTray`
 
-15.4% Functions implemented \
+15.3% Functions implemented \
 27.9% Datatypes implemented \
 69.4% Structs implemented \
 37.5% Enums implemented \
-22.5% total
+22.4% total
 
 [Checklist](#checklist)
 
@@ -125,7 +125,7 @@ Almost feature complete:
 ### Functions
 [Go to top](#progress)
 
-- [x] SDL_abs
+- [ ] SDL_abs
 - [ ] SDL_acos
 - [ ] SDL_acosf
 - [ ] SDL_AcquireCameraFrame
@@ -1842,7 +1842,6 @@ Almost feature complete:
 ### Implemented Functions
 [Go to top](#progress)
 
-- SDL_abs
 - SDL_AcquireGPUCommandBuffer
 - SDL_AcquireGPUSwapchainTexture
 - SDL_AppEvent
@@ -2257,6 +2256,7 @@ Almost feature complete:
 ### Missing Functions
 [Go to top](#progress)
 
+- SDL_abs
 - SDL_acos
 - SDL_acosf
 - SDL_AcquireCameraFrame

@@ -22,6 +22,14 @@ public class PowerInfo {
         record Unknown() implements Value {}
         record Present(int value) implements Value {}
 
+        default int or(int defaultValue) {
+            if (this instanceof Present(int value)) {
+                return value;
+            } else {
+                return defaultValue;
+            }
+        }
+
         private static Value of(int value) {
             if (value == -1) {
                 return new Unknown();
@@ -29,6 +37,8 @@ public class PowerInfo {
                 return new Present(value);
             }
         }
+
+
     }
 
 }

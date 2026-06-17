@@ -203,6 +203,9 @@ public class Device extends ResourceObject {
     public @ShaderFormat int getShaderFormats() {
         return GPU.getShaderFormats(this);
     }
+    public boolean supportsShaderFormat(@ShaderFormat int shaderFormat) {
+        return (getShaderFormats() & shaderFormat) == shaderFormat;
+    }
 
     public void setAllowedFramesInFlight(int maxFramesInFlight) {
         GPU.setAllowedFramesInFlight(this, maxFramesInFlight);

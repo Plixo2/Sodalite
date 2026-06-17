@@ -18,11 +18,14 @@ import io.github.plixo2.sodalite.category.init.AppResult;
 /// This does not use the SDL's main callbacks system, but rather simulates it.
 ///
 public interface Callbacks extends EventCallbacks {
-    /// @sdlAPI SDL_AppInit
-    AppResult init(String[] args);
 
+    /// @throws Exception to exit with [AppResult#FAILURE]
+    /// @sdlAPI SDL_AppInit
+    AppResult init(String[] args) throws Exception;
+
+    /// @throws Exception to exit with [AppResult#FAILURE]
     /// @sdlAPI SDL_AppIterate
-    AppResult iterate();
+    AppResult iterate() throws Exception;
 
     /// @sdlAPI SDL_AppQuit
     void quit(AppResult result);

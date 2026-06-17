@@ -42,7 +42,7 @@ public record VertexInputState(
     public static VertexInputState of(
             int bindingSlot,
             StructLayout structLayout,
-            VertexInputRate inputState
+            Rate inputState
     ) {
         return fromStruct(structLayout, bindingSlot, inputState);
     }
@@ -66,19 +66,19 @@ public record VertexInputState(
     public record VertexBufferDescription(
         int bindingSlot,
         int pitchAkaStride,
-        VertexInputRate inputRate
+        Rate inputRate
     ) {
         public static VertexBufferDescription of(
             int bindingSlot,
             int pitchAkaStride,
-            VertexInputRate inputRate
+            Rate inputRate
         ) {
             return new VertexBufferDescription(bindingSlot, pitchAkaStride, inputRate);
         }
         public static VertexBufferDescription of(
                 int bindingSlot,
                 long pitchAkaStride,
-                VertexInputRate inputRate
+                Rate inputRate
         ) {
 
             return new VertexBufferDescription(
@@ -107,7 +107,7 @@ public record VertexInputState(
     }
 
     /// @sdlAPI SDL_GPUVertexInputRate
-    public enum VertexInputRate {
+    public enum Rate {
         VERTEX,
         INSTANCE,
 
@@ -169,7 +169,7 @@ public record VertexInputState(
     private static VertexInputState fromStruct(
             StructLayout structLayout,
             int bindingSlot,
-            VertexInputRate inputState
+            Rate inputState
     ) {
         List<VertexAttribute> attributes = new ArrayList<>();
 
@@ -179,7 +179,6 @@ public record VertexInputState(
             if (member instanceof PaddingLayout) continue;
 
             long offset = structLayout.byteOffset(MemoryLayout.PathElement.groupElement(i));
-
 
             var attrib = VertexAttribute.of(
                     i,

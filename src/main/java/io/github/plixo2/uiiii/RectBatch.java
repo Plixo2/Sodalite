@@ -9,6 +9,7 @@ import org.joml.Vector4i;
 
 import java.io.IOException;
 import java.lang.foreign.MemoryLayout;
+import java.lang.foreign.StructLayout;
 import java.nio.file.Path;
 
 public class RectBatch extends DrawBatch {
@@ -44,7 +45,7 @@ public class RectBatch extends DrawBatch {
             Layouts.UINT.withName("isTexture")
     );
 
-    private static final MemoryLayout UNIFORM_LAYOUT = MemoryLayout.structLayout(
+    private static final StructLayout UNIFORM_LAYOUT = MemoryLayout.structLayout(
             Layouts.MAT_4F.withName("projection"),
             Layouts.INT.withName("startIndex")
     );
@@ -100,7 +101,7 @@ public class RectBatch extends DrawBatch {
             ),
             PrimitiveType.TRIANGLESTRIP,
             VertexInputState.of(),
-            RasterizerState.of(FillMode.FILL, CullMode.NONE, FrontFace.defaultValue()),
+            RasterizerState.defaultValue(),
             MultisampleState.enabled(colorTarget.sampleCount()),
             DepthStencilState.disabled(),
             GraphicsPipelineTargetInfo.of(colorTarget.format(), ColorTargetBlendState.standardAlphaBlend())

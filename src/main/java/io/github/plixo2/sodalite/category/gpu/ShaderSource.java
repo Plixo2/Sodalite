@@ -42,6 +42,7 @@ public sealed interface ShaderSource<T extends Exception> {
         }
     }
 
+
     record ByteArray(@ShaderFormat int shaderFormat, byte[] bytes) implements ShaderSource<RuntimeException> {
         @Override
         public MemorySegment load(Arena arena) {

@@ -13,6 +13,16 @@ dependencies {
     implementation project(':')
 }
 
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
 tasks.withType(JavaExec).configureEach {
+    jvmArgs += "--enable-native-access=ALL-UNNAMED"
+}
+tasks.withType(Test).configureEach {
     jvmArgs += "--enable-native-access=ALL-UNNAMED"
 }

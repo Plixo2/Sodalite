@@ -60,14 +60,14 @@ public class Render {
         rect.addDraw();
         var buffer = rect.data();
 
-        buffer.writeMatrix4f(this.transform);
-        buffer.writeVector4f(x, y, width, height);
-        buffer.writeVector4f(color);
-        buffer.writeVector4f(outlineColor);
-        buffer.writeFloat(roundness);
-        buffer.writeFloat(outline);
-        buffer.writeInt(0); // texture
-        buffer.writeInt(0); // isTexture
+        buffer.writeMatrix4f(this.transform)
+              .writeVector4f(x, y, width, height)
+              .writeVector4f(color)
+              .writeVector4f(outlineColor)
+              .writeFloat(roundness)
+              .writeFloat(outline)
+              .writeInt(0) // texture
+              .writeInt(0); // isTexture
     }
 
     public void drawTexture(

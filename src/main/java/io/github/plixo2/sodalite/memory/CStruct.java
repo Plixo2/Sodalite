@@ -4,16 +4,21 @@ import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.Getter;
 
 import java.lang.foreign.MemoryLayout;
+import java.lang.foreign.StructLayout;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class CStruct extends ConstantWriteBufferImpl<CStruct> {
 
     @Getter
-    private final MemoryLayout layout;
+    private final StructLayout layout;
+
+    private final Map<String, Long> offsets = new ConcurrentHashMap<>();
 
     CStruct(
             ResourceSet resources,
-            MemoryLayout layout
+            StructLayout layout
     ) {
         super(resources, layout.byteSize());
         this.layout = layout;
@@ -21,24 +26,26 @@ public final class CStruct extends ConstantWriteBufferImpl<CStruct> {
 
     public static CStruct allocate(
             ResourceSet resources,
-            MemoryLayout layout
+            StructLayout layout
     ) {
         return new CStruct(resources, layout);
     }
 
-
     public CStruct at(String name) {
-        var offset = this.layout.byteOffset(MemoryLayout.PathElement.groupElement(name));
-        this.seek(offset);
+        this.seek(offsetOf(name));
         return this;
     }
 
-    public CStruct at(MemoryLayout layout) {
-        var offset = offsetOf(layout);
-        this.seek(offset);
+    public CStruct at(int position) {
+        this.seek(position);
         return this;
     }
 
+    public long offsetOf(String name) {
+        return this.offsets.computeIfAbsent(name, ref -> {
+            return this.layout.byteOffset(MemoryLayout.PathElement.groupElement(ref));
+        });
+    }
 
     public long offsetOf(MemoryLayout layout) {
         var name = layout.name().orElse(null);
@@ -53,7 +60,7 @@ public final class CStruct extends ConstantWriteBufferImpl<CStruct> {
             );
         }
 
-        return this.layout.byteOffset(MemoryLayout.PathElement.groupElement(name));
+        return offsetOf(name);
     }
 
 

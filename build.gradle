@@ -43,6 +43,38 @@ dependencies {
 
 }
 
+subprojects {
+
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.42'
+        testCompileOnly 'org.projectlombok:lombok:1.18.42'
+        testImplementation platform('org.junit:junit-bom:6.0.0')
+        testImplementation 'org.junit.jupiter:junit-jupiter:6.0.0'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher:6.0.0'
+    }
+
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+tasks.withType(JavaExec).configureEach {
+    jvmArgs += "--enable-native-access=ALL-UNNAMED"
+}
+tasks.withType(Test).configureEach {
+    jvmArgs += "--enable-native-access=ALL-UNNAMED"
+}
+
 javadoc {
     options.tags = [
             "sdlAPI:a:SDL API:",
@@ -51,12 +83,6 @@ javadoc {
             "threadSafety:a:Thread Safety:",
     ]
 }
-
-
-
-//tasks.javadoc {
-//    (options as StandardJavadocDocletOptions).memberLevel = JavadocMemberLevel.PRIVATE
-//}
 
 tasks.javadoc {
     options {
@@ -104,13 +130,3 @@ tasks.javadoc {
     }
 }
 
-tasks.withType(JavaExec).configureEach {
-    jvmArgs += "--enable-native-access=ALL-UNNAMED"
-}
-
-test {
-    useJUnitPlatform()
-    testLogging {
-        events "passed", "skipped", "failed"
-    }
-}

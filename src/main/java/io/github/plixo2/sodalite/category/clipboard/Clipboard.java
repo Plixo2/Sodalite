@@ -17,6 +17,7 @@ import static io.github.plixo2.sodalite.Internal.*;
 /// @sdlCategory CategoryClipboard
 public class Clipboard {
 
+    /// Does not error, just returns a empty string
     /// @sdlAPI SDL_GetClipboardText
     public static String getText() {
         var result = assertNotNull(SDL_GetClipboardText());

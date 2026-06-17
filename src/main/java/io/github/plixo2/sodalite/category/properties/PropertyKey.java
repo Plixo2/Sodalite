@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
+import java.util.Objects;
 
 public sealed abstract class PropertyKey<T> implements PropertyKeys {
 
@@ -32,22 +33,35 @@ public sealed abstract class PropertyKey<T> implements PropertyKeys {
         return this.name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof PropertyKey<?> that)) {
+            return false;
+        }
+        return this.type == that.type && Objects.equals(readableName(), that.readableName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.type, readableName());
+    }
+
     abstract void set(PropertyGroup group, T value);
     abstract T get(PropertyGroup group, T defaultValue);
 
-    public static PropertyKey<MemorySegment> pointerProperty(String name) {
+    public static PropertyKey<MemorySegment> ofPointer(String name) {
         return new PointerProperty(Arena.ofAuto().allocateFrom(name));
     }
-    public static PropertyKey<String> stringProperty(String name) {
+    public static PropertyKey<String> ofString(String name) {
         return new StringProperty(Arena.ofAuto().allocateFrom(name));
     }
-    public static PropertyKey<Long> numberProperty(String name) {
+    public static PropertyKey<Long> ofNumber(String name) {
         return new NumberProperty(Arena.ofAuto().allocateFrom(name));
     }
-    public static PropertyKey<Float> floatProperty(String name) {
+    public static PropertyKey<Float> ofFloat(String name) {
         return new FloatProperty(Arena.ofAuto().allocateFrom(name));
     }
-    public static PropertyKey<Boolean> booleanProperty(String name) {
+    public static PropertyKey<Boolean> ofBoolean(String name) {
         return new BooleanProperty(Arena.ofAuto().allocateFrom(name));
     }
 

@@ -144,6 +144,18 @@ public class ImageLoader {
     }
 
 
+    public static final class ImageLoadException extends Exception {
+        @Getter
+        private final String stbiFailureReason;
+
+        private ImageLoadException(String stbiFailureReason) {
+            super("Failed to load image: " + stbiFailureReason);
+            this.stbiFailureReason = stbiFailureReason;
+        }
+    }
+
+
+
     private static long stbi_load(
             ImageSource source,
             ImageDynamicRange dynamicRange,
@@ -199,17 +211,6 @@ public class ImageLoader {
                 }
             }
         };
-    }
-
-
-    public static final class ImageLoadException extends Exception {
-        @Getter
-        private final String stbiFailureReason;
-
-        private ImageLoadException(String stbiFailureReason) {
-            super("Failed to load image: " + stbiFailureReason);
-            this.stbiFailureReason = stbiFailureReason;
-        }
     }
 
 

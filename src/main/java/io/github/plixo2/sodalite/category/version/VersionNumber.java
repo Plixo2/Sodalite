@@ -16,6 +16,10 @@ public class VersionNumber implements Comparable<VersionNumber> {
         this.num = ((major) * 1000000 + (minor) * 1000 + (micro));
     }
 
+    public static VersionNumber of(int major, int minor, int micro) {
+        return new VersionNumber(major, minor, micro);
+    }
+
     public int number() {
         return this.num;
     }

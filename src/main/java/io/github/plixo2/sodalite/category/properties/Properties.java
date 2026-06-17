@@ -65,7 +65,7 @@ public class Properties {
     }
 
     /// @sdlAPI SDL_CopyProperties
-    static void copyProperties(
+    public static void copyProperties(
             PropertyGroup src,
             PropertyGroup dest
     ) {

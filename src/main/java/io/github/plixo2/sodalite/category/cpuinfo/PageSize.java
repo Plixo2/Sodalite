@@ -26,4 +26,5 @@ public sealed interface PageSize {
         return or(4096);
     }
 
+
 }

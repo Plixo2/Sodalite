@@ -69,7 +69,7 @@ class CallbackWrapper implements EventConsumer {
 
         return result == AppResult.SUCCESS;
     }
-    private AppResult spin(String[] args) {
+    private AppResult spin(String[] args) throws Exception {
         AppResult result = this.callbacks.init(args);
         while (result == AppResult.CONTINUE) {
             while (Events.pollEvent(this)) {

@@ -30,7 +30,6 @@ public class EventDispatch {
     ) {
         var type = SDL_Event.type(event);
         var timestamp = SDL_CommonEvent.timestamp(SDL_Event.common(event));
-
         switch (type) {
             case SDL_EVENT_QUIT -> { consumer.onQuit(timestamp); }
             case SDL_EVENT_TERMINATING -> { consumer.onTerminating(timestamp); }

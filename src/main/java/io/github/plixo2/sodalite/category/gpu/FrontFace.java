@@ -7,7 +7,7 @@ public enum FrontFace {
 
     ;
 
-    public static FrontFace defaultValue() {
+    public static FrontFace DEFAULT() {
         return COUNTER_CLOCKWISE;
     }
 
