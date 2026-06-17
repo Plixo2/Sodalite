@@ -1,24 +1,38 @@
 package io.github.plixo2.sodalite.category.version;
 
 
+import org.jetbrains.annotations.NotNull;
+
 /// Wrapper for the return value of `SDL_GetVersion`
-public class VersionNumber {
-    private final int version;
+public class VersionNumber implements Comparable<VersionNumber> {
+    private final int num;
 
-    VersionNumber(int version) {
-        this.version = version;
+    VersionNumber(int num) {
+        this.num = num;
     }
 
+    /// @sdlAPI SDL_VERSIONNUM
+    public VersionNumber(int major, int minor, int micro) {
+        this.num = ((major) * 1000000 + (minor) * 1000 + (micro));
+    }
+
+    public int number() {
+        return this.num;
+    }
+
+    /// @sdlAPI SDL_VERSIONNUM_MAJOR
     public int major() {
-        return (this.version) / 1000000;
+        return (this.num) / 1000000;
     }
 
+    /// @sdlAPI SDL_VERSIONNUM_MINOR
     public int minor() {
-        return ((this.version) / 1000) % 1000;
+        return ((this.num) / 1000) % 1000;
     }
 
+    /// @sdlAPI SDL_VERSIONNUM_MICRO
     public int micro() {
-        return (this.version) % 1000;
+        return (this.num) % 1000;
     }
 
     @Override
@@ -26,4 +40,9 @@ public class VersionNumber {
         return String.format("%d.%d.%d", major(), minor(), micro());
     }
 
+    /// @sdlAPI SDL_VERSION_ATLEAST
+    @Override
+    public int compareTo(@NotNull VersionNumber o) {
+        return Integer.compare(this.num, o.num);
+    }
 }

@@ -7,9 +7,9 @@ import io.github.plixo2.sodalite.memory.WriteBuffer;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector4f;
 
 import java.lang.foreign.MemorySegment;
-import java.util.function.Consumer;
 
 /// @sdlAPI SDL_GPUCommandBuffer
 public class CommandBuffer implements AutoCloseable {
@@ -89,13 +89,13 @@ public class CommandBuffer implements AutoCloseable {
 
 
     public @Nullable Texture waitAndAcquireSwapchainTexture(Window window) {
-        return GPU.waitAndAcquireGPUSwapchainTexture(this, window);
+        return GPU.waitAndAcquireSwapchainTexture(this, window);
     }
 
-    /// You should use [CommandBuffer#waitAndAcquireSwapchainTexture] unless you know what
-    /// you are doing with timing.
+    /// "You should use [CommandBuffer#waitAndAcquireSwapchainTexture] unless you know what
+    /// you are doing with timing."
     public @Nullable Texture acquireGPUSwapchainTexture(Window window) {
-        return GPU.acquireGPUSwapchainTexture(this, window);
+        return GPU.acquireSwapchainTexture(this, window);
     }
 
     @CheckReturnValue
@@ -103,7 +103,7 @@ public class CommandBuffer implements AutoCloseable {
             @Nullable RenderPass.DepthStencilTargetInfo depthStencilTarget,
             RenderPass.ColorTargetInfo... colorTargets
     ) {
-        return GPU.beginGPURenderPass(this, colorTargets, depthStencilTarget);
+        return GPU.beginRenderPass(this, colorTargets, depthStencilTarget);
     }
 
     @CheckReturnValue
@@ -152,6 +152,11 @@ public class CommandBuffer implements AutoCloseable {
         blit(source, destination, 0, cycle);
     }
 
+    // [CopyPass#copy] does transfer the memory directly. \
+    /// [CommandBuffer#blit] will 'render' source onto destination,
+    /// which allows for scaling and filtering.
+    ///
+    /// @see CopyPass#copy(TextureLocation, TextureLocation, long, long, long, Cycle)
     public void blit(
             Texture source,
             Texture destination,
@@ -166,6 +171,45 @@ public class CommandBuffer implements AutoCloseable {
         blit(info);
     }
 
+    public void generateMipmaps(Texture texture) {
+        GPU.generateMipmaps(this, texture);
+    }
+
+    public void setBlendConstants(float r, float g, float b, float a) {
+        GPU.setBlendConstants(this, r, g, b, a);
+    }
+    public void setBlendConstants(Vector4f color) {
+        setBlendConstants(color.x, color.y, color.z, color.w);
+    }
+
+    public void insertDebugLabel(String label) {
+        GPU.insertDebugLabel(this, label);
+    }
+
+    @CheckReturnValue
+    public DebugGroup withDebugGroup(String groupLabel) {
+        pushDebugGroup(groupLabel);
+        return new DebugGroup();
+    }
+
+    /// @see #withDebugGroup for automatic pop
+    public void pushDebugGroup(String groupLabel) {
+        GPU.pushDebugGroup(this, groupLabel);
+    }
+    /// @see #withDebugGroup for automatic pop
+    public void popDebugGroup() {
+        GPU.popDebugGroup(this);
+    }
 
 
+
+
+    public class DebugGroup implements AutoCloseable {
+        private DebugGroup() {}
+
+        @Override
+        public void close() {
+            GPU.popDebugGroup(CommandBuffer.this);
+        }
+    }
 }

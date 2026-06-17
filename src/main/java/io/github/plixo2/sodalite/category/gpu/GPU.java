@@ -2,6 +2,7 @@ package io.github.plixo2.sodalite.category.gpu;
 
 import io.github.plixo2.sodalite.category.init.Init;
 import io.github.plixo2.sodalite.category.init.InitFlags;
+import io.github.plixo2.sodalite.category.pixels.PixelFormat;
 import io.github.plixo2.sodalite.category.video.GPUPackageAccess;
 import io.github.plixo2.sodalite.category.video.Window;
 import io.github.plixo2.sodalite.memory.WriteBuffer;
@@ -12,6 +13,8 @@ import org.libsdl.sdl.*;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.libsdl.sdl.SDL3_h.*;
 import static io.github.plixo2.sodalite.Internal.*;
@@ -28,7 +31,7 @@ public final class GPU {
             ResourceSet resources,
             @ShaderFormat int shaderFormat,
             boolean debugMode,
-            PreferredDriver preferredDriver
+            GPUDriver preferredDriver
     ) {
 
         if (!Init.wasInit(InitFlags.VIDEO)) {
@@ -39,8 +42,58 @@ public final class GPU {
             Init.initSubSystem(InitFlags.VIDEO);
         }
 
-        var device = check(SDL_CreateGPUDevice(shaderFormat, debugMode, preferredDriver.stringSegment()));
-        return new Device(resources, device);
+        try (var arena = Arena.ofConfined()) {
+            var device = check(SDL_CreateGPUDevice(
+                    shaderFormat,
+                    debugMode,
+                    preferredDriver.nameSegment(arena)
+            ));
+            return new Device(resources, device);
+        }
+    }
+
+    public static List<GPUDriver> getDrivers() {
+        var numDrivers = getNumDrivers();
+        var list = new ArrayList<GPUDriver>();
+        for (var i = 0; i < numDrivers; i++) {
+            list.add(getDriver(i));
+        }
+        return list;
+    }
+
+    /// @sdlAPI SDL_GetNumGPUDrivers
+    static int getNumDrivers() {
+        return SDL_GetNumGPUDrivers();
+    }
+
+    /// @sdlAPI SDL_GetGPUDriver
+    static GPUDriver getDriver(
+            int index
+    ) {
+        var nameSegment = SDL_GetGPUDriver(index);
+        if (nameSegment.address() == 0) {
+            return GPUDriver.ofUnknown("unknown");
+        }
+        return GPUDriver.ofUnknown(nameSegment.getString(0));
+    }
+
+    /// @sdlAPI SDL_GetGPUShaderFormats
+    static @ShaderFormat int getShaderFormats(
+            Device device
+    ) {
+        //noinspection MagicConstant
+        return SDL_GetGPUShaderFormats(device.segment());
+    }
+
+    /// @sdlAPI SDL_GetGPUDeviceDriver
+    static GPUDriver getDeviceDriver(
+            Device device
+    ) {
+        var nameSegment = SDL_GetGPUDeviceDriver(device.segment());
+        if (nameSegment.address() == 0) {
+            return GPUDriver.ofUnknown("unknown");
+        }
+        return GPUDriver.ofUnknown(nameSegment.getString(0));
     }
 
     /// @sdlAPI SDL_DestroyGPUDevice
@@ -49,7 +102,7 @@ public final class GPU {
     }
 
     /// @sdlAPI SDL_ClaimWindowForGPUDevice
-    static void claimWindowForGPUDevice(Device gpuDevice, Window window) {
+    static void claimWindowForDevice(Device gpuDevice, Window window) {
         check(SDL_ClaimWindowForGPUDevice(gpuDevice.segment(), window.segment()));
         internalWindowAccess.setClaimedGPU(window, true);
     }
@@ -80,7 +133,7 @@ public final class GPU {
     }
 
     /// @sdlAPI SDL_WindowSupportsGPUPresentMode
-    static boolean windowSupportsGPUPresentMode(
+    static boolean windowSupportsPresentMode(
             Device gpuDevice,
             Window window,
             PresentMode presentMode
@@ -89,7 +142,7 @@ public final class GPU {
     }
 
     /// @sdlAPI SDL_WindowSupportsGPUSwapchainComposition
-    static boolean windowSupportsGPUSwapchainComposition(
+    static boolean windowSupportsSwapchainComposition(
             Device gpuDevice,
             Window window,
             SwapchainComposition swapchainComposition
@@ -228,7 +281,7 @@ public final class GPU {
     }
 
     /// @sdlAPI SDL_WaitAndAcquireGPUSwapchainTexture
-    static @Nullable Texture waitAndAcquireGPUSwapchainTexture(
+    static @Nullable Texture waitAndAcquireSwapchainTexture(
             CommandBuffer commandBuffer,
             Window window
     ) {
@@ -257,7 +310,7 @@ public final class GPU {
     }
 
     /// @sdlAPI SDL_AcquireGPUSwapchainTexture
-    static @Nullable Texture acquireGPUSwapchainTexture(
+    static @Nullable Texture acquireSwapchainTexture(
             CommandBuffer commandBuffer,
             Window window
     ) {
@@ -286,7 +339,7 @@ public final class GPU {
     }
 
     /// @sdlAPI SDL_BeginGPURenderPass
-    static RenderPass beginGPURenderPass(
+    static RenderPass beginRenderPass(
             CommandBuffer commandBuffer,
             RenderPass.ColorTargetInfo[] colorTargets,
             @Nullable RenderPass.DepthStencilTargetInfo depthStencilTarget
@@ -326,7 +379,7 @@ public final class GPU {
 
     /// @sdlAPI SDL_CreateGPUBuffer
     /// @sdlOther SDL_GPUBufferCreateInfo
-    static Buffer createGPUBuffer(
+    static Buffer createBuffer(
             ResourceSet resources,
             Device device,
             @BufferUsageFlags int usageFlags,
@@ -352,7 +405,7 @@ public final class GPU {
 
     /// @sdlAPI SDL_CreateGPUTransferBuffer
     /// @sdlOther SDL_GPUTransferBufferCreateInfo
-    static TransferBuffer createGPUTransferBuffer(
+    static TransferBuffer createTransferBuffer(
             ResourceSet resources,
             Device device,
             TransferBufferUsage usage,
@@ -376,7 +429,7 @@ public final class GPU {
     }
 
     /// @sdlAPI SDL_ReleaseGPUBuffer
-    static void releaseGPUBuffer(Device device, MemorySegment buffer) {
+    static void releaseBuffer(Device device, MemorySegment buffer) {
         SDL_ReleaseGPUBuffer(device.segment(), buffer);
     }
 
@@ -394,12 +447,12 @@ public final class GPU {
     }
 
     /// @sdlAPI SDL_UnmapGPUTransferBuffer
-    static void unmapGPUTransferBuffer(Device device, TransferBuffer transferBuffer) {
+    static void unmapTransferBuffer(Device device, TransferBuffer transferBuffer) {
         SDL_UnmapGPUTransferBuffer(device.segment(), transferBuffer.segment());
     }
 
     /// @sdlAPI SDL_ReleaseGPUTransferBuffer
-    static void releaseGPUTransferBuffer(Device device, MemorySegment transferBuffer) {
+    static void releaseTransferBuffer(Device device, MemorySegment transferBuffer) {
         SDL_ReleaseGPUTransferBuffer(device.segment(), transferBuffer);
     }
 
@@ -414,29 +467,58 @@ public final class GPU {
         SDL_EndGPUCopyPass(copyPass.segment());
     }
 
+
+    /// @sdlAPI SDL_UploadToGPUTexture
+    /// @sdlOther SDL_GPUTextureTransferInfo
+    static void uploadToTexture(
+            CopyPass copyPass,
+            TransferBuffer sourceBuffer,
+            long sourceOffset,
+            TextureRegion destination,
+            Cycle cycle
+    ) {
+        try (var arena = Arena.ofConfined()) {
+            var transferInfoSegment = SDL_GPUTextureTransferInfo.allocate(arena);
+            SDL_GPUTextureTransferInfo.initialize(
+                    transferInfoSegment,
+                    sourceBuffer.segment(),
+                    assertU32(sourceOffset, "sourceOffset"),
+                    0, // dont care about these two
+                    0
+            );
+            var regionSegment = destination.create(arena);
+
+            SDL_UploadToGPUTexture(
+                    copyPass.segment(),
+                    transferInfoSegment,
+                    regionSegment,
+                    cycle.value()
+            );
+        }
+    }
+
     /// @sdlAPI SDL_UploadToGPUBuffer
     /// @sdlOther SDL_GPUTransferBufferLocation
     /// @sdlOther SDL_GPUBufferRegion
-    static void uploadToGPUBuffer(
+    static void uploadToBuffer(
             CopyPass copyPass,
-            TransferBuffer transferBuffer,
-            long srcOffset,
-            Buffer dstBuffer,
-            long dstOffset,
+            TransferBuffer sourceBuffer,
+            long sourceOffset,
+            Buffer destinationBuffer,
+            long destinationOffset,
             long size,
             Cycle cycle
     ) {
-
         try (var arena = Arena.ofConfined()) {
             var transferBufferLocation = SDL_GPUTransferBufferLocation.create(
                     arena,
-                    transferBuffer.segment(),
-                    assertU32(srcOffset, "srcOffset")
+                    sourceBuffer.segment(),
+                    assertU32(sourceOffset, "sourceOffset")
             );
             var bufferLocation = SDL_GPUBufferRegion.create(
                     arena,
-                    dstBuffer.segment(),
-                    assertU32(dstOffset, "dstOffset"),
+                    destinationBuffer.segment(),
+                    assertU32(destinationOffset, "destinationOffset"),
                     assertU32(size, "size")
             );
 
@@ -496,7 +578,7 @@ public final class GPU {
 
     /// @sdlAPI SDL_CreateGPUGraphicsPipeline
     /// @sdlOther SDL_GPUGraphicsPipelineCreateInfo
-    static GraphicsPipeline createGPUGraphicsPipeline(
+    static GraphicsPipeline createGraphicsPipeline(
             ResourceSet resources,
             Device device,
             Shader vertexShader,
@@ -542,13 +624,9 @@ public final class GPU {
     }
 
     /// @sdlAPI SDL_GetGPUSwapchainTextureFormat
-    static TextureFormat getGPUSwapchainTextureFormat(Device device, Window window) {
+    static TextureFormat getSwapchainTextureFormat(Device device, Window window) {
         var format = SDL_GetGPUSwapchainTextureFormat(device.segment(), window.segment());
-        var textureFormat = TextureFormat.fromCode(format);
-        if (textureFormat == null) {
-            throw new IllegalStateException("Swapchain texture format " + format + " is not recognized");
-        }
-        return textureFormat;
+        return TextureFormat.fromCode(format);
     }
 
     /// @sdlAPI SDL_ReleaseGPUGraphicsPipeline
@@ -612,38 +690,13 @@ public final class GPU {
             var createInfoSegment = SDL_GPUTextureCreateInfo.allocate(arena);
             TextureCreateInfo.put(createInfoSegment, createInfo);
             var textureSegment = check(SDL_CreateGPUTexture(device.segment(), createInfoSegment));
-            return new Texture(resources, device, textureSegment, createInfo);
-        }
-    }
+            var texture = new Texture(resources, device, textureSegment, createInfo);
 
+            if (texture.name() != null) {
+                setTextureName(device, texture, texture.name());
+            }
 
-    /// @sdlAPI SDL_UploadToGPUTexture
-    /// @sdlOther SDL_GPUTextureTransferInfo
-    static void uploadToGPUTexture(
-            CopyPass copyPass,
-            TransferBuffer sourceBuffer,
-            long sourceOffset,
-            TextureRegion region,
-            Cycle cycle
-    ) {
-        try (var arena = Arena.ofConfined()) {
-            var regionSegment = SDL_GPUTextureRegion.allocate(arena);
-            region.put(regionSegment);
-            var transferInfoSegment = SDL_GPUTextureTransferInfo.allocate(arena);
-            SDL_GPUTextureTransferInfo.initialize(
-                    transferInfoSegment,
-                    sourceBuffer.segment(),
-                    assertU32(sourceOffset, "sourceOffset"),
-                    0, // dont care about these two
-                    0
-            );
-
-            SDL_UploadToGPUTexture(
-                    copyPass.segment(),
-                    transferInfoSegment,
-                    regionSegment,
-                    cycle.value()
-            );
+            return texture;
         }
     }
 
@@ -1296,5 +1349,254 @@ public final class GPU {
         return new Fence(resources, device, fence);
     }
 
+    /// @sdlAPI SDL_DownloadFromGPUTexture
+    /// @sdlOther SDL_GPUTextureTransferInfo
+    static void downloadFromTexture(
+            CopyPass copyPass,
+            TransferBuffer destinationBuffer,
+            long destinationOffset,
+            TextureRegion source
+    ) {
+        try (var arena = Arena.ofConfined()) {
+            var regionSegment = source.create(arena);
+            var transferInfoSegment = SDL_GPUTextureTransferInfo.create(
+                    arena,
+                    destinationBuffer.segment(),
+                    assertU32(destinationOffset, "destinationOffset"),
+                    0, // dont care about these two
+                    0
+            );
+
+            SDL_DownloadFromGPUTexture(
+                    copyPass.segment(),
+                    regionSegment,
+                    transferInfoSegment
+            );
+        }
+    }
+
+    /// @sdlAPI SDL_DownloadFromGPUBuffer
+    /// @sdlOther SDL_GPUTransferBufferLocation
+    /// @sdlOther SDL_GPUBufferRegion
+    static void downloadFromBuffer(
+            CopyPass copyPass,
+            TransferBuffer destinationBuffer,
+            long destinationOffset,
+            Buffer sourceBuffer,
+            long sourceOffset,
+            long size
+    ) {
+        try (var arena = Arena.ofConfined()) {
+            var bufferLocation = SDL_GPUBufferRegion.create(
+                    arena,
+                    sourceBuffer.segment(),
+                    assertU32(sourceOffset, "sourceOffset"),
+                    assertU32(size, "size")
+            );
+
+            var transferBufferLocation = SDL_GPUTransferBufferLocation.create(
+                    arena,
+                    destinationBuffer.segment(),
+                    assertU32(destinationOffset, "destinationOffset")
+            );
+
+            SDL_DownloadFromGPUBuffer(
+                    copyPass.segment(),
+                    bufferLocation,
+                    transferBufferLocation
+            );
+        }
+    }
+
+
+    /// @sdlAPI SDL_GenerateMipmapsForGPUTexture
+    static void generateMipmaps(
+            CommandBuffer commandBuffer,
+            Texture texture
+    ) {
+        SDL_GenerateMipmapsForGPUTexture(
+                commandBuffer.segment(),
+                texture.segment()
+        );
+    }
+
+    /// @sdlAPI SDL_GetGPUTextureFormatFromPixelFormat
+    static TextureFormat textureFormatFromPixelFormat(PixelFormat format) {
+        var code = SDL_GetGPUTextureFormatFromPixelFormat(format.code());
+        return TextureFormat.fromCode(code);
+    }
+
+    /// @sdlAPI SDL_GetPixelFormatFromGPUTextureFormat
+    static PixelFormat pixelFormatFromTextureFormat(TextureFormat format) {
+        var code = SDL_GetPixelFormatFromGPUTextureFormat(format.code());
+        return PixelFormat.fromCode(code);
+    }
+
+    /// @sdlAPI SDL_GPUSupportsShaderFormats
+    static boolean supportsShaderFormats(
+            @ShaderFormat int shaderFormats,
+            GPUDriver driver
+    ) {
+        try (var arena = Arena.ofConfined()) {
+            return SDL_GPUSupportsShaderFormats(
+                    shaderFormats,
+                    driver.nameSegment(arena)
+            );
+        }
+
+    }
+
+    /// @sdlAPI SDL_GPUTextureFormatTexelBlockSize
+    static long textureFormatTexelBlockSize(
+            TextureFormat format
+    ) {
+        int u32 = SDL_GPUTextureFormatTexelBlockSize(format.code());
+        return Integer.toUnsignedLong(u32);
+    }
+
+    /// @sdlAPI SDL_GPUTextureSupportsFormat
+    static boolean textureSupportsFormat(
+            Device device,
+            TextureFormat format,
+            TextureType type,
+            @TextureUsageFlags int usageFlags
+    ) {
+        return SDL_GPUTextureSupportsFormat(
+                device.segment(),
+                format.code(),
+                type.code(),
+                usageFlags
+        );
+    }
+
+    /// @sdlAPI SDL_GPUTextureSupportsSampleCount
+    static boolean textureSupportsSampleCount(
+            Device device,
+            TextureFormat format,
+            SampleCount sampleCount
+    ) {
+        return SDL_GPUTextureSupportsSampleCount(
+                device.segment(),
+                format.code(),
+                sampleCount.code()
+        );
+    }
+
+    /// @sdlAPI SDL_InsertGPUDebugLabel
+    static void insertDebugLabel(
+            CommandBuffer commandBuffer,
+            String label
+    ) {
+        try (var arena = Arena.ofConfined()) {
+            var labelSegment = arena.allocateFrom(label);
+            SDL_InsertGPUDebugLabel(commandBuffer.segment(), labelSegment);
+        }
+    }
+
+    /// @sdlAPI SDL_PushGPUDebugGroup
+    static void pushDebugGroup(
+            CommandBuffer commandBuffer,
+            String label
+    ) {
+        try (var arena = Arena.ofConfined()) {
+            var labelSegment = arena.allocateFrom(label);
+            SDL_PushGPUDebugGroup(commandBuffer.segment(), labelSegment);
+        }
+    }
+
+    /// @sdlAPI SDL_PopGPUDebugGroup
+    static void popDebugGroup(
+            CommandBuffer commandBuffer
+    ) {
+        SDL_PopGPUDebugGroup(commandBuffer.segment());
+    }
+
+    /// @sdlAPI SDL_SetGPUTextureName
+    static void setTextureName(
+            Device device,
+            Texture texture,
+            String name
+    ) {
+        try (var arena = Arena.ofConfined()) {
+            var nameSegment = arena.allocateFrom(name);
+            SDL_SetGPUTextureName(
+                    device.segment(),
+                    texture.segment(),
+                    nameSegment
+            );
+        }
+    }
+
+    /// @sdlAPI SDL_SetGPUStencilReference
+    static void setStencilReference(
+            RenderPass renderPass,
+            byte reference
+    ) {
+        SDL_SetGPUStencilReference(
+                renderPass.segment(),
+                reference
+        );
+    }
+
+    /// @sdlAPI SDL_SetGPUBufferName
+    static void setBufferName(
+            Device device,
+            Buffer buffer,
+            String name
+    ) {
+        try (var arena = Arena.ofConfined()) {
+            var nameSegment = arena.allocateFrom(name);
+            SDL_SetGPUBufferName(
+                    device.segment(),
+                    buffer.segment(),
+                    nameSegment
+            );
+        }
+    }
+
+    /// @sdlAPI SDL_SetGPUBlendConstants
+    /// @sdlOther SDL_FColor
+    static void setBlendConstants(
+            CommandBuffer commandBuffer,
+            float red, float green, float blue, float alpha
+    ) {
+        try (var arena = Arena.ofConfined()) {
+            var colorSegment = SDL_FColor.allocate(arena);
+            SDL_FColor.initialize(colorSegment, red, green, blue, alpha);
+            SDL_SetGPUBlendConstants(commandBuffer.segment(), colorSegment);
+        }
+    }
+
+    /// @sdlAPI SDL_SetGPUAllowedFramesInFlight
+    static void setAllowedFramesInFlight(
+            Device device,
+            int allowedFrames
+    ) {
+        if (allowedFrames < 1 || allowedFrames > 3) {
+            throw new IllegalArgumentException(
+                    "The minimum value of allowed frames in flight is 1, and the maximum is 3."
+            );
+        }
+
+        check(SDL_SetGPUAllowedFramesInFlight(
+                device.segment(),
+                allowedFrames
+        ));
+    }
+
+    /// @sdlAPI SDL_WaitForGPUIdle
+    static void waitForIdle(
+            Device device
+    ) {
+        check(SDL_WaitForGPUIdle(device.segment()));
+    }
+
+    /// @sdlAPI SDL_WaitForGPUSwapchain
+    static void waitForSwapchain(
+            Device device,
+            Window window
+    ) {
+        check(SDL_WaitForGPUSwapchain(device.segment(), window.segment()));
+    }
 
 }

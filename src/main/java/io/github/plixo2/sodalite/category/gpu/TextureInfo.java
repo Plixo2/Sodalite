@@ -1,6 +1,7 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 
+import org.jetbrains.annotations.Nullable;
 
 /// Call {@link TextureCreateInfo#create}, {@link TextureBuilder#build} or
 /// {@link Texture#createEmpty} to create the texture.
@@ -18,6 +19,7 @@ public sealed interface TextureInfo permits TextureCreateInfo, TextureBuilder, T
     int layerCountOrDepth();
     int mipLevelCount();
     SampleCount sampleCount();
+    @Nullable String name();
 
 
 }

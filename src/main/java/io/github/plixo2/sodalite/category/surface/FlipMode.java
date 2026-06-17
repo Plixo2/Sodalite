@@ -1,6 +1,8 @@
 package io.github.plixo2.sodalite.category.surface;
 
 
+import io.github.plixo2.sodalite.Internal;
+import io.github.plixo2.sodalite.category.gpu.ColorComponentWriteFlags;
 import io.github.plixo2.sodalite.category.tray.TrayEntryFlags;
 import org.intellij.lang.annotations.MagicConstant;
 
@@ -20,5 +22,7 @@ public @interface FlipMode {
     int NONE = SDL_FLIP_NONE();
     int HORIZONTAL = SDL_FLIP_HORIZONTAL();
     int VERTICAL = SDL_FLIP_VERTICAL();
+
+    int MASK = Internal.flagMask(FlipMode.class);
 
 }

@@ -2,6 +2,7 @@ package io.github.plixo2.sodalite.category.gpu;
 
 import org.libsdl.sdl.SDL_GPUTextureRegion;
 
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 
 import static io.github.plixo2.sodalite.Internal.*;
@@ -252,9 +253,9 @@ public record TextureRegion(
         );
     }
 
-    void put(MemorySegment segment) {
-        SDL_GPUTextureRegion.initialize(
-                segment,
+    MemorySegment create(Arena arena) {
+        return SDL_GPUTextureRegion.create(
+                arena,
                 this.texture.segment(),
                 (int) this.mipLevel,
                 (int) this.layer,

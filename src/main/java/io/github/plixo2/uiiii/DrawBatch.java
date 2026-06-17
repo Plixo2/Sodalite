@@ -62,7 +62,7 @@ public abstract class DrawBatch {
             Matrix4f projection
     ) {
         var length = this.data.position();
-        try (var mapped = device.mapTransferBuffer(this.transferBuffer, Cycle.TRUE)) {
+        try (var mapped = this.transferBuffer.map(device, Cycle.TRUE)) {
             mapped.memory().copyFrom(this.data.memory().asSlice(0, length));
         }
         copyPass.upload(this.transferBuffer, this.gpuBuffer, length, Cycle.TRUE);

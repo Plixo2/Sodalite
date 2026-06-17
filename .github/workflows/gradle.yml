@@ -1,0 +1,23 @@
+name: Sanity check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: 25
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Gradle Permissions
+        run: chmod +x ./gradlew
+      - name: test with Gradle
+        run: ./gradlew clean test --no-build-cache

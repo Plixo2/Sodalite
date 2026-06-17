@@ -10,7 +10,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.libsdl.sdl.SDL3_h.*;
-
+import static io.github.plixo2.sodalite.Internal.*;
 
 /// @sdlCategory CategoryScancode
 /// @sdlAPI SDL_Scancode

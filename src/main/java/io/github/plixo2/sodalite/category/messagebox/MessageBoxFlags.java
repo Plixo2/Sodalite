@@ -1,6 +1,7 @@
 package io.github.plixo2.sodalite.category.messagebox;
 
 
+import io.github.plixo2.sodalite.Internal;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;
@@ -21,4 +22,7 @@ public @interface MessageBoxFlags {
     int INFORMATION = SDL_MESSAGEBOX_INFORMATION();
     int BUTTONS_LEFT_TO_RIGHT = SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT();
     int BUTTONS_RIGHT_TO_LEFT = SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT();
+
+    int MASK = Internal.flagMask(MessageBoxFlags.class);
+
 }

@@ -1,6 +1,8 @@
 package io.github.plixo2.sodalite.category.tray;
 
 
+import io.github.plixo2.sodalite.Internal;
+import io.github.plixo2.sodalite.category.gpu.TextureUsageFlags;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;
@@ -22,5 +24,8 @@ public @interface TrayEntryFlags {
     int SUBMENU = SDL_TRAYENTRY_SUBMENU();
     int DISABLED = SDL_TRAYENTRY_DISABLED();
     int CHECKED = SDL_TRAYENTRY_CHECKED();
+
+
+    int MASK = Internal.flagMask(TrayEntryFlags.class);
 
 }

@@ -1,5 +1,7 @@
 package io.github.plixo2.sodalite.category.pen;
 
+import io.github.plixo2.sodalite.Internal;
+import io.github.plixo2.sodalite.category.mouse.MouseButton;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;
@@ -23,5 +25,7 @@ public @interface PenInputFlags {
     int BUTTON_5 = SDL_PEN_INPUT_BUTTON_5();
     int ERASER_TIP = SDL_PEN_INPUT_ERASER_TIP();
     int IN_PROXIMITY = SDL_PEN_INPUT_IN_PROXIMITY();
+
+    int MASK = Internal.flagMask(PenInputFlags.class);
 
 }

@@ -36,80 +36,76 @@ public class CopyPass implements AutoCloseable {
     }
 
     public void upload(
-            TransferBuffer src,
-            Buffer dstBuffer,
+            TransferBuffer source,
+            Buffer destinationBuffer,
             Cycle cycle
     ) {
-        upload(src, 0, dstBuffer, cycle);
+        upload(source, 0, destinationBuffer, cycle);
     }
 
     public void upload(
-            TransferBuffer src,
-            long srcOffset,
-            Buffer dstBuffer,
+            TransferBuffer source,
+            long sourceOffset,
+            Buffer destinationBuffer,
             Cycle cycle
     ) {
-        var size = dstBuffer.size();
-        if (srcOffset + size > src.size()) {
-            throw new IllegalArgumentException("Transfer buffer is too small for the destination buffer");
-        }
         upload(
-                src,
-                srcOffset,
-                dstBuffer,
+                source,
+                sourceOffset,
+                destinationBuffer,
                 0,
-                size,
+                destinationBuffer.size(),
                 cycle
         );
     }
 
     public void upload(
-            TransferBuffer src,
-            Buffer dstBuffer,
+            TransferBuffer source,
+            Buffer destinationBuffer,
             long size,
             Cycle cycle
     ) {
-        upload(src, 0, dstBuffer, 0, size, cycle);
+        upload(source, 0, destinationBuffer, 0, size, cycle);
     }
 
     public void upload(
-            TransferBuffer src,
-            long srcOffset,
-            Buffer dstBuffer,
-            long dstOffset,
+            TransferBuffer source,
+            long sourceOffset,
+            Buffer destinationBuffer,
+            long destinationOffset,
             long size,
             Cycle cycle
     ) {
-        GPU.uploadToGPUBuffer(
+        GPU.uploadToBuffer(
             this,
-            src,
-            srcOffset,
-            dstBuffer,
-            dstOffset,
+            source,
+            sourceOffset,
+            destinationBuffer,
+            destinationOffset,
             size,
             cycle
         );
     }
 
     public void upload(
-            TransferBuffer src,
-            TextureRegion region,
+            TransferBuffer source,
+            TextureRegion destination,
             Cycle cycle
     ) {
-        upload(src, 0, region, cycle);
+        upload(source, 0, destination, cycle);
     }
 
     public void upload(
-            TransferBuffer src,
-            long srcOffset,
-            TextureRegion region,
+            TransferBuffer source,
+            long sourceOffset,
+            TextureRegion destination,
             Cycle cycle
     ) {
-        GPU.uploadToGPUTexture(
+        GPU.uploadToTexture(
                 this,
-                src,
-                srcOffset,
-                region,
+                source,
+                sourceOffset,
+                destination,
                 cycle
         );
     }
@@ -154,6 +150,73 @@ public class CopyPass implements AutoCloseable {
                 height,
                 depth,
                 cycle
+        );
+    }
+
+
+    public void download(
+            TransferBuffer destination,
+            Buffer sourceBuffer
+    ) {
+        download(destination, 0, sourceBuffer);
+    }
+
+    public void download(
+            TransferBuffer destination,
+            long destinationOffset,
+            Buffer sourceBuffer
+    ) {
+        download(
+                destination,
+                destinationOffset,
+                sourceBuffer,
+                0,
+                sourceBuffer.size()
+        );
+    }
+
+    public void download(
+            TransferBuffer destination,
+            Buffer sourceBuffer,
+            long size
+    ) {
+        download(destination, 0, sourceBuffer, 0, size);
+    }
+
+    public void download(
+            TransferBuffer destination,
+            long destinationOffset,
+            Buffer sourceBuffer,
+            long sourceOffset,
+            long size
+    ) {
+        GPU.downloadFromBuffer(
+                this,
+                destination,
+                destinationOffset,
+                sourceBuffer,
+                sourceOffset,
+                size
+        );
+    }
+
+    public void download(
+            TransferBuffer destination,
+            TextureRegion source
+    ) {
+        download(destination, 0, source);
+    }
+
+    public void download(
+            TransferBuffer destination,
+            long destinationOffset,
+            TextureRegion source
+    ) {
+        GPU.downloadFromTexture(
+                this,
+                destination,
+                destinationOffset,
+                source
         );
     }
 

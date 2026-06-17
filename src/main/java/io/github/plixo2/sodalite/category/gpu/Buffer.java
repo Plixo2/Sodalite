@@ -20,11 +20,10 @@ public class Buffer extends ResourceObject {
         MemorySegment segment,
         long size
     ) {
-        resources.register(this, () -> GPU.releaseGPUBuffer(device, segment));
+        resources.register(this, () -> GPU.releaseBuffer(device, segment));
         this.size = size;
         this.segment = segment;
     }
-
 
     public MemorySegment segment() {
         ensureNotReleased();
@@ -32,11 +31,8 @@ public class Buffer extends ResourceObject {
     }
 
 
-//    public static Buffer emptyVertexBuffer(
-//            ResourceSet resources,
-//            Device device
-//    ) {
-//        return device.createBuffer(resources, BufferUsageFlags.VERTEX, 0);
-//    }
+    public void setName(Device device, String name) {
+        GPU.setBufferName(device, this, name);
+    }
 
 }

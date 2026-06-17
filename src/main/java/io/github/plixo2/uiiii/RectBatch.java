@@ -86,7 +86,7 @@ public class RectBatch extends DrawBatch {
             ResourceSet resources,
             TextureInfo colorTarget
     ) throws IOException {
-        return gpu.createGPUGraphicsPipeline(
+        return gpu.createGraphicsPipeline(
             resources,
             Shader.Creator.of(
                     ShaderFormat.SPIRV,

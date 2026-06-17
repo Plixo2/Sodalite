@@ -1,10 +1,10 @@
 package io.github.plixo2.sodalite.category.init;
 
+import io.github.plixo2.sodalite.category.properties.PropertyKey;
 import io.github.plixo2.sodalite.resource.PendingFrees;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.foreign.Arena;
-import java.lang.foreign.MemorySegment;
 
 import static org.libsdl.sdl.SDL3_h.*;
 import static io.github.plixo2.sodalite.Internal.*;
@@ -25,10 +25,22 @@ public class Init {
         check(SDL_InitSubSystem(flags));
     }
 
+    public static void ensureInit(@InitFlags int flags) {
+        forEachFlag(
+                flags & InitFlags.MASK,
+                (@InitFlags int flag) -> {
+                    if (!wasInit(flag)) {
+                        initSubSystem(flag);
+                    }
+                }
+        );
+    }
+
     /// @sdlAPI SDL_WasInit
     public static boolean wasInit(@InitFlags int flags) {
         var result = SDL_WasInit(flags) & flags;
-        return result == (Integer)flags;
+        //noinspection MagicConstant
+        return result == flags;
     }
 
     /// @sdlAPI SDL_QuitSubSystem
@@ -58,20 +70,14 @@ public class Init {
     }
 
     /// @sdlAPI SDL_SetAppMetadataProperty
-    public static void setAppMetadataProperty(AppMetadataKey name, @Nullable String value) {
+    public static void setAppMetadataProperty(PropertyKey<String> name, @Nullable String value) {
         try (var arena = Arena.ofConfined()) {
             check(SDL_SetAppMetadataProperty(
-                    name.stringSegment(),
+                    name.nameSegment(),
                     allocNullString(arena, value)
             ));
         }
     }
 
-    private static MemorySegment allocNullString(Arena arena, @Nullable String str) {
-        if (str == null) {
-            return MemorySegment.NULL;
-        } else {
-            return arena.allocateFrom(str);
-        }
-    }
+
 }

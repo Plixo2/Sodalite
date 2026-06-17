@@ -1,5 +1,7 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import io.github.plixo2.sodalite.Internal;
+import io.github.plixo2.sodalite.category.init.InitFlags;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;
@@ -22,5 +24,7 @@ public @interface BufferUsageFlags {
     int GRAPHICS_STORAGE_READ = SDL_GPU_BUFFERUSAGE_GRAPHICS_STORAGE_READ();
     int COMPUTE_STORAGE_READ = SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ();
     int COMPUTE_STORAGE_WRITE = SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE();
+
+    int MASK = Internal.flagMask(BufferUsageFlags.class);
 
 }

@@ -1,6 +1,7 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 
+import io.github.plixo2.sodalite.Internal;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;
@@ -23,5 +24,7 @@ public @interface TextureUsageFlags {
     int COMPUTE_STORAGE_READ = SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_READ();
     int COMPUTE_STORAGE_WRITE = SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE();
     int COMPUTE_STORAGE_SIMULTANEOUS_READ_WRITE = SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_SIMULTANEOUS_READ_WRITE();
+
+    int MASK = Internal.flagMask(TextureUsageFlags.class);
 
 }

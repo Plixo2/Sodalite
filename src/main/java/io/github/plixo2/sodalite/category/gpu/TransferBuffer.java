@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import com.google.errorprone.annotations.CheckReturnValue;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.Getter;
@@ -10,9 +11,10 @@ import java.lang.foreign.MemorySegment;
 public class TransferBuffer extends ResourceObject {
 
     private final MemorySegment segment;
+    private final MappedState mappedState;
+
     @Getter
     private final long size;
-    private boolean isMapped = false;
 
     TransferBuffer(
         ResourceSet resources,
@@ -20,7 +22,13 @@ public class TransferBuffer extends ResourceObject {
         MemorySegment segment,
         long size
     ) {
-        resources.register(this, () -> GPU.releaseGPUTransferBuffer(device, segment));
+        var mappedState = this.mappedState = new MappedState();
+        resources.register(this, () -> {
+            if (mappedState.isMapped) {
+                throw new IllegalStateException("Cannot release transfer buffer while it is still mapped");
+            }
+            GPU.releaseTransferBuffer(device, segment);
+        });
         this.size = size;
         this.segment = segment;
     }
@@ -30,18 +38,22 @@ public class TransferBuffer extends ResourceObject {
         return this.segment;
     }
 
-    TransferBuffer.Mapped mapTransferBuffer(
+    @CheckReturnValue
+    public TransferBuffer.Mapped map(
             Device device,
             Cycle cycle
     ) {
-        if (this.isMapped) {
+        if (this.mappedState.isMapped) {
             throw new IllegalStateException("Transfer buffer is already mapped");
         }
-        this.isMapped = true;
+        this.mappedState.isMapped = true;
         var memory = GPU.mapGPUTransferBuffer(device, this, cycle);
         return new Mapped(device, memory);
     }
 
+    private static class MappedState {
+        private boolean isMapped = false;
+    }
 
     public class Mapped implements AutoCloseable {
         private final Device device;
@@ -56,7 +68,7 @@ public class TransferBuffer extends ResourceObject {
         }
 
         public MemorySegment memory() {
-            if (!TransferBuffer.this.isMapped) {
+            if (!TransferBuffer.this.mappedState.isMapped) {
                 throw new IllegalStateException("Already unmapped");
             }
             return this.mappedMemory;
@@ -64,11 +76,11 @@ public class TransferBuffer extends ResourceObject {
 
         @Override
         public void close() {
-            if (!TransferBuffer.this.isMapped) {
+            if (!TransferBuffer.this.mappedState.isMapped) {
                 throw new IllegalStateException("Already unmapped");
             }
-            TransferBuffer.this.isMapped = false;
-            GPU.unmapGPUTransferBuffer(this.device, TransferBuffer.this);
+            TransferBuffer.this.mappedState.isMapped = false;
+            GPU.unmapTransferBuffer(this.device, TransferBuffer.this);
         }
     }
 

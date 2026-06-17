@@ -315,7 +315,8 @@ public class EventDispatch {
 
     /// `SDL_MouseMotionEvent.state`
     private static @MouseButtonFlags int SDL_MouseMotionEvent_state(MemorySegment segment) {
-        return (Integer) u8(SDL_MouseMotionEvent.state(segment));
+        //noinspection MagicConstant
+        return u8(SDL_MouseMotionEvent.state(segment));
     }
 
     /// `SDL_MouseMotionEvent.x`
@@ -350,7 +351,8 @@ public class EventDispatch {
 
     /// `SDL_MouseButtonEvent.button`
     private static @MouseButton int SDL_MouseButtonEvent_button(MemorySegment segment) {
-        return (Integer) u8(SDL_MouseButtonEvent.button(segment));
+        //noinspection MagicConstant
+        return u8(SDL_MouseButtonEvent.button(segment));
     }
 
     /// `SDL_MouseButtonEvent.clicks`
@@ -705,7 +707,8 @@ public class EventDispatch {
 
     /// `SDL_PenTouchEvent.pen_state`
     private static @PenInputFlags int SDL_PenTouchEvent_penState(MemorySegment segment) {
-        return (Integer) SDL_PenTouchEvent.pen_state(segment);
+        //noinspection MagicConstant
+        return SDL_PenTouchEvent.pen_state(segment);
     }
 
     /// `SDL_PenTouchEvent.x`
@@ -735,7 +738,8 @@ public class EventDispatch {
 
     /// `SDL_PenButtonEvent.pen_state`
     private static @PenInputFlags int SDL_PenButtonEvent_penState(MemorySegment segment) {
-        return (Integer) SDL_PenButtonEvent.pen_state(segment);
+        //noinspection MagicConstant
+        return SDL_PenButtonEvent.pen_state(segment);
     }
 
     /// `SDL_PenButtonEvent.x`
@@ -765,7 +769,8 @@ public class EventDispatch {
 
     /// `SDL_PenMotionEvent.pen_state`
     private static @PenInputFlags int SDL_PenMotionEvent_penState(MemorySegment segment) {
-        return (Integer) SDL_PenMotionEvent.pen_state(segment);
+        //noinspection MagicConstant
+        return SDL_PenMotionEvent.pen_state(segment);
     }
 
     /// `SDL_PenMotionEvent.x`
@@ -790,7 +795,8 @@ public class EventDispatch {
 
     /// `SDL_PenAxisEvent.pen_state`
     private static @PenInputFlags int SDL_PenAxisEvent_penState(MemorySegment segment) {
-        return (Integer) SDL_PenAxisEvent.pen_state(segment);
+        //noinspection MagicConstant
+        return SDL_PenAxisEvent.pen_state(segment);
     }
 
     /// `SDL_PenAxisEvent.x`

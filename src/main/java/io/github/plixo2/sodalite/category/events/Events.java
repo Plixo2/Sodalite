@@ -1,7 +1,6 @@
 package io.github.plixo2.sodalite.category.events;
 
 import io.github.plixo2.sodalite.resource.PendingFrees;
-import org.jetbrains.annotations.Nullable;
 import org.libsdl.sdl.SDL_Event;
 
 import java.lang.foreign.Arena;
@@ -9,6 +8,7 @@ import java.lang.foreign.MemorySegment;
 import java.util.List;
 
 import static org.libsdl.sdl.SDL3_h.*;
+import static io.github.plixo2.sodalite.Internal.*;
 
 /// @sdlCategory CategoryEvents
 public class Events {

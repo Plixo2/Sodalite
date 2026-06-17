@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.init;
 
+import io.github.plixo2.sodalite.Internal;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;
@@ -23,5 +24,7 @@ public @interface InitFlags {
     int EVENTS = SDL_INIT_EVENTS();
     int SENSOR = SDL_INIT_SENSOR();
     int CAMERA = SDL_INIT_CAMERA();
+
+    int MASK = Internal.flagMask(InitFlags.class);
 
 }

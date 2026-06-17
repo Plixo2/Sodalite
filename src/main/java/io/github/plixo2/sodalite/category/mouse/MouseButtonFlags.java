@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.mouse;
 
+import io.github.plixo2.sodalite.Internal;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;
@@ -17,5 +18,6 @@ import static org.libsdl.sdl.SDL3_h.*;
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.TYPE_USE})
 public @interface MouseButtonFlags {
 
+    int MASK = Internal.flagMask(MouseButton.class);
 
 }

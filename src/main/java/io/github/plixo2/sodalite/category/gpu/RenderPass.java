@@ -217,7 +217,9 @@ public class RenderPass implements AutoCloseable {
         GPU.setGPUViewport(this, viewport);
     }
 
-
+    public void setStencilReference(byte reference) {
+        GPU.setStencilReference(this, reference);
+    }
 
 
     /// @sdlAPI SDL_GPUColorTargetInfo

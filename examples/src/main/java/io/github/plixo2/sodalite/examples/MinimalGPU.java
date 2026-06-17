@@ -41,7 +41,7 @@ class MinimalGPU implements EventConsumer {
                 // enable debug mode (validation layers, debug messages, etc.)
                 true,
                 // the SDL choose the best driver
-                PreferredDriver.OPTIMAL
+                GPUDriver.optimal()
         );
     }
 
@@ -67,7 +67,7 @@ class MinimalGPU implements EventConsumer {
             if (swapchain == null) {
                 return;
             }
-            var clearColor = new Vector4f(0.1f, 0.2f, 0.3f, 1.0f);
+            var clearColor = new Vector4f(0.12f, 0.15f, 0.2f, 1.0f);
             // Define a color target that clears the swapchain texture
             var colorTarget0 = RenderPass.ColorTargetInfo.clear(
                     swapchain,

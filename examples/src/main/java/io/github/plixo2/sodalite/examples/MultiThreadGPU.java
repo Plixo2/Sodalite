@@ -93,7 +93,7 @@ void main() throws InterruptedException {
                 appLifeResources,
                 ShaderFormat.SPIRV | ShaderFormat.DXIL | ShaderFormat.MSL,
                 true,
-                PreferredDriver.OPTIMAL
+                GPUDriver.optimal()
         );
 
         var colors = List.of(

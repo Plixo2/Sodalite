@@ -26,6 +26,7 @@ import org.joml.Vector2i;
 import org.joml.Vector4f;
 
 
+import java.awt.*;
 import java.io.IOException;
 import java.lang.foreign.*;
 import java.nio.file.Path;
@@ -205,7 +206,7 @@ static class Instance implements EventConsumer {
                         TransferBufferUsage.UPLOAD,
                         this.verticies.capacity()
                 );
-                try (var mapped = this.gpu.mapTransferBuffer(vertexTransferBuffer, Cycle.FALSE)) {
+                try (var mapped = vertexTransferBuffer.map(this.gpu, Cycle.FALSE)) {
                     var memory = mapped.memory();
                     memory.copyFrom(this.verticies.memory());
                 }
@@ -393,7 +394,7 @@ static Texture loadTexture(
                 TransferBufferUsage.UPLOAD,
                 imageData.data().byteSize()
         );
-        try (var mapped = device.mapTransferBuffer(textureTransferBuffer, Cycle.FALSE)) {
+        try (var mapped = textureTransferBuffer.map(device, Cycle.FALSE)) {
             mapped.memory().copyFrom(imageData.data());
         }
         try (var copy = commandBuffer.beginCopyPass()) {
@@ -422,13 +423,13 @@ void run() throws IOException {
                 staticResourc,
                 ShaderFormat.SPIRV,
                 true,
-                PreferredDriver.VULKAN
+                GPUDriver.optimal()
         );
         time("GPU Creation");
 
         try (
-                var _ = gpu.claimWindow(window);
-                var appResources = ResourceSet.ofConfined()
+            var _ = gpu.claimWindow(window);
+            var appResources = ResourceSet.ofConfined()
         ) {
             var instance = new Instance(window, gpu);
             instance.run(appResources);
@@ -438,8 +439,9 @@ void run() throws IOException {
 }
 
 void main() throws IOException {
-    startTime = Timer.getTicksNS();
     System.setProperty("joml.format", "false");
+
+    startTime = Timer.getTicksNS();
 
     Init.setAppMetaData("Sodalite", "0.0.1", "io.github.plixo2.Sodalite");
     Log.setLogPriority(LogCategory.GPU, LogPriority.DEBUG);
@@ -447,7 +449,6 @@ void main() throws IOException {
     System.out.println("Linked against SDL version " + Version.getVersion(VersionTarget.LINKED));
     System.out.println("Compiled against SDL revision " + Version.getRevision(VersionTarget.COMPILED));
     System.out.println("Linked against SDL revision " + Version.getRevision(VersionTarget.LINKED));
-
 
     time("Initialization");
     try {

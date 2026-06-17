@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static io.github.plixo2.sodalite.Internal.*;
-
 /// Helper for ClipboardDataCallback
 /// @sdlAPI SDL_ClipboardCleanupCallback
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
@@ -41,7 +39,7 @@ public class OpenClipboardData implements
             throw new IllegalStateException("Clipboard data callback is already closed");
         }
 
-        var asString = mime_type.reinterpret(Long.MAX_VALUE).getString(0);
+        var asString = mime_type.getString(0);
 
         var result = Objects.requireNonNull(this.callback.get(this.arena, asString));
 

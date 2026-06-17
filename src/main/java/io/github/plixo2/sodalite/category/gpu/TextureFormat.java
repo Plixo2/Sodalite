@@ -1,6 +1,9 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 
+import io.github.plixo2.sodalite.Internal;
+import io.github.plixo2.sodalite.category.pixels.PixelFormat;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 /// @sdlAPI SDL_GPUTextureFormat
@@ -130,12 +133,28 @@ public enum TextureFormat {
     
     ;
 
-    public @Nullable static TextureFormat fromCode(int code) {
-        var values = values();
-        if (code < 0 || code >= values.length) {
-            return null;
+    public static TextureFormat fromCode(int code) {
+        return Internal.enumFromCode(TextureFormat.class, code, INVALID);
+    }
+
+    @Contract("!null -> !null")
+    public PixelFormat toPixelFormat(@Nullable PixelFormat fallback) {
+        var pixelFormat = GPU.pixelFormatFromTextureFormat(this);
+        if (pixelFormat == PixelFormat.UNKNOWN) {
+            return fallback;
+        } else {
+            return pixelFormat;
         }
-        return values[code];
+    }
+
+    @Contract("_, !null -> !null")
+    public static TextureFormat fromPixelFormat(PixelFormat pixelFormat, @Nullable TextureFormat fallback) {
+        var textureFormat = GPU.textureFormatFromPixelFormat(pixelFormat);
+        if (textureFormat == TextureFormat.INVALID) {
+            return fallback;
+        } else {
+            return textureFormat;
+        }
     }
 
     public long calculateTextureSize(
@@ -151,6 +170,10 @@ public enum TextureFormat {
             long height
     ) {
         return calculateTextureSize(width, height, 1);
+    }
+
+    public long texelBlockSize() {
+        return GPU.textureFormatTexelBlockSize(this);
     }
     
     public int code() {

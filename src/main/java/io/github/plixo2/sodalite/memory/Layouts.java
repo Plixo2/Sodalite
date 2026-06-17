@@ -32,8 +32,11 @@ public class Layouts {
 
     public static MemoryLayout QUATERNION_F = floatVector(4);
 
+    /// @sdlAPI SDL_GPUIndirectDrawCommand
     public static MemoryLayout PRIMITIVES_INDIRECT_DRAW_COMMAND = SDL_GPUIndirectDrawCommand.layout();
+    /// @sdlAPI SDL_GPUIndexedIndirectDrawCommand
     public static MemoryLayout INDEXED_INDIRECT_DRAW_COMMAND = SDL_GPUIndexedIndirectDrawCommand.layout();
+    /// @sdlAPI SDL_GPUIndirectDispatchCommand
     public static MemoryLayout INDIRECT_DISPATCH_COMMAND = SDL_GPUIndirectDispatchCommand.layout();
 
     private static MemoryLayout floatVector(int count) {

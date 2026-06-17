@@ -1,6 +1,7 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 
+import io.github.plixo2.sodalite.Internal;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;
@@ -22,5 +23,7 @@ public @interface ColorComponentWriteFlags {
     int A = SDL_GPU_COLORCOMPONENT_A();
 
     int ALL = SDL_GPU_COLORCOMPONENT_R() | SDL_GPU_COLORCOMPONENT_G() | SDL_GPU_COLORCOMPONENT_B() | SDL_GPU_COLORCOMPONENT_A();
+
+    int MASK = Internal.flagMask(ColorComponentWriteFlags.class);
 
 }

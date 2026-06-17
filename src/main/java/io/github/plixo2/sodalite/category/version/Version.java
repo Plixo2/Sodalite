@@ -2,6 +2,7 @@ package io.github.plixo2.sodalite.category.version;
 
 
 import static org.libsdl.sdl.SDL3_h.*;
+import static io.github.plixo2.sodalite.Internal.*;
 
 /// @sdlCategory CategoryVersion
 public class Version {
@@ -27,10 +28,7 @@ public class Version {
             case COMPILED -> SDL_REVISION();
             case LINKED -> SDL_GetRevision();
         };
-        if (segment.address() == 0) {
-            return "";
-        }
-        return segment.getString(0);
+        return getNullString(segment, "");
     }
 
 }

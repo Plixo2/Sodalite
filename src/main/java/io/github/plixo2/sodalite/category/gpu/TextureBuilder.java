@@ -3,6 +3,7 @@ package io.github.plixo2.sodalite.category.gpu;
 
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
 
 /// Use {@link #setArrayCount} for array textures (TEXTURE_2D_ARRAY and TEXTURE_CUBE_ARRAY) and
 /// use {@link #setDepth} for 3D textures (TEXTURE_3D).
@@ -21,6 +22,7 @@ public final class TextureBuilder implements TextureInfo {
     private int layerCountOrDepth = 1;
     private int mipLevelCount = 1;
     private SampleCount sampleCount = SampleCount.COUNT_1;
+    private @Nullable String name = null;
 
     private TextureBuilder(
             TextureType type,
@@ -61,6 +63,7 @@ public final class TextureBuilder implements TextureInfo {
         builder.mipLevelCount = info.mipLevelCount();
         builder.sampleCount = info.sampleCount();
         builder.layerCountOrDepth = info.layerCountOrDepth();
+        builder.name = info.name();
         return builder;
     }
 
@@ -163,6 +166,10 @@ public final class TextureBuilder implements TextureInfo {
         } else {
             this.layerCountOrDepth = count;
         }
+        return this;
+    }
+    public TextureBuilder setName(@Nullable String name) {
+        this.name = name;
         return this;
     }
 

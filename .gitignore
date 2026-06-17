@@ -42,7 +42,7 @@ bin/
 ### Mac OS ###
 .DS_Store
 /.idea/
-/SDL3.dll
+/src/test/SDL3.dll
 /SDL-3.4.jar
 /SDL-3.4-sources.jar
 /resources/ui_rect/vertex.hlsl

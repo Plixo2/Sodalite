@@ -28,7 +28,7 @@ public class Device extends ResourceObject {
     /// @return a AutoCloseable, which will release the claim when closed.
     @CheckReturnValue
     public WindowClaim claimWindow(Window window) {
-        GPU.claimWindowForGPUDevice(this, window);
+        GPU.claimWindowForDevice(this, window);
         return new WindowClaim(window);
     }
 
@@ -37,9 +37,8 @@ public class Device extends ResourceObject {
         return GPU.acquireGPUCommandBuffer(this);
     }
 
-
     public TextureFormat getSwapchainTextureFormat(Window window) {
-        return GPU.getGPUSwapchainTextureFormat(this, window);
+        return GPU.getSwapchainTextureFormat(this, window);
     }
 
     public void setSwapchainParameters(
@@ -54,14 +53,28 @@ public class Device extends ResourceObject {
             Window window,
             PresentMode presentMode
     ) {
-        return GPU.windowSupportsGPUPresentMode(this, window, presentMode);
+        return GPU.windowSupportsPresentMode(this, window, presentMode);
     }
 
     public boolean supportsSwapchainComposition(
             Window window,
             SwapchainComposition swapchainComposition
     ) {
-        return GPU.windowSupportsGPUSwapchainComposition(this, window, swapchainComposition);
+        return GPU.windowSupportsSwapchainComposition(this, window, swapchainComposition);
+    }
+
+    public boolean supportsTextureFormat(
+            TextureFormat format,
+            TextureType type,
+            @TextureUsageFlags int usageFlags
+    ) {
+        return GPU.textureSupportsFormat(this, format, type, usageFlags);
+    }
+    public boolean supportsTextureSampleCount(
+            TextureFormat format,
+            SampleCount sampleCount
+    ) {
+        return GPU.textureSupportsSampleCount(this, format, sampleCount);
     }
 
     public Buffer createBuffer(
@@ -69,7 +82,18 @@ public class Device extends ResourceObject {
             @BufferUsageFlags int usageFlags,
             long size
     ) {
-        return GPU.createGPUBuffer(resources, this, usageFlags, size);
+        return GPU.createBuffer(resources, this, usageFlags, size);
+    }
+
+    public Buffer createBuffer(
+            ResourceSet resources,
+            String name,
+            @BufferUsageFlags int usageFlags,
+            long size
+    ) {
+        var buffer = createBuffer(resources, usageFlags, size);
+        buffer.setName(this, name);
+        return buffer;
     }
 
     public TransferBuffer createTransferBuffer(
@@ -77,15 +101,7 @@ public class Device extends ResourceObject {
             TransferBufferUsage usage,
             long size
     ) {
-        return GPU.createGPUTransferBuffer(resources, this, usage, size);
-    }
-
-    @CheckReturnValue
-    public TransferBuffer.Mapped mapTransferBuffer(
-            TransferBuffer transferBuffer,
-            Cycle cycle
-    ) {
-        return transferBuffer.mapTransferBuffer(this, cycle);
+        return GPU.createTransferBuffer(resources, this, usage, size);
     }
 
     public <T extends Exception> Shader createShader(
@@ -108,7 +124,7 @@ public class Device extends ResourceObject {
         );
     }
 
-    public GraphicsPipeline createGPUGraphicsPipeline(
+    public GraphicsPipeline createGraphicsPipeline(
             ResourceSet resources,
             Shader vertexShader,
             Shader fragmentShader,
@@ -119,8 +135,7 @@ public class Device extends ResourceObject {
             DepthStencilState depthStencilState,
             GraphicsPipelineTargetInfo targetInfo
     ) {
-
-        return GPU.createGPUGraphicsPipeline(
+        return GPU.createGraphicsPipeline(
                 resources,
                 this,
                 vertexShader,
@@ -134,7 +149,7 @@ public class Device extends ResourceObject {
         );
     }
 
-    public <T extends Exception> GraphicsPipeline createGPUGraphicsPipeline(
+    public <T extends Exception> GraphicsPipeline createGraphicsPipeline(
             ResourceSet resources,
             Shader.Creator<T> vertexShader,
             Shader.Creator<T> fragmentShader,
@@ -156,7 +171,7 @@ public class Device extends ResourceObject {
                     fragmentShader,
                     ShaderStage.FRAGMENT
             );
-            return createGPUGraphicsPipeline(
+            return createGraphicsPipeline(
                     resources,
                     vs,
                     fs,
@@ -170,6 +185,36 @@ public class Device extends ResourceObject {
         }
     }
 
+    public <T extends Exception> ComputePipeline createComputePipeline(
+            ResourceSet resources,
+            Device device,
+            ComputeShader.Creator<T> creator
+    ) throws T {
+        return GPU.createComputePipeline(
+                resources,
+                device,
+                creator
+        );
+    }
+
+    public GPUDriver getDriver() {
+        return GPU.getDeviceDriver(this);
+    }
+    public @ShaderFormat int getShaderFormats() {
+        return GPU.getShaderFormats(this);
+    }
+
+    public void setAllowedFramesInFlight(int maxFramesInFlight) {
+        GPU.setAllowedFramesInFlight(this, maxFramesInFlight);
+    }
+
+    public void waitForIdle() {
+        GPU.waitForIdle(this);
+    }
+
+    public void waitForSwapchain(Window window) {
+        GPU.waitForSwapchain(this, window);
+    }
 
     /// Will release the window claim when closed
     @RequiredArgsConstructor

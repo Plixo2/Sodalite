@@ -33,7 +33,7 @@ public class Locale {
                     var country = SDL_Locale.country(instance);
                     var entry = new LocaleEntry(
                             language.getString(0),
-                            country.address() == 0 ? null : country.getString(0)
+                            getNullString(country)
                     );
                     list.add(entry);
                 }

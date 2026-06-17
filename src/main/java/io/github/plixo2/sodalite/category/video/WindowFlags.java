@@ -1,5 +1,7 @@
 package io.github.plixo2.sodalite.category.video;
 
+import io.github.plixo2.sodalite.Internal;
+import io.github.plixo2.sodalite.category.tray.TrayEntryFlags;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;
@@ -43,5 +45,7 @@ public @interface WindowFlags {
     long METAL = SDL_WINDOW_METAL();
     long TRANSPARENT = SDL_WINDOW_TRANSPARENT();
     long NOT_FOCUSABLE = SDL_WINDOW_NOT_FOCUSABLE();
+
+    int MASK = Internal.flagMask(WindowFlags.class);
 
 }

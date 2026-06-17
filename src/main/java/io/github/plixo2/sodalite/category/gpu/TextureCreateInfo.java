@@ -1,6 +1,7 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 import io.github.plixo2.sodalite.resource.ResourceSet;
+import org.jetbrains.annotations.Nullable;
 import org.libsdl.sdl.SDL_GPUTextureCreateInfo;
 
 import java.lang.foreign.MemorySegment;
@@ -15,7 +16,8 @@ public record TextureCreateInfo(
         int height,
         int layerCountOrDepth,
         int mipLevelCount,
-        SampleCount sampleCount
+        SampleCount sampleCount,
+        @Nullable String name
 ) implements TextureInfo {
 
     public static TextureCreateInfo of(
@@ -29,7 +31,8 @@ public record TextureCreateInfo(
                 info.height(),
                 info.layerCountOrDepth(),
                 info.mipLevelCount(),
-                info.sampleCount()
+                info.sampleCount(),
+                info.name()
         );
     }
 

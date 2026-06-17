@@ -1,6 +1,8 @@
 package io.github.plixo2.sodalite.category.keycode;
 
 
+import io.github.plixo2.sodalite.Internal;
+import io.github.plixo2.sodalite.category.surface.FlipMode;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;
@@ -34,5 +36,7 @@ public @interface Keymod {
     int SHIFT = SDL_KMOD_SHIFT();
     int ALT = SDL_KMOD_ALT();
     int GUI = SDL_KMOD_GUI();
+
+    int MASK = Internal.flagMask(Keymod.class);
 
 }

@@ -1,5 +1,7 @@
 package io.github.plixo2.sodalite.category.mouse;
 
+import io.github.plixo2.sodalite.Internal;
+import io.github.plixo2.sodalite.category.messagebox.MessageBoxFlags;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;

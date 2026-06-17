@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.libsdl.sdl.SDL3_h.*;
+import static io.github.plixo2.sodalite.Internal.*;
 
 /// @sdlCategory CategoryRect
 /// @sdlAPI SDL_Rect
