@@ -22,7 +22,7 @@ including explanations.
 <summary>Minimal Example</summary>
 
 
-Minimal `Hello Triangle` example using `SDL_gpu`, [originally written in C by Hamdy Elzanqali](https://hamdy-elzanqali.medium.com/let-there-be-triangles-sdl-gpu-edition-bd82cf2ef615)
+Minimal 'Hello Triangle' example using `SDL_gpu`, [originally written in C by Hamdy Elzanqali](https://hamdy-elzanqali.medium.com/let-there-be-triangles-sdl-gpu-edition-bd82cf2ef615)
 
 
 ```java
@@ -39,9 +39,9 @@ public class GPUHelloTriangle implements Callbacks {
     WriteBuffer<?> vertices;
     {
         this.vertices = ConstantWriteBuffer.allocate(ResourceSet.global(), Vertex, 3)
-                       .writeFloats( 0.0f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f)
-                       .writeFloats(-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 0.0f, 1.0f)
-                       .writeFloats( 0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 1.0f, 1.0f);
+               .writeFloats( 0.0f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f)
+               .writeFloats(-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 0.0f, 1.0f)
+               .writeFloats( 0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 1.0f, 1.0f);
     }
 
     /// struct UniformBuffer
