@@ -19,5 +19,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
       - name: Gradle Permissions
         run: chmod +x ./gradlew
+      - name: Check SDL3 availability
+        run: apt-cache search libsdl3
+      - name: Check SDL3 availability
+        run: apt-cache search libsdl3-dev
+
       - name: test with Gradle
         run: ./gradlew clean test --no-build-cache
