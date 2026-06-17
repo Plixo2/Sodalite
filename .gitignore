@@ -47,4 +47,3 @@ bin/
 /resources/ui_rect/fragment.hlsl
 /resources/compileShaders.bat
 /resources/tests/
-/CategoryAPI.md
