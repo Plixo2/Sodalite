@@ -11,8 +11,8 @@ class CallbackWrapperCheck {
     Path WRAPPER_PATH = Path.of("src/main/java/io/github/plixo2/sodalite/category/main/CallbackWrapper.java");
     Path CONSUMER_PATH = Path.of("src/main/java/io/github/plixo2/sodalite/category/events/EventConsumer.java");
 
-    Pattern WRAPPER_PREFIX = Pattern.compile("\\s*public void");
-    Pattern WRAPPER_METHOD_NAME = Pattern.compile("\\s*public void (\\w*)\\s+.*");
+    Pattern WRAPPER_PREFIX = Pattern.compile("\\s*@Override public void");
+    Pattern WRAPPER_METHOD_NAME = Pattern.compile("\\s*@Override public void (\\w*)\\s+.*");
     Pattern CONSUMER_PREFIX = Pattern.compile("\\s*default void");
 
 

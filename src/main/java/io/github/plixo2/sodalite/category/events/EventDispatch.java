@@ -84,8 +84,8 @@ public class EventDispatch {
             case SDL_EVENT_SCREEN_KEYBOARD_SHOWN -> { consumer.onScreenKeyboardShown(timestamp); }
             case SDL_EVENT_SCREEN_KEYBOARD_HIDDEN -> { consumer.onScreenKeyboardHidden(timestamp); }
             case SDL_EVENT_MOUSE_MOTION -> { consumer.onMouseMotion(timestamp, SDL_MouseMotionEvent_windowID(event), SDL_MouseMotionEvent_mouseID(event), SDL_MouseMotionEvent_state(event), SDL_MouseMotionEvent_x(event), SDL_MouseMotionEvent_y(event), SDL_MouseMotionEvent_xrel(event), SDL_MouseMotionEvent_yrel(event)); }
-            case SDL_EVENT_MOUSE_BUTTON_DOWN -> { consumer.onMouseButtonDown(timestamp, SDL_MouseButtonEvent_windowID(event), SDL_MouseButtonEvent_mouseID(event), SDL_MouseButtonEvent_button(event), SDL_MouseButtonEvent_clicks(event)); }
-            case SDL_EVENT_MOUSE_BUTTON_UP -> { consumer.onMouseButtonUp(timestamp, SDL_MouseButtonEvent_windowID(event), SDL_MouseButtonEvent_mouseID(event), SDL_MouseButtonEvent_button(event), SDL_MouseButtonEvent_clicks(event)); }
+            case SDL_EVENT_MOUSE_BUTTON_DOWN -> { consumer.onMouseButtonDown(timestamp, SDL_MouseButtonEvent_windowID(event), SDL_MouseButtonEvent_mouseID(event), SDL_MouseButtonEvent_button(event), SDL_MouseButtonEvent_clicks(event), SDL_MouseButtonEvent_x(event), SDL_MouseButtonEvent_y(event)); }
+            case SDL_EVENT_MOUSE_BUTTON_UP -> { consumer.onMouseButtonUp(timestamp, SDL_MouseButtonEvent_windowID(event), SDL_MouseButtonEvent_mouseID(event), SDL_MouseButtonEvent_button(event), SDL_MouseButtonEvent_clicks(event), SDL_MouseButtonEvent_x(event), SDL_MouseButtonEvent_y(event)); }
             case SDL_EVENT_MOUSE_WHEEL -> { consumer.onMouseWheel(timestamp, SDL_MouseWheelEvent_windowID(event), SDL_MouseWheelEvent_mouseID(event), SDL_MouseWheelEvent_x(event), SDL_MouseWheelEvent_y(event), SDL_MouseWheelEvent_direction(event), SDL_MouseWheelEvent_mouseX(event), SDL_MouseWheelEvent_mouseY(event), SDL_MouseWheelEvent_integerX(event), SDL_MouseWheelEvent_integerY(event)); }
             case SDL_EVENT_MOUSE_ADDED -> { consumer.onMouseAdded(timestamp, SDL_MouseDeviceEvent_mouseID(event)); }
             case SDL_EVENT_MOUSE_REMOVED -> { consumer.onMouseRemoved(timestamp, SDL_MouseDeviceEvent_mouseID(event)); }
@@ -357,6 +357,14 @@ public class EventDispatch {
     /// `SDL_MouseButtonEvent.clicks`
     private static int SDL_MouseButtonEvent_clicks(MemorySegment segment) {
         return u8(SDL_MouseButtonEvent.clicks(segment));
+    }
+    /// `SDL_MouseButtonEvent.x`
+    private static float SDL_MouseButtonEvent_x(MemorySegment segment) {
+        return SDL_MouseButtonEvent.x(segment);
+    }
+    /// `SDL_MouseButtonEvent.y`
+    private static float SDL_MouseButtonEvent_y(MemorySegment segment) {
+        return SDL_MouseButtonEvent.y(segment);
     }
 
     /// `SDL_MouseWheelEvent.windowID`

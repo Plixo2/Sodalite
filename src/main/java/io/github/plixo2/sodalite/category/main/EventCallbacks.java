@@ -102,8 +102,8 @@ public interface EventCallbacks {
     default AppResult onMouseMotion                (long timestamp, int windowID, int mouseID, @MouseButtonFlags int state, float x, float y, float xrel, float yrel) { return AppResult.CONTINUE; }
 
     /// @sdlAPI SDL_MouseButtonEvent
-    default AppResult onMouseButtonDown            (long timestamp, int windowID, int mouseID, @MouseButton int button, int clicks) { return AppResult.CONTINUE; }
-    default AppResult onMouseButtonUp              (long timestamp, int windowID, int mouseID, @MouseButton int button, int clicks) { return AppResult.CONTINUE; }
+    default AppResult onMouseButtonDown            (long timestamp, int windowID, int mouseID, @MouseButton int button, int clicks, float x, float y) { return AppResult.CONTINUE; }
+    default AppResult onMouseButtonUp              (long timestamp, int windowID, int mouseID, @MouseButton int button, int clicks, float x, float y) { return AppResult.CONTINUE; }
 
     /// @sdlAPI SDL_MouseWheelEvent
     default AppResult onMouseWheel                 (long timestamp, int windowID, int mouseID, float x, float y, MouseWheelDirection direction, float mouseX, float mouseY, int integerX, int integerY) { return AppResult.CONTINUE; }

@@ -97,8 +97,8 @@ public interface EventConsumer {
     default void onMouseMotion                (long timestamp, int windowID, int mouseID, @MouseButtonFlags int state, float x, float y, float xrel, float yrel) {}
 
     /// @sdlAPI SDL_MouseButtonEvent
-    default void onMouseButtonDown            (long timestamp, int windowID, int mouseID, @MouseButton int button, int clicks) {}
-    default void onMouseButtonUp              (long timestamp, int windowID, int mouseID, @MouseButton int button, int clicks) {}
+    default void onMouseButtonDown            (long timestamp, int windowID, int mouseID, @MouseButton int button, int clicks, float x, float y) {}
+    default void onMouseButtonUp              (long timestamp, int windowID, int mouseID, @MouseButton int button, int clicks, float x, float y) {}
 
     /// @sdlAPI SDL_MouseWheelEvent
     default void onMouseWheel                 (long timestamp, int windowID, int mouseID, float x, float y, MouseWheelDirection direction, float mouseX, float mouseY, int integerX, int integerY) {}
