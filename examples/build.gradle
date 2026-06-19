@@ -4,6 +4,7 @@ plugins {
 
 group = 'io.github.plixo2'
 version = '0.0.1'
+project.ext.jomlVersion = "1.10.8"
 
 repositories {
     mavenCentral()
@@ -18,6 +19,8 @@ dependencies {
     //lombok
     compileOnly 'org.projectlombok:lombok:1.18.42'
     annotationProcessor 'org.projectlombok:lombok:1.18.42'
+
+    implementation "org.joml:joml:${jomlVersion}"
 }
 
 test {
