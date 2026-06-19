@@ -48,5 +48,8 @@ public class GPUDriver {
         return new GPUDriver(internalName);
     }
 
-
+    @Override
+    public String toString() {
+        return "GPUDriver(" + this.internalName + ")";
+    }
 }
