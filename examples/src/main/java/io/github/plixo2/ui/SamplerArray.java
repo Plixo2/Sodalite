@@ -1,4 +1,4 @@
-package io.github.plixo2.uiiii;
+package io.github.plixo2.ui;
 
 import io.github.plixo2.sodalite.category.gpu.RenderPass;
 import io.github.plixo2.sodalite.category.gpu.Sampler;

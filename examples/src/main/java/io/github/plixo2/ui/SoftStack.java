@@ -1,4 +1,4 @@
-package io.github.plixo2.uiiii;
+package io.github.plixo2.ui;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package io.github.plixo2.uiiii;
+package io.github.plixo2.ui;
 
 import io.github.plixo2.sodalite.category.gpu.*;
 import io.github.plixo2.sodalite.resource.ResourceSet;
@@ -6,7 +6,6 @@ import lombok.Getter;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class Render {
