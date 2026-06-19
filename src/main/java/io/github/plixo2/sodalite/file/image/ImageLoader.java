@@ -20,7 +20,7 @@ public class ImageLoader {
                 source,
                 dynamicRange,
                 desiredChannels,
-                true
+                false
         );
     }
 
