@@ -95,7 +95,7 @@ public class CommandBuffer implements AutoCloseable {
 
     /// "You should use [CommandBuffer#waitAndAcquireSwapchainTexture] unless you know what
     /// you are doing with timing."
-    public @Nullable Texture acquireGPUSwapchainTexture(Window window) {
+    public @Nullable Texture acquireSwapchainTexture(Window window) {
         return GPU.acquireSwapchainTexture(this, window);
     }
 
