@@ -27,11 +27,11 @@ Feature complete:
 Almost feature complete:
 - `CategoryTray`
 
-15.4% Functions implemented \
-28.7% Datatypes implemented \
+16.3% Functions implemented \
+29.5% Datatypes implemented \
 69.4% Structs implemented \
 39.6% Enums implemented \
-22.8% total
+23.6% total
 
 [Checklist](#checklist)
 
@@ -88,7 +88,7 @@ Almost feature complete:
 - [ ] CategoryIntrinsics
 - [ ] CategoryIOStream
 - [ ] CategoryJoystick
-- [ ] CategoryKeyboard
+- [x] CategoryKeyboard
 - [x] CategoryKeycode
 - [x] CategoryLocale
 - [x] CategoryLog
@@ -201,7 +201,7 @@ Almost feature complete:
 - [ ] SDL_CleanupTLS
 - [ ] SDL_ClearAudioStream
 - [x] SDL_ClearClipboardData
-- [ ] SDL_ClearComposition
+- [x] SDL_ClearComposition
 - [x] SDL_ClearError
 - [x] SDL_ClearProperty
 - [ ] SDL_ClearSurface
@@ -562,13 +562,13 @@ Almost feature complete:
 - [ ] SDL_GetJoystickTypeForID
 - [ ] SDL_GetJoystickVendor
 - [ ] SDL_GetJoystickVendorForID
-- [ ] SDL_GetKeyboardFocus
-- [ ] SDL_GetKeyboardNameForID
-- [ ] SDL_GetKeyboards
-- [ ] SDL_GetKeyboardState
-- [ ] SDL_GetKeyFromName
-- [ ] SDL_GetKeyFromScancode
-- [ ] SDL_GetKeyName
+- [x] SDL_GetKeyboardFocus
+- [x] SDL_GetKeyboardNameForID
+- [x] SDL_GetKeyboards
+- [x] SDL_GetKeyboardState
+- [x] SDL_GetKeyFromName
+- [x] SDL_GetKeyFromScancode
+- [x] SDL_GetKeyName
 - [ ] SDL_GetLogOutputFunction
 - [ ] SDL_GetLogPriority
 - [ ] SDL_GetMasksForPixelFormat
@@ -576,7 +576,7 @@ Almost feature complete:
 - [ ] SDL_GetMaxHapticEffectsPlaying
 - [ ] SDL_GetMemoryFunctions
 - [ ] SDL_GetMice
-- [ ] SDL_GetModState
+- [x] SDL_GetModState
 - [ ] SDL_GetMouseFocus
 - [ ] SDL_GetMouseNameForID
 - [ ] SDL_GetMouseState
@@ -653,9 +653,9 @@ Almost feature complete:
 - [ ] SDL_GetRGB
 - [ ] SDL_GetRGBA
 - [ ] SDL_GetSandbox
-- [ ] SDL_GetScancodeFromKey
-- [ ] SDL_GetScancodeFromName
-- [ ] SDL_GetScancodeName
+- [x] SDL_GetScancodeFromKey
+- [x] SDL_GetScancodeFromName
+- [x] SDL_GetScancodeName
 - [ ] SDL_GetSemaphoreValue
 - [ ] SDL_GetSensorData
 - [ ] SDL_GetSensorFromID
@@ -1526,7 +1526,7 @@ Almost feature complete:
 - [ ] SDL_IOStream
 - [ ] SDL_Joystick
 - [ ] SDL_JoystickID
-- [ ] SDL_KeyboardID
+- [x] SDL_KeyboardID
 - [x] SDL_Keycode
 - [x] SDL_Keymod
 - [ ] SDL_LogOutputFunction
@@ -1819,6 +1819,7 @@ Almost feature complete:
 - CategoryEvents
 - CategoryGPU
 - CategoryInit
+- CategoryKeyboard
 - CategoryKeycode
 - CategoryLocale
 - CategoryLog
@@ -1871,6 +1872,7 @@ Almost feature complete:
 - SDL_CancelGPUCommandBuffer
 - SDL_ClaimWindowForGPUDevice
 - SDL_ClearClipboardData
+- SDL_ClearComposition
 - SDL_ClearError
 - SDL_ClearProperty
 - SDL_ComposeCustomBlendMode
@@ -1923,6 +1925,14 @@ Almost feature complete:
 - SDL_GetGPUShaderFormats
 - SDL_GetGPUSwapchainTextureFormat
 - SDL_GetGPUTextureFormatFromPixelFormat
+- SDL_GetKeyboardFocus
+- SDL_GetKeyboardNameForID
+- SDL_GetKeyboards
+- SDL_GetKeyboardState
+- SDL_GetKeyFromName
+- SDL_GetKeyFromScancode
+- SDL_GetKeyName
+- SDL_GetModState
 - SDL_GetNumberProperty
 - SDL_GetNumGPUDrivers
 - SDL_GetNumLogicalCPUCores
@@ -1942,6 +1952,9 @@ Almost feature complete:
 - SDL_GetRectUnion
 - SDL_GetRectUnionFloat
 - SDL_GetRevision
+- SDL_GetScancodeFromKey
+- SDL_GetScancodeFromName
+- SDL_GetScancodeName
 - SDL_GetStringProperty
 - SDL_GetSystemPageSize
 - SDL_GetSystemRAM
@@ -2074,6 +2087,7 @@ Almost feature complete:
 - SDL_GPUTextureUsageFlags
 - SDL_GPUTransferBuffer
 - SDL_InitFlags
+- SDL_KeyboardID
 - SDL_Keycode
 - SDL_Keymod
 - SDL_MessageBoxButtonFlags
@@ -2244,7 +2258,6 @@ Almost feature complete:
 - CategoryIntrinsics
 - CategoryIOStream
 - CategoryJoystick
-- CategoryKeyboard
 - CategoryMetal
 - CategoryMutex
 - CategoryProcess
@@ -2309,7 +2322,6 @@ Almost feature complete:
 - SDL_ceilf
 - SDL_CleanupTLS
 - SDL_ClearAudioStream
-- SDL_ClearComposition
 - SDL_ClearSurface
 - SDL_ClickTrayEntry
 - SDL_CloseAsyncIO
@@ -2618,13 +2630,6 @@ Almost feature complete:
 - SDL_GetJoystickTypeForID
 - SDL_GetJoystickVendor
 - SDL_GetJoystickVendorForID
-- SDL_GetKeyboardFocus
-- SDL_GetKeyboardNameForID
-- SDL_GetKeyboards
-- SDL_GetKeyboardState
-- SDL_GetKeyFromName
-- SDL_GetKeyFromScancode
-- SDL_GetKeyName
 - SDL_GetLogOutputFunction
 - SDL_GetLogPriority
 - SDL_GetMasksForPixelFormat
@@ -2632,7 +2637,6 @@ Almost feature complete:
 - SDL_GetMaxHapticEffectsPlaying
 - SDL_GetMemoryFunctions
 - SDL_GetMice
-- SDL_GetModState
 - SDL_GetMouseFocus
 - SDL_GetMouseNameForID
 - SDL_GetMouseState
@@ -2690,9 +2694,6 @@ Almost feature complete:
 - SDL_GetRGB
 - SDL_GetRGBA
 - SDL_GetSandbox
-- SDL_GetScancodeFromKey
-- SDL_GetScancodeFromName
-- SDL_GetScancodeName
 - SDL_GetSemaphoreValue
 - SDL_GetSensorData
 - SDL_GetSensorFromID
@@ -3435,7 +3436,6 @@ Almost feature complete:
 - SDL_IOStream
 - SDL_Joystick
 - SDL_JoystickID
-- SDL_KeyboardID
 - SDL_LogOutputFunction
 - SDL_main_func
 - SDL_MainThreadCallback

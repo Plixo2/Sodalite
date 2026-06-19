@@ -265,9 +265,13 @@ public enum Scancode {
     CALL(SDL_SCANCODE_CALL()),
     ENDCALL(SDL_SCANCODE_ENDCALL()),
     RESERVED(SDL_SCANCODE_RESERVED()),
-    COUNT(SDL_SCANCODE_COUNT()),
 
     ;
+
+    public static int getMaxCount() {
+        return SDL_SCANCODE_COUNT();
+    };
+
 
     public Keycode toKeycode() {
         return Keycode.fromCode(this.code);
@@ -280,6 +284,7 @@ public enum Scancode {
     public static Scancode fromCode(int code) {
         return codeMap.getOrDefault(code, UNKNOWN);
     }
+
 
     private final int code;
     public int code() {

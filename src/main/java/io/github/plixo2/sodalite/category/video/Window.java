@@ -10,7 +10,6 @@ import java.lang.foreign.MemorySegment;
 /// @sdlAPI SDL_Window
 public class Window extends ResourceObject {
     private final MemorySegment segment;
-    private final int id;
 
     Window(
             ResourceSet resources,
@@ -18,7 +17,15 @@ public class Window extends ResourceObject {
     ) {
         resources.register(this, () -> Video.destroyWindow(segment));
         this.segment = segment;
-        this.id = Video.getWindowID(this);
+    }
+    private Window(
+            MemorySegment segment
+    ) {
+        this.segment = segment;
+    }
+
+    public static Window newUnchecked(MemorySegment windowPointer) {
+        return new Window(windowPointer);
     }
 
     public MemorySegment segment() {
@@ -27,8 +34,7 @@ public class Window extends ResourceObject {
     }
 
     public int id() {
-        ensureNotReleased();
-        return this.id;
+        return Video.getWindowID(this);
     }
 
     public Vector2i getSize(Vector2i in) {

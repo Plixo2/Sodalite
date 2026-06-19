@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.keycode;
 
+import io.github.plixo2.sodalite.category.keyboard.Keyboard;
 import io.github.plixo2.sodalite.category.scancode.Scancode;
 import lombok.RequiredArgsConstructor;
 
@@ -286,9 +287,14 @@ public enum Keycode {
         return codeMap.getOrDefault(code, UNKNOWN);
     }
 
-    public static Keycode scancodeToKeycode(Scancode scancode) {
+    /// @sdlAPI SDL_SCANCODE_TO_KEYCODE
+    public static Keycode fromScancode(Scancode scancode) {
         var keycode = scancode.code() | SCANCODE_MASK;
         return fromCode(keycode);
+    }
+
+    public static Keycode fromScancode(Scancode scancode, @Keymod int modstate, boolean key_event) {
+        return Keyboard.getKeyFromScancode(scancode, modstate, key_event);
     }
 
     private final int code;
