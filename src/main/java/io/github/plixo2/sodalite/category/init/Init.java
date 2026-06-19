@@ -27,7 +27,8 @@ public class Init {
 
     public static void ensureInit(@InitFlags int flags) {
         forEachFlag(
-                flags & InitFlags.MASK,
+                flags,
+                InitFlags.MASK,
                 (@InitFlags int flag) -> {
                     if (!wasInit(flag)) {
                         initSubSystem(flag);

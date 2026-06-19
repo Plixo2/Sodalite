@@ -2,6 +2,7 @@ package io.github.plixo2.sodalite.category.gpu;
 
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
+import lombok.With;
 
 import java.io.IOException;
 import java.lang.foreign.MemorySegment;
@@ -66,64 +67,68 @@ public class Shader extends ResourceObject {
         }
     }
 
+    @With
     public record Parameters(
             String entryPoint,
-            int num_samplers,
-            int num_storage_textures,
-            int num_storage_buffers,
-            int num_uniform_buffers
+            int numSamplers,
+            int numStorageTextures,
+            int numStorageBuffers,
+            int numUniformBuffers
     ) {
         public Parameters {
-            if (num_samplers < 0) throw new IllegalArgumentException("num_samplers must be non-negative");
-            if (num_storage_textures < 0) throw new IllegalArgumentException("num_storage_textures must be non-negative");
-            if (num_storage_buffers < 0) throw new IllegalArgumentException("num_storage_buffers must be non-negative");
-            if (num_uniform_buffers < 0) throw new IllegalArgumentException("num_uniform_buffers must be non-negative");
+            if (numSamplers < 0) throw new IllegalArgumentException("numSamplers must be non-negative");
+            if (numStorageTextures < 0) throw new IllegalArgumentException("numStorageTextures must be non-negative");
+            if (numStorageBuffers < 0) throw new IllegalArgumentException("numStorageBuffers must be non-negative");
+            if (numUniformBuffers < 0) throw new IllegalArgumentException("numUniformBuffers must be non-negative");
             if (entryPoint.isEmpty()) throw new IllegalArgumentException("entryPoint must be non-empty");
         }
 
         public Parameters(
-                int num_samplers,
-                int num_storage_textures,
-                int num_storage_buffers,
-                int num_uniform_buffers
+                int numSamplers,
+                int numStorageTextures,
+                int numStorageBuffers,
+                int numUniformBuffers
         ) {
             this(
                     "main",
-                    num_samplers,
-                    num_storage_textures,
-                    num_storage_buffers,
-                    num_uniform_buffers
+                    numSamplers,
+                    numStorageTextures,
+                    numStorageBuffers,
+                    numUniformBuffers
             );
         }
 
         public static Parameters of(
                 String entryPoint,
-                int num_samplers,
-                int num_storage_textures,
-                int num_storage_buffers,
-                int num_uniform_buffers
+                int numSamplers,
+                int numStorageTextures,
+                int numStorageBuffers,
+                int numUniformBuffers
         ) {
             return new Parameters(
                     entryPoint,
-                    num_samplers,
-                    num_storage_textures,
-                    num_storage_buffers,
-                    num_uniform_buffers
+                    numSamplers,
+                    numStorageTextures,
+                    numStorageBuffers,
+                    numUniformBuffers
             );
         }
 
         public static Parameters of(
-                int num_samplers,
-                int num_storage_textures,
-                int num_storage_buffers,
-                int num_uniform_buffers
+                int numSamplers,
+                int numStorageTextures,
+                int numStorageBuffers,
+                int numUniformBuffers
         ) {
             return new Parameters(
-                    num_samplers,
-                    num_storage_textures,
-                    num_storage_buffers,
-                    num_uniform_buffers
+                    numSamplers,
+                    numStorageTextures,
+                    numStorageBuffers,
+                    numUniformBuffers
             );
+        }
+        public static Parameters none() {
+            return Parameters.of(0, 0, 0, 0);
         }
 
     }

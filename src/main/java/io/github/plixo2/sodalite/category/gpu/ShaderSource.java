@@ -3,6 +3,7 @@ package io.github.plixo2.sodalite.category.gpu;
 import io.github.plixo2.sodalite.file.FileIO;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
@@ -16,8 +17,8 @@ public sealed interface ShaderSource<T extends Exception> {
     static ShaderSource<IOException> of(@ShaderFormat int shaderFormat, Path path) {
         return new File(shaderFormat, path);
     }
-    static ShaderSource<IOException> of(@ShaderFormat int shaderFormat, java.io.InputStream inputStream) {
-        return new InputStream(shaderFormat, inputStream);
+    static ShaderSource<IOException> of(@ShaderFormat int shaderFormat, InputStream inputStream) {
+        return new Stream(shaderFormat, inputStream);
     }
     static ShaderSource<RuntimeException> of(@ShaderFormat int shaderFormat, byte[] bytes) {
         return new ByteArray(shaderFormat, bytes);
@@ -30,11 +31,11 @@ public sealed interface ShaderSource<T extends Exception> {
     record File(@ShaderFormat int shaderFormat, Path path) implements ShaderSource<IOException> {
         @Override
         public MemorySegment load(Arena arena) throws IOException {
-            return FileIO.loadFile(arena, this.path);
+            return FileIO.load(arena, this.path);
         }
     }
 
-    record InputStream(@ShaderFormat int shaderFormat, java.io.InputStream inputStream) implements ShaderSource<IOException> {
+    record Stream(@ShaderFormat int shaderFormat, InputStream inputStream) implements ShaderSource<IOException> {
         @Override
         public MemorySegment load(Arena arena) throws IOException {
             var bytes = this.inputStream.readAllBytes();

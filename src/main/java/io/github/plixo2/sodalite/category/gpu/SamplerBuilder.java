@@ -25,6 +25,13 @@ public class SamplerBuilder implements SamplerInfo {
 
     public static SamplerBuilder of(
             Filter filter,
+            SamplerAddressMode addressMode
+    ) {
+        return of(filter, addressMode, 0.0f);
+    }
+
+    public static SamplerBuilder of(
+            Filter filter,
             SamplerAddressMode addressMode,
             float maxLod
     ) {
@@ -44,6 +51,8 @@ public class SamplerBuilder implements SamplerInfo {
                 false
         );
     }
+
+
 
     public static SamplerBuilder of(SamplerInfo info) {
         return new SamplerBuilder(

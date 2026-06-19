@@ -41,6 +41,9 @@ public class FRect {
     public static FRect of(FRect rect) {
         return new FRect(rect.x, rect.y, rect.width, rect.height);
     }
+    public static FRect of(Vector4f vector4f) {
+        return new FRect(vector4f.x, vector4f.y, vector4f.z, vector4f.w);
+    }
     private static FRect of(MemorySegment segment) {
         return new FRect(
                 SDL_FRect.x(segment),

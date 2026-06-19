@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.CheckReturnValue;
 import io.github.plixo2.sodalite.category.video.Window;
 import io.github.plixo2.sodalite.resource.ResourceObject;
@@ -26,7 +27,7 @@ public class Device extends ResourceObject {
     }
 
     /// @return a AutoCloseable, which will release the claim when closed.
-    @CheckReturnValue
+    @CanIgnoreReturnValue
     public WindowClaim claimWindow(Window window) {
         GPU.claimWindowForDevice(this, window);
         return new WindowClaim(window);
@@ -117,10 +118,10 @@ public class Device extends ResourceObject {
                 parameter.entryPoint(),
                 creator.source().shaderFormat(),
                 stage,
-                parameter.num_samplers(),
-                parameter.num_storage_textures(),
-                parameter.num_storage_buffers(),
-                parameter.num_uniform_buffers()
+                parameter.numSamplers(),
+                parameter.numStorageTextures(),
+                parameter.numStorageBuffers(),
+                parameter.numUniformBuffers()
         );
     }
 
@@ -187,12 +188,11 @@ public class Device extends ResourceObject {
 
     public <T extends Exception> ComputePipeline createComputePipeline(
             ResourceSet resources,
-            Device device,
             ComputeShader.Creator<T> creator
     ) throws T {
         return GPU.createComputePipeline(
                 resources,
-                device,
+                this,
                 creator
         );
     }

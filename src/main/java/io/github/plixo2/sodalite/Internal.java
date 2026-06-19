@@ -118,6 +118,9 @@ public final class Internal {
             return segment.getString(0);
         }
     }
+    public static void forEachFlag(int bitset, int mask, IntConsumer consumer) {
+        forEachFlag(bitset & mask, consumer);
+    }
     public static void forEachFlag(int bitset, IntConsumer consumer) {
 
         int current = bitset;
@@ -126,12 +129,12 @@ public final class Internal {
             consumer.accept(lowestBit);
             current &= ~lowestBit; // remove bit
         }
-
     }
 
     public static Iterable<Integer> extractFlags(int bitset, int mask) {
         return extractFlags(bitset & mask);
     }
+
 
     public static Iterable<Integer> extractFlags(int bitset) {
         return () -> new Iterator<>() {

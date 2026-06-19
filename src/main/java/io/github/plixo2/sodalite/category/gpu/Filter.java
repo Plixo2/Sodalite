@@ -2,7 +2,7 @@ package io.github.plixo2.sodalite.category.gpu;
 
 /// @sdlAPI SDL_GPUFilter
 public enum Filter {
-    NEAREST,
+    NEAREST,    // default
     LINEAR,
 
     ;

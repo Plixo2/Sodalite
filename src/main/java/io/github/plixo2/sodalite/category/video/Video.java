@@ -39,14 +39,7 @@ public class Video {
     }
 
     /// @sdlAPI SDL_DestroyWindow
-    static void destroyWindow(Window.GPUClaim claim, MemorySegment window) {
-        if (claim.claimed) {
-            throw new IllegalStateException(
-                    "Cannot destroy window while it is claimed by a GPU device. "
-                    + "Call Device.releaseWindowForDevice(window) before destroying the window"
-            );
-        }
-
+    static void destroyWindow(MemorySegment window) {
         SDL_DestroyWindow(window);
     }
 

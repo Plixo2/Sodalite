@@ -7,6 +7,8 @@ import org.libsdl.sdl.SDL_GPUGraphicsPipelineTargetInfo;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.SegmentAllocator;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /// @sdlAPI SDL_GPUGraphicsPipelineTargetInfo
@@ -30,7 +32,17 @@ public record GraphicsPipelineTargetInfo(
     }
     public static GraphicsPipelineTargetInfo of(
             @Nullable TextureFormat depthStencilFormat,
-            ColorTargetDescription... colorTargetDescriptions
+            ColorTargetDescription fst,
+            ColorTargetDescription... rest
+    ) {
+        var list = new ArrayList<ColorTargetDescription>(rest.length + 1);
+        list.add(fst);
+        Collections.addAll(list, rest);
+        return new GraphicsPipelineTargetInfo(list, depthStencilFormat);
+    }
+    public static GraphicsPipelineTargetInfo of(
+            @Nullable TextureFormat depthStencilFormat,
+            ColorTargetDescription[] colorTargetDescriptions
     ) {
         return new GraphicsPipelineTargetInfo(List.of(colorTargetDescriptions), depthStencilFormat);
     }

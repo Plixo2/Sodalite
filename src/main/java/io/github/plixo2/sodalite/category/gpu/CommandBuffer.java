@@ -58,6 +58,7 @@ public class CommandBuffer implements AutoCloseable {
         this.isSubmitted = true;
     }
 
+    @CheckReturnValue
     public Fence closeAndAcquireFence(ResourceSet resources) {
         if (this.acquiredSwapchainTexture != null) {
             this.acquiredSwapchainTexture.markReleased();

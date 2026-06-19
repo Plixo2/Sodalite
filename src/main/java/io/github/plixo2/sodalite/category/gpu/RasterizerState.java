@@ -36,7 +36,7 @@ public record RasterizerState(
         return new RasterizerState(
                 FillMode.FILL,
                 CullMode.BACK,
-                FrontFace.DEFAULT()
+                FrontFace.defaultValue()
         );
     }
 

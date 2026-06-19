@@ -56,7 +56,7 @@ public class Events {
     /// This method will also call {@link PendingFrees#drain()}
     ///
     /// @threadSafety This function should only be called on the main thread
-    public static void pollEvents(List<? extends EventConsumer> consumers) {
+    public static void pollEvents(Iterable<? extends EventConsumer> consumers) {
         try (var arena = Arena.ofConfined()) {
             var eventOut = SDL_Event.allocate(arena);
             //noinspection StatementWithEmptyBody
@@ -100,7 +100,7 @@ public class Events {
 
     private static boolean pollSingleEvent(
             MemorySegment eventOut,
-            List<? extends EventConsumer> consumers
+            Iterable<? extends EventConsumer> consumers
     ) {
         var hasEvent = SDL_PollEvent(eventOut);
         if (hasEvent) {

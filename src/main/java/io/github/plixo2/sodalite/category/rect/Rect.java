@@ -44,6 +44,9 @@ public class Rect {
     public static Rect of(int x, int y, int width, int height) {
         return new Rect(x, y, width, height);
     }
+    public static Rect of(Vector4i vector4i) {
+        return new Rect(vector4i.x, vector4i.y, vector4i.z, vector4i.w);
+    }
     public static Rect of(Rect rect) {
         return new Rect(rect.x, rect.y, rect.width, rect.height);
     }

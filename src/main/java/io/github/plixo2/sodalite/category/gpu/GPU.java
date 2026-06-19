@@ -3,7 +3,6 @@ package io.github.plixo2.sodalite.category.gpu;
 import io.github.plixo2.sodalite.category.init.Init;
 import io.github.plixo2.sodalite.category.init.InitFlags;
 import io.github.plixo2.sodalite.category.pixels.PixelFormat;
-import io.github.plixo2.sodalite.category.video.GPUPackageAccess;
 import io.github.plixo2.sodalite.category.video.Window;
 import io.github.plixo2.sodalite.memory.WriteBuffer;
 import io.github.plixo2.sodalite.resource.ResourceSet;
@@ -22,9 +21,6 @@ import static io.github.plixo2.sodalite.Internal.*;
 /// @sdlCategory CategoryGPU
 public final class GPU {
     private GPU() {}
-
-    private static final GPUPackageAccess internalWindowAccess = new GPUPackageAccess(new GPU());
-
 
     /// @sdlAPI SDL_CreateGPUDevice
     public static Device createDevice(
@@ -104,16 +100,11 @@ public final class GPU {
     /// @sdlAPI SDL_ClaimWindowForGPUDevice
     static void claimWindowForDevice(Device gpuDevice, Window window) {
         check(SDL_ClaimWindowForGPUDevice(gpuDevice.segment(), window.segment()));
-        internalWindowAccess.setClaimedGPU(window, true);
     }
 
     /// @sdlAPI SDL_ReleaseWindowFromGPUDevice
     static void releaseWindowFromGPUDevice(Device gpuDevice, Window window) {
-        if (!window.isClaimedbyGPU()) {
-            throw new IllegalStateException("Window is not claimed by a Device");
-        }
         SDL_ReleaseWindowFromGPUDevice(gpuDevice.segment(), window.segment());
-        internalWindowAccess.setClaimedGPU(window, false);
     }
 
 
@@ -854,12 +845,12 @@ public final class GPU {
                     codeSegment,
                     entryPointSegment,
                     source.shaderFormat(),
-                    parameter.num_samplers(),
-                    parameter.num_readwrite_storage_textures(),
-                    parameter.num_readonly_storage_buffers(),
-                    parameter.num_readwrite_storage_textures(),
-                    parameter.num_readwrite_storage_buffers(),
-                    parameter.num_uniform_buffers(),
+                    parameter.numSamplers(),
+                    parameter.numReadonlyStorageTextures(),
+                    parameter.numReadonlyStorageBuffers(),
+                    parameter.numReadwriteStorageTextures(),
+                    parameter.numReadwriteStorageBuffers(),
+                    parameter.numUniformBuffers(),
                     threadCount.x(),
                     threadCount.y(),
                     threadCount.z(),

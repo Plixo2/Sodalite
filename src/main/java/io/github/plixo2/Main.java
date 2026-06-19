@@ -1,14 +1,15 @@
 
 
-import io.github.plixo2.sodalite.category.clipboard.Clipboard;
 import io.github.plixo2.sodalite.category.version.Version;
 import io.github.plixo2.sodalite.category.version.VersionTarget;
-import io.github.plixo2.sodalite.file.ImageChannels;
-import io.github.plixo2.sodalite.file.ImageDynamicRange;
-import io.github.plixo2.sodalite.file.ImageLoader;
+import io.github.plixo2.sodalite.file.FileIO;
+import io.github.plixo2.sodalite.file.image.ImageChannels;
+import io.github.plixo2.sodalite.file.image.ImageDynamicRange;
+import io.github.plixo2.sodalite.file.image.ImageLoader;
 import io.github.plixo2.sodalite.category.events.EventConsumer;
 import io.github.plixo2.sodalite.category.timer.Timer;
 import io.github.plixo2.sodalite.category.video.Window;
+import io.github.plixo2.sodalite.file.image.ImageSource;
 import io.github.plixo2.sodalite.memory.*;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import io.github.plixo2.sodalite.category.events.Events;
@@ -27,7 +28,6 @@ import org.joml.Vector2i;
 import org.joml.Vector4f;
 
 
-import java.awt.*;
 import java.io.IOException;
 import java.lang.foreign.*;
 import java.nio.file.Path;
@@ -45,9 +45,9 @@ struct Vertex
 */
 
 static StructLayout vertexLayout = MemoryLayout.structLayout(
-    Layouts.VECTOR_3F.withName("position"),
-    Layouts.VECTOR_4F.withName("color"),
-    Layouts.VECTOR_2F.withName("uv")
+    Layouts.FLOAT_3.withName("position"),
+    Layouts.FLOAT_4.withName("color"),
+    Layouts.FLOAT_2.withName("uv")
 );
 
 static WriteBuffer<?> createVerticies() {
@@ -139,9 +139,9 @@ static class Instance implements EventConsumer {
     }
 
 
-    void run(ResourceSet appResources) throws IOException {
+    void run() throws IOException {
 
-
+        var appResources = ResourceSet.global();
 //        var tray = Tray.createTray(appResources, null, "Tray stuff");
 //        var menu = tray.createMenu();
 //        menu.addButton("Set Clipboard 0").setCallback(ref -> {
@@ -236,6 +236,7 @@ static class Instance implements EventConsumer {
                 );
                 testTextures.add(texture);
             }
+
         }
 
         var exampleTextures = new Texture[exampleSamplers.length];
@@ -377,7 +378,7 @@ static Texture loadTexture(
     try (var textureData = ResourceSet.ofConfined()) {
         var imageData = ImageLoader.load(
                 textureData.arena(),
-                path,
+                ImageSource.of(path),
                 ImageDynamicRange.SDR,
                 ImageChannels.RGBA
         ).orThrow(IOException::new);
@@ -411,33 +412,56 @@ static Texture loadTexture(
     }
 }
 
+
+
 void run() throws IOException {
 
-    try (var staticResourc = ResourceSet.ofConfined()) {
-        var window = Video.createWindow(
-                staticResourc,
-                "Hello World",
-                800, 600,
-                WindowFlags.RESIZABLE | WindowFlags.HIGH_PIXEL_DENSITY
-        );
-        time("Window Creation");
-        var gpu = GPU.createDevice(
-                staticResourc,
-                ShaderFormat.SPIRV,
-                true,
-                GPUDriver.optimal()
-        );
-        time("GPU Creation");
+//    var dir =
+//            Path.of("examples/src/main/resources/gpu_examples/Images/bcn/");
+//    try (var stream = Files.walk(dir)) {
+//        for (var path : stream.filter(Files::isRegularFile).toList()) {
+//            try (var imgData = Arena.ofConfined()) {
+//                System.out.println(path);
+//                var a = ImageLoader.loadDDS(imgData, ImageSource.of(path));
+//                var b = a.orThrow(IOException::new);
+//            }
+//        }
+//    }
+//
+//    dir =
+//            Path.of("examples/src/main/resources/gpu_examples/Images/astc/");
+//    try (var stream = Files.walk(dir)) {
+//        for (var path : stream.filter(Files::isRegularFile).toList()) {
+//            try (var imgData = Arena.ofConfined()) {
+//                System.out.println(path);
+//                var a = ImageLoader.loadASTC(imgData, ImageSource.of(path));
+//                var b = a.orThrow(IOException::new);
+//            }
+//        }
+//    }
 
-        try (
-            var _ = gpu.claimWindow(window);
-            var appResources = ResourceSet.ofConfined()
-        ) {
-            var instance = new Instance(window, gpu);
-            instance.run(appResources);
-        }
+
+    var window = Video.createWindow(
+            ResourceSet.global(),
+            "Hello World",
+            800, 600,
+            WindowFlags.RESIZABLE | WindowFlags.HIGH_PIXEL_DENSITY
+    );
+    time("Window Creation");
+    var gpu = GPU.createDevice(
+            ResourceSet.global(),
+            ShaderFormat.SPIRV,
+            true,
+            GPUDriver.optimal()
+    );
+    time("GPU Creation");
+
+    try (
+        var _ = gpu.claimWindow(window);
+    ) {
+        var instance = new Instance(window, gpu);
+        instance.run();
     }
-
 }
 
 void main() throws IOException {

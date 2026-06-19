@@ -27,24 +27,27 @@ Minimal 'Hello Triangle' example using `SDL_gpu`, [originally written in C by Ha
 
 ```java
 public class GPUHelloTriangle implements Callbacks {
-    /// struct Vertex
-    /// {
+    // ```c
+    /// struct Vertex {
     ///     float x, y, z;      //vec3 position
     ///     float r, g, b, a;   //vec4 color
-    /// };
+    /// }
+    /// ```
+    /// This will also be used to set up the vertex input state for the pipeline
     static StructLayout Vertex = MemoryLayout.structLayout(
             Layouts.VECTOR_3F.withName("position"),
             Layouts.VECTOR_4F.withName("color")
     );
     WriteBuffer<?> vertices = ConstantWriteBuffer.allocate(ResourceSet.global(), Vertex, 3)
-        .writeFloats( 0.0f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f)
-        .writeFloats(-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 0.0f, 1.0f)
-        .writeFloats( 0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 1.0f, 1.0f);
+         .writeFloats( 0.0f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f)
+         .writeFloats(-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 0.0f, 1.0f)
+         .writeFloats( 0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 1.0f, 1.0f);
 
-    /// struct UniformBuffer
-    /// {
+    /// ```c
+    /// struct UniformBuffer {
     ///     float time;
-    /// };
+    /// }
+    /// ```
     static StructLayout UniformBuffer = MemoryLayout.structLayout(
             Layouts.FLOAT.withName("time")
     );
@@ -52,15 +55,11 @@ public class GPUHelloTriangle implements Callbacks {
 
     Window window;
     Device device;
-    Device.WindowClaim claim;
     Buffer vertexBuffer;
     GraphicsPipeline pipeline;
 
     @Override
     public AppResult onWindowCloseRequested(long timestamp, int windowID) {
-        if (this.window.id() != windowID) {
-            return AppResult.CONTINUE;
-        }
         return AppResult.SUCCESS;
     }
 
@@ -78,35 +77,34 @@ public class GPUHelloTriangle implements Callbacks {
                 true,
                 GPUDriver.optimal()
         );
-        this.claim = this.device.claimWindow(this.window);
+        var _ = this.device.claimWindow(this.window);
 
-        var format = this.device.supportsShaderFormat(ShaderFormat.SPIRV)
-                ? ShaderFormat.SPIRV
-                : ShaderFormat.DXIL;
-        var ext = format == ShaderFormat.SPIRV ? "spv" : "dxil";
-        var dir = format == ShaderFormat.SPIRV ? "spirv" : "dxil";
+        var useSpirv = this.device.supportsShaderFormat(ShaderFormat.SPIRV);
+        var format = useSpirv ? ShaderFormat.SPIRV : ShaderFormat.DXIL;
+        var ext = useSpirv ? "spv" : "dxil";
+        var dir = useSpirv ? "spirv" : "dxil";
 
         this.pipeline = this.device.createGraphicsPipeline(
-                ResourceSet.global(),
-                Shader.Creator.of(
-                        format,
-                        GPUHelloTriangle.class.getResourceAsStream("/GPUHelloTriangle/" + dir + "/vertex." + ext),
-                        Shader.Parameters.of(0, 0, 0, 0)
-                ),
-                Shader.Creator.of(
-                        format,
-                        GPUHelloTriangle.class.getResourceAsStream("/GPUHelloTriangle/" + dir + "/fragment." + ext),
-                        Shader.Parameters.of(0, 0, 0, 1)
-                ),
-                PrimitiveType.TRIANGLELIST,
-                VertexInputState.of(0, Vertex, VertexInputState.Rate.VERTEX),
-                RasterizerState.defaultValue(),
-                MultisampleState.disabled(),
-                DepthStencilState.disabled(),
-                GraphicsPipelineTargetInfo.of(
-                        this.device.getSwapchainTextureFormat(this.window),
-                        ColorTargetBlendState.standardAlphaBlend()
-                )
+            ResourceSet.global(),
+            Shader.Creator.of(
+                format,
+                GPUHelloTriangle.class.getResourceAsStream("/GPUHelloTriangle/" + dir + "/vertex." + ext),
+                Shader.Parameters.of(0, 0, 0, 0)
+            ),
+            Shader.Creator.of(
+                format,
+                GPUHelloTriangle.class.getResourceAsStream("/GPUHelloTriangle/" + dir + "/fragment." + ext),
+                Shader.Parameters.of(0, 0, 0, 1)
+            ),
+            PrimitiveType.TRIANGLELIST,
+            VertexInputState.of(0, Vertex, VertexInputState.Rate.VERTEX),
+            RasterizerState.defaultValue(),
+            MultisampleState.disabled(),
+            DepthStencilState.disabled(),
+            GraphicsPipelineTargetInfo.of(
+                    this.device.getSwapchainTextureFormat(this.window),
+                    ColorTargetBlendState.standardAlphaBlend()
+            )
         );
 
         this.vertexBuffer = this.device.createBuffer(
@@ -125,7 +123,7 @@ public class GPUHelloTriangle implements Callbacks {
                 mapped.memory().copyFrom(this.vertices.memory());
             }
             try (var commandBuffer = this.device.acquireCommandBuffer()) {
-                try (var copyPass = commandBuffer.beginCopyPass()){
+                try (var copyPass = commandBuffer.beginCopyPass()) {
                     copyPass.upload(transferBuffer, this.vertexBuffer, Cycle.FALSE);
                 }
             }
@@ -146,10 +144,10 @@ public class GPUHelloTriangle implements Callbacks {
                     CLEAR_COLOR,
                     Cycle.FALSE
             );
+            this.timeUniform.at("time").writeFloat(Timer.getTicksNS() / 1e9f);
             try (var renderPass = commandBuffer.beginRenderPass(null, colorTarget0)) {
                 renderPass.bindPipeline(this.pipeline);
                 renderPass.bindVertexBuffer(0, this.vertexBuffer);
-                this.timeUniform.at("time").writeFloat(Timer.getTicksNS() / 1e9f);
                 commandBuffer.pushFragmentUniform(0, this.timeUniform);
                 renderPass.drawPrimitives(3, 1, 0, 0);
             }
@@ -158,13 +156,9 @@ public class GPUHelloTriangle implements Callbacks {
     }
 
     @Override
-    public void quit(AppResult result) {
-        if (this.claim != null) {
-            this.claim.close();
-        }
-    }
-}
+    public void quit(AppResult result) {}
 
+}
 ```
 
 </details>

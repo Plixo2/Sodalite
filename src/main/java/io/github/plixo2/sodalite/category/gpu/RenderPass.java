@@ -5,6 +5,7 @@ import io.github.plixo2.sodalite.category.rect.Rect;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4f;
+import org.joml.Vector4i;
 import org.libsdl.sdl.SDL_FColor;
 import org.libsdl.sdl.SDL_GPUColorTargetInfo;
 import org.libsdl.sdl.SDL_GPUDepthStencilTargetInfo;
@@ -211,6 +212,12 @@ public class RenderPass implements AutoCloseable {
             Rect rect
     ) {
         setScissor(rect.x(), rect.y(), rect.width(), rect.height());
+    }
+
+    public void setScissor(
+            Vector4i rect
+    ) {
+        setScissor(rect.x, rect.y, rect.z, rect.w);
     }
 
     public void setViewport(Viewport viewport) {

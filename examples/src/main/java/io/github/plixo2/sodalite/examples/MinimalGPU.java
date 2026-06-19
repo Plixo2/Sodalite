@@ -11,6 +11,7 @@ import io.github.plixo2.sodalite.resource.ResourceSet;
 import org.joml.Vector4f;
 
 /// A minimal gpu example
+/// @see MainCallbacks for the version using the main callbacks instead of manual event polling
 class MinimalGPU implements EventConsumer {
     boolean running = true;
     Window window;
@@ -29,7 +30,7 @@ class MinimalGPU implements EventConsumer {
         // The window will be automatically destroyed when `appLifeResources` is closed
         this.window = Video.createWindow(
                 appLifeResources,
-                "GPU Demo",
+                "GPU Example",
                 800, 600,
                 WindowFlags.RESIZABLE
         );
@@ -43,16 +44,15 @@ class MinimalGPU implements EventConsumer {
                 // the SDL choose the best driver
                 GPUDriver.optimal()
         );
+        var _ = this.device.claimWindow(this.window);
     }
 
     void run() {
         // Associate the window with the GPU device, so that we can render to it.
         // The try-with-resources block will automatically release the claim
-        try (var _ = this.device.claimWindow(this.window)) {
-            while (this.running) {
-                Events.pollEvents(this);
-                frame();
-            }
+        while (this.running) {
+            Events.pollEvents(this);
+            frame();
         }
     }
 
@@ -84,7 +84,7 @@ class MinimalGPU implements EventConsumer {
     void main() {
         // Provide metadata about your app
         // "This is not required, but strongly encouraged"
-        Init.setAppMetaData("Sodalite App", "0.0.1", "com.example.sodalite");
+        Init.setAppMetaData("MinimalGPU", "0.0.1", "com.example.sodalite");
 
         // A ResourceSet manages resource lifetimes
         try (var appLifeResources = ResourceSet.ofConfined()) {

@@ -158,6 +158,12 @@ public enum TextureFormat {
     }
 
     public long calculateTextureSize(
+        TextureInfo texture
+    ) {
+        return calculateTextureSize(texture.width(), texture.height(), texture.layerCountOrDepth());
+    }
+
+    public long calculateTextureSize(
             long width,
             long height,
             long depthOrLayerCount

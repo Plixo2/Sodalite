@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import lombok.With;
 import org.joml.Vector2i;
 import org.joml.Vector3i;
 
@@ -56,26 +57,27 @@ public class ComputeShader {
         }
     }
 
+    @With
     public record Parameters(
             String entryPoint,
-            int num_samplers,
-            int num_readonly_storage_textures,
-            int num_readonly_storage_buffers,
-            int num_readwrite_storage_textures,
-            int num_readwrite_storage_buffers,
-            int num_uniform_buffers
+            int numSamplers,
+            int numReadonlyStorageTextures,
+            int numReadonlyStorageBuffers,
+            int numReadwriteStorageTextures,
+            int numReadwriteStorageBuffers,
+            int numUniformBuffers
     ) {
         public Parameters {
-            if (num_samplers < 0) throw new IllegalArgumentException("num_samplers must be non-negative");
-            if (num_readonly_storage_textures < 0)
+            if (numSamplers < 0) throw new IllegalArgumentException("num_samplers must be non-negative");
+            if (numReadonlyStorageTextures < 0)
                 throw new IllegalArgumentException("num_readonly_storage_textures must be non-negative");
-            if (num_readonly_storage_buffers < 0)
+            if (numReadonlyStorageBuffers < 0)
                 throw new IllegalArgumentException("num_readonly_storage_buffers must be non-negative");
-            if (num_readwrite_storage_textures < 0)
+            if (numReadwriteStorageTextures < 0)
                 throw new IllegalArgumentException("num_readwrite_storage_textures must be non-negative");
-            if (num_readwrite_storage_buffers < 0)
+            if (numReadwriteStorageBuffers < 0)
                 throw new IllegalArgumentException("num_readwrite_storage_buffers must be non-negative");
-            if (num_uniform_buffers < 0)
+            if (numUniformBuffers < 0)
                 throw new IllegalArgumentException("num_uniform_buffers must be non-negative");
             if (entryPoint.isEmpty()) throw new IllegalArgumentException("entryPoint must be non-empty");
         }
@@ -134,6 +136,9 @@ public class ComputeShader {
                     num_readwrite_storage_buffers,
                     num_uniform_buffers
             );
+        }
+        public static Parameters none() {
+            return Parameters.of(0, 0, 0, 0, 0, 0);
         }
 
     }

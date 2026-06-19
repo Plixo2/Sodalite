@@ -48,7 +48,7 @@ public class TransferBuffer extends ResourceObject {
         }
         this.mappedState.isMapped = true;
         var memory = GPU.mapGPUTransferBuffer(device, this, cycle);
-        return new Mapped(device, memory);
+        return new Mapped(device, memory.reinterpret(this.size));
     }
 
     private static class MappedState {

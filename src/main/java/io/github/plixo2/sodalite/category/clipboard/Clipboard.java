@@ -87,7 +87,7 @@ public class Clipboard {
             if (ptr.address() == 0) {
                 if (Error.getError().isEmpty()) {
                     errorMessage = "SDL_GetClipboardData failed without setting an error message, " +
-                                   "see https://github.com/libsdl-org/SDL/issues/14941";
+                                   "see https://github.com/libsdl-org/SDL/issues/15843";
                     Error.setError(errorMessage);
                 }
                 check(false);

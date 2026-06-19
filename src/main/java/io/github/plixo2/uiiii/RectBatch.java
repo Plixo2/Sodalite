@@ -35,10 +35,10 @@ public class RectBatch extends DrawBatch {
     */
 
     private static final MemoryLayout RECT_LAYOUT = MemoryLayout.structLayout(
-            Layouts.MAT_4F.withName("transform"),
-            Layouts.VECTOR_4F.withName("coords"),
-            Layouts.VECTOR_4F.withName("fill_color"),
-            Layouts.VECTOR_4F.withName("outline_color_or_uv"),
+            Layouts.FLOAT_4X4.withName("transform"),
+            Layouts.FLOAT_4.withName("coords"),
+            Layouts.FLOAT_4.withName("fill_color"),
+            Layouts.FLOAT_4.withName("outline_color_or_uv"),
             Layouts.FLOAT.withName("radius"),
             Layouts.FLOAT.withName("outline_width"),
             Layouts.UINT.withName("texture"),
@@ -46,7 +46,7 @@ public class RectBatch extends DrawBatch {
     );
 
     private static final StructLayout UNIFORM_LAYOUT = MemoryLayout.structLayout(
-            Layouts.MAT_4F.withName("projection"),
+            Layouts.FLOAT_4X4.withName("projection"),
             Layouts.INT.withName("startIndex")
     );
 

@@ -25,11 +25,11 @@ public record VertexInputState(
     }
 
     public static VertexInputState of(
-            VertexInputState... others
+            VertexInputState... descriptions
     ) {
         var vertexBufferDescriptions = new ArrayList<VertexBufferDescription>();
         var vertexAttributes = new ArrayList<VertexAttribute>();
-        for (var other : others) {
+        for (var other : descriptions) {
             vertexBufferDescriptions.addAll(other.vertexBufferDescriptions.descriptions);
             vertexAttributes.addAll(other.vertexAttributes.attributes);
         }
@@ -188,7 +188,6 @@ public record VertexInputState(
             );
             attributes.add(attrib);
         }
-
 
         var bufferDescription = BufferDescriptions.of(
                 VertexBufferDescription.of(

@@ -11,14 +11,14 @@ import org.joml.Vector4f;
 import java.util.ArrayList;
 import java.util.List;
 
-/// A minimal gpu renderer that owns one window and runs on its own thread.
+/// A multi-thread version of [io.github.plixo2.sodalite.examples.MinimalGPU]
 static class GpuWindowRenderer implements EventConsumer {
     Vector4f clearColor;
     Window window;
     Device device;
     volatile boolean running = true;
 
-    public GpuWindowRenderer(
+    GpuWindowRenderer(
             Vector4f clearColor,
             Window window,
             Device device
@@ -28,6 +28,7 @@ static class GpuWindowRenderer implements EventConsumer {
         this.device = device;
     }
 
+    /// Called from the main thread
     @Override
     public void onWindowCloseRequested(long timestamp, int windowID) {
         if (this.window.id() != windowID) {
@@ -63,7 +64,8 @@ static class GpuWindowRenderer implements EventConsumer {
 record Session(
         GpuWindowRenderer instance,
         ResourceSet resources,
-        Thread thread) {
+        Thread thread
+) {
 
     static Session create(
             ResourceSet appLifeResources,
@@ -79,14 +81,25 @@ record Session(
                 WindowFlags.RESIZABLE
         );
         var renderer = new GpuWindowRenderer(clearColor, window, device);
-        var thread = new Thread(renderer::run, name);
-        thread.setPriority(8);
+        var thread = new Thread(() -> {
+            renderer.run();
+            System.out.println(name + " exited");
+        }, name);
         return new Session(renderer, resources, thread);
+    }
+
+    /// @return true if the session has exited, false otherwise
+    boolean checkExit() {
+        if (!this.thread.isAlive()) {
+            this.resources.close();
+            return true;
+        }
+        return false;
     }
 }
 
 void main() throws InterruptedException {
-    Init.setAppMetaData("Sodalite App", "0.0.1", "com.example.sodalite");
+    Init.setAppMetaData("GpuWindowRenderer", "0.0.1", "com.example.sodalite");
 
     try (var appLifeResources = ResourceSet.ofConfined()) {
         var device = GPU.createDevice(
@@ -119,13 +132,7 @@ void main() throws InterruptedException {
         while (!activeSessions.isEmpty()) {
             Events.pollEvents(activeSessions.stream().map(Session::instance).toList());
 
-            activeSessions.removeIf(session -> {
-                if (!session.thread().isAlive()) {
-                    session.resources().close();
-                    return true;
-                }
-                return false;
-            });
+            activeSessions.removeIf(Session::checkExit);
 
             Thread.onSpinWait();
         }

@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.lang.foreign.Arena;
@@ -7,6 +8,7 @@ import java.lang.foreign.MemorySegment;
 
 /// return value for `SDL_GetGPUDeviceDriver`,
 /// keys for `SDL_CreateGPUDevice` and `SDL_GPUSupportsShaderFormats`
+@EqualsAndHashCode
 public class GPUDriver {
 
     @Getter

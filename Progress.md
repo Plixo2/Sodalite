@@ -27,11 +27,11 @@ Feature complete:
 Almost feature complete:
 - `CategoryTray`
 
-15.3% Functions implemented \
-27.9% Datatypes implemented \
+15.4% Functions implemented \
+28.7% Datatypes implemented \
 69.4% Structs implemented \
-37.5% Enums implemented \
-22.4% total
+39.6% Enums implemented \
+22.8% total
 
 [Checklist](#checklist)
 
@@ -68,7 +68,7 @@ Almost feature complete:
 - [ ] CategoryAtomic
 - [ ] CategoryAudio
 - [ ] CategoryBits
-- [ ] CategoryBlendmode
+- [x] CategoryBlendmode
 - [ ] CategoryCamera
 - [x] CategoryClipboard
 - [x] CategoryCPUInfo
@@ -105,7 +105,7 @@ Almost feature complete:
 - [ ] CategoryProcess
 - [x] CategoryProperties
 - [x] CategoryRect
-- [ ] CategoryRender
+- [x] CategoryRender
 - [x] CategoryScancode
 - [ ] CategorySensor
 - [ ] CategorySharedObject
@@ -218,7 +218,7 @@ Almost feature complete:
 - [ ] SDL_CompareAndSwapAtomicInt
 - [ ] SDL_CompareAndSwapAtomicPointer
 - [ ] SDL_CompareAndSwapAtomicU32
-- [ ] SDL_ComposeCustomBlendMode
+- [x] SDL_ComposeCustomBlendMode
 - [ ] SDL_ConvertAudioSamples
 - [ ] SDL_ConvertEventToRenderCoordinates
 - [ ] SDL_ConvertPixels
@@ -1459,7 +1459,7 @@ Almost feature complete:
 - [ ] SDL_AudioStream
 - [ ] SDL_AudioStreamCallback
 - [ ] SDL_AudioStreamDataCompleteCallback
-- [ ] SDL_BlendMode
+- [x] SDL_BlendMode
 - [ ] SDL_calloc_func
 - [ ] SDL_Camera
 - [ ] SDL_CameraID
@@ -1715,8 +1715,8 @@ Almost feature complete:
 - [ ] SDL_AsyncIOTaskType
 - [ ] SDL_AudioFormat
 - [ ] SDL_BitmapOrder
-- [ ] SDL_BlendFactor
-- [ ] SDL_BlendOperation
+- [x] SDL_BlendFactor
+- [x] SDL_BlendOperation
 - [ ] SDL_CameraPermissionState
 - [ ] SDL_CameraPosition
 - [ ] SDL_Capitalization
@@ -1811,6 +1811,7 @@ Almost feature complete:
 ### Implemented Categories
 [Go to top](#progress)
 
+- CategoryBlendmode
 - CategoryClipboard
 - CategoryCPUInfo
 - CategoryDialog
@@ -1831,6 +1832,7 @@ Almost feature complete:
 - CategoryPower
 - CategoryProperties
 - CategoryRect
+- CategoryRender
 - CategoryScancode
 - CategoryStdinc
 - CategorySurface
@@ -1871,6 +1873,7 @@ Almost feature complete:
 - SDL_ClearClipboardData
 - SDL_ClearError
 - SDL_ClearProperty
+- SDL_ComposeCustomBlendMode
 - SDL_CopyGPUBufferToBuffer
 - SDL_CopyGPUTextureToTexture
 - SDL_CopyProperties
@@ -2048,6 +2051,7 @@ Almost feature complete:
 ### Implemented Datatypes
 [Go to top](#progress)
 
+- SDL_BlendMode
 - SDL_ClipboardCleanupCallback
 - SDL_ClipboardDataCallback
 - SDL_DialogFileCallback
@@ -2179,6 +2183,8 @@ Almost feature complete:
 [Go to top](#progress)
 
 - SDL_AppResult
+- SDL_BlendFactor
+- SDL_BlendOperation
 - SDL_DisplayOrientation
 - SDL_FileDialogType
 - SDL_FlipMode
@@ -2226,7 +2232,6 @@ Almost feature complete:
 - CategoryAtomic
 - CategoryAudio
 - CategoryBits
-- CategoryBlendmode
 - CategoryCamera
 - CategoryDlopenNotes
 - CategoryEndian
@@ -2243,7 +2248,6 @@ Almost feature complete:
 - CategoryMetal
 - CategoryMutex
 - CategoryProcess
-- CategoryRender
 - CategorySensor
 - CategorySharedObject
 - CategoryStorage
@@ -2320,7 +2324,6 @@ Almost feature complete:
 - SDL_CompareAndSwapAtomicInt
 - SDL_CompareAndSwapAtomicPointer
 - SDL_CompareAndSwapAtomicU32
-- SDL_ComposeCustomBlendMode
 - SDL_ConvertAudioSamples
 - SDL_ConvertEventToRenderCoordinates
 - SDL_ConvertPixels
@@ -3388,7 +3391,6 @@ Almost feature complete:
 - SDL_AudioStream
 - SDL_AudioStreamCallback
 - SDL_AudioStreamDataCompleteCallback
-- SDL_BlendMode
 - SDL_calloc_func
 - SDL_Camera
 - SDL_CameraID
@@ -3521,8 +3523,6 @@ Almost feature complete:
 - SDL_AsyncIOTaskType
 - SDL_AudioFormat
 - SDL_BitmapOrder
-- SDL_BlendFactor
-- SDL_BlendOperation
 - SDL_CameraPermissionState
 - SDL_CameraPosition
 - SDL_Capitalization

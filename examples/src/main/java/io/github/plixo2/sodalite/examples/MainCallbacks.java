@@ -10,12 +10,16 @@ import io.github.plixo2.sodalite.category.video.WindowFlags;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import org.joml.Vector4f;
 
+/// Version of [MinimalGPU] using the main callbacks instead of manual event polling.
+/// See
+/// [Main callbacks in SDL3](https://wiki.libsdl.org/SDL3/README-main-functions#main-callbacks-in-sdl3)
+///
+///
 /// The `main` method in [Callbacks] defines the main method
 /// thanks to [Instance Main Methods](https://openjdk.org/jeps/445)
 class MainCallbacks implements Callbacks {
     Window window;
     Device device;
-    Device.WindowClaim claim;
 
     @Override
     public AppResult onWindowCloseRequested(long timestamp, int windowID) {
@@ -27,11 +31,11 @@ class MainCallbacks implements Callbacks {
 
     @Override
     public AppResult init(String[] args) {
-        Init.setAppMetaData("Sodalite App", "0.0.1", "com.example.sodalite");
+        Init.setAppMetaData("MainCallbacks", "0.0.1", "com.example.sodalite");
 
         this.window = Video.createWindow(
                 ResourceSet.global(),
-                "GPU Demo",
+                "Main Callbacks Example",
                 800, 600,
                 WindowFlags.RESIZABLE
         );
@@ -41,7 +45,7 @@ class MainCallbacks implements Callbacks {
                 true,
                 GPUDriver.optimal()
         );
-        this.claim = this.device.claimWindow(this.window);
+        var _ = this.device.claimWindow(this.window);
 
         return AppResult.CONTINUE;
     }
@@ -68,9 +72,7 @@ class MainCallbacks implements Callbacks {
 
     @Override
     public void quit(AppResult result) {
-        if (this.claim != null) {
-            this.claim.close();
-        }
+
     }
 
 

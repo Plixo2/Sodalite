@@ -12,6 +12,6 @@ public interface ClipboardDataCallback {
     /// @param mimeType the MIME type of the data to retrieve
     /// @return The data pointer with a valid length, for the given MIME type.
     ///         MemorySegment.NULL or a zero-length segment will still be send to the "receiver",
-    ///         but is mostly not supported! [Issue](https://github.com/libsdl-org/SDL/issues/14941)
+    ///         but is mostly not supported! [Issue](https://github.com/libsdl-org/SDL/issues/15843)
     MemorySegment get(Arena clipBoardArena, String mimeType);
 }
