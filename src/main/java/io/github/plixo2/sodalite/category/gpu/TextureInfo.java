@@ -3,8 +3,8 @@ package io.github.plixo2.sodalite.category.gpu;
 
 import org.jetbrains.annotations.Nullable;
 
-/// Call {@link TextureCreateInfo#create}, {@link TextureBuilder#build} or
-/// {@link Texture#createEmpty} to create the texture.
+/// Call [TextureCreateInfo#create], [TextureBuilder#build] or
+/// [Texture#createEmpty] to create the texture.
 ///
 /// @see TextureCreateInfo
 /// @see TextureBuilder

@@ -20,6 +20,8 @@ import io.github.plixo2.sodalite.category.properties.Properties;
 import io.github.plixo2.sodalite.category.properties.PropertyKey;
 import io.github.plixo2.sodalite.category.rect.FRect;
 import io.github.plixo2.sodalite.category.rect.Rect;
+import io.github.plixo2.sodalite.category.thread.ThreadID;
+import io.github.plixo2.sodalite.category.thread.Threads;
 import io.github.plixo2.sodalite.category.timer.Timer;
 import io.github.plixo2.sodalite.category.version.Version;
 import io.github.plixo2.sodalite.category.version.VersionNumber;
@@ -33,6 +35,7 @@ import org.joml.Vector4i;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.foreign.Arena;
 import java.lang.foreign.ValueLayout;
 import java.util.List;
 import java.util.Objects;
@@ -219,8 +222,8 @@ public class BasicTests {
             );
 
             group.properties().forEach(property -> {
-                assertTrue(group.has(property), "group should have property " + property.readableName());
-                assertNotNull(group.typeOf(property), "property type should not be null for " + property.readableName());
+                assertTrue(group.has(property), "group should have property " + property.asString());
+                assertNotNull(group.typeOf(property), "property type should not be null for " + property.asString());
             });
             assertTrue(group.properties().contains(PropertyKey.ofBoolean("bool")));
             assertTrue(group.properties().contains(PropertyKey.ofNumber("num")));
@@ -228,6 +231,83 @@ public class BasicTests {
             assertTrue(group.properties().contains(PropertyKey.ofFloat("flt")));
             assertTrue(group.properties().contains(PropertyKey.ofPointer("ptr")));
         }
+    }
+    @Test
+    void lockProperties() throws InterruptedException {
+        try (var resources = ResourceSet.ofConfined()) {
+            var group = Properties.createProperties(resources);
+            group.set(PropertyKey.ofBoolean("bool"), true);
+            group.set(PropertyKey.ofNumber("num"), 123L);
+            group.lock();
+            group.set(PropertyKey.ofString("str"), "Hello");
+            group.unlock();
+
+            assertEquals(true, group.get(PropertyKey.ofBoolean("bool"), false));
+            assertEquals(123L, group.get(PropertyKey.ofNumber("num"), 0L));
+            assertEquals("Hello", group.get(PropertyKey.ofString("str"), ""));
+
+            group.lock();
+            Thread newThread;
+            try {
+                var id = Threads.getCurrentThreadID();
+                newThread = new Thread(() -> {
+                    var otherID = Threads.getCurrentThreadID();
+                    if (!otherID.equals(id)) {
+                        group.lock();
+                        try {
+                            group.set(PropertyKey.ofString("str"), "OtherThread");
+                        } finally {
+                            group.unlock();
+                        }
+                    }
+                });
+                newThread.setDaemon(false);
+                newThread.start();
+                newThread.join(500);
+                if (!newThread.isAlive()) {
+                    fail("Failed to lock properties from another thread");
+                }
+                assertEquals("Hello", group.get(PropertyKey.ofString("str"), ""));
+            } finally {
+                group.unlock();
+            }
+            newThread.join(500);
+            if (newThread.isAlive()) {
+                fail("Failed to unlock properties from another thread");
+            }
+            assertEquals("OtherThread", group.get(PropertyKey.ofString("str"), ""));
+
+        }
+
+    }
+
+    @Test
+    void threadIDs() throws InterruptedException {
+        var id = Threads.getCurrentThreadID();
+
+        class Holder {
+            volatile ThreadID otherThreadID = null;
+        }
+        var holder = new Holder();
+
+        var newThread = new Thread(() -> {
+            holder.otherThreadID = Threads.getCurrentThreadID();
+        });
+        newThread.setDaemon(false);
+        newThread.start();
+        var start = Timer.getTicksMS();
+        while (holder.otherThreadID == null) {
+            var now = Timer.getTicksMS();
+            if (now - start > 2000) {
+                fail("Timeout waiting for other thread to set its ID");
+            }
+            Thread.onSpinWait();
+        }
+        if (id.value() != 0 && holder.otherThreadID.value() != 0) {
+            assertNotEquals(id, holder.otherThreadID, "Thread IDs should be different");
+        }
+
+        newThread.join(2000);
     }
 
     @Test

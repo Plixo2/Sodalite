@@ -48,7 +48,7 @@ public class Keyboard {
 
     /// @sdlAPI SDL_GetKeyboardNameForID
     public static String getKeyboardName(KeyboardID keyboard) {
-        var result = check(SDL_GetKeyboardNameForID(keyboard.id()));
+        var result = check(SDL_GetKeyboardNameForID(keyboard.value()));
         return result.getString(0);
     }
 

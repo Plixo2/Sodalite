@@ -4,27 +4,29 @@ package io.github.plixo2.sodalite.category.gpu;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.lang.foreign.MemorySegment;
 
 /// @sdlAPI SDL_GPUSampler
+@ToString(onlyExplicitlyIncluded = true, doNotUseGetters = true)
 public class Sampler extends ResourceObject implements SamplerInfo {
 
     private final MemorySegment segment;
 
-    @Getter private final Filter minFilter;
-    @Getter private final Filter magFilter;
-    @Getter private final SamplerMipmapMode mipmapMode;
-    @Getter private final SamplerAddressMode addressModeU;
-    @Getter private final SamplerAddressMode addressModeV;
-    @Getter private final SamplerAddressMode addressModeW;
-    @Getter private final float mipLodBias;
-    @Getter private final float maxAnisotropy;
-    @Getter private final CompareOp compareOp;
-    @Getter private final float minLod;
-    @Getter private final float maxLod;
-    @Getter private final boolean enableAnisotropy;
-    @Getter private final boolean enableCompare;
+    @Getter @ToString.Include private final Filter minFilter;
+    @Getter @ToString.Include private final Filter magFilter;
+    @Getter @ToString.Include private final SamplerMipmapMode mipmapMode;
+    @Getter @ToString.Include private final SamplerAddressMode addressModeU;
+    @Getter @ToString.Include private final SamplerAddressMode addressModeV;
+    @Getter @ToString.Include private final SamplerAddressMode addressModeW;
+    @Getter @ToString.Include private final float mipLodBias;
+    @Getter @ToString.Include private final float maxAnisotropy;
+    @Getter @ToString.Include private final CompareOp compareOp;
+    @Getter @ToString.Include private final float minLod;
+    @Getter @ToString.Include private final float maxLod;
+    @Getter @ToString.Include private final boolean enableAnisotropy;
+    @Getter @ToString.Include private final boolean enableCompare;
 
     Sampler(
         ResourceSet resources,
@@ -58,4 +60,18 @@ public class Sampler extends ResourceObject implements SamplerInfo {
         return this.segment;
     }
 
+    @ToString.Include(name = "segment", rank = 99)
+    private long getSegment() {
+        return this.segment.address();
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(this.segment.address());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Sampler other && this.segment.equals(other.segment);
+    }
 }

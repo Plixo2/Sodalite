@@ -26,10 +26,10 @@ import static io.github.plixo2.sodalite.Internal.*;
 @ToString
 public class Rect {
 
-    private int x;
-    private int y;
-    private int width;
-    private int height;
+    public int x;
+    public int y;
+    public int width;
+    public int height;
 
     ///
     /// {@index "Java Collections Framework"}

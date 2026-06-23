@@ -5,7 +5,10 @@ import com.google.errorprone.annotations.CheckReturnValue;
 import io.github.plixo2.sodalite.category.video.Window;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.lang.foreign.MemorySegment;
 
@@ -219,7 +222,27 @@ public class Device extends ResourceObject {
         GPU.waitForSwapchain(this, window);
     }
 
+    @Override
+    public String toString() {
+        return "Device{" +
+                "segment=" + this.segment.address() +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Device other && this.segment.address() == other.segment.address();
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(this.segment.address());
+    }
+
     /// Will release the window claim when closed
+    @Getter
+    @ToString
+    @EqualsAndHashCode
     @RequiredArgsConstructor
     public class WindowClaim implements AutoCloseable {
         private final Window window;

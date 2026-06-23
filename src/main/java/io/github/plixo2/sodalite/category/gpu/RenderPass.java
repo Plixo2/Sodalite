@@ -2,7 +2,10 @@ package io.github.plixo2.sodalite.category.gpu;
 
 
 import io.github.plixo2.sodalite.category.rect.Rect;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4f;
 import org.joml.Vector4i;
@@ -39,6 +42,10 @@ public class RenderPass implements AutoCloseable {
         }
         GPU.endGPURenderPass(this);
         this.isEnded = true;
+    }
+
+    public boolean hasEnded() {
+        return this.isEnded;
     }
 
     public void bindPipeline(GraphicsPipeline pipeline) {
@@ -231,6 +238,9 @@ public class RenderPass implements AutoCloseable {
 
     /// @sdlAPI SDL_GPUColorTargetInfo
     @Setter
+    @Getter
+    @EqualsAndHashCode
+    @ToString
     public static class ColorTargetInfo {
         private Texture texture;
         private int mipLevel = 0;
@@ -315,6 +325,9 @@ public class RenderPass implements AutoCloseable {
 
     /// @sdlAPI SDL_GPUDepthStencilTargetInfo
     @Setter
+    @Getter
+    @EqualsAndHashCode
+    @ToString
     public static class DepthStencilTargetInfo {
         private Texture texture;
         private float clearDepth = 0f;
@@ -389,6 +402,22 @@ public class RenderPass implements AutoCloseable {
 
     }
 
+    @Override
+    public String toString() {
+        return "RenderPass{" +
+                "segment=" + this.segment.address() +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(this.segment.address());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof RenderPass other && this.segment.address() == other.segment.address();
+    }
 
     /// @sdlAPI SDL_FColor
     private static MemorySegment fColor(MemorySegment segment, Vector4f color) {

@@ -133,7 +133,20 @@ public class Shader extends ResourceObject {
 
     }
 
+    @Override
+    public String toString() {
+        return "Shader{" +
+                "segment=" + this.segment.address() +
+                '}';
+    }
 
+    @Override
+    public int hashCode() {
+        return Long.hashCode(this.segment.address());
+    }
 
-
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Shader other && this.segment.address() == other.segment.address();
+    }
 }

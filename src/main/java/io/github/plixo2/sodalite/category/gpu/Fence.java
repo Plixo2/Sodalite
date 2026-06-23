@@ -67,5 +67,20 @@ public class Fence extends ResourceObject {
         GPU.waitForFences(device, false, fences);
     }
 
+    @Override
+    public String toString() {
+        return "Fence{" +
+                "segment=" + this.segment.address() +
+                '}';
+    }
 
+    @Override
+    public int hashCode() {
+        return Long.hashCode(this.segment.address());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Fence other && this.segment.address() == other.segment.address();
+    }
 }

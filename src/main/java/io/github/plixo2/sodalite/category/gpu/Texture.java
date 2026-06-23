@@ -3,24 +3,26 @@ package io.github.plixo2.sodalite.category.gpu;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.Getter;
+import lombok.ToString;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.foreign.MemorySegment;
 
 /// @sdlAPI SDL_GPUTexture
+@ToString(onlyExplicitlyIncluded = true, doNotUseGetters = true)
 public non-sealed class Texture extends ResourceObject implements TextureInfo {
 
     private final MemorySegment segment;
 
-    @Getter private final TextureType type;
-    @Getter private final TextureFormat format;
-    @Getter private final @TextureUsageFlags int usage;
-    @Getter private final int width;
-    @Getter private final int height;
-    @Getter private final int layerCountOrDepth;
-    @Getter private final int mipLevelCount;
-    @Getter private final SampleCount sampleCount;
-    @Getter private @Nullable String name;
+    @Getter @ToString.Include private final TextureType type;
+    @Getter @ToString.Include private final TextureFormat format;
+    @Getter @ToString.Include private final @TextureUsageFlags int usage;
+    @Getter @ToString.Include private final int width;
+    @Getter @ToString.Include private final int height;
+    @Getter @ToString.Include private final int layerCountOrDepth;
+    @Getter @ToString.Include private final int mipLevelCount;
+    @Getter @ToString.Include private final SampleCount sampleCount;
+    @Getter @ToString.Include private @Nullable String name;
 
     /// for swapchain texture
     private Texture(
@@ -115,5 +117,18 @@ public non-sealed class Texture extends ResourceObject implements TextureInfo {
         };
     }
 
+    @ToString.Include(name = "segment", rank = 99)
+    private long getSegment() {
+        return this.segment.address();
+    }
 
+    @Override
+    public int hashCode() {
+        return Long.hashCode(this.segment.address());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Texture other && this.segment.equals(other.segment);
+    }
 }

@@ -1,13 +1,19 @@
 package io.github.plixo2.sodalite.category.messagebox;
 
 import io.github.plixo2.sodalite.category.video.Window;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/// Builder for [MessageBoxData] (`SDL_MessageBoxData`)
+/// @see MessageBoxData
+@ToString
+@EqualsAndHashCode
 public class MessageBoxBuilder {
-
     private @MessageBoxFlags int flags;
     private final @Nullable Window window;
     private final String title;
@@ -85,6 +91,7 @@ public class MessageBoxBuilder {
         return this;
     }
 
+    /// @return the id of the pressed button
     public int show() {
         return MessageBox.show(this.build());
     }

@@ -203,7 +203,22 @@ public class CommandBuffer implements AutoCloseable {
     }
 
 
+    @Override
+    public String toString() {
+        return "CommandBuffer{" +
+                "segment=" + this.segment.address() +
+                '}';
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof CommandBuffer other && this.segment.address() == other.segment.address();
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(this.segment.address());
+    }
 
     public class DebugGroup implements AutoCloseable {
         private DebugGroup() {}

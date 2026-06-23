@@ -74,8 +74,14 @@ public final class Internal {
         return segment;
     }
     /// Only use for validating SDL calls
-    public static void check(long address) {
+    public static long check(long address) {
         check(address != 0);
+        return address;
+    }
+    /// Only use for validating SDL calls
+    public static int check(int value) {
+        check(value != 0);
+        return value;
     }
     /// Only use for validating SDL calls
     public static void check(boolean success) {
@@ -165,16 +171,16 @@ public final class Internal {
         }
         var retention = mask.getAnnotation(Retention.class);
         var target = mask.getAnnotation(Target.class);
-        if (retention == null || retention.value() != RetentionPolicy.SOURCE) {
+        if (retention == null) {
             throw new IllegalArgumentException(
-                    "Expected an annotation with @Retention(SOURCE), on MagicConstant class "
+                    "Expected @Retention annotation on MagicConstant class "
                     + "'" + mask.getName() + "'"
             );
         }
         if (target == null) {
             throw new IllegalArgumentException(
-                    "Expected an annotation with @Target, on MagicConstant class "
-                            + "'" + mask.getName() + "'"
+                    "Expected @Target annotation on MagicConstant class "
+                    + "'" + mask.getName() + "'"
             );
         }
 

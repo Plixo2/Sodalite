@@ -7,6 +7,8 @@ import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.Objects;
 
+/// Consider using [MessageBoxBuilder]
+///
 /// @see MessageBoxBuilder
 /// @sdlAPI SDL_MessageBoxButtonData
 public record MessageBoxButtonData(

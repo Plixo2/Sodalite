@@ -14,7 +14,7 @@ import static io.github.plixo2.sodalite.Internal.*;
 public class Events {
     private Events() {}
 
-    /// This method will also call {@link PendingFrees#drain()}
+    /// This method will also call [PendingFrees#drain]
     ///
     /// @return true if there are more events, false otherwise.
     /// @threadSafety This function should only be called on the main thread
@@ -27,7 +27,7 @@ public class Events {
         }
     }
 
-    /// This method will also call {@link PendingFrees#drain()}
+    //// This method will also call [PendingFrees#drain]
     ///
     /// @threadSafety This function should only be called on the main thread
     public static void pollEvents(EventConsumer consumer) {
@@ -40,7 +40,7 @@ public class Events {
         }
     }
 
-    /// This method will also call {@link PendingFrees#drain()}
+    /// This method will also call [PendingFrees#drain]
     ///
     /// @threadSafety This function should only be called on the main thread
     public static void pollEvents(EventConsumer... consumers) {
@@ -53,7 +53,7 @@ public class Events {
         }
     }
 
-    /// This method will also call {@link PendingFrees#drain()}
+    /// This method will also call [PendingFrees#drain]
     ///
     /// @threadSafety This function should only be called on the main thread
     public static void pollEvents(Iterable<? extends EventConsumer> consumers) {

@@ -1,6 +1,8 @@
 package io.github.plixo2.sodalite.category.blendmode;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,6 +12,8 @@ import static io.github.plixo2.sodalite.Internal.*;
 
 /// @sdlAPI SDL_BlendMode
 /// @sdlCategory CategoryBlendmode
+@ToString
+@EqualsAndHashCode
 public class BlendMode {
     public static final BlendMode NONE = BlendMode.of(SDL_BLENDMODE_NONE());
     public static final BlendMode BLEND = BlendMode.of(SDL_BLENDMODE_BLEND());

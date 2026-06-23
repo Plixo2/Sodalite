@@ -1,7 +1,10 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 import io.github.plixo2.sodalite.category.surface.FlipMode;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.joml.Vector4f;
 import org.libsdl.sdl.SDL_FColor;
 import org.libsdl.sdl.SDL_GPUBlitInfo;
@@ -11,6 +14,9 @@ import java.lang.foreign.MemorySegment;
 
 
 /// @sdlAPI SDL_GPUBlitInfo
+@ToString
+@Getter
+@EqualsAndHashCode
 public class BlitInfo {
 
     private final Region source;

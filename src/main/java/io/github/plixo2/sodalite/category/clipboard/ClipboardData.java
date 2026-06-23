@@ -6,6 +6,7 @@ import io.github.plixo2.sodalite.resource.ResourceSet;
 
 import java.lang.foreign.MemorySegment;
 
+
 public class ClipboardData extends ResourceObject {
 
     private final MemorySegment segment;
@@ -20,4 +21,13 @@ public class ClipboardData extends ResourceObject {
         return this.segment;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof ClipboardData other && this.segment.address() == other.segment.address();
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(this.segment.address());
+    }
 }

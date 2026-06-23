@@ -52,9 +52,7 @@ public class ProgressCheck {
             - `CategoryScancode`
             - `CategoryVersion`
             - `CategoryMain`
-            
-            Almost feature complete:
-            - `CategoryTray`
+            - `CategoryThread`
             
             <%FunctionsProgress>% Functions implemented \\
             <%DatatypesProgress>% Datatypes implemented \\
@@ -419,7 +417,7 @@ public class ProgressCheck {
                 Clipboard.setText(toCopy.toString());
                 throw invalidApiFormat(javaFilePath, "Category is missing required imports, copied to clipboard");
             } else {
-                throw invalidApiFormat(javaFilePath, "Category is missing required imports");
+                throw invalidApiFormat(javaFilePath, "Category is missing required imports. \n" + toCopy + "\n");
             }
 
         }

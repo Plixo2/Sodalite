@@ -24,10 +24,10 @@ import static org.libsdl.sdl.SDL3_h.*;
 @ToString
 public class FRect {
 
-    private float x;
-    private float y;
-    private float width;
-    private float height;
+    public float x;
+    public float y;
+    public float width;
+    public float height;
 
     private FRect(float x, float y, float width, float height) {
         this.x = x;

@@ -101,7 +101,7 @@ static class Instance implements EventConsumer {
 
     @Override
     public void onWindowCloseRequested(long timestamp, int windowID) {
-        if (windowID != this.window.id()) {
+        if (windowID != this.window.id().value()) {
             return;
         }
         this.running = false;
@@ -114,7 +114,7 @@ static class Instance implements EventConsumer {
             int width,
             int height
     ) {
-        if (windowID != this.window.id()) {
+        if (windowID != this.window.id().value()) {
             return;
         }
 
@@ -130,7 +130,7 @@ static class Instance implements EventConsumer {
 
     @Override
     public void onWindowDisplayScaleChanged(long timestamp, int windowID) {
-        if (windowID != this.window.id()) {
+        if (windowID != this.window.id().value()) {
             return;
         }
         var scale = this.window.getDisplayScale();

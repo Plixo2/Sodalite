@@ -34,8 +34,9 @@ public class Video {
     }
 
     /// @sdlAPI SDL_GetWindowID
-    static int getWindowID(Window window) {
-        return SDL_GetWindowID(window.segment());
+    public static WindowID getWindowID(Window window) {
+        var value = check(SDL_GetWindowID(window.segment()));
+        return WindowID.of(value);
     }
 
     /// @sdlAPI SDL_DestroyWindow

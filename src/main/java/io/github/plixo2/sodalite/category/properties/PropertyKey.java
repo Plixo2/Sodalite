@@ -26,7 +26,7 @@ public sealed abstract class PropertyKey<T> implements PropertyKeys {
         this.nameSegment = nameSegment;
     }
 
-    public synchronized String readableName() {
+    public synchronized String asString() {
         if (this.name == null) {
             this.name = this.nameSegment.getString(0);
         }
@@ -38,12 +38,12 @@ public sealed abstract class PropertyKey<T> implements PropertyKeys {
         if (!(o instanceof PropertyKey<?> that)) {
             return false;
         }
-        return this.type == that.type && Objects.equals(readableName(), that.readableName());
+        return this.type == that.type && Objects.equals(asString(), that.asString());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.type, readableName());
+        return Objects.hash(this.type, asString());
     }
 
     abstract void set(PropertyGroup group, T value);

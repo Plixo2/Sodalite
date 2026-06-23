@@ -23,15 +23,13 @@ Feature complete:
 - `CategoryScancode`
 - `CategoryVersion`
 - `CategoryMain`
+- `CategoryThread`
 
-Almost feature complete:
-- `CategoryTray`
-
-16.3% Functions implemented \
-29.5% Datatypes implemented \
+16.5% Functions implemented \
+31.8% Datatypes implemented \
 69.4% Structs implemented \
 39.6% Enums implemented \
-23.6% total
+24.0% total
 
 [Checklist](#checklist)
 
@@ -113,7 +111,7 @@ Almost feature complete:
 - [ ] CategoryStorage
 - [x] CategorySurface
 - [ ] CategorySystem
-- [ ] CategoryThread
+- [x] CategoryThread
 - [ ] CategoryTime
 - [x] CategoryTimer
 - [ ] CategoryTouch
@@ -425,7 +423,7 @@ Almost feature complete:
 - [ ] SDL_GetCurrentDisplayMode
 - [ ] SDL_GetCurrentDisplayOrientation
 - [ ] SDL_GetCurrentRenderOutputSize
-- [ ] SDL_GetCurrentThreadID
+- [x] SDL_GetCurrentThreadID
 - [ ] SDL_GetCurrentTime
 - [ ] SDL_GetCurrentVideoDriver
 - [ ] SDL_GetCursor
@@ -508,7 +506,7 @@ Almost feature complete:
 - [ ] SDL_GetGamepadVendorForID
 - [ ] SDL_GetGDKDefaultUser
 - [ ] SDL_GetGDKTaskQueue
-- [ ] SDL_GetGlobalMouseState
+- [x] SDL_GetGlobalMouseState
 - [x] SDL_GetGlobalProperties
 - [x] SDL_GetGPUDeviceDriver
 - [ ] SDL_GetGPUDeviceProperties
@@ -579,7 +577,7 @@ Almost feature complete:
 - [x] SDL_GetModState
 - [ ] SDL_GetMouseFocus
 - [ ] SDL_GetMouseNameForID
-- [ ] SDL_GetMouseState
+- [x] SDL_GetMouseState
 - [ ] SDL_GetNaturalDisplayOrientation
 - [ ] SDL_GetNumAllocations
 - [ ] SDL_GetNumAudioDrivers
@@ -1537,7 +1535,7 @@ Almost feature complete:
 - [x] SDL_MessageBoxFlags
 - [ ] SDL_MetalView
 - [x] SDL_MouseButtonFlags
-- [ ] SDL_MouseID
+- [x] SDL_MouseID
 - [ ] SDL_MouseMotionTransformCallback
 - [ ] SDL_Mutex
 - [ ] SDL_NSTimerCallback
@@ -1558,7 +1556,7 @@ Almost feature complete:
 - [ ] SDL_SurfaceFlags
 - [ ] SDL_Thread
 - [ ] SDL_ThreadFunction
-- [ ] SDL_ThreadID
+- [x] SDL_ThreadID
 - [ ] SDL_Time
 - [ ] SDL_TimerCallback
 - [ ] SDL_TimerID
@@ -1573,7 +1571,7 @@ Almost feature complete:
 - [x] SDL_TrayMenu
 - [x] SDL_Window
 - [x] SDL_WindowFlags
-- [ ] SDL_WindowID
+- [x] SDL_WindowID
 - [ ] SDL_WindowsMessageHook
 - [ ] SDL_X11EventHook
 
@@ -1837,6 +1835,7 @@ Almost feature complete:
 - CategoryScancode
 - CategoryStdinc
 - CategorySurface
+- CategoryThread
 - CategoryTimer
 - CategoryTray
 - CategoryVersion
@@ -1917,8 +1916,10 @@ Almost feature complete:
 - SDL_GetClipboardMimeTypes
 - SDL_GetClipboardText
 - SDL_GetCPUCacheLineSize
+- SDL_GetCurrentThreadID
 - SDL_GetError
 - SDL_GetFloatProperty
+- SDL_GetGlobalMouseState
 - SDL_GetGlobalProperties
 - SDL_GetGPUDeviceDriver
 - SDL_GetGPUDriver
@@ -1933,6 +1934,7 @@ Almost feature complete:
 - SDL_GetKeyFromScancode
 - SDL_GetKeyName
 - SDL_GetModState
+- SDL_GetMouseState
 - SDL_GetNumberProperty
 - SDL_GetNumGPUDrivers
 - SDL_GetNumLogicalCPUCores
@@ -2093,8 +2095,10 @@ Almost feature complete:
 - SDL_MessageBoxButtonFlags
 - SDL_MessageBoxFlags
 - SDL_MouseButtonFlags
+- SDL_MouseID
 - SDL_PenInputFlags
 - SDL_PropertiesID
+- SDL_ThreadID
 - SDL_Tray
 - SDL_TrayCallback
 - SDL_TrayEntry
@@ -2102,6 +2106,7 @@ Almost feature complete:
 - SDL_TrayMenu
 - SDL_Window
 - SDL_WindowFlags
+- SDL_WindowID
 
 ### Implemented Structs
 [Go to top](#progress)
@@ -2265,7 +2270,6 @@ Almost feature complete:
 - CategorySharedObject
 - CategoryStorage
 - CategorySystem
-- CategoryThread
 - CategoryTime
 - CategoryTouch
 - CategoryVulkan
@@ -2501,7 +2505,6 @@ Almost feature complete:
 - SDL_GetCurrentDisplayMode
 - SDL_GetCurrentDisplayOrientation
 - SDL_GetCurrentRenderOutputSize
-- SDL_GetCurrentThreadID
 - SDL_GetCurrentTime
 - SDL_GetCurrentVideoDriver
 - SDL_GetCursor
@@ -2582,7 +2585,6 @@ Almost feature complete:
 - SDL_GetGamepadVendorForID
 - SDL_GetGDKDefaultUser
 - SDL_GetGDKTaskQueue
-- SDL_GetGlobalMouseState
 - SDL_GetGPUDeviceProperties
 - SDL_GetGPURendererDevice
 - SDL_GetGPUXRSwapchainFormats
@@ -2639,7 +2641,6 @@ Almost feature complete:
 - SDL_GetMice
 - SDL_GetMouseFocus
 - SDL_GetMouseNameForID
-- SDL_GetMouseState
 - SDL_GetNaturalDisplayOrientation
 - SDL_GetNumAllocations
 - SDL_GetNumAudioDrivers
@@ -3441,7 +3442,6 @@ Almost feature complete:
 - SDL_MainThreadCallback
 - SDL_malloc_func
 - SDL_MetalView
-- SDL_MouseID
 - SDL_MouseMotionTransformCallback
 - SDL_Mutex
 - SDL_NSTimerCallback
@@ -3460,7 +3460,6 @@ Almost feature complete:
 - SDL_SurfaceFlags
 - SDL_Thread
 - SDL_ThreadFunction
-- SDL_ThreadID
 - SDL_Time
 - SDL_TimerCallback
 - SDL_TimerID
@@ -3468,7 +3467,6 @@ Almost feature complete:
 - SDL_TLSID
 - SDL_TouchID
 - SDL_TrayClickCallback
-- SDL_WindowID
 - SDL_WindowsMessageHook
 - SDL_X11EventHook
 

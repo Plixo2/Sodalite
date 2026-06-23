@@ -31,7 +31,7 @@ static class GpuWindowRenderer implements EventConsumer {
     /// Called from the main thread
     @Override
     public void onWindowCloseRequested(long timestamp, int windowID) {
-        if (this.window.id() != windowID) {
+        if (this.window.id().value() != windowID) {
             return;
         }
         this.running = false;

@@ -19,7 +19,7 @@ class MinimalGPU implements EventConsumer {
 
     @Override
     public void onWindowCloseRequested(long timestamp, int windowID) {
-        if (this.window.id() != windowID) {
+        if (this.window.id().value() != windowID) {
             return;
         }
         this.running = false;

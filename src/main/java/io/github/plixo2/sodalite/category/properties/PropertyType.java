@@ -6,7 +6,8 @@ import org.jetbrains.annotations.Nullable;
 
 /// @sdlAPI SDL_PropertyType
 public enum PropertyType {
-//    INVALID,
+
+//    INVALID, // represented by null
     POINTER,
     STRING,
     NUMBER,

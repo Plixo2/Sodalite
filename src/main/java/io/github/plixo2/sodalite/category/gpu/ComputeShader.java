@@ -10,6 +10,7 @@ import java.nio.file.Path;
 
 /// Helpers for `SDL_CreateGPUComputePipeline`
 public class ComputeShader {
+    private ComputeShader() {}
 
     public record Creator<T extends Exception>(
             ShaderSource<T> source,

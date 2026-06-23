@@ -2,16 +2,20 @@ package io.github.plixo2.sodalite.category.gpu;
 
 
 import io.github.plixo2.sodalite.resource.ResourceSet;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import org.jetbrains.annotations.Nullable;
 
-/// Use {@link #setArrayCount} for array textures (TEXTURE_2D_ARRAY and TEXTURE_CUBE_ARRAY) and
-/// use {@link #setDepth} for 3D textures (TEXTURE_3D).
-/// {@link #setArrayCount} will also multiply the count by 6 for cube maps, so the `layerCountOrDepth`
+/// Use [#setArrayCount] for array textures (TEXTURE_2D_ARRAY and TEXTURE_CUBE_ARRAY) and
+/// use [#setDepth] for 3D textures (TEXTURE_3D).
+/// [#setArrayCount] will also multiply the count by 6 for cube maps, so the `layerCountOrDepth`
 /// field will represent the actual number of layers for all texture types.
 /// This builder also unsures that the `layerCountOrDepth` field is set to 6 for cube maps.
 ///
 @Getter
+@ToString
+@EqualsAndHashCode
 public final class TextureBuilder implements TextureInfo {
 
     private final TextureType type;

@@ -23,7 +23,7 @@ class MainCallbacks implements Callbacks {
 
     @Override
     public AppResult onWindowCloseRequested(long timestamp, int windowID) {
-        if (this.window.id() != windowID) {
+        if (this.window.id().value() != windowID) {
             return AppResult.CONTINUE;
         }
         return AppResult.SUCCESS;

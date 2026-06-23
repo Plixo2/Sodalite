@@ -1,11 +1,11 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 import io.github.plixo2.sodalite.resource.ResourceSet;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
+@ToString
+@EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class SamplerBuilder implements SamplerInfo {
 

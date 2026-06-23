@@ -158,9 +158,7 @@ public class Tray {
             TrayEntry entry,
             TrayCallback callback
     ) {
-        var callbackSegment = entry.object.registerCallback(
-                () -> callback.apply(entry)
-        );
+        var callbackSegment = entry.object.registerCallback(() -> callback.apply(entry));
         SDL_SetTrayEntryCallback(
                 entry.segment(),
                 callbackSegment,

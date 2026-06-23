@@ -1,7 +1,7 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 
-/// Call {@link SamplerCreateInfo#create} or {@link SamplerBuilder#build}
+/// Call [SamplerCreateInfo#create] or [SamplerBuilder#build]
 /// to create the sampler.
 ///
 /// @see SamplerCreateInfo

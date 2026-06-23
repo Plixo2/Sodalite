@@ -79,7 +79,7 @@ public abstract class Common implements Callbacks {
             long timestamp, int windowID, int keyboardID, Scancode scancode, Keycode key,
             int keymod, short raw, boolean repeat
     ) {
-        if (windowID != this.window.id()) {
+        if (windowID != this.window.id().value()) {
             return AppResult.CONTINUE;
         }
         if (key == Keycode.DOWN) {
@@ -109,7 +109,7 @@ public abstract class Common implements Callbacks {
             int keymod,
             short raw
     ) {
-        if (windowID != this.window.id()) {
+        if (windowID != this.window.id().value()) {
             return AppResult.CONTINUE;
         }
 
@@ -128,7 +128,7 @@ public abstract class Common implements Callbacks {
 
     @Override
     public AppResult onWindowCloseRequested(long timestamp, int windowID) {
-        if (windowID != this.window.id()) {
+        if (windowID != this.window.id().value()) {
             return AppResult.CONTINUE;
         }
         return AppResult.SUCCESS;

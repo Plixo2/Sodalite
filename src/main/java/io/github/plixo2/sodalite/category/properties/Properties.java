@@ -20,8 +20,7 @@ public class Properties {
     public static PropertyGroup createProperties(
             ResourceSet resources
     ) {
-        var id = SDL_CreateProperties();
-        check(id != 0);
+        var id = check(SDL_CreateProperties());
 
         return new PropertyGroup(
                 Objects.requireNonNull(resources, "resources"),
@@ -31,8 +30,7 @@ public class Properties {
 
     /// @sdlAPI SDL_GetGlobalProperties
     public static PropertyGroup getGlobalProperties() {
-        var id = SDL_GetGlobalProperties();
-        check(id != 0);
+        var id = check(SDL_GetGlobalProperties());
         return new PropertyGroup(null, id);
     }
 

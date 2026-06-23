@@ -13,7 +13,7 @@ import static org.libsdl.sdl.SDL3_h.*;
 
 /// @sdlAPI SDL_GPUColorComponentFlags
 @MagicConstant(flagsFromClass = ColorComponentWriteFlags.class)
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.CLASS)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.TYPE_USE})
 public @interface ColorComponentWriteFlags {
 

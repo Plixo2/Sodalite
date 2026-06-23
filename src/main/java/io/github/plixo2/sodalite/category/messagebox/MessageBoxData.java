@@ -16,6 +16,11 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 
+/// Consider using [MessageBoxBuilder]
+///
+/// @param callback Handler for the id of the pressed button.
+/// Can be ignored, as the [MessageBox#show] method will return the id of the pressed button.
+///
 /// @see MessageBoxBuilder
 /// @sdlAPI SDL_MessageBoxData
 public record MessageBoxData(
@@ -73,6 +78,11 @@ public record MessageBoxData(
     public int addButton(MessageBoxButtonData data) {
         this.buttons.add(data);
         return data.buttonID();
+    }
+
+    /// @return the id of the pressed button
+    public int show() {
+        return MessageBox.show(this);
     }
 
     MemorySegment put(Arena arena) {

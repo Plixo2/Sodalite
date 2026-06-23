@@ -18,6 +18,7 @@ public class Window extends ResourceObject {
         resources.register(this, () -> Video.destroyWindow(segment));
         this.segment = segment;
     }
+
     private Window(
             MemorySegment segment
     ) {
@@ -33,9 +34,10 @@ public class Window extends ResourceObject {
         return this.segment;
     }
 
-    public int id() {
+    public WindowID id() {
         return Video.getWindowID(this);
     }
+
 
     public Vector2i getSize(Vector2i in) {
         return Video.getWindowSize(this, in);
@@ -49,4 +51,20 @@ public class Window extends ResourceObject {
         return Video.getWindowDisplayScale(this);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Window other && this.segment.address() == other.segment.address();
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(this.segment.address());
+    }
+
+    @Override
+    public String toString() {
+        return "Window{" +
+                "segment=" + this.segment.address() +
+                '}';
+    }
 }

@@ -2,11 +2,13 @@ package io.github.plixo2.sodalite.category.properties;
 
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
+import lombok.ToString;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 /// @sdlAPI SDL_PropertiesID
+@ToString
 public class PropertyGroup extends ResourceObject {
 
     private final int id;
@@ -62,4 +64,13 @@ public class PropertyGroup extends ResourceObject {
         return copy;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof PropertyGroup other && this.id == other.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(this.id);
+    }
 }

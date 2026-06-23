@@ -34,6 +34,9 @@ public class CopyPass implements AutoCloseable {
             throw new IllegalStateException("Copy pass has already been ended");
         }
     }
+    public boolean hasEnded() {
+        return this.isEnded;
+    }
 
     public void upload(
             TransferBuffer source,
@@ -220,4 +223,20 @@ public class CopyPass implements AutoCloseable {
         );
     }
 
+    @Override
+    public int hashCode() {
+        return Long.hashCode(this.segment.address());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof CopyPass other && this.segment.address() == other.segment.address();
+    }
+
+    @Override
+    public String toString() {
+        return "CopyPass{" +
+                "segment=" + this.segment.address() +
+                '}';
+    }
 }

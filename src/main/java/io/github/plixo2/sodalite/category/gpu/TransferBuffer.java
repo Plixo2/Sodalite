@@ -84,5 +84,21 @@ public class TransferBuffer extends ResourceObject {
         }
     }
 
+    @Override
+    public String toString() {
+        return "TransferBuffer{" +
+                "segment=" + this.segment.address() +
+                ", size=" + this.size +
+                '}';
+    }
 
+    @Override
+    public int hashCode() {
+        return Long.hashCode(this.segment.address());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof TransferBuffer other && this.segment.address() == other.segment.address();
+    }
 }

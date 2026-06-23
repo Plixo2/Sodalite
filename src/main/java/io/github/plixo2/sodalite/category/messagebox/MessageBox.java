@@ -16,6 +16,7 @@ import static io.github.plixo2.sodalite.Internal.*;
 public class MessageBox {
     private MessageBox() {}
 
+    /// @return the id of the pressed button
     /// @sdlAPI SDL_ShowMessageBox
     public static int show(
             MessageBoxData data
@@ -33,6 +34,7 @@ public class MessageBox {
         }
     }
 
+    /// @return the id of the pressed button
     /// @sdlAPI SDL_ShowMessageBox
     public static int show(
             MessageBoxBuilder builder

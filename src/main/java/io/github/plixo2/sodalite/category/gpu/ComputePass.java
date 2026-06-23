@@ -1,6 +1,9 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.joml.Vector3i;
 import org.libsdl.sdl.SDL_GPUStorageBufferReadWriteBinding;
 import org.libsdl.sdl.SDL_GPUStorageTextureReadWriteBinding;
@@ -33,6 +36,10 @@ public class ComputePass implements AutoCloseable {
         }
         GPU.endComputePass(this);
         this.isEnded = true;
+    }
+
+    public boolean hasEnded() {
+        return this.isEnded;
     }
 
     public void bindPipeline(ComputePipeline pipeline) {
@@ -118,6 +125,22 @@ public class ComputePass implements AutoCloseable {
         GPU.bindGPUComputeStorageTexture(this, slot, texture);
     }
 
+    @Override
+    public String toString() {
+        return "ComputePass{" +
+                "segment=" + this.segment.address() +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(this.segment.address());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof ComputePass other && this.segment.address() == other.segment.address();
+    }
 
     public sealed interface Binding permits TextureBinding, BufferBinding {
 
@@ -137,13 +160,15 @@ public class ComputePass implements AutoCloseable {
     }
 
     /// @sdlAPI SDL_GPUStorageTextureReadWriteBinding
+    @Setter
+    @Getter
+    @ToString
+    @EqualsAndHashCode
     public static final class TextureBinding implements Binding {
 
-        @Setter
         private Texture texture;
         private int mipLevel = 0;
         private int layer = 0;
-        @Setter
         private Cycle cycle;
 
         private TextureBinding(
@@ -222,9 +247,13 @@ public class ComputePass implements AutoCloseable {
 
     /// @sdlAPI SDL_GPUStorageBufferReadWriteBinding
     @Setter
+    @Getter
+    @ToString
+    @EqualsAndHashCode
     public static final class BufferBinding implements Binding {
         private Buffer buffer;
         private Cycle cycle;
+
         private BufferBinding(
                 Buffer buffer,
                 Cycle cycle

@@ -10,14 +10,18 @@ import java.lang.annotation.Target;
 
 import static org.libsdl.sdl.SDL3_h.*;
 
-/// Annotation for the bitmask of {@link MouseButton} values.
+/// Annotation and values for a SINGLE mouse button.
+/// See [MouseButton] for the individual button values
 ///
+/// @see Mouse#isPressed 
 /// @sdlAPI SDL_MouseButtonFlags
 @MagicConstant(flagsFromClass = MouseButton.class)
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.CLASS)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.TYPE_USE})
 public @interface MouseButtonFlags {
 
     int MASK = Internal.flagMask(MouseButton.class);
+
+
 
 }
