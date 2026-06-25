@@ -5,15 +5,18 @@ import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.Getter;
 
 import java.lang.foreign.Arena;
+import java.lang.foreign.MemoryLayout;
 import java.lang.foreign.MemorySegment;
 
-import static io.github.plixo2.sodalite.Internal.isU32;
+import static io.github.plixo2.sodalite.Internal.*;
 
+/// The buffer can only hold up to 2^32 - 1 bytes (4 GiB) of data
 public class GrowableWriteBuffer extends WriteBuffer<GrowableWriteBuffer> {
 
     private final CurrentSegment currentSegment;
 
-    private double growthFactor = 2d;
+    @Getter
+    private GrowthStrategy growthStrategy = new GrowthStrategy.Factor(2);
 
     GrowableWriteBuffer(
             ResourceSet resources,
@@ -24,56 +27,71 @@ public class GrowableWriteBuffer extends WriteBuffer<GrowableWriteBuffer> {
         if (initialSize < 0) {
            throw new IllegalArgumentException("Initial size must be non-negative");
         }
-        if (!isU32(initialSize)) {
-            throw new IllegalArgumentException("Buffer capacity exceeds maximum allowed size of 2^32 bytes (4 GiB)");
-        }
+        checkCapacity(initialSize);
 
         this.currentSegment = segment;
         this.capacity = initialSize;
         if (initialSize > 0) {
-            this.currentSegment.grow(initialSize);
+            this.currentSegment.growTo(initialSize);
         }
     }
 
     /// @throws IllegalArgumentException if `initialSize` is negative
-    /// @throws IllegalArgumentException if `initialSize` exceeds 2^32 bytes (4 GiB)
-    public static GrowableWriteBuffer create(ResourceSet resources, long initialSize) {
+    /// @throws IllegalArgumentException if `initialSize` exceeds 2^32 - 1 bytes (4 GiB)
+    public static GrowableWriteBuffer create(
+            ResourceSet resources,
+            long initialSize
+    ) {
         return new GrowableWriteBuffer(resources, initialSize);
     }
-    /// @throws IllegalArgumentException if `initialSize` is negative
-    /// @throws IllegalArgumentException if `initialSize` exceeds 2^32 bytes (4 GiB)
-    public static GrowableWriteBuffer create(ResourceSet resources) {
-        return new GrowableWriteBuffer(resources, 0);
+
+    /// create a new `GrowableWriteBuffer` with an initial size of 64 bytes
+    public static GrowableWriteBuffer create(
+            ResourceSet resources
+    ) {
+        return new GrowableWriteBuffer(resources, 64);
     }
 
-    /// Sets the growth factor for the buffer.
-    /// The growth factor determines how much the buffer will grow when it needs to expand.
-    ///
-    /// - `factor <= 1` means the buffer will grow only by the required amount.
-    /// - `factor > 1` means the buffer will grow by n times, until the required capacity is met.
-    ///
-    /// E.g. the default factor of 2 means the buffer will double in size.
-    ///
-    /// @throws IllegalArgumentException if `factor` is less than 0 or greater than 255
-    public void setGrowthFactor(double factor) {
-        if (factor < 0) {
-            throw new IllegalArgumentException("Growth factor must be at least 0");
-        } else if (factor > 255) {
-             throw new IllegalArgumentException("Growth factor must be at most 255");
+    /// create a new `GrowableWriteBuffer` with an initial size of 64 bytes and a growth strategy
+    public static GrowableWriteBuffer create(
+            ResourceSet resources,
+            GrowthStrategy growthStrategy
+    ) {
+        return new GrowableWriteBuffer(resources, 64).growthStrategy(growthStrategy);
+    }
+
+    /// create a new `GrowableWriteBuffer` with an initial size of 64 bytes and a custom growth function
+    public static GrowableWriteBuffer create(
+            ResourceSet resources,
+            GrowthStrategy.Custom customFunction
+    ) {
+        return new GrowableWriteBuffer(resources, 64).growthStrategy(customFunction);
+    }
+
+    /// create a new `GrowableWriteBuffer` that grows according to the given `layout` times `elementGrowCount`
+    /// @param layout the memory layout of the elements to be stored in the buffer
+    /// @param elementGrowCount the number of elements to grow by when the buffer is full
+    public static GrowableWriteBuffer create(
+            ResourceSet resources,
+            MemoryLayout layout,
+            long elementGrowCount
+    ) {
+        if (elementGrowCount <= 0) {
+            throw new IllegalArgumentException("Element grow count must be at least 1");
         }
-        this.growthFactor = factor;
+        var size = layout.byteSize() * elementGrowCount;
+        var buffer = new GrowableWriteBuffer(resources, 0);
+        buffer.growthStrategy(new GrowthStrategy.Constant(size));
+        return buffer;
     }
 
-    /// The growth factor determines how much the buffer will grow when it needs to expand.
-    ///
-    /// - `factor <= 1` means the buffer will grow only by the required amount.
-    /// - `factor > 1` means the buffer will grow by n times, until the required capacity is met.
-    ///
-    /// E.g. the default factor of 2 means the buffer will double in size.
-    ///
-    /// @return the current growth factor, defaults to 2
-    public double growthFactor() {
-        return this.growthFactor;
+    public GrowableWriteBuffer growthStrategy(GrowthStrategy growthStrategy) {
+        this.growthStrategy = growthStrategy;
+        return this;
+    }
+    public GrowableWriteBuffer growthStrategy(GrowthStrategy.Custom customFunction) {
+        this.growthStrategy = customFunction;
+        return this;
     }
 
     /// @return the memory segment capped to `this.position`
@@ -89,34 +107,50 @@ public class GrowableWriteBuffer extends WriteBuffer<GrowableWriteBuffer> {
 
     @Override
     protected final MemorySegment ensureCapacity(long requiredCapacity) {
+        if (requiredCapacity < 0) {
+            throw new IllegalArgumentException("Required capacity must be non-negative");
+        }
         if (requiredCapacity <= this.capacity) {
             return this.currentSegment.segment;
         }
-
+        checkCapacity(requiredCapacity);
         long newCapacity;
-        if (this.growthFactor <= 1.001) { // small epsilon to account for floating point errors
-            newCapacity = requiredCapacity;
+        if (this.growthStrategy instanceof GrowthStrategy.Custom userFunction) {
+            newCapacity = growByCustomFunction(userFunction, this.capacity, requiredCapacity);
         } else {
-            newCapacity = Math.max(8, this.capacity);
-            do {
-                newCapacity = (long) Math.ceil(newCapacity * this.growthFactor);
-            } while (newCapacity < requiredCapacity);
+            newCapacity = this.growthStrategy.next(this.capacity, requiredCapacity);
         }
 
-        if (!isU32(newCapacity)) {
-            throw new IllegalStateException("Buffer capacity exceeds maximum allowed size of 2^32 bytes (4 GiB)");
-        }
-        
-        this.currentSegment.grow(newCapacity);
+        this.currentSegment.growTo(newCapacity);
         this.capacity = newCapacity;
         return this.currentSegment.segment;
+    }
+
+    private static long growByCustomFunction(GrowthStrategy.Custom userFunction, long currentCapacity, long requiredCapacity) {
+        var capacity = currentCapacity;
+        while (capacity < requiredCapacity) {
+            var previousCapacity = capacity;
+            capacity = userFunction.next(capacity, requiredCapacity);
+            if (capacity <= previousCapacity) {
+                throw new IllegalStateException("Custom growth function did not grow the buffer");
+            }
+            checkCapacity(capacity);
+        }
+
+        return capacity;
+    }
+
+    private static void checkCapacity(long capacity) {
+        if (!isU32(capacity)) {
+            throw new IllegalStateException(OVERFLOW_MESSAGE);
+        }
     }
 
     private final static class CurrentSegment implements Resource {
         private MemorySegment segment;
         private Arena arena;
 
-        private void grow(long newCapacity) {
+        private void growTo(long newCapacity) {
             if (this.arena == null) {
                 this.arena = Arena.ofShared();
                 this.segment = this.arena.allocate(newCapacity);
@@ -126,9 +160,10 @@ public class GrowableWriteBuffer extends WriteBuffer<GrowableWriteBuffer> {
             var newArena = Arena.ofShared();
             var newSegment = newArena.allocate(newCapacity);
             newSegment.copyFrom(this.segment);
-            this.arena.close();
             this.segment = newSegment;
+            this.arena.close();
             this.arena = newArena;
+
         }
 
         @Override
@@ -138,5 +173,7 @@ public class GrowableWriteBuffer extends WriteBuffer<GrowableWriteBuffer> {
             }
         }
     }
+
+
 
 }

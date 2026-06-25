@@ -22,7 +22,7 @@ public class IntList implements Iterable<Integer> {
     /// The array may be larger than the number of elements in
     /// the list and may be modified if the list is modified.
     /// @return the internal array of the list
-    public int[] data() {
+    public int[] internalData() {
         return this.data;
     }
 

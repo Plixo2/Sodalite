@@ -39,6 +39,8 @@ public record VertexInputState(
         );
     }
 
+    /// @throws IllegalArgumentException if the struct layout contains
+    ///                                  unsupported types or sizes for vertex attributes
     public static VertexInputState of(
             int bindingSlot,
             StructLayout structLayout,
@@ -96,6 +98,12 @@ public record VertexInputState(
         VertexElementFormat format,
         int offset
     ) {
+        public VertexAttribute {
+            assertU32(location, "location");
+            assertU32(bufferSlot, "bufferSlot");
+            assertU32(offset, "offset");
+        }
+
         public static VertexAttribute of(
             int location,
             int bufferSlot,
@@ -165,7 +173,8 @@ public record VertexInputState(
     }
 
 
-
+    /// @throws IllegalArgumentException if the struct layout contains
+    ///                                  unsupported types or sizes for vertex attributes
     private static VertexInputState fromStruct(
             StructLayout structLayout,
             int bindingSlot,

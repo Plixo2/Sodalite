@@ -7,6 +7,7 @@ import org.libsdl.sdl.SDL_GPUIndirectDrawCommand;
 
 import java.lang.foreign.MemoryLayout;
 import java.lang.foreign.SequenceLayout;
+import java.lang.foreign.StructLayout;
 import java.lang.foreign.ValueLayout;
 
 public class Layouts {
@@ -36,11 +37,11 @@ public class Layouts {
     public static MemoryLayout UINT8_4 = byteArray(4);
 
     /// @sdlAPI SDL_GPUIndirectDrawCommand
-    public static MemoryLayout PRIMITIVES_INDIRECT_DRAW_COMMAND = SDL_GPUIndirectDrawCommand.layout();
+    public static StructLayout PRIMITIVES_INDIRECT_DRAW_COMMAND = (StructLayout) SDL_GPUIndirectDrawCommand.layout();
     /// @sdlAPI SDL_GPUIndexedIndirectDrawCommand
-    public static MemoryLayout INDEXED_INDIRECT_DRAW_COMMAND = SDL_GPUIndexedIndirectDrawCommand.layout();
+    public static StructLayout INDEXED_INDIRECT_DRAW_COMMAND = (StructLayout) SDL_GPUIndexedIndirectDrawCommand.layout();
     /// @sdlAPI SDL_GPUIndirectDispatchCommand
-    public static MemoryLayout INDIRECT_DISPATCH_COMMAND = SDL_GPUIndirectDispatchCommand.layout();
+    public static StructLayout INDIRECT_DISPATCH_COMMAND = (StructLayout) SDL_GPUIndirectDispatchCommand.layout();
 
     public static SequenceLayout floatArray(int count) {
         return MemoryLayout.sequenceLayout(count, ValueLayout.JAVA_FLOAT);

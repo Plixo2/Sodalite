@@ -11,6 +11,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
         extends ResourceObject
         implements GPUWriteStream<Self>
 {
+    static final String OVERFLOW_MESSAGE = "Buffer capacity exceeds maximum allowed size of 2^32 - 1 bytes (4 GiB)";
+
 
     protected long position = 0;
     protected long capacity = 0;

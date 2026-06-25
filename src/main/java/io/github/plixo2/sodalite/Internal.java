@@ -10,9 +10,9 @@ import java.lang.foreign.MemorySegment;
 import java.util.Objects;
 
 public final class Internal {
-    private static final long U32_MAX = 0xFFFFFFFFL;
-    private static final long U16_MAX = 0xFFFF;
-    private static final long U8_MAX = 0xFF;
+    public static final long U32_MAX = 0xFFFFFFFFL;
+    public static final long U16_MAX = 0xFFFF;
+    public static final long U8_MAX = 0xFF;
 
     /// Checks are for validating external SDL calls
     private final static boolean CHECKS_ENABLED;

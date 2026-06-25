@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class ExampleTests {
 
     @Test
-    void ensureTestCompile() {
+    void ensureCompilation() {
         new GPUHelloTriangle();
     }
 }
