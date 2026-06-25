@@ -1,6 +1,7 @@
 package io.github.plixo2.sodalite.category.init;
 
 import io.github.plixo2.sodalite.category.properties.PropertyKey;
+import io.github.plixo2.sodalite.memory.BitMask;
 import io.github.plixo2.sodalite.resource.PendingFrees;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,7 +14,22 @@ import static io.github.plixo2.sodalite.Internal.*;
 public class Init {
     private Init() {}
 
+    /// SDL states:
+    ///
+    /// > On Apple platforms, the main thread is the thread that runs your program's main() entry point.
+    /// > On other platforms, the main thread is the one that calls SDL_Init(SDL_INIT_VIDEO),
+    /// > which should usually be the one that runs your program's main() entry point.
+    ///
+    /// This may differ from java's "main" thread. Consider the main thread the one
+    /// that initializes the video subsystem.
+    ///
+    /// @sdlAPI SDL_IsMainThread
+    public static boolean isMainThread() {
+        return SDL_IsMainThread();
+    }
+
     /// @sdlAPI SDL_Init
+    /// @threadSafety This function should only be called on the main thread
     public static void init(@InitFlags int flags) {
         check(SDL_Init(flags));
     }
@@ -21,42 +37,82 @@ public class Init {
     /// Does exactly the same thing as [#init]
     ///
     /// @sdlAPI SDL_InitSubSystem
+    /// @threadSafety This function should only be called on the main thread
     public static void initSubSystem(@InitFlags int flags) {
         check(SDL_InitSubSystem(flags));
     }
 
+    /// Ensures that the given subsystems are initialized.
+    ///
+    /// Tests each subsystem in the given flags and initializes only
+    /// that subsystem if it is not already initialized.
+    /// @threadSafety This function should only be called on the main thread
+    /// @see #wasAllInit
+    /// @see #initSubSystem
     public static void ensureInit(@InitFlags int flags) {
-        forEachFlag(
-                flags,
-                InitFlags.MASK,
-                (@InitFlags int flag) -> {
-                    if (!wasInit(flag)) {
-                        initSubSystem(flag);
-                    }
-                }
-        );
+        for (@InitFlags int flag : BitMask.extractFlags(flags, InitFlags.MASK)) {
+            if (!wasAllInit(flag)) {
+                initSubSystem(flag);
+            }
+        }
     }
 
+    /// @return true if any of the given subsystems were initialized, false otherwise.
     /// @sdlAPI SDL_WasInit
-    public static boolean wasInit(@InitFlags int flags) {
+    public static boolean wasAnyInit(@InitFlags int flags) {
+        var result = SDL_WasInit(flags) & flags;
+        return result != 0;
+    }
+
+    /// @return true if all of the given subsystems were initialized, false otherwise.
+    /// @sdlAPI SDL_WasInit
+    public static boolean wasAllInit(@InitFlags int flags) {
         var result = SDL_WasInit(flags) & flags;
         //noinspection MagicConstant
         return result == flags;
     }
 
+    /// Wrapper for `SDL_WasInit(0)`
+    ///
+    /// @return array of [InitFlags] for the initialized subsystems
+    /// @sdlAPI SDL_WasInit
+    public static @InitFlags int[] getInit() {
+        var result = SDL_WasInit(0) & InitFlags.MASK;
+        var count = Integer.bitCount(result);
+        var flags = new @InitFlags int[count];
+        int index = 0;
+        for (@InitFlags int flag : BitMask.extractFlags(result)) {
+            flags[index++] = flag;
+        }
+        return flags;
+    }
+
+    /// You still need to call [#quit] even if you close all open subsystems.
     /// @sdlAPI SDL_QuitSubSystem
     public static void quitSubSystem(@InitFlags int flags) {
         SDL_QuitSubSystem(flags);
     }
 
+
+    /// You should call this function even if you have
+    /// already shutdown each initialized subsystem.
+    ///
+    /// This function will also call [PendingFrees#freeGlobal] to free any global
+    /// and non-collected gc-managed resources.
+    /// You are not protected when using a gc-managed resource after this function is called,
+    /// consider them freed and unusable.
+    ///
     /// @sdlAPI SDL_Quit
     /// @threadSafety This function should only be called on the main thread
     public static void quit() {
-        try {
-            PendingFrees.freeGlobal();
-        } finally {
-            SDL_Quit();
-        }
+
+        // intentionally not surrounded with try/catch
+        // to avoid subsequent errors (e.g. use-after-free or double-free's)
+        // that might crash the jvm.
+        PendingFrees.freeGlobal();
+
+
+        SDL_Quit();
     }
 
     /// @sdlAPI SDL_SetAppMetadata

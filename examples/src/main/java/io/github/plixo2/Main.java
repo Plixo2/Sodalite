@@ -2,13 +2,13 @@
 
 import io.github.plixo2.sodalite.category.version.Version;
 import io.github.plixo2.sodalite.category.version.VersionTarget;
-import io.github.plixo2.sodalite.file.image.ImageChannels;
-import io.github.plixo2.sodalite.file.image.ImageDynamicRange;
-import io.github.plixo2.sodalite.file.image.ImageLoader;
+import io.github.plixo2.sodalite.memory.MemorySource;
+import io.github.plixo2.sodalite.io.image.ImageChannels;
+import io.github.plixo2.sodalite.io.image.ImageDynamicRange;
+import io.github.plixo2.sodalite.io.image.ImageLoader;
 import io.github.plixo2.sodalite.category.events.EventConsumer;
 import io.github.plixo2.sodalite.category.timer.Timer;
 import io.github.plixo2.sodalite.category.video.Window;
-import io.github.plixo2.sodalite.file.image.ImageSource;
 import io.github.plixo2.sodalite.memory.*;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import io.github.plixo2.sodalite.category.events.Events;
@@ -377,7 +377,7 @@ static Texture loadTexture(
     try (var textureData = ResourceSet.ofConfined()) {
         var imageData = ImageLoader.load(
                 textureData.arena(),
-                ImageSource.of(path),
+                MemorySource.of(path),
                 ImageDynamicRange.SDR,
                 ImageChannels.RGBA
         ).orThrow(IOException::new);

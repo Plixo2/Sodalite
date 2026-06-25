@@ -13,22 +13,23 @@ import java.util.List;
 
 /// @sdlAPI SDL_GPUGraphicsPipelineTargetInfo
 public record GraphicsPipelineTargetInfo(
-    List<ColorTargetDescription> colorTargetDescriptions,
-    @Nullable TextureFormat depthStencilFormat
+    @Nullable TextureFormat depthStencilFormat,
+    List<ColorTargetDescription> colorTargetDescriptions
 ) {
     public static GraphicsPipelineTargetInfo of() {
-        return new GraphicsPipelineTargetInfo(List.of(), null);
+        return new GraphicsPipelineTargetInfo(null, List.of());
     }
 
     public static GraphicsPipelineTargetInfo of(
+            @Nullable TextureFormat depthStencilFormat,
             List<ColorTargetDescription> colorTargetDescriptions
     ) {
-        return new GraphicsPipelineTargetInfo(colorTargetDescriptions, null);
+        return new GraphicsPipelineTargetInfo(depthStencilFormat, colorTargetDescriptions);
     }
     public static GraphicsPipelineTargetInfo of(
             ColorTargetDescription... colorTargetDescriptions
     ) {
-        return new GraphicsPipelineTargetInfo(List.of(colorTargetDescriptions), null);
+        return new GraphicsPipelineTargetInfo(null, List.of(colorTargetDescriptions));
     }
     public static GraphicsPipelineTargetInfo of(
             @Nullable TextureFormat depthStencilFormat,
@@ -38,46 +39,15 @@ public record GraphicsPipelineTargetInfo(
         var list = new ArrayList<ColorTargetDescription>(rest.length + 1);
         list.add(fst);
         Collections.addAll(list, rest);
-        return new GraphicsPipelineTargetInfo(list, depthStencilFormat);
+        return new GraphicsPipelineTargetInfo(depthStencilFormat, list);
     }
     public static GraphicsPipelineTargetInfo of(
             @Nullable TextureFormat depthStencilFormat,
             ColorTargetDescription[] colorTargetDescriptions
     ) {
-        return new GraphicsPipelineTargetInfo(List.of(colorTargetDescriptions), depthStencilFormat);
+        return new GraphicsPipelineTargetInfo(depthStencilFormat, List.of(colorTargetDescriptions));
     }
 
-    public static GraphicsPipelineTargetInfo of(
-            TextureFormat format,
-            ColorTargetBlendState blendState
-    ) {
-       return GraphicsPipelineTargetInfo.of(ColorTargetDescription.of(format, blendState));
-    }
-    public static GraphicsPipelineTargetInfo of(
-            TextureFormat format1,
-            ColorTargetBlendState blendState1,
-            TextureFormat format2,
-            ColorTargetBlendState blendState2
-    ) {
-        return GraphicsPipelineTargetInfo.of(
-                ColorTargetDescription.of(format1, blendState1),
-                ColorTargetDescription.of(format2, blendState2)
-        );
-    }
-    public static GraphicsPipelineTargetInfo of(
-            TextureFormat format1,
-            ColorTargetBlendState blendState1,
-            TextureFormat format2,
-            ColorTargetBlendState blendState2,
-            TextureFormat format3,
-            ColorTargetBlendState blendState3
-    ) {
-        return GraphicsPipelineTargetInfo.of(
-                ColorTargetDescription.of(format1, blendState1),
-                ColorTargetDescription.of(format2, blendState2),
-                ColorTargetDescription.of(format3, blendState3)
-        );
-    }
 
     void put(SegmentAllocator arena, MemorySegment segment) {
         var colorTargetDescriptions = SDL_GPUColorTargetDescription

@@ -1,12 +1,8 @@
-package io.github.plixo2.sodalite.file.image;
+package io.github.plixo2.sodalite.io.image;
 
-import io.github.plixo2.sodalite.category.gpu.TextureFormat;
-import io.github.plixo2.sodalite.file.FileIO;
 import io.github.plixo2.sodalite.memory.Layouts;
 
-import java.io.IOException;
 import java.lang.foreign.*;
-import java.nio.file.Path;
 
 public class ASTCLoader {
 

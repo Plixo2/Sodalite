@@ -12,6 +12,8 @@ import java.util.*;
 import static org.libsdl.sdl.SDL3_h.*;
 import static io.github.plixo2.sodalite.Internal.*;
 
+/// [PropertyGroup] is the wrapper for `SDL_PropertiesID`
+///
 /// @sdlCategory CategoryProperties
 public class Properties {
     private Properties() {}

@@ -14,8 +14,7 @@ See [porting progress](Progress.md)
 
 <br>
 
-See the full list of examples [here](examples/src/main/java/io/github/plixo2/sodalite/examples),
-including explanations.
+See the full list of documented examples [here](examples/src/main/java/io/github/plixo2/sodalite/examples)
 
 <details>
 
@@ -24,10 +23,9 @@ including explanations.
 
 Minimal 'Hello Triangle' example using `SDL_gpu`, [originally written in C by Hamdy Elzanqali](https://hamdy-elzanqali.medium.com/let-there-be-triangles-sdl-gpu-edition-bd82cf2ef615)
 
-
 ```java
 public class GPUHelloTriangle implements Callbacks {
-    // ```c
+    /// ```c
     /// struct Vertex {
     ///     float x, y, z;      //vec3 position
     ///     float r, g, b, a;   //vec4 color
@@ -35,8 +33,8 @@ public class GPUHelloTriangle implements Callbacks {
     /// ```
     /// This will also be used to set up the vertex input state for the pipeline
     static StructLayout Vertex = MemoryLayout.structLayout(
-            Layouts.VECTOR_3F.withName("position"),
-            Layouts.VECTOR_4F.withName("color")
+            Layouts.FLOAT_3.withName("position"),
+            Layouts.FLOAT_4.withName("color")
     );
     WriteBuffer<?> vertices = ConstantWriteBuffer.allocate(ResourceSet.global(), Vertex, 3)
          .writeFloats( 0.0f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f)
@@ -49,7 +47,7 @@ public class GPUHelloTriangle implements Callbacks {
     /// }
     /// ```
     static StructLayout UniformBuffer = MemoryLayout.structLayout(
-            Layouts.FLOAT.withName("time")
+        Layouts.FLOAT.withName("time")
     );
     CStruct timeUniform = CStruct.allocate(ResourceSet.global(), UniformBuffer);
 
@@ -62,6 +60,7 @@ public class GPUHelloTriangle implements Callbacks {
     public AppResult onWindowCloseRequested(long timestamp, int windowID) {
         return AppResult.SUCCESS;
     }
+
 
     @Override
     public AppResult init(String[] args) throws IOException {
@@ -102,8 +101,10 @@ public class GPUHelloTriangle implements Callbacks {
             MultisampleState.disabled(),
             DepthStencilState.disabled(),
             GraphicsPipelineTargetInfo.of(
+                ColorTargetDescription.of(
                     this.device.getSwapchainTextureFormat(this.window),
                     ColorTargetBlendState.standardAlphaBlend()
+                )
             )
         );
 

@@ -1,9 +1,7 @@
 package io.github.plixo2.sodalite.category.surface;
 
 
-import io.github.plixo2.sodalite.Internal;
-import io.github.plixo2.sodalite.category.gpu.ColorComponentWriteFlags;
-import io.github.plixo2.sodalite.category.tray.TrayEntryFlags;
+import io.github.plixo2.sodalite.memory.BitMask;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;
@@ -19,10 +17,10 @@ import static org.libsdl.sdl.SDL3_h.*;
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.TYPE_USE})
 public @interface FlipMode {
 
-    int NONE = SDL_FLIP_NONE();
-    int HORIZONTAL = SDL_FLIP_HORIZONTAL();
-    int VERTICAL = SDL_FLIP_VERTICAL();
+    int NONE = SDL_FLIP_NONE;
+    int HORIZONTAL = SDL_FLIP_HORIZONTAL;
+    int VERTICAL = SDL_FLIP_VERTICAL;
 
-    int MASK = Internal.flagMask(FlipMode.class);
+    int MASK = BitMask.flagMaskInt(FlipMode.class);
 
 }

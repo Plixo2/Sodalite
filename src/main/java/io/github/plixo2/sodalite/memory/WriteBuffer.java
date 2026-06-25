@@ -15,17 +15,17 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     protected long position = 0;
     protected long capacity = 0;
 
-    protected abstract void ensureCapacity(long requiredCapacity);
-
-    /// faster version to avoid overhead
-    protected abstract MemorySegment currentSegmentUnchecked();
+    /// @throws IllegalStateException if `requiredCapacity` exceeds
+    ///                               the current capacity and the buffer cannot grow
+    /// @throws IllegalArgumentException if `requiredCapacity` exceeds 2^32 bytes (4 GiB)
+    /// @return the underlying memory segment, uncapped
+    protected abstract MemorySegment ensureCapacity(long requiredCapacity);
 
     /// - [GrowableWriteBuffer] returns a segment capped to `this.position`
-    /// - [CStruct]/[ConstantWriteBuffer] return the full memory segment, not capped to `this.position` \
+    /// - [CStruct]/[ConstantWriteBuffer] return the full memory segment, not capped to `this.position`
     public abstract MemorySegment memory();
 
     public long capacity() {
-        ensureNotReleased();
         return this.capacity;
     }
 
@@ -37,13 +37,14 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     }
 
     public Self reset() {
-        ensureNotReleased();
         this.position = 0;
         return castThis();
     }
 
+
+    /// @throws IllegalArgumentException if `newPosition` is negative or exceeds the buffer's capacity
     public Self seek(long newPosition) {
-        if (newPosition < 0 || newPosition > capacity()) {
+        if (newPosition < 0 || newPosition > this.capacity) {
             throw new IllegalArgumentException("Position must be between 0 and capacity");
         }
         assertU32(newPosition, "newPosition");
@@ -54,8 +55,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
 
     @Override
     public Self writeFloat(float value) {
-        ensureCapacity(this.position + Float.BYTES);
-        currentSegmentUnchecked().set(ValueLayout.JAVA_FLOAT, this.position, value);
+        var segment = ensureCapacity(this.position + Float.BYTES);
+        segment.set(ValueLayout.JAVA_FLOAT, this.position, value);
         this.position += Float.BYTES;
         return castThis();
     }
@@ -63,16 +64,16 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeFloats(float... values) {
         long bytes = (long) values.length * Float.BYTES;
-        ensureCapacity(this.position + bytes);
-        MemorySegment.copy(values, 0, currentSegmentUnchecked(), ValueLayout.JAVA_FLOAT, this.position, values.length);
+        var segment = ensureCapacity(this.position + bytes);
+        MemorySegment.copy(values, 0, segment, ValueLayout.JAVA_FLOAT, this.position, values.length);
         this.position += bytes;
         return castThis();
     }
 
     @Override
     public Self writeInt(int value) {
-        ensureCapacity(this.position + Integer.BYTES);
-        currentSegmentUnchecked().set(ValueLayout.JAVA_INT, this.position, value);
+        var segment = ensureCapacity(this.position + Integer.BYTES);
+        segment.set(ValueLayout.JAVA_INT, this.position, value);
         this.position += Integer.BYTES;
         return castThis();
     }
@@ -80,16 +81,33 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeInts(int... values) {
         long bytes = (long) values.length * Integer.BYTES;
-        ensureCapacity(this.position + bytes);
-        MemorySegment.copy(values, 0, currentSegmentUnchecked(), ValueLayout.JAVA_INT, this.position, values.length);
+        var segment = ensureCapacity(this.position + bytes);
+        MemorySegment.copy(values, 0, segment, ValueLayout.JAVA_INT, this.position, values.length);
+        this.position += bytes;
+        return castThis();
+    }
+
+    @Override
+    public Self writeLong(long value) {
+        var segment = ensureCapacity(this.position + Long.BYTES);
+        segment.set(ValueLayout.JAVA_LONG, this.position, value);
+        this.position += Long.BYTES;
+        return castThis();
+    }
+
+    @Override
+    public Self writeLongs(long... values) {
+        long bytes = (long) values.length * Long.BYTES;
+        var segment = ensureCapacity(this.position + bytes);
+        MemorySegment.copy(values, 0, segment, ValueLayout.JAVA_LONG, this.position, values.length);
         this.position += bytes;
         return castThis();
     }
 
     @Override
     public Self writeByte(byte value) {
-        ensureCapacity(this.position + Byte.BYTES);
-        currentSegmentUnchecked().set(ValueLayout.JAVA_BYTE, this.position, value);
+        var segment = ensureCapacity(this.position + Byte.BYTES);
+        segment.set(ValueLayout.JAVA_BYTE, this.position, value);
         this.position += Byte.BYTES;
         return castThis();
     }
@@ -97,16 +115,16 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeBytes(byte... values) {
         long bytes = values.length;
-        ensureCapacity(this.position + bytes);
-        MemorySegment.copy(values, 0, currentSegmentUnchecked(), ValueLayout.JAVA_BYTE, this.position, values.length);
+        var segment = ensureCapacity(this.position + bytes);
+        MemorySegment.copy(values, 0, segment, ValueLayout.JAVA_BYTE, this.position, values.length);
         this.position += bytes;
         return castThis();
     }
 
     @Override
     public Self writeShort(short value) {
-        ensureCapacity(this.position + Short.BYTES);
-        currentSegmentUnchecked().set(ValueLayout.JAVA_SHORT, this.position, value);
+        var segment = ensureCapacity(this.position + Short.BYTES);
+        segment.set(ValueLayout.JAVA_SHORT, this.position, value);
         this.position += Short.BYTES;
         return castThis();
     }
@@ -114,8 +132,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeShorts(short... values) {
         long bytes = (long) values.length * Short.BYTES;
-        ensureCapacity(this.position + bytes);
-        MemorySegment.copy(values, 0, currentSegmentUnchecked(), ValueLayout.JAVA_SHORT, this.position, values.length);
+        var segment = ensureCapacity(this.position + bytes);
+        MemorySegment.copy(values, 0, segment, ValueLayout.JAVA_SHORT, this.position, values.length);
         this.position += bytes;
         return castThis();
     }
@@ -123,9 +141,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeMatrix4f(Matrix4f matrix) {
         long bytes = Float.BYTES * 16L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, matrix.m00());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, matrix.m01());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 2, matrix.m02());
@@ -149,9 +166,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeMatrix3f(Matrix3f matrix) {
         long bytes = Float.BYTES * 9L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, matrix.m00());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, matrix.m01());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 2, matrix.m02());
@@ -168,9 +184,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeMatrix2f(Matrix2f matrix) {
         long bytes = Float.BYTES * 4L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, matrix.m00());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, matrix.m01());
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 2, matrix.m10());
@@ -182,9 +197,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeVector4f(Vector4f vector) {
         long bytes = Float.BYTES * 4L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, vector.x);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, vector.y);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 2, vector.z);
@@ -196,9 +210,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeVector4f(float x, float y, float z, float w) {
         long bytes = Float.BYTES * 4L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, x);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, y);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 2, z);
@@ -210,9 +223,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeVector3f(Vector3f vector) {
         long bytes = Float.BYTES * 3L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, vector.x);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, vector.y);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 2, vector.z);
@@ -223,9 +235,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeVector3f(float x, float y, float z) {
         long bytes = Float.BYTES * 3L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, x);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, y);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 2, z);
@@ -237,9 +248,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeVector2f(Vector2f vector) {
         long bytes = Float.BYTES * 2L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, vector.x);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, vector.y);
         this.position += bytes;
@@ -249,9 +259,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeVector2f(float x, float y) {
         long bytes = Float.BYTES * 2L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, x);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, y);
         this.position += bytes;
@@ -261,9 +270,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeVector4i(Vector4i vector) {
         long bytes = Integer.BYTES * 4L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_INT, offset, vector.x);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES, vector.y);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 2, vector.z);
@@ -275,9 +283,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeVector4i(int x, int y, int z, int w) {
         long bytes = Integer.BYTES * 4L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_INT, offset, x);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES, y);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 2, z);
@@ -289,9 +296,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeVector3i(Vector3i vector) {
         long bytes = Integer.BYTES * 3L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_INT, offset, vector.x);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES, vector.y);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 2, vector.z);
@@ -302,9 +308,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeVector3i(int x, int y, int z) {
         long bytes = Integer.BYTES * 3L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_INT, offset, x);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES, y);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 2, z);
@@ -315,9 +320,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeVector2i(Vector2i vector) {
         long bytes = Integer.BYTES * 2L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_INT, offset, vector.x);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES, vector.y);
         this.position += bytes;
@@ -327,9 +331,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeVector2i(int x, int y) {
         long bytes = Integer.BYTES * 2L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_INT, offset, x);
         segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES, y);
         this.position += bytes;
@@ -339,9 +342,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     @Override
     public Self writeQuaternionf(Quaternionf quaternion) {
         long bytes = Float.BYTES * 4L;
-        ensureCapacity(this.position + bytes);
+        var segment = ensureCapacity(this.position + bytes);
         long offset = this.position;
-        var segment = currentSegmentUnchecked();
         segment.set(ValueLayout.JAVA_FLOAT, offset, quaternion.x);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES, quaternion.y);
         segment.set(ValueLayout.JAVA_FLOAT, offset + Float.BYTES * 2, quaternion.z);
@@ -353,8 +355,8 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
 
     @Override
     public Self write(MemorySegment segment, long offset, long length) {
-        ensureCapacity(this.position + length);
-        MemorySegment.copy(segment, offset, currentSegmentUnchecked(), this.position, length);
+        var dest = ensureCapacity(this.position + length);
+        MemorySegment.copy(segment, offset, dest, this.position, length);
         this.position += length;
         return castThis();
     }

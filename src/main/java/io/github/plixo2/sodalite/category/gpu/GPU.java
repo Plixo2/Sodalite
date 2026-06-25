@@ -1,9 +1,8 @@
 package io.github.plixo2.sodalite.category.gpu;
 
-import io.github.plixo2.sodalite.category.init.Init;
-import io.github.plixo2.sodalite.category.init.InitFlags;
 import io.github.plixo2.sodalite.category.pixels.PixelFormat;
 import io.github.plixo2.sodalite.category.video.Window;
+import io.github.plixo2.sodalite.memory.MemorySource;
 import io.github.plixo2.sodalite.memory.WriteBuffer;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import org.jetbrains.annotations.Nullable;
@@ -29,15 +28,6 @@ public final class GPU {
             boolean debugMode,
             GPUDriver preferredDriver
     ) {
-
-        if (!Init.wasInit(InitFlags.VIDEO)) {
-            // The Video video subsystem is required to create a Device!
-            // Creating a window does initialize the video subsystem, so
-            // we might as well do it here for consistency,
-            // since this method might be called before any window is created.
-            Init.initSubSystem(InitFlags.VIDEO);
-        }
-
         try (var arena = Arena.ofConfined()) {
             var device = check(SDL_CreateGPUDevice(
                     shaderFormat,
@@ -293,9 +283,7 @@ public final class GPU {
             if (texture.address() == 0) {
                 return null;
             } else {
-                var swapchainTexture = Texture.newSwapchainTexture(texture, width, height);
-                commandBuffer.acquiredSwapchainTexture = swapchainTexture;
-                return swapchainTexture;
+                return new CommandBuffer.SwapchainTexture(texture, width, height);
             }
         }
     }
@@ -322,9 +310,7 @@ public final class GPU {
             if (texture.address() == 0) {
                 return null;
             } else {
-                var swapchainTexture = Texture.newSwapchainTexture(texture, width, height);
-                commandBuffer.acquiredSwapchainTexture = swapchainTexture;
-                return swapchainTexture;
+                return new CommandBuffer.SwapchainTexture(texture, width, height);
             }
         }
     }
@@ -528,7 +514,7 @@ public final class GPU {
     static <T extends Exception> Shader createGPUShader(
             ResourceSet resources,
             Device device,
-            ShaderSource<T> code,
+            MemorySource<T> code,
             String entryPoint,
             @ShaderFormat int shaderFormat,
             ShaderStage shaderStage,
@@ -829,6 +815,7 @@ public final class GPU {
             ComputeShader.Creator<T> creator
     ) throws T {
         try (var arena = Arena.ofConfined()) {
+            var format = creator.shaderFormat();
             var source = creator.source();
             var threadCount = creator.threadCount();
             var parameter = creator.parameter();
@@ -839,12 +826,13 @@ public final class GPU {
 
             var createInfoSegment = SDL_GPUComputePipelineCreateInfo.allocate(arena);
 
+
             SDL_GPUComputePipelineCreateInfo.initialize(
                     createInfoSegment,
                     codeSize,
                     codeSegment,
                     entryPointSegment,
-                    source.shaderFormat(),
+                    format,
                     parameter.numSamplers(),
                     parameter.numReadonlyStorageTextures(),
                     parameter.numReadonlyStorageBuffers(),

@@ -3,61 +3,62 @@ package io.github.plixo2.sodalite;
 import io.github.plixo2.sodalite.category.error.Error;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.reflect.Modifier;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.function.IntConsumer;
 
 public final class Internal {
     private static final long U32_MAX = 0xFFFFFFFFL;
+    private static final long U16_MAX = 0xFFFF;
+    private static final long U8_MAX = 0xFF;
 
     /// Checks are for validating external SDL calls
     private final static boolean CHECKS_ENABLED;
 
-    public final static boolean ASSERTIONS_ENABLED;
-
     static {
         CHECKS_ENABLED = !Boolean.getBoolean("sodalite.disableChecks");
-        ASSERTIONS_ENABLED = !Boolean.getBoolean("sodalite.disableAssertions");
     }
 
     private Internal() {}
 
 
+    /// @throws IllegalArgumentException if the value is not a valid unsigned 32-bit integer
     public static int assertU32(long value, String name) {
-        if (ASSERTIONS_ENABLED && !isU32(value)) {
-            throw new AssertionError("Assertion failed " +
-                    "(0 <= " + value + " <= " + U32_MAX + ")" +
-                    ": '" + name + "' must fit into a unsigned 32-bit integer"
-            );
-        }
+        checkUnsigned(name, value, U32_MAX, 32);
         return (int) value;
     }
+
     public static boolean isU32(long value) {
         return value >= 0 && value <= U32_MAX;
     }
 
-
-    public static void assertTrue(boolean condition, String message) {
-        if (ASSERTIONS_ENABLED && !condition) {
-            throw new AssertionError(message);
-        }
+    /// @throws IllegalArgumentException if the value is not a valid unsigned 16-bit integer
+    public static byte assertU8(long value, String name) {
+        checkUnsigned(name, value, U8_MAX, 8);
+        return (byte) value;
     }
 
-    public static void assertTrue(boolean condition) {
-        assertTrue(condition, "Assertion failed");
+    public static boolean isU8(long value) {
+        return value >= 0 && value <= U8_MAX;
     }
+
+    /// @throws IllegalArgumentException if the value is not a valid unsigned 16-bit integer
+    public static short assertU16(long value, String name) {
+        checkUnsigned(name, value, U16_MAX, 16);
+        return (short) value;
+    }
+
+    public static boolean isU16(long value) {
+        return value >= 0 && value <= U16_MAX;
+    }
+
+
 
     public static MemorySegment assertNotNull(MemorySegment segment, String message) {
         Objects.requireNonNull(segment, "MemorySegment itself must not be null");
-        if (ASSERTIONS_ENABLED && segment.address() == 0) {
+        if (segment.address() == 0) {
             throw new NullPointerException(message);
         }
         return segment;
@@ -83,6 +84,7 @@ public final class Internal {
         check(value != 0);
         return value;
     }
+
     /// Only use for validating SDL calls
     public static void check(boolean success) {
         if (success || !CHECKS_ENABLED) {
@@ -124,90 +126,24 @@ public final class Internal {
             return segment.getString(0);
         }
     }
-    public static void forEachFlag(int bitset, int mask, IntConsumer consumer) {
-        forEachFlag(bitset & mask, consumer);
-    }
-    public static void forEachFlag(int bitset, IntConsumer consumer) {
 
-        int current = bitset;
-        while (current != 0) {
-            int lowestBit = Integer.lowestOneBit(current);
-            consumer.accept(lowestBit);
-            current &= ~lowestBit; // remove bit
-        }
-    }
-
-    public static Iterable<Integer> extractFlags(int bitset, int mask) {
-        return extractFlags(bitset & mask);
-    }
-
-
-    public static Iterable<Integer> extractFlags(int bitset) {
-        return () -> new Iterator<>() {
-            int remaining = bitset;
-
-            @Override
-            public boolean hasNext() {
-                return this.remaining != 0;
-            }
-
-            @Override
-            public Integer next() {
-                if (this.remaining == 0) {
-                    throw new NoSuchElementException();
-                }
-                int lowestBit = Integer.lowestOneBit(this.remaining);
-                this.remaining &= ~lowestBit; // remove bit
-                return lowestBit;
-            }
-        };
-    }
-
-    public static int flagMask(Class<?> mask) {
-        if (!mask.isAnnotation()) {
-            throw new IllegalArgumentException(
-                    "Expected an annotation type, got " + mask.getName()
-            );
-        }
-        var retention = mask.getAnnotation(Retention.class);
-        var target = mask.getAnnotation(Target.class);
-        if (retention == null) {
-            throw new IllegalArgumentException(
-                    "Expected @Retention annotation on MagicConstant class "
-                    + "'" + mask.getName() + "'"
-            );
-        }
-        if (target == null) {
-            throw new IllegalArgumentException(
-                    "Expected @Target annotation on MagicConstant class "
-                    + "'" + mask.getName() + "'"
-            );
+    private static void checkUnsigned(String name, long value, long max, int bit) {
+        if (value >= 0 && value <= max) {
+            return;
         }
 
-        return getConstantMask(mask);
-    }
+        var exceptionMessage =
+                "'" + name + "'"
+                + " does not fit into a unsigned "
+                + bit
+                + "-bit integer: ";
 
-    private static int getConstantMask(Class<?> mask) {
-        int result = 0;
-        for (var field : mask.getDeclaredFields()) {
-            if (field.getName().equals("MASK")) {
-                continue;
-            }
-
-            int modifiers = field.getModifiers();
-            if (!Modifier.isStatic(modifiers) || !Modifier.isFinal(modifiers)) {
-                continue;
-            }
-            if (field.getType() != int.class) {
-                continue;
-            }
-            try {
-                result |= field.getInt(null);
-            } catch (IllegalAccessException e) {
-                throw new IllegalStateException("Could not read field " + field, e);
-            }
+        if (value < 0) {
+            exceptionMessage += value + " < 0";
+        } else {
+            exceptionMessage += value + " > " + max;
         }
-        return result;
+        throw new IllegalArgumentException(exceptionMessage);
     }
 
     public static class SDL3Exception extends RuntimeException {

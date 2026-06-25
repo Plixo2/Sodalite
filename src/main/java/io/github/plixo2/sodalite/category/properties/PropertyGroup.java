@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+
 /// @sdlAPI SDL_PropertiesID
 @ToString
 public class PropertyGroup extends ResourceObject {

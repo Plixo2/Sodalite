@@ -1,8 +1,7 @@
 package io.github.plixo2.sodalite.category.messagebox;
 
 
-import io.github.plixo2.sodalite.Internal;
-import io.github.plixo2.sodalite.category.keycode.Keymod;
+import io.github.plixo2.sodalite.memory.BitMask;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;
@@ -19,9 +18,9 @@ import static org.libsdl.sdl.SDL3_h.*;
 public @interface MessageBoxButtonFlags {
 
     int NONE = 0;
-    int RETURN_KEY_DEFAULT = SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT();
-    int ESCAPE_KEY_DEFAULT = SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT();
+    int RETURN_KEY_DEFAULT = SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT;
+    int ESCAPE_KEY_DEFAULT = SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT;
 
-    int MASK = Internal.flagMask(MessageBoxButtonFlags.class);
+    int MASK = BitMask.flagMaskInt(MessageBoxButtonFlags.class);
 
 }

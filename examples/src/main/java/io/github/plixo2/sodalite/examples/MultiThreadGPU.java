@@ -1,7 +1,10 @@
 import io.github.plixo2.sodalite.category.events.EventConsumer;
 import io.github.plixo2.sodalite.category.events.Events;
 import io.github.plixo2.sodalite.category.gpu.*;
+import io.github.plixo2.sodalite.category.init.AppResult;
 import io.github.plixo2.sodalite.category.init.Init;
+import io.github.plixo2.sodalite.category.init.InitFlags;
+import io.github.plixo2.sodalite.category.timer.Timer;
 import io.github.plixo2.sodalite.category.video.Video;
 import io.github.plixo2.sodalite.category.video.Window;
 import io.github.plixo2.sodalite.category.video.WindowFlags;
@@ -54,16 +57,16 @@ static class GpuWindowRenderer implements EventConsumer {
     }
 
     void run() {
-        try (var _ = this.device.claimWindow(this.window)) {
-            while (this.running) {
-                frame();
-            }
+        while (this.running) {
+            frame();
         }
     }
 }
 record Session(
+        String name,
         GpuWindowRenderer instance,
         ResourceSet resources,
+        Device.WindowClaim windowClaim,
         Thread thread
 ) {
 
@@ -81,16 +84,19 @@ record Session(
                 WindowFlags.RESIZABLE
         );
         var renderer = new GpuWindowRenderer(clearColor, window, device);
+        var claim = device.claimWindow(window);
+
         var thread = new Thread(() -> {
             renderer.run();
             System.out.println(name + " exited");
         }, name);
-        return new Session(renderer, resources, thread);
+        return new Session(name, renderer, resources, claim, thread);
     }
 
     /// @return true if the session has exited, false otherwise
     boolean checkExit() {
         if (!this.thread.isAlive()) {
+            this.windowClaim.close();
             this.resources.close();
             return true;
         }
@@ -102,6 +108,7 @@ void main() throws InterruptedException {
     Init.setAppMetaData("GpuWindowRenderer", "0.0.1", "com.example.sodalite");
 
     try (var appLifeResources = ResourceSet.ofConfined()) {
+        Init.ensureInit(InitFlags.VIDEO);
         var device = GPU.createDevice(
                 appLifeResources,
                 ShaderFormat.SPIRV | ShaderFormat.DXIL | ShaderFormat.MSL,
@@ -130,8 +137,8 @@ void main() throws InterruptedException {
 
         var activeSessions = new ArrayList<>(sessions);
         while (!activeSessions.isEmpty()) {
+            // Cannot use `waitEvent` as that may would block the `checkExit` check to run immediately
             Events.pollEvents(activeSessions.stream().map(Session::instance).toList());
-
             activeSessions.removeIf(Session::checkExit);
 
             Thread.onSpinWait();

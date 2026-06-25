@@ -2,6 +2,7 @@ package io.github.plixo2.sodalite.resource;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.CheckReturnValue;
+import io.github.plixo2.sodalite.category.events.EventConsumer;
 import io.github.plixo2.sodalite.category.events.Events;
 import io.github.plixo2.sodalite.category.init.Init;
 
@@ -13,13 +14,17 @@ import java.lang.foreign.SegmentAllocator;
 ///
 /// - [ResourceSet#ofConfined()] should be used in a `try-with-resources`
 ///  block for manually managed resources.
+///  Failure to close this resource set will result in a leak.
+///  SDL or validation layers MAY warn about any leaks when the application exits.
+///
 /// - [ResourceSet#ofAuto()] should be used for gc-managed resources.
-/// - [ResourceSet#global()] should be used for resources that live until
-/// the end of the application (Until [Init#quit] is called).
+///
+/// - [ResourceSet#global()] should be used for resources that life until [Init#quit] is called.
 ///
 ///
-/// [Events#pollEvent]/[Events#pollEvents] should be called periodically to ensure
-/// cleanup of gc-managed resources.
+/// Make sure to call
+/// [Events#waitEvent]/[Events#pumpEvents]/[Events#pollEvent]/[Events#pollEvents] or [PendingFrees#drain]
+/// from the main thread periodically to free pending gc-managed resources.
 ///
 /// [Init#quit] should be always called on application exit.
 ///
@@ -39,12 +44,13 @@ public sealed interface ResourceSet
 
     /// Resource set automatically managed by the garbage collector.
     ///
-    /// Resources registered to this set will be freed when the owner object is garbage collected.
-    /// Make sure to call [Events#pollEvent]/[Events#pollEvents] or [PendingFrees#drain()]
-    /// from the main thread periodically to free the pending resources.
+    /// Resources registered to this set will be freed when the owner object is garbage collected,
+    /// thus they can be released in any order, so they should not reference each other.
+    /// Any freed
     ///
-    /// Resources registered to this resource set can be released in any order,
-    /// so they should not reference each other.
+    /// Make sure to call
+    /// [Events#waitEvent]/[Events#pumpEvents]/[Events#pollEvent]/[Events#pollEvents] or [PendingFrees#drain]
+    /// from the main thread periodically to free pending gc-managed resources.
     ///
     /// @threadSafety This resource set is thread-safe,
     ///               but all the resources will be freed on the main thread.
@@ -56,6 +62,7 @@ public sealed interface ResourceSet
     ///
     /// Resources registered to this resource set will be released in the reverse order
     /// of registration when [Init#quit] is called.
+    ///
     /// @threadSafety This resource set is thread-safe,
     ///               but all the resources will be freed on the main thread on application exit.
     static ResourceSet global() {
@@ -91,23 +98,29 @@ public sealed interface ResourceSet
     /// Register a resource to this resource set.
     ///
     /// The `resource` parameter should never reference the object passed as `owner`,
-    /// otherwise the owner will never be garbage collected,
-    /// causing a leak for auto resource sets.
+    /// otherwise the owner will never be garbage collected, when used with [#ofAuto()].
+    /// See [Resource] for more details.
     ///
     /// @param owner the owner of the resource
     /// @param resource the resource to be freed.
+    /// @see Resource
+    /// @see ResourceObject
     void register(ResourceObject owner, Resource resource);
 
     default void register(ResourceObject owner) {
         register(owner, () -> {});
     }
 
-    // Never close the arena manually, it will be closed when the resource set is closed.
+    /// Never close the arena manually, it will be closed when the resource set is closed.
+    /// @return a new arena that is closed when this resource set is closed.
     @CanIgnoreReturnValue
     Arena arena();
 
+    /// Allocate a new memory segment that is closed when this resource set is closed.
     @Override
-    MemorySegment allocate(long byteSize, long byteAlignment);
+    default MemorySegment allocate(long byteSize, long byteAlignment) {
+        return arena().allocate(byteSize, byteAlignment);
+    }
 
     /// @throws UnsupportedOperationException if this resource set does not support manual closing
     ///                                       (i.e. global, auto or manual resource set)

@@ -36,8 +36,10 @@ public class BasicCompute extends Common {
                 MultisampleState.disabled(),
                 DepthStencilState.disabled(),
                 GraphicsPipelineTargetInfo.of(
-                    this.device().getSwapchainTextureFormat(this.window()),
-                    ColorTargetBlendState.disabled()
+                    ColorTargetDescription.of(
+                        this.device().getSwapchainTextureFormat(this.window()),
+                        ColorTargetBlendState.disabled()
+                    )
                 )
         );
         var windowSize = this.window().getSizeInPixels(new Vector2i());

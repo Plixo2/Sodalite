@@ -1,20 +1,20 @@
-package io.github.plixo2.sodalite.file.image;
+package io.github.plixo2.sodalite.io.image;
 
 import io.github.plixo2.sodalite.category.gpu.TextureFormat;
+import io.github.plixo2.sodalite.memory.MemorySource;
 import org.lwjgl.stb.STBImage;
 
-import java.io.IOException;
 import java.lang.foreign.*;
 
 public class ImageLoader {
 
 
-    public static ImageResult load(
+    public static <T extends Exception> ImageResult load(
             Arena arena,
-            ImageSource source,
+            MemorySource<T> source,
             ImageDynamicRange dynamicRange,
             ImageChannels desiredChannels
-    ) {
+    ) throws T {
         return load(
                 arena,
                 source,
@@ -24,13 +24,13 @@ public class ImageLoader {
         );
     }
 
-    public static ImageResult load(
+    public static <T extends Exception> ImageResult load(
             Arena arena,
-            ImageSource source,
+            MemorySource<T> source,
             ImageDynamicRange dynamicRange,
             ImageChannels desiredChannels,
             boolean flipVertically
-    ) {
+    ) throws T {
         STBImage.stbi_set_flip_vertically_on_load(flipVertically);
 
         try (var tempArena = Arena.ofConfined()) {
@@ -39,12 +39,7 @@ public class ImageLoader {
             var channelsSegment = tempArena.allocate(ValueLayout.JAVA_INT);
 
             var desiredChannelCount = desiredChannels.count();
-            MemorySegment sourceSegment;
-            try {
-                sourceSegment = source.toSegment(tempArena);
-            } catch (IOException e) {
-                return new ImageResult.Error(new ImageIOException("Failed to read file", e));
-            }
+            MemorySegment sourceSegment = source.load(tempArena);
 
             var ptr = stbi_load(
                     sourceSegment,
@@ -120,34 +115,22 @@ public class ImageLoader {
     }
 
 
-    public static CompressedImageResult<ASTCFormat> loadASTC(
+    public static <T extends Exception> CompressedImageResult<ASTCFormat> loadASTC(
             Arena arena,
-            ImageSource source
-    ) {
+            MemorySource<T> source
+    ) throws T {
         try (var fileArena = Arena.ofConfined()) {
-            MemorySegment segment;
-            try {
-                segment = source.toSegment(fileArena);
-            } catch (IOException e) {
-                return new CompressedImageResult.Error<>(new ImageIOException("Failed to read file", e));
-            }
-
+            MemorySegment segment = source.load(fileArena);
             return ASTCLoader.load(arena, segment);
         }
     }
 
-    public static CompressedImageResult<TextureFormat> loadDDS(
+    public static <T extends Exception> CompressedImageResult<TextureFormat> loadDDS(
             Arena arena,
-            ImageSource source
-    ) {
+            MemorySource<T> source
+    ) throws T {
         try (var fileArena = Arena.ofConfined()) {
-            MemorySegment segment;
-            try {
-                segment = source.toSegment(fileArena);
-            } catch (IOException e) {
-                return new CompressedImageResult.Error<>(new ImageIOException("Failed to read file", e));
-            }
-
+            MemorySegment segment = source.load(fileArena);
             return DDSLoader.load(arena, segment);
         }
     }

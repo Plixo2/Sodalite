@@ -1,6 +1,7 @@
 package io.github.plixo2.sodalite.category.video;
 
 
+import io.github.plixo2.sodalite.category.properties.PropertyGroup;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import org.joml.Vector2i;
 
@@ -15,6 +16,9 @@ import static io.github.plixo2.sodalite.Internal.*;
 public class Video {
     private Video() {}
 
+    /// Will implicitly initialize the video subsystem if needed
+    /// (default `SDL_CreateWindow` behavior).
+    ///
     /// @sdlAPI SDL_CreateWindow
     public static Window createWindow(
             ResourceSet resources,
@@ -30,6 +34,36 @@ public class Video {
             window = check(SDL_CreateWindow(titleCStr, width, height, flags));
         }
 
+        return new Window(resources, window);
+    }
+
+    /// @sdlAPI SDL_CreatePopupWindow
+    public static Window createPopupWindow(
+            ResourceSet resources,
+            Window parent,
+            int offsetX,
+            int offsetY,
+            int width,
+            int height,
+            @WindowFlags long flags
+    ) {
+        var isTooltop = (flags & WindowFlags.TOOLTIP) != 0;
+        var isPopup = (flags & WindowFlags.POPUP_MENU) != 0;
+        if (!isTooltop && !isPopup) {
+            throw new IllegalArgumentException("Flags must include either WindowFlags.TOOLTIP or WindowFlags.POPUP_MENU");
+        }
+
+        var window = check(SDL_CreatePopupWindow(parent.segment(), offsetX, offsetY, width, height, flags));
+
+        return new Window(resources, window);
+    }
+
+    /// @sdlAPI SDL_CreateWindowWithProperties
+    public static Window createWindowWithProperties(
+            ResourceSet resources,
+            PropertyGroup props
+    ) {
+        var window = check(SDL_CreateWindowWithProperties(props.id()));
         return new Window(resources, window);
     }
 
@@ -71,6 +105,7 @@ public class Video {
     static float getWindowDisplayScale(Window window) {
         return SDL_GetWindowDisplayScale(window.segment());
     }
+
 
 
 }

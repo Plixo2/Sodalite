@@ -30,4 +30,11 @@ public class ClipboardData extends ResourceObject {
     public int hashCode() {
         return Long.hashCode(this.segment.address());
     }
+
+    @Override
+    public String toString() {
+        return "ClipboardData{" +
+                "segment=" + this.segment.address() +
+                '}';
+    }
 }

@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import io.github.plixo2.sodalite.memory.MemorySource;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.With;
@@ -28,7 +29,8 @@ public class Shader extends ResourceObject {
     }
 
     public record Creator<T extends Exception>(
-        ShaderSource<T> source,
+        @ShaderFormat int shaderFormat,
+        MemorySource<T> source,
         Shader.Parameters parameter
     ) {
         public static Creator<IOException> of(
@@ -36,34 +38,35 @@ public class Shader extends ResourceObject {
                 Path path,
                 Shader.Parameters parameter
         ) {
-            return new Creator<>(ShaderSource.of(shaderFormat, path), parameter);
+            return new Creator<>(shaderFormat, MemorySource.of(path), parameter);
         }
         public static Creator<IOException> of(
                 @ShaderFormat int shaderFormat,
                 java.io.InputStream inputStream,
                 Shader.Parameters parameter
         ) {
-            return new Creator<>(ShaderSource.of(shaderFormat, inputStream), parameter);
+            return new Creator<>(shaderFormat, MemorySource.of(inputStream), parameter);
         }
         public static Creator<RuntimeException> of(
                 @ShaderFormat int shaderFormat,
                 byte[] bytes,
                 Shader.Parameters parameter
         ) {
-            return new Creator<>(ShaderSource.of(shaderFormat, bytes), parameter);
+            return new Creator<>(shaderFormat, MemorySource.of(bytes), parameter);
         }
         public static Creator<RuntimeException> of(
                 @ShaderFormat int shaderFormat,
                 MemorySegment code,
                 Shader.Parameters parameter
         ) {
-            return new Creator<>(ShaderSource.of(shaderFormat, code), parameter);
+            return new Creator<>(shaderFormat, MemorySource.of(code), parameter);
         }
         public static <T extends Exception> Creator<T> of(
-                ShaderSource<T> source,
+                @ShaderFormat int shaderFormat,
+                MemorySource<T> source,
                 Shader.Parameters parameter
         ) {
-            return new Creator<>(source, parameter);
+            return new Creator<>(shaderFormat, source, parameter);
         }
     }
 

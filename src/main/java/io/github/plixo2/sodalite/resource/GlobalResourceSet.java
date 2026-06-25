@@ -27,11 +27,6 @@ final class GlobalResourceSet implements ResourceSet {
     }
 
     @Override
-    public MemorySegment allocate(long byteSize, long byteAlignment) {
-        return ARENA.allocate(byteSize, byteAlignment);
-    }
-
-    @Override
     public void close() {
         throw new UnsupportedOperationException("Attempted to close a non-closeable resource set");
     }

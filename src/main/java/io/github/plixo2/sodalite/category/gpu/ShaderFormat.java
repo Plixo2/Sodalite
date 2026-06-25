@@ -1,7 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
-import io.github.plixo2.sodalite.Internal;
-import io.github.plixo2.sodalite.category.pen.PenInputFlags;
+import io.github.plixo2.sodalite.memory.BitMask;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;
@@ -25,6 +24,6 @@ public @interface ShaderFormat {
     int MSL = SDL_GPU_SHADERFORMAT_MSL;
     int METALLIB = SDL_GPU_SHADERFORMAT_METALLIB;
 
-    int MASK = Internal.flagMask(ShaderFormat.class);
+    int MASK = BitMask.flagMaskInt(ShaderFormat.class);
 
 }

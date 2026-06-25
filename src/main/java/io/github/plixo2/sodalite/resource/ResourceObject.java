@@ -1,20 +1,21 @@
 package io.github.plixo2.sodalite.resource;
 
-import io.github.plixo2.sodalite.Internal;
 
 public abstract class ResourceObject {
     private boolean released = false;
 
-    public void ensureNotReleased() {
-        if (!Internal.ASSERTIONS_ENABLED || !this.released) {
+    /// @throws IllegalStateException if this object has been released
+    public final void ensureNotReleased() {
+        if (!this.released) {
             return;
         }
         var className = this.getClass().getTypeName();
         throw new IllegalStateException(className + " has already been released");
     }
 
-    public final void markReleased() {
-        if (Internal.ASSERTIONS_ENABLED && this.released) {
+    /// @throws IllegalStateException if this object has already been released before
+    final void markReleased() {
+        if (this.released) {
             var className = this.getClass().getTypeName();
             throw new IllegalStateException("Attempted to release " + className + " multiple times");
         }

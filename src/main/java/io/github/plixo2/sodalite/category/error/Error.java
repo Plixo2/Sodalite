@@ -35,12 +35,12 @@ public class Error {
 
     /// @sdlAPI SDL_ClearError
     public static void clearError() {
-        assertTrue(SDL_ClearError(), "SDL_ClearError must return true");
+        var _ = SDL_ClearError();
     }
 
     /// @sdlAPI SDL_OutOfMemory
     public static void outOfMemory() {
-        assertTrue(!SDL_OutOfMemory(), "SDL_OutOfMemory must return false");
+        var _ = SDL_OutOfMemory();
     }
 
     /// @sdlAPI SDL_SetError

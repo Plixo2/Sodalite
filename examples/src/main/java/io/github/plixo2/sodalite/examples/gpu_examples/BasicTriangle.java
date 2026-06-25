@@ -43,8 +43,10 @@ public class BasicTriangle extends Common {
                 MultisampleState.disabled(),
                 DepthStencilState.disabled(),
                 GraphicsPipelineTargetInfo.of(
+                    ColorTargetDescription.of(
                         this.device().getSwapchainTextureFormat(this.window()),
                         ColorTargetBlendState.disabled()
+                    )
                 )
         );
     }

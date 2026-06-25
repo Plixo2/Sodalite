@@ -1,8 +1,7 @@
 package io.github.plixo2.sodalite.category.tray;
 
 
-import io.github.plixo2.sodalite.Internal;
-import io.github.plixo2.sodalite.category.gpu.TextureUsageFlags;
+import io.github.plixo2.sodalite.memory.BitMask;
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.lang.annotation.ElementType;
@@ -19,13 +18,13 @@ import static org.libsdl.sdl.SDL3_h.*;
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.TYPE_USE})
 public @interface TrayEntryFlags {
 
-    int BUTTON = SDL_TRAYENTRY_BUTTON();
-    int CHECKBOX = SDL_TRAYENTRY_CHECKBOX();
-    int SUBMENU = SDL_TRAYENTRY_SUBMENU();
-    int DISABLED = SDL_TRAYENTRY_DISABLED();
-    int CHECKED = SDL_TRAYENTRY_CHECKED();
+    int BUTTON = SDL_TRAYENTRY_BUTTON;
+    int CHECKBOX = SDL_TRAYENTRY_CHECKBOX;
+    int SUBMENU = SDL_TRAYENTRY_SUBMENU;
+    int DISABLED = SDL_TRAYENTRY_DISABLED;
+    int CHECKED = SDL_TRAYENTRY_CHECKED;
 
 
-    int MASK = Internal.flagMask(TrayEntryFlags.class);
+    int MASK = BitMask.flagMaskInt(TrayEntryFlags.class);
 
 }

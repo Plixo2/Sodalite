@@ -1,22 +1,22 @@
-package io.github.plixo2.sodalite.file.image;
+package io.github.plixo2.sodalite.io.image;
 
-public sealed interface CompressedImageResult<F> {
-    record Ok<F>(
-            CompressedImageData<F> data
-    ) implements CompressedImageResult<F> {}
+public sealed interface ImageResult {
+    record Ok(
+            ImageData data
+    ) implements ImageResult {}
 
-    record Error<T>(
+    record Error(
             ImageIOException exception
-    ) implements CompressedImageResult<T> {}
+    ) implements ImageResult {}
 
-    default CompressedImageData<F> orThrow() throws ImageIOException {
+    default ImageData orThrow() throws ImageIOException {
         return switch (this) {
             case Error(var exception) -> throw exception;
             case Ok(var data) -> data;
         };
     }
 
-    default <T extends Throwable> CompressedImageData<F> orThrow(
+    default <T extends Throwable> ImageData orThrow(
             ThrowingMap<T> map
     ) throws T {
         return switch (this) {

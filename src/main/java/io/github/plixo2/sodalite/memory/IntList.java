@@ -18,6 +18,19 @@ public class IntList implements Iterable<Integer> {
         this.size = 0;
     }
 
+    /// Returns the internal array of the list.
+    /// The array may be larger than the number of elements in
+    /// the list and may be modified if the list is modified.
+    /// @return the internal array of the list
+    public int[] data() {
+        return this.data;
+    }
+
+    /// @return a copy of the data
+    public int[] asArray() {
+        return Arrays.copyOf(this.data, this.size);
+    }
+
     /// Removes all elements from the list
     public void clear() {
         this.size = 0;
@@ -98,14 +111,13 @@ public class IntList implements Iterable<Integer> {
     }
 
     /// Add multiple values to the end of the list
-    public void add(int[] values, int from, int size) {
-        if (from < 0 || size < 0 || from + size > values.length) {
-            throw new IndexOutOfBoundsException("From: " + from + ", Size: " + size + ", Length: " + values.length);
-        }
+    /// @throws IndexOutOfBoundsException if the offset and size parameters are out of bounds
+    public void add(int[] values, int offset, int size) {
+        Objects.checkFromIndexSize(offset, size, values.length);
         if (this.size + size >= this.length) {
             resize(this.size + size);
         }
-        System.arraycopy(values, from, this.data, this.size, size);
+        System.arraycopy(values, offset, this.data, this.size, size);
         this.size += size;
     }
 
@@ -129,7 +141,7 @@ public class IntList implements Iterable<Integer> {
     /// @throws NoSuchElementException if the list is empty
     public int removeLast() {
         if (this.size == 0) {
-            throw new NoSuchElementException("List is empty");
+            throw new NoSuchElementException();
         }
         return this.data[--this.size];
     }
@@ -139,9 +151,10 @@ public class IntList implements Iterable<Integer> {
     public int pop() {
         return removeLast();
     }
+
     public int peek() {
         if (this.size == 0) {
-            throw new NoSuchElementException("List is empty");
+            throw new NoSuchElementException();
         }
         return this.data[this.size - 1];
     }

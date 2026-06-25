@@ -1,7 +1,6 @@
-package io.github.plixo2.sodalite.category.video;
+package io.github.plixo2.sodalite.category.mouse;
 
 
-import io.github.plixo2.sodalite.category.mouse.MouseButtonFlags;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

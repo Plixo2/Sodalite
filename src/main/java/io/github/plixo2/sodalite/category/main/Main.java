@@ -10,11 +10,13 @@ import static io.github.plixo2.sodalite.Internal.*;
 /// @sdlCategory CategoryMain
 public class Main {
 
+    /// Dont use this method unless you know what you are doing.
     /// @sdlAPI SDL_GDKSuspendComplete
     public static void suspendComplete() {
         SDL_GDKSuspendComplete();
     }
 
+    /// Dont use this method unless you know what you are doing.
     /// @sdlAPI SDL_RegisterApp
     public static void registerApp(String name, int style, MemorySegment hInst) {
         try (var arena = Arena.ofConfined()) {
@@ -27,6 +29,7 @@ public class Main {
         }
     }
 
+    /// Dont use this method unless you know what you are doing.
     /// @sdlAPI SDL_UnregisterApp
     public static void unregisterApp() {
         SDL_UnregisterApp();

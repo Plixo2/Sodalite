@@ -119,7 +119,7 @@ public class Device extends ResourceObject {
                 this,
                 creator.source(),
                 parameter.entryPoint(),
-                creator.source().shaderFormat(),
+                creator.shaderFormat(),
                 stage,
                 parameter.numSamplers(),
                 parameter.numStorageTextures(),

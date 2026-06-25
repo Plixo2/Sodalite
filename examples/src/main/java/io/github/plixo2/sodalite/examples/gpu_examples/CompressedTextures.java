@@ -2,8 +2,8 @@ package io.github.plixo2.sodalite.examples.gpu_examples;
 
 import io.github.plixo2.sodalite.category.gpu.*;
 import io.github.plixo2.sodalite.category.video.WindowFlags;
-import io.github.plixo2.sodalite.file.image.ImageLoader;
-import io.github.plixo2.sodalite.file.image.ImageSource;
+import io.github.plixo2.sodalite.memory.MemorySource;
+import io.github.plixo2.sodalite.io.image.ImageLoader;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4f;
@@ -11,7 +11,6 @@ import org.joml.Vector4f;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.ValueLayout;
 
 /// CompressedTextures.c
 public class CompressedTextures extends Common {
@@ -123,7 +122,7 @@ public class CompressedTextures extends Common {
                         if (isBC) {
                             var result = ImageLoader.loadDDS(
                                 imgData.arena(),
-                                ImageSource.of(textureStream(name))
+                                MemorySource.of(textureStream(name))
                             ).orThrow(IOException::new);
                             data = result.data();
                             width = result.width();
@@ -132,7 +131,7 @@ public class CompressedTextures extends Common {
                         } else {
                             var result = ImageLoader.loadASTC(
                                 imgData.arena(),
-                                ImageSource.of(textureStream(name))
+                                MemorySource.of(textureStream(name))
                             ).orThrow(IOException::new);
                             data = result.data();
                             width = result.width();

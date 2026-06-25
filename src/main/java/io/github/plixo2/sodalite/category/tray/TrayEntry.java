@@ -45,7 +45,6 @@ public class TrayEntry {
         this.manuallyReleased = true;
     }
 
-
     public MemorySegment segment() {
         this.object.ensureNotReleased();
         if (this.manuallyReleased) {

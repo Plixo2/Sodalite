@@ -1,7 +1,5 @@
 package io.github.plixo2.sodalite.category.mouse;
 
-import io.github.plixo2.sodalite.category.video.MouseState;
-
 import java.lang.foreign.Arena;
 import java.lang.foreign.ValueLayout;
 

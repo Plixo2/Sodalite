@@ -41,20 +41,13 @@ final class ConfinedResourceSet extends ResourceObject implements ResourceSet {
 
     @Override
     public Arena arena() {
+        ensureAccess();
         if (this.arena == null) {
             this.arena = Arena.ofConfined();
         }
         return this.arena;
     }
 
-    @Override
-    public MemorySegment allocate(long byteSize, long byteAlignment) {
-        ensureAccess();
-        if (this.arena == null) {
-            this.arena = Arena.ofConfined();
-        }
-        return this.arena.allocate(byteSize, byteAlignment);
-    }
 
     @Override
     public void close() {

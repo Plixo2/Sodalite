@@ -134,7 +134,7 @@ public class CopyPass implements AutoCloseable {
 
     /// [CopyPass#copy] does transfer the memory directly. \
     /// [CommandBuffer#blit] will 'render' source onto destination,
-    /// which allows for scaling and filtering.
+    /// which allows scaling and filtering.
     ///
     /// @see CommandBuffer#blit
     public void copy(

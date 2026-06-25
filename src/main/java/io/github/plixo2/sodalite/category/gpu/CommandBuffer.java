@@ -23,8 +23,6 @@ public class CommandBuffer implements AutoCloseable {
     private boolean isSubmitted = false;
 
 
-    @Nullable Texture acquiredSwapchainTexture;
-
     CommandBuffer(
             Device device,
             MemorySegment segment
@@ -44,10 +42,6 @@ public class CommandBuffer implements AutoCloseable {
 
     @Override
     public void close() {
-        if (this.acquiredSwapchainTexture != null) {
-            this.acquiredSwapchainTexture.markReleased();
-            this.acquiredSwapchainTexture = null;
-        }
         if (this.isSubmitted) {
             throw new IllegalStateException("Command buffer has already been submitted");
         }
@@ -60,10 +54,6 @@ public class CommandBuffer implements AutoCloseable {
 
     @CheckReturnValue
     public Fence closeAndAcquireFence(ResourceSet resources) {
-        if (this.acquiredSwapchainTexture != null) {
-            this.acquiredSwapchainTexture.markReleased();
-            this.acquiredSwapchainTexture = null;
-        }
         if (this.isSubmitted) {
             throw new IllegalStateException("Command buffer has already been submitted");
         }
@@ -88,13 +78,16 @@ public class CommandBuffer implements AutoCloseable {
         GPU.cancelGPUCommandBuffer(this);
     }
 
-
+    /// @return a Texture that is owned by the swapchain and will be released when the
+    ///         next frame is presented, or null
     public @Nullable Texture waitAndAcquireSwapchainTexture(Window window) {
         return GPU.waitAndAcquireSwapchainTexture(this, window);
     }
 
     /// "You should use [CommandBuffer#waitAndAcquireSwapchainTexture] unless you know what
     /// you are doing with timing."
+    /// @return a Texture that is owned by the swapchain and will be released when the
+    ///         next frame is presented, or null
     public @Nullable Texture acquireSwapchainTexture(Window window) {
         return GPU.acquireSwapchainTexture(this, window);
     }
@@ -131,7 +124,7 @@ public class CommandBuffer implements AutoCloseable {
 
     /// [CopyPass#copy] does transfer the memory directly. \
     /// [CommandBuffer#blit] will 'render' source onto destination,
-    /// which allows for scaling and filtering.
+    /// which allows scaling and filtering.
     ///
     /// @see CopyPass#copy(TextureLocation, TextureLocation, long, long, long, Cycle)
     public void blit(
@@ -142,7 +135,7 @@ public class CommandBuffer implements AutoCloseable {
 
     /// [CopyPass#copy] does transfer the memory directly. \
     /// [CommandBuffer#blit] will 'render' source onto destination,
-    /// which allows for scaling and filtering.
+    /// which allows scaling and filtering.
     ///
     /// @see CopyPass#copy(TextureLocation, TextureLocation, long, long, long, Cycle)
     public void blit(
@@ -187,17 +180,21 @@ public class CommandBuffer implements AutoCloseable {
         GPU.insertDebugLabel(this, label);
     }
 
+    /// @return a DebugGroup that will automatically pop the debug group when closed.
+    /// @see #pushDebugGroup
+    /// @see #popDebugGroup
     @CheckReturnValue
     public DebugGroup withDebugGroup(String groupLabel) {
         pushDebugGroup(groupLabel);
         return new DebugGroup();
     }
 
-    /// @see #withDebugGroup for automatic pop
+    /// @see #withDebugGroup for a variant to use in a try-with-resource block
     public void pushDebugGroup(String groupLabel) {
         GPU.pushDebugGroup(this, groupLabel);
     }
-    /// @see #withDebugGroup for automatic pop
+
+    /// @see #withDebugGroup for a variant to use in a try-with-resource block
     public void popDebugGroup() {
         GPU.popDebugGroup(this);
     }
@@ -228,4 +225,59 @@ public class CommandBuffer implements AutoCloseable {
             GPU.popDebugGroup(CommandBuffer.this);
         }
     }
+
+    static class SwapchainTexture extends Texture {
+
+        SwapchainTexture(
+                MemorySegment segment,
+                int width,
+                int height
+        ) {
+            super(
+                    segment,
+                    TextureType.TEXTURE_2D,
+                    TextureFormat.INVALID,
+                    TextureUsageFlags.COLOR_TARGET,
+                    width,
+                    height,
+                    1,
+                    1,
+                    SampleCount.COUNT_1,
+                    null
+            );
+        }
+
+
+        @Override
+        public TextureFormat format() {
+            throw new UnsupportedOperationException(
+                    "Cannot get the format of a swapchain texture. "
+                    + "Call Device.getSwapchainTextureFormat(window)"
+            );
+        }
+
+        @Override
+        public void setName(Device device, String name) {
+            throw new UnsupportedOperationException(
+                    "Cannot set the name of a swapchain texture. "
+            );
+        }
+
+        @Override
+        public SampleCount sampleCount() {
+            throw new UnsupportedOperationException(
+                    "Cannot get the sample count of a swapchain texture. "
+            );
+        }
+
+        @Override
+        public String toString() {
+            return "SwapchainTexture{" +
+                    "segment=" + this.segment.address() +
+                    ", width=" + this.width() +
+                    ", height=" + this.height() +
+                    '}';
+        }
+    }
+
 }

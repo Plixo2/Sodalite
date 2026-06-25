@@ -1,12 +1,13 @@
 
 import io.github.plixo2.sodalite.category.gpu.*;
 import io.github.plixo2.sodalite.category.init.Init;
+import io.github.plixo2.sodalite.category.init.InitFlags;
 import io.github.plixo2.sodalite.category.timer.Timer;
 import io.github.plixo2.sodalite.examples.GPUHelloTriangle;
-import io.github.plixo2.sodalite.file.image.ImageChannels;
-import io.github.plixo2.sodalite.file.image.ImageData;
-import io.github.plixo2.sodalite.file.image.ImageFormat;
-import io.github.plixo2.sodalite.file.image.ImageWriter;
+import io.github.plixo2.sodalite.io.image.ImageChannels;
+import io.github.plixo2.sodalite.io.image.ImageData;
+import io.github.plixo2.sodalite.io.image.ImageFormat;
+import io.github.plixo2.sodalite.io.image.ImageWriter;
 import io.github.plixo2.sodalite.memory.CStruct;
 import io.github.plixo2.sodalite.memory.ConstantWriteBuffer;
 import io.github.plixo2.sodalite.memory.Layouts;
@@ -42,6 +43,7 @@ void main() throws IOException {
 
         CStruct timeUniform = CStruct.allocate(ResourceSet.global(), UniformBuffer);
 
+        Init.ensureInit(InitFlags.VIDEO);
 
         var device = GPU.createDevice(
                 ResourceSet.global(),
@@ -79,8 +81,10 @@ void main() throws IOException {
             MultisampleState.disabled(),
             DepthStencilState.disabled(),
             GraphicsPipelineTargetInfo.of(
+                ColorTargetDescription.of(
                     target.format(),
                     ColorTargetBlendState.standardAlphaBlend()
+                )
             )
         );
 
@@ -167,6 +171,7 @@ void main() throws IOException {
             );
         }
         try {
+            Thread.sleep(500); // lets give the OS a moment to finish writing the file before we try to open it
             Desktop.getDesktop().open(IMAGE_PATH.toFile());
         } catch(Exception e) {
             // ignore

@@ -1,6 +1,7 @@
 package io.github.plixo2.sodalite.category.messagebox;
 
 import io.github.plixo2.sodalite.category.video.Window;
+import io.github.plixo2.sodalite.memory.BitMask;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;

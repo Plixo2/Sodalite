@@ -1,5 +1,7 @@
 package io.github.plixo2.sodalite.resource;
 
+import io.github.plixo2.sodalite.category.events.Events;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -14,13 +16,17 @@ public class PendingFrees {
         globalResources.add(new GlobalResource(owner, resource));
     }
 
-    static Runnable addAutoResource(Resource resource) {
+
+    /// @return a Runnable for the cleaner that enqueues the resource for freeing on the main thread.
+    static Runnable pushAutoResource(Resource resource) {
         openAutoResources.add(resource);
         return () -> pendingAutoFrees.add(resource);
     }
 
     /// Called on application shutdown.
-    /// Dont call this method directly
+    /// Dont call this method directly.
+    /// This function will free any global
+    /// and non-collected gc-managed resources.
     public static void freeGlobal() {
         pendingAutoFrees.clear();
 
@@ -37,6 +43,9 @@ public class PendingFrees {
     }
 
     /// Drains the free list for the resources registered to the auto resource set.
+    ///
+    /// [Events#waitEvent]/[Events#pumpEvents]/[Events#pollEvent] and [Events#pollEvents]
+    ///  will call this method implicitly.
     ///
     /// @threadSafety This should be called on the main thread.
     public static void drain() {

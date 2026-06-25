@@ -576,4 +576,27 @@ public class BasicTests {
         assertNotNull(o2);
     }
 
+    @Test
+    void testMainThread() throws InterruptedException {
+        var other = new Thread(() -> {
+            Init.ensureInit(InitFlags.VIDEO);
+            assertTrue(Init.isMainThread());
+            Init.quit();
+        });
+        other.start();
+        other.join();
+
+        Init.ensureInit(InitFlags.VIDEO);
+        assertTrue(Init.isMainThread());
+        other = new Thread(() -> {
+            assertFalse(Init.isMainThread());
+        });
+        other.start();
+        other.join();
+        assertTrue(Init.isMainThread());
+
+
+    }
+
+
 }

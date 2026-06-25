@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import io.github.plixo2.sodalite.memory.MemorySource;
 import lombok.With;
 import org.joml.Vector2i;
 import org.joml.Vector3i;
@@ -13,7 +14,8 @@ public class ComputeShader {
     private ComputeShader() {}
 
     public record Creator<T extends Exception>(
-            ShaderSource<T> source,
+            @ShaderFormat int shaderFormat,
+            MemorySource<T> source,
             ComputeShader.ThreadCount threadCount,
             ComputeShader.Parameters parameter
     ) {
@@ -23,7 +25,7 @@ public class ComputeShader {
                 ThreadCount threadCount,
                 ComputeShader.Parameters parameter
         ) {
-            return new Creator<>(ShaderSource.of(shaderFormat, path), threadCount, parameter);
+            return new Creator<>(shaderFormat, MemorySource.of(path), threadCount, parameter);
         }
         public static Creator<IOException> of(
                 @ShaderFormat int shaderFormat,
@@ -31,7 +33,7 @@ public class ComputeShader {
                 ThreadCount threadCount,
                 ComputeShader.Parameters parameter
         ) {
-            return new Creator<>(ShaderSource.of(shaderFormat, inputStream), threadCount, parameter);
+            return new Creator<>(shaderFormat, MemorySource.of(inputStream), threadCount, parameter);
         }
         public static Creator<RuntimeException> of(
                 @ShaderFormat int shaderFormat,
@@ -39,7 +41,7 @@ public class ComputeShader {
                 ThreadCount threadCount,
                 ComputeShader.Parameters parameter
         ) {
-            return new Creator<>(ShaderSource.of(shaderFormat, bytes), threadCount, parameter);
+            return new Creator<>(shaderFormat, MemorySource.of(bytes), threadCount, parameter);
         }
         public static Creator<RuntimeException> of(
                 @ShaderFormat int shaderFormat,
@@ -47,14 +49,15 @@ public class ComputeShader {
                 ThreadCount threadCount,
                 ComputeShader.Parameters parameter
         ) {
-            return new Creator<>(ShaderSource.of(shaderFormat, code), threadCount, parameter);
+            return new Creator<>(shaderFormat, MemorySource.of(code), threadCount, parameter);
         }
         public static <T extends Exception> Creator<T> of(
-                ShaderSource<T> source,
+                @ShaderFormat int shaderFormat,
+                MemorySource<T> source,
                 ThreadCount threadCount,
                 ComputeShader.Parameters parameter
         ) {
-            return new Creator<>(source, threadCount, parameter);
+            return new Creator<>(shaderFormat, source, threadCount, parameter);
         }
     }
 

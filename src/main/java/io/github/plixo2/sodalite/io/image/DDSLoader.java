@@ -1,15 +1,12 @@
-package io.github.plixo2.sodalite.file.image;
+package io.github.plixo2.sodalite.io.image;
 
 import io.github.plixo2.sodalite.category.gpu.TextureFormat;
-import io.github.plixo2.sodalite.file.FileIO;
 import io.github.plixo2.sodalite.memory.Layouts;
 
-import java.io.IOException;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemoryLayout;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.StructLayout;
-import java.nio.file.Path;
 
 import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
 
@@ -118,9 +115,9 @@ public class DDSLoader {
             return new CompressedImageResult.Error<>(new ImageIOException("Invalid magic"));
         }
 
-        int pixelFormatFlags  = readInt32LE(header, (int) PIXELFORMAT_FLAGS_OFFSET);
-        int pixelFormatFourCC = readInt32LE(header, (int) PIXELFORMAT_FOURCC_OFFSET);
-        boolean hasDX10Header = pixelFormatFlags == DDPF_FOURCC && pixelFormatFourCC == FOURCC_DX10;
+        var pixelFormatFlags  = readInt32LE(header, (int) PIXELFORMAT_FLAGS_OFFSET);
+        var pixelFormatFourCC = readInt32LE(header, (int) PIXELFORMAT_FOURCC_OFFSET);
+        var hasDX10Header = pixelFormatFlags == DDPF_FOURCC && pixelFormatFourCC == FOURCC_DX10;
 
         long dataOffset = HEADER_SIZE;
         TextureFormat format;
@@ -142,7 +139,8 @@ public class DDSLoader {
             format = bcFormatFromFourCC(pixelFormatFourCC);
             if (format == null) {
                 return new CompressedImageResult.Error<>(new ImageIOException(
-                        "Unsupported or non-BCn FourCC 0x" + Integer.toHexString(pixelFormatFourCC)));
+                        "Unsupported or non-BCn FourCC 0x" + Integer.toHexString(pixelFormatFourCC))
+                );
             }
         }
 
@@ -201,7 +199,7 @@ public class DDSLoader {
         return null;
     }
 
-    // values straight from Microsoft's DXGI_FORMAT enum (dxgiformat.h), stable since D3D10/11
+    // dxgiformat.h
     private static final int DXGI_FORMAT_BC1_UNORM      = 71;
     private static final int DXGI_FORMAT_BC1_UNORM_SRGB = 72;
     private static final int DXGI_FORMAT_BC2_UNORM      = 74;

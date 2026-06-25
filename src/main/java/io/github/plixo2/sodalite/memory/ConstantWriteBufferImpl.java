@@ -1,16 +1,18 @@
 package io.github.plixo2.sodalite.memory;
 
-import io.github.plixo2.sodalite.Internal;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 
-import java.lang.foreign.MemoryLayout;
 import java.lang.foreign.MemorySegment;
+
+import static io.github.plixo2.sodalite.Internal.isU32;
 
 public abstract class ConstantWriteBufferImpl<Self extends ConstantWriteBufferImpl<Self>>
         extends WriteBuffer<Self>
 {
     private final MemorySegment segment;
 
+    /// @throws IllegalArgumentException if `capacity` is negative
+    /// @throws IllegalArgumentException if `capacity` exceeds 2^32 bytes (4 GiB)
     ConstantWriteBufferImpl(
             ResourceSet resources,
             long capacity
@@ -18,8 +20,8 @@ public abstract class ConstantWriteBufferImpl<Self extends ConstantWriteBufferIm
         if (capacity < 0) {
             throw new IllegalArgumentException("Capacity must be non-negative");
         }
-        if (!Internal.isU32(capacity)) {
-            throw new IllegalStateException("Buffer capacity exceeds maximum allowed size of 2^32 bytes (4 GiB)");
+        if (!isU32(capacity)) {
+            throw new IllegalArgumentException("Buffer capacity exceeds maximum allowed size of 2^32 bytes (4 GiB)");
         }
         resources.register(this);
         this.capacity = capacity;
@@ -27,14 +29,15 @@ public abstract class ConstantWriteBufferImpl<Self extends ConstantWriteBufferIm
     }
 
     @Override
-    protected void ensureCapacity(long requiredCapacity) {
-        if (requiredCapacity > capacity()) {
-            throw new IllegalStateException("Buffer capacity exceeded: required " + requiredCapacity + ", but capacity is " + capacity());
+    protected MemorySegment ensureCapacity(long requiredCapacity) {
+        if (requiredCapacity > this.capacity) {
+            throw new IllegalStateException(
+                    "Buffer capacity exceeded: required "
+                    + requiredCapacity
+                    + ", but capacity is "
+                    + this.capacity
+            );
         }
-    }
-
-    @Override
-    protected MemorySegment currentSegmentUnchecked() {
         return this.segment;
     }
 

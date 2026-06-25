@@ -12,7 +12,7 @@ import java.lang.foreign.MemorySegment;
 @ToString(onlyExplicitlyIncluded = true, doNotUseGetters = true)
 public non-sealed class Texture extends ResourceObject implements TextureInfo {
 
-    private final MemorySegment segment;
+    protected final MemorySegment segment;
 
     @Getter @ToString.Include private final TextureType type;
     @Getter @ToString.Include private final TextureFormat format;
@@ -25,7 +25,7 @@ public non-sealed class Texture extends ResourceObject implements TextureInfo {
     @Getter @ToString.Include private @Nullable String name;
 
     /// for swapchain texture
-    private Texture(
+    protected Texture(
             MemorySegment segment,
             TextureType type,
             TextureFormat format,
@@ -90,32 +90,6 @@ public non-sealed class Texture extends ResourceObject implements TextureInfo {
         return TextureBuilder.of(this);
     }
 
-    static Texture newSwapchainTexture(
-            MemorySegment segment,
-            int width,
-            int height
-    ) {
-        return new Texture(
-                segment,
-                TextureType.TEXTURE_2D,
-                TextureFormat.INVALID,
-                TextureUsageFlags.COLOR_TARGET,
-                width,
-                height,
-                1,
-                1,
-                SampleCount.COUNT_1,
-                null
-        ) {
-            @Override
-            public TextureFormat format() {
-                throw new UnsupportedOperationException(
-                        "Cannot get the format of a swapchain texture. "
-                      + "Call Device.getSwapchainTextureFormat(window)"
-                );
-            }
-        };
-    }
 
     @ToString.Include(name = "segment", rank = 99)
     private long getSegment() {

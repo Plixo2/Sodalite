@@ -1,4 +1,4 @@
-package io.github.plixo2.sodalite.file.image;
+package io.github.plixo2.sodalite.io.image;
 
 import io.github.plixo2.sodalite.category.gpu.TextureFormat;
 

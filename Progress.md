@@ -25,11 +25,11 @@ Feature complete:
 - `CategoryMain`
 - `CategoryThread`
 
-16.5% Functions implemented \
+16.9% Functions implemented \
 31.8% Datatypes implemented \
 69.4% Structs implemented \
 39.6% Enums implemented \
-24.0% total
+24.3% total
 
 [Checklist](#checklist)
 
@@ -258,7 +258,7 @@ Feature complete:
 - [ ] SDL_CreateHapticEffect
 - [ ] SDL_CreateMutex
 - [ ] SDL_CreatePalette
-- [ ] SDL_CreatePopupWindow
+- [x] SDL_CreatePopupWindow
 - [ ] SDL_CreateProcess
 - [ ] SDL_CreateProcessWithProperties
 - [x] SDL_CreateProperties
@@ -283,7 +283,7 @@ Feature complete:
 - [ ] SDL_CreateTrayWithProperties
 - [x] SDL_CreateWindow
 - [ ] SDL_CreateWindowAndRenderer
-- [ ] SDL_CreateWindowWithProperties
+- [x] SDL_CreateWindowWithProperties
 - [ ] SDL_CursorVisible
 - [ ] SDL_DateTimeToTime
 - [ ] SDL_Delay
@@ -856,7 +856,7 @@ Feature complete:
 - [ ] SDL_IsJoystickHaptic
 - [ ] SDL_IsJoystickVirtual
 - [ ] SDL_islower
-- [ ] SDL_IsMainThread
+- [x] SDL_IsMainThread
 - [ ] SDL_IsMouseHaptic
 - [ ] SDL_isnan
 - [ ] SDL_isnanf
@@ -978,7 +978,7 @@ Feature complete:
 - [ ] SDL_powf
 - [ ] SDL_PremultiplyAlpha
 - [ ] SDL_PremultiplySurfaceAlpha
-- [ ] SDL_PumpEvents
+- [x] SDL_PumpEvents
 - [ ] SDL_PushEvent
 - [x] SDL_PushGPUComputeUniformData
 - [x] SDL_PushGPUDebugGroup
@@ -1392,7 +1392,7 @@ Feature complete:
 - [ ] SDL_WaitAsyncIOResult
 - [ ] SDL_WaitCondition
 - [ ] SDL_WaitConditionTimeout
-- [ ] SDL_WaitEvent
+- [x] SDL_WaitEvent
 - [ ] SDL_WaitEventTimeout
 - [x] SDL_WaitForGPUFences
 - [x] SDL_WaitForGPUIdle
@@ -1886,11 +1886,13 @@ Feature complete:
 - SDL_CreateGPUShader
 - SDL_CreateGPUTexture
 - SDL_CreateGPUTransferBuffer
+- SDL_CreatePopupWindow
 - SDL_CreateProperties
 - SDL_CreateTray
 - SDL_CreateTrayMenu
 - SDL_CreateTraySubmenu
 - SDL_CreateWindow
+- SDL_CreateWindowWithProperties
 - SDL_DestroyGPUDevice
 - SDL_DestroyProperties
 - SDL_DestroyTray
@@ -1984,6 +1986,7 @@ Feature complete:
 - SDL_InitSubSystem
 - SDL_InsertGPUDebugLabel
 - SDL_InsertTrayEntryAt
+- SDL_IsMainThread
 - SDL_LockProperties
 - SDL_MapGPUTransferBuffer
 - SDL_OpenURL
@@ -1992,6 +1995,7 @@ Feature complete:
 - SDL_PointInRectFloat
 - SDL_PollEvent
 - SDL_PopGPUDebugGroup
+- SDL_PumpEvents
 - SDL_PushGPUComputeUniformData
 - SDL_PushGPUDebugGroup
 - SDL_PushGPUFragmentUniformData
@@ -2056,6 +2060,7 @@ Feature complete:
 - SDL_UploadToGPUBuffer
 - SDL_UploadToGPUTexture
 - SDL_WaitAndAcquireGPUSwapchainTexture
+- SDL_WaitEvent
 - SDL_WaitForGPUFences
 - SDL_WaitForGPUIdle
 - SDL_WaitForGPUSwapchain
@@ -2370,7 +2375,6 @@ Feature complete:
 - SDL_CreateHapticEffect
 - SDL_CreateMutex
 - SDL_CreatePalette
-- SDL_CreatePopupWindow
 - SDL_CreateProcess
 - SDL_CreateProcessWithProperties
 - SDL_CreateRenderer
@@ -2390,7 +2394,6 @@ Feature complete:
 - SDL_CreateThreadWithProperties
 - SDL_CreateTrayWithProperties
 - SDL_CreateWindowAndRenderer
-- SDL_CreateWindowWithProperties
 - SDL_CursorVisible
 - SDL_DateTimeToTime
 - SDL_Delay
@@ -2870,7 +2873,6 @@ Feature complete:
 - SDL_IsJoystickHaptic
 - SDL_IsJoystickVirtual
 - SDL_islower
-- SDL_IsMainThread
 - SDL_IsMouseHaptic
 - SDL_isnan
 - SDL_isnanf
@@ -2984,7 +2986,6 @@ Feature complete:
 - SDL_powf
 - SDL_PremultiplyAlpha
 - SDL_PremultiplySurfaceAlpha
-- SDL_PumpEvents
 - SDL_PushEvent
 - SDL_PutAudioStreamData
 - SDL_PutAudioStreamDataNoCopy
@@ -3334,7 +3335,6 @@ Feature complete:
 - SDL_WaitAsyncIOResult
 - SDL_WaitCondition
 - SDL_WaitConditionTimeout
-- SDL_WaitEvent
 - SDL_WaitEventTimeout
 - SDL_WaitProcess
 - SDL_WaitSemaphore

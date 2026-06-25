@@ -4,7 +4,7 @@ package io.github.plixo2.sodalite.category.gpu;
 public enum PresentMode {
 
     VSYNC,          //  Wait for vsync (default)
-    IMMEDIATE,      //  No synchronization
+    IMMEDIATE,      //  No synchronization, max frame rate
     MAILBOX,        //  Similar to VSYNC, but with reduced visual latency
 
     ;

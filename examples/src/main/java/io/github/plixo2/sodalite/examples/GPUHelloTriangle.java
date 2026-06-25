@@ -27,7 +27,7 @@ public class GPUHelloTriangle implements Callbacks {
     ///     float r, g, b, a;   //vec4 color
     /// }
     /// ```
-    /// This will also be used to set up the vertex input state for the pipeline automatically
+    /// This will also be used to set up the vertex input state for the pipeline
     static StructLayout Vertex = MemoryLayout.structLayout(
             Layouts.FLOAT_3.withName("position"),
             Layouts.FLOAT_4.withName("color")
@@ -56,6 +56,7 @@ public class GPUHelloTriangle implements Callbacks {
     public AppResult onWindowCloseRequested(long timestamp, int windowID) {
         return AppResult.SUCCESS;
     }
+
 
     @Override
     public AppResult init(String[] args) throws IOException {
@@ -96,8 +97,10 @@ public class GPUHelloTriangle implements Callbacks {
             MultisampleState.disabled(),
             DepthStencilState.disabled(),
             GraphicsPipelineTargetInfo.of(
-                this.device.getSwapchainTextureFormat(this.window),
-                ColorTargetBlendState.standardAlphaBlend()
+                ColorTargetDescription.of(
+                    this.device.getSwapchainTextureFormat(this.window),
+                    ColorTargetBlendState.standardAlphaBlend()
+                )
             )
         );
 

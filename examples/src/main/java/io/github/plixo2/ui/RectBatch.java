@@ -64,7 +64,7 @@ public class RectBatch extends DrawBatch {
     ) throws IOException {
         super(resources, device, RECT_LAYOUT.byteSize() * 1024);
         this.uniform = CStruct.allocate(resources, UNIFORM_LAYOUT);
-        this.startIndexOffset = this.uniform.offsetOf(Layouts.INT.withName("startIndex"));
+        this.startIndexOffset = this.uniform.offsetOf("startIndex");
         this.pipeline = createPipeline(device, resources, colorTarget);
 
         this.empty = TextureBuilder.of2D(
@@ -104,7 +104,12 @@ public class RectBatch extends DrawBatch {
             RasterizerState.defaultValue(),
             MultisampleState.enabled(colorTarget.sampleCount()),
             DepthStencilState.disabled(),
-            GraphicsPipelineTargetInfo.of(colorTarget.format(), ColorTargetBlendState.standardAlphaBlend())
+            GraphicsPipelineTargetInfo.of(
+                ColorTargetDescription.of(
+                    colorTarget.format(),
+                    ColorTargetBlendState.standardAlphaBlend()
+                )
+            )
         );
     }
 

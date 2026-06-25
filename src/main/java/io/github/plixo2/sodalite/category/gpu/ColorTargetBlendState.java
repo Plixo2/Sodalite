@@ -4,6 +4,8 @@ import org.libsdl.sdl.SDL_GPUColorTargetBlendState;
 
 import java.lang.foreign.MemorySegment;
 
+import static io.github.plixo2.sodalite.Internal.assertU8;
+
 /// @sdlAPI SDL_GPUColorTargetBlendState
 public record ColorTargetBlendState(
         BlendFactor srcColorBlendfactor,
@@ -15,12 +17,6 @@ public record ColorTargetBlendState(
         @ColorComponentWriteFlags int colorWriteMask,
         boolean enabled
 ) {
-
-    public ColorTargetBlendState {
-        if (colorWriteMask < 0 || colorWriteMask > 0b1111) {
-            throw new IllegalArgumentException("colorWriteMask must be between 0 and 0b1111");
-        }
-    }
 
     public static ColorTargetBlendState of(
             BlendFactor srcColorBlendfactor,
@@ -51,7 +47,7 @@ public record ColorTargetBlendState(
                 BlendFactor.ONE,
                 BlendFactor.ZERO,
                 BlendOp.ADD,
-                ColorComponentWriteFlags.ALL,
+                ColorComponentWriteFlags.RGBA,
                 false
         );
     }
@@ -64,13 +60,13 @@ public record ColorTargetBlendState(
                 BlendFactor.ONE,
                 BlendFactor.ONE_MINUS_SRC_ALPHA,
                 BlendOp.ADD,
-                ColorComponentWriteFlags.ALL,
+                ColorComponentWriteFlags.RGBA,
                 true
         );
     }
 
     void put(MemorySegment segment) {
-        var writeMaskEnabled = this.colorWriteMask != ColorComponentWriteFlags.ALL;
+        var writeMaskEnabled = this.colorWriteMask != ColorComponentWriteFlags.RGBA;
 
         SDL_GPUColorTargetBlendState.initialize(
                 segment,
@@ -80,7 +76,7 @@ public record ColorTargetBlendState(
                 this.srcAlphaBlendfactor.code(),
                 this.dstAlphaBlendfactor.code(),
                 this.alphaBlendOp.code(),
-                (byte) this.colorWriteMask,
+                assertU8(this.colorWriteMask, "colorWriteMask"),
                 this.enabled,
                 writeMaskEnabled
         );
