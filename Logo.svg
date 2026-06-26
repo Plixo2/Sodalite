@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="146.717 0 985.983 482.94">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="46.565 0 916.553 482.94">
   <defs>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&amp;display=swap');
       .logo-sdl-letter { fill:#173556; }
       #logo-letters {
-        transform-box: fill-box;
-        transform-origin: center;
-        transform: translate(-50px, 40px) scale(0.7);
+      transform-box: fill-box;
+      transform-origin: center;
+      transform: translate(-250px, 40px) scale(0.56);
       }
       #logo-d {
-        transform-box: fill-box;
-        transform-origin: center;
-        transform: translate(50px, 0px);
+      transform-box: fill-box;
+      transform-origin: center;
+      transform: translate(50px, 0px);
       }
       #logo-l {
-        transform-box: fill-box;
-        transform-origin: center;
-        transform: translate(54px, 0px);
+      transform-box: fill-box;
+      transform-origin: center;
+      transform: translate(54px, 0px);
       }
     </style>
     <radialGradient id="vlpa" cx="204.9" cy="-244" r="25.72" gradientTransform="matrix(-4.228 -8.251 14.01 -7.18 5688 455.1)" gradientUnits="userSpaceOnUse">
@@ -28,7 +28,7 @@
   <title>Sodalite Logo</title>
   <g transform="matrix(1, 0, 0, 1, -531.067444, -210.514282)">
     <path d="m1071 641.2c-84.77-2.903-165.4-22.08-228.1-54.23-5.904-3.03-18.79-10.2-18.79-10.46 0-0.0873 2.045 0.8768 4.545 2.153 30.69 15.67 69.26 29.06 108.2 37.56 61.76 13.49 129.4 17.08 195.7 10.37 62.56-6.33 121-21.69 170.9-44.92 44.86-20.88 80.78-47.6 104.7-77.83 36.74-46.5 41.65-100.4 13.53-148.2-18.21-30.98-48.6-58.27-90.32-81.1-3.995-2.187-7.129-3.976-6.966-3.976 0.5468 0 18.2 8.51 23.72 11.44 26.95 14.28 48.38 29.48 67.08 47.58 23.49 22.74 38.24 46.16 45.46 72.16 6.672 24.05 5.427 50.72-3.474 74.37-11.97 31.82-36.47 61.1-72.3 86.45-58.2 41.17-141.5 68.44-233.9 76.54-25.07 2.199-54.51 2.97-79.99 2.097z" style="fill:url(#vlpa)"/>
-    <g id="logo-letters">
+    <g id="logo-letters" transform="matrix(0.56, 0, 0, 0.56, -250, 40)" style="">
       <g id="logo-svg-letters">
         <path id="logo-l" class="logo-sdl-letter" d="M 1460.49 508.46 L 1310.69 508.46 L 1310.69 295.36 L 1367.05 295.36 L 1367.05 467.86 L 1460.48 467.86 L 1460.49 508.46 Z"/>
         <path id="logo-d" class="logo-sdl-letter" d="M 1119.96 402.068 C 1119.96 421.918 1115.39 439.688 1106.25 455.388 C 1097.11 471.088 1085.55 483.128 1071.59 491.528 C 1059.94 498.685 1047.25 503.288 1033.54 505.338 C 1019.83 507.39 1005.23 508.415 989.761 508.415 L 919.541 508.415 L 919.541 295.315 L 989.161 295.315 C 1004.93 295.315 1019.7 296.269 1033.46 298.178 C 1047.22 300.087 1060.13 304.715 1072.19 312.058 C 1086.96 321.028 1098.61 333.128 1107.15 348.348 C 1115.69 363.568 1119.96 381.488 1119.96 402.098 L 1119.96 402.068 Z M 1062.09 401.638 C 1062.09 387.608 1059.55 375.608 1054.48 365.638 C 1049.41 355.666 1041.6 347.868 1031.05 342.238 C 1023.42 338.23 1015.4 336.036 1007.01 335.654 C 998.622 335.273 988.601 335.081 976.951 335.081 L 975.896 335.081 L 975.896 468.481 L 976.951 468.481 C 989.611 468.481 1000.28 468.267 1008.97 467.837 C 1017.66 467.408 1025.92 464.855 1033.76 460.179 C 1043 454.645 1050.04 447.009 1054.86 437.279 C 1059.68 427.546 1062.09 415.669 1062.1 401.639 L 1062.09 401.638 Z"/>
