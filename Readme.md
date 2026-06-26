@@ -4,7 +4,7 @@
 <div align="center">
 
 
-<img src="Logo.svg" alt="Logo" width="300">
+<img src="Logo.png" alt="Logo" width="300">
 
 <h3 align="center">Java Bindings for SDL 3</h2>
 
