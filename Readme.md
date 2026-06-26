@@ -6,7 +6,7 @@
 
 <img src="Logo.svg" alt="Logo" width="300">
 
-<h3 align="center">High-Level Java Bindings for SDL</h2>
+<h3 align="center">Java Bindings for SDL 3</h2>
 
 </div>
 
