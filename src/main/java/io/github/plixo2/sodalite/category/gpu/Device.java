@@ -29,7 +29,8 @@ public class Device extends ResourceObject {
         return this.segment;
     }
 
-    /// @return a AutoCloseable, which will release the claim when closed.
+    /// @return a AutoCloseable that will release the claim when closed.
+    ///         Can be ignored, as SDL does not require a claim to be released
     @CanIgnoreReturnValue
     public WindowClaim claimWindow(Window window) {
         GPU.claimWindowForDevice(this, window);

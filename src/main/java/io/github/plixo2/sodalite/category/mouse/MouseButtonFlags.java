@@ -11,7 +11,8 @@ import java.lang.annotation.Target;
 /// Annotation and values for a SINGLE mouse button.
 /// See [MouseButton] for the individual button values
 ///
-/// @see Mouse#isPressed 
+/// @see Mouse#isPressed
+/// @see MouseButton
 /// @sdlAPI SDL_MouseButtonFlags
 @MagicConstant(flagsFromClass = MouseButton.class)
 @Retention(RetentionPolicy.CLASS)
@@ -19,5 +20,7 @@ import java.lang.annotation.Target;
 public @interface MouseButtonFlags {
 
     int MASK = BitMask.flagMaskInt(MouseButton.class);
+
+    // Flags are in the MouseButton class
 
 }

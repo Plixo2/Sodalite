@@ -414,32 +414,6 @@ static Texture loadTexture(
 
 
 void run() throws IOException {
-
-//    var dir =
-//            Path.of("examples/src/main/resources/gpu_examples/Images/bcn/");
-//    try (var stream = Files.walk(dir)) {
-//        for (var path : stream.filter(Files::isRegularFile).toList()) {
-//            try (var imgData = Arena.ofConfined()) {
-//                System.out.println(path);
-//                var a = ImageLoader.loadDDS(imgData, ImageSource.of(path));
-//                var b = a.orThrow(IOException::new);
-//            }
-//        }
-//    }
-//
-//    dir =
-//            Path.of("examples/src/main/resources/gpu_examples/Images/astc/");
-//    try (var stream = Files.walk(dir)) {
-//        for (var path : stream.filter(Files::isRegularFile).toList()) {
-//            try (var imgData = Arena.ofConfined()) {
-//                System.out.println(path);
-//                var a = ImageLoader.loadASTC(imgData, ImageSource.of(path));
-//                var b = a.orThrow(IOException::new);
-//            }
-//        }
-//    }
-
-
     var window = Video.createWindow(
             ResourceSet.global(),
             "Hello World",
@@ -488,6 +462,7 @@ static long startTime;
 static void time(String location) {
     var currentTime = Timer.getTicksNS();
     var delta = (currentTime - startTime) / 1e6d;
+
 
     System.out.println(location + " +" + String.format("%.2f", delta) + " ms");
 

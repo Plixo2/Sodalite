@@ -35,4 +35,12 @@ public class Main {
         SDL_UnregisterApp();
     }
 
+    /// @throws Exception a exception from any of the callbacks
+    /// @return true for success, false for failure
+    /// @sdlAPI SDL_EnterAppMainCallbacks
+    public static boolean enterAppMainCallbacks(Callbacks callbacks, String[] args) throws Exception {
+        var wrapper = new CallbackWrapper(callbacks);
+        return wrapper.run(args);
+    }
+
 }

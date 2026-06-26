@@ -38,6 +38,10 @@ public class Window extends ResourceObject {
         return Video.getWindowID(this);
     }
 
+    public void setTitle(String title) {
+        Video.setWindowTitle(this, title);
+    }
+
 
     public Vector2i getSize(Vector2i in) {
         return Video.getWindowSize(this, in);

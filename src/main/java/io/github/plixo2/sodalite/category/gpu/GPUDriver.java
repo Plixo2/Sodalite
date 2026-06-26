@@ -12,17 +12,17 @@ import java.lang.foreign.MemorySegment;
 public class GPUDriver {
 
     @Getter
-    private final String internalName;
+    private final String name;
 
-    GPUDriver(String internalName) {
-        this.internalName = internalName;
+    GPUDriver(String name) {
+        this.name = name;
     }
 
     MemorySegment nameSegment(Arena arena) {
-        if (this.internalName.equals("unknown")) {
+        if (this.name.equals("unknown")) {
             return MemorySegment.NULL;
         }
-        return arena.allocateFrom(this.internalName);
+        return arena.allocateFrom(this.name);
     }
 
     public boolean supportsShaderFormats(
@@ -50,6 +50,6 @@ public class GPUDriver {
 
     @Override
     public String toString() {
-        return "GPUDriver(" + this.internalName + ")";
+        return "GPUDriver(" + this.name + ")";
     }
 }

@@ -29,7 +29,7 @@ public class ConstantWriteBuffer extends ConstantWriteBufferImpl<ConstantWriteBu
     }
 
     /// @throws IllegalArgumentException if `layout.byteSize() * count` exceeds 2^32 - 1 bytes (4 GiB)
-    public static ConstantWriteBuffer allocate(ResourceSet resources, MemoryLayout layout, int count) {
+    public static ConstantWriteBuffer allocate(ResourceSet resources, MemoryLayout layout, long count) {
         return new ConstantWriteBuffer(resources, layout.byteSize() * count);
     }
 

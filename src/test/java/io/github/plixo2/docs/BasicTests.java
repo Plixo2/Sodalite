@@ -13,6 +13,7 @@ import io.github.plixo2.sodalite.category.log.Log;
 import io.github.plixo2.sodalite.category.log.LogCategory;
 import io.github.plixo2.sodalite.category.log.LogPriority;
 import io.github.plixo2.sodalite.category.main.Callbacks;
+import io.github.plixo2.sodalite.category.main.Main;
 import io.github.plixo2.sodalite.category.pixels.PixelFormat;
 import io.github.plixo2.sodalite.category.platform.Platform;
 import io.github.plixo2.sodalite.category.power.Power;
@@ -130,13 +131,17 @@ public class BasicTests {
 
     @Test
     void mainCallback() {
-        var instance = new Callbacks() {
+        class TestCallbacks implements Callbacks {
             boolean initCalled = false;
             boolean iterCalled = false;
             boolean quitCalled = false;
+            boolean throwException = false;
             @Override
             public AppResult init(String[] args) throws Exception {
                 this.initCalled = true;
+                if (this.throwException) {
+                    throw new RuntimeException("Test exception");
+                }
                 return AppResult.CONTINUE;
             }
 
@@ -151,10 +156,17 @@ public class BasicTests {
                 this.quitCalled = true;
             }
         };
-        assertDoesNotThrow(() -> instance.main(new String[]{}));
+        var instance = new TestCallbacks();
+        assertTrue(assertDoesNotThrow(() -> Main.enterAppMainCallbacks(instance, new String[]{})));
         assertTrue(instance.initCalled);
         assertTrue(instance.iterCalled);
         assertTrue(instance.quitCalled);
+        var throwInstance = new TestCallbacks();
+        throwInstance.throwException = true;
+        assertThrows(RuntimeException.class, () -> Main.enterAppMainCallbacks(throwInstance, new String[]{}));
+        assertTrue(throwInstance.initCalled);
+        assertFalse(throwInstance.iterCalled, "iterate should not be called if init throws");
+        assertTrue(throwInstance.quitCalled, "quit should be called even if init throws");
     }
 
     @Test

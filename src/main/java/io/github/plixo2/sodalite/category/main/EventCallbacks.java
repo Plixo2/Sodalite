@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.main;
 
+import io.github.plixo2.sodalite.category.events.EventConsumer;
 import io.github.plixo2.sodalite.category.init.AppResult;
 import io.github.plixo2.sodalite.category.keycode.Keycode;
 import io.github.plixo2.sodalite.category.keycode.Keymod;
@@ -17,10 +18,12 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.foreign.MemorySegment;
 import java.util.List;
 
-/// Copy & edit of [io.github.plixo2.sodalite.category.events.EventConsumer]
-/// Unsed in [Callbacks]
+/// Version of [EventConsumer] that returns [AppResult] instead, to simulate `SDL_AppEvent` behavior.
+///
+/// This file is manually edited, but validated against the original [EventConsumer]
 /// 
-/// @see io.github.plixo2.sodalite.category.events.EventConsumer for the original
+/// @see EventConsumer for the original
+/// @see Callbacks
 /// @sdlAPI SDL_AppEvent
 public interface EventCallbacks {
 

@@ -19,11 +19,17 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.foreign.MemorySegment;
 import java.util.List;
+import java.util.Objects;
 
 /// Eventloop for [Callbacks]
 ///
 /// Also converts [EventConsumer] calls to [EventCallbacks]
 class CallbackWrapper implements EventConsumer {
+    private static final String EXPECTED_APP_RESULT = "expected AppResult.CONTINUE, AppResult.SUCCESS, AppResult.FAILURE, or an exception to be thrown";
+    private static final String INIT_RETURNED_NULL = "init(String[]) returned null; " + EXPECTED_APP_RESULT;
+    private static final String EVENT_CALLBACK_RETURNED_NULL = "Event callback returned null; " + EXPECTED_APP_RESULT;
+    private static final String ITERATE_RETURNED_NULL = "iterate() returned null; " + EXPECTED_APP_RESULT;
+
     private final Callbacks callbacks;
     private AppResult reference = null;
 
@@ -44,9 +50,9 @@ class CallbackWrapper implements EventConsumer {
         }
 
         try {
-            this.callbacks.quit(result);
+            this.callbacks.quit(result, failure);
         } catch (Exception inner) {
-            if (failure != null) {
+            if (failure != null && failure != inner) {
                 failure.addSuppressed(inner);
             } else {
                 failure = inner;
@@ -56,7 +62,7 @@ class CallbackWrapper implements EventConsumer {
         try {
             Init.quit();
         } catch (Exception inner) {
-            if (failure != null) {
+            if (failure != null && failure != inner) {
                 failure.addSuppressed(inner);
             } else {
                 failure = inner;
@@ -70,16 +76,19 @@ class CallbackWrapper implements EventConsumer {
         return result == AppResult.SUCCESS;
     }
     private AppResult spin(String[] args) throws Exception {
-        AppResult result = this.callbacks.init(args);
+        AppResult result = Objects.requireNonNull(this.callbacks.init(args), INIT_RETURNED_NULL);
+
         while (result == AppResult.CONTINUE) {
             while (Events.pollEvent(this)) {
-                if (this.reference != AppResult.CONTINUE) {
-                    return this.reference;
+                var reference = this.reference;
+                if (reference != AppResult.CONTINUE) {
+                    return Objects.requireNonNull(reference, EVENT_CALLBACK_RETURNED_NULL);
                 }
             }
             result = this.callbacks.iterate();
         }
-        return result;
+
+        return Objects.requireNonNull(result, ITERATE_RETURNED_NULL);
     }
 
     /// @sdlAPI SDL_QuitEvent

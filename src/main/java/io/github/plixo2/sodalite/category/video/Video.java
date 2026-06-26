@@ -78,6 +78,14 @@ public class Video {
         SDL_DestroyWindow(window);
     }
 
+    /// @sdlAPI SDL_SetWindowTitle
+    static void setWindowTitle(Window window, String title) {
+        try (var arena = Arena.ofConfined()) {
+            var titleCStr = arena.allocateFrom(title);
+            check(SDL_SetWindowTitle(window.segment(), titleCStr));
+        }
+    }
+
     /// @sdlAPI SDL_GetWindowSize
     static Vector2i getWindowSize(Window window, Vector2i in) {
         try (var arena = Arena.ofConfined()) {
