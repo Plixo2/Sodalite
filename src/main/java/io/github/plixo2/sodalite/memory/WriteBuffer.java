@@ -363,6 +363,44 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
         return castThis();
     }
 
+    public Self writePrimitiveDrawCommand(
+            int vertexCount,
+            int instanceCount,
+            int firstVertex,
+            int firstInstance
+    ) {
+        long bytes = Integer.BYTES * 4L;
+        var segment = ensureCapacity(this.position + bytes);
+        long offset = this.position;
+        segment.set(ValueLayout.JAVA_INT, offset, vertexCount);
+        segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES, instanceCount);
+        segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 2, firstVertex);
+        segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 3, firstInstance);
+
+        this.position += bytes;
+        return castThis();
+    }
+
+    public Self writeIndexedDrawCommand(
+            int indexCount,
+            int instanceCount,
+            int firstIndex,
+            int vertexOffset,
+            int firstInstance
+    ) {
+        long bytes = Integer.BYTES * 5L;
+        var segment = ensureCapacity(this.position + bytes);
+        long offset = this.position;
+        segment.set(ValueLayout.JAVA_INT, offset, indexCount);
+        segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES, instanceCount);
+        segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 2, firstIndex);
+        segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 3, vertexOffset);
+        segment.set(ValueLayout.JAVA_INT, offset + Integer.BYTES * 4, firstInstance);
+        this.position += bytes;
+        return castThis();
+    }
+
+
     @SuppressWarnings("unchecked")
     private Self castThis() {
         return (Self) this;

@@ -47,4 +47,19 @@ public interface GPUWriteStream<Self extends GPUWriteStream<Self>> {
         return write(segment, 0, segment.byteSize());
     }
 
+    Self writePrimitiveDrawCommand(
+            int vertexCount,
+            int instanceCount,
+            int firstVertex,
+            int firstInstance
+    );
+
+    Self writeIndexedDrawCommand(
+            int indexCount,
+            int instanceCount,
+            int firstIndex,
+            int vertexOffset,
+            int firstInstance
+    );
+
 }
