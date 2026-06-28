@@ -8,7 +8,7 @@ import java.lang.foreign.ValueLayout;
 public class AWTLoader {
 
 
-    static ImageResult load(
+    static ImageData load(
             Arena arena,
             BufferedImage source,
             ImageDynamicRange dynamicRange,
@@ -44,7 +44,7 @@ public class AWTLoader {
                 channels,
                 data
         );
-        return new ImageResult.Ok(imageData);
+        return imageData;
     }
 
     private static ImageChannels resolveChannels(

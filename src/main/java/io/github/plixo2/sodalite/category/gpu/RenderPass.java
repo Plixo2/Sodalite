@@ -196,6 +196,12 @@ public class RenderPass implements AutoCloseable {
     ) {
         GPU.drawGPUPrimitivesIndirect(this, indirectBuffer, bufferOffset, drawCount);
     }
+    public void drawPrimitivesIndirect(
+            Buffer indirectBuffer,
+            int drawCount
+    ) {
+        GPU.drawGPUPrimitivesIndirect(this, indirectBuffer, 0, drawCount);
+    }
 
     public void drawIndexedIndirect(
             Buffer indirectBuffer,
@@ -203,6 +209,12 @@ public class RenderPass implements AutoCloseable {
             int drawCount
     ) {
         GPU.drawGPUIndexedPrimitivesIndirect(this, indirectBuffer, bufferOffset, drawCount);
+    }
+    public void drawIndexedIndirect(
+            Buffer indirectBuffer,
+            int drawCount
+    ) {
+        GPU.drawGPUIndexedPrimitivesIndirect(this, indirectBuffer, 0, drawCount);
     }
 
 

@@ -82,7 +82,7 @@ public class BunnyStorage {
     private static class BoundContainer {
 
         private final int capacity;
-         private Bunny[] sprites;
+        private Bunny[] sprites;
         private int count = 0;
 
         private final ResourceSet owner;
@@ -91,7 +91,7 @@ public class BunnyStorage {
 
 
         private BoundContainer(ResourceSet parent, Device device, int capacity) {
-            this.capacity = capacity;
+             this.capacity = capacity;
              this.sprites = new Bunny[capacity];
 
             this.owner = ResourceSet.ofConfined(parent);

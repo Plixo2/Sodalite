@@ -62,6 +62,28 @@ public record VertexInputState(
         public static Attributes of(VertexAttribute... vertexAttributes) {
             return new Attributes(List.of(vertexAttributes));
         }
+
+        public static Attributes fromStruct(int slot, StructLayout structLayout) {
+            List<VertexAttribute> attributes = new ArrayList<>();
+
+            var members = structLayout.memberLayouts();
+            for (int i = 0; i < members.size(); i++) {
+                MemoryLayout member = members.get(i);
+                if (member instanceof PaddingLayout) continue;
+
+                long offset = structLayout.byteOffset(MemoryLayout.PathElement.groupElement(i));
+
+                var attrib = VertexAttribute.of(
+                        i,
+                        slot,
+                        fromMemoryLayout(member),
+                        (int) offset
+                );
+                attributes.add(attrib);
+            }
+            return new Attributes(attributes);
+        }
+
     }
 
     /// @sdlAPI SDL_GPUVertexBufferDescription
@@ -180,25 +202,9 @@ public record VertexInputState(
             int bindingSlot,
             Rate inputState
     ) {
-        List<VertexAttribute> attributes = new ArrayList<>();
+        var attributes = Attributes.fromStruct(bindingSlot, structLayout);
 
-        var members = structLayout.memberLayouts();
-        for (int i = 0; i < members.size(); i++) {
-            MemoryLayout member = members.get(i);
-            if (member instanceof PaddingLayout) continue;
-
-            long offset = structLayout.byteOffset(MemoryLayout.PathElement.groupElement(i));
-
-            var attrib = VertexAttribute.of(
-                    i,
-                    bindingSlot,
-                    fromMemoryLayout(member),
-                    (int) offset
-            );
-            attributes.add(attrib);
-        }
-
-        var bufferDescription = BufferDescriptions.of(
+        var bufferDescriptions = BufferDescriptions.of(
                 VertexBufferDescription.of(
                         bindingSlot,
                         structLayout.byteSize(),
@@ -207,8 +213,8 @@ public record VertexInputState(
         );
 
         return new VertexInputState(
-                bufferDescription,
-                new Attributes(attributes)
+                bufferDescriptions,
+                attributes
         );
     }
 

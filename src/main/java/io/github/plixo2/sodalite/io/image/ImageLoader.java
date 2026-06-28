@@ -9,7 +9,7 @@ import java.lang.foreign.*;
 
 public class ImageLoader {
 
-    public static  ImageResult load(
+    public static ImageData load(
             Arena arena,
             BufferedImage source,
             ImageDynamicRange dynamicRange,
@@ -24,7 +24,7 @@ public class ImageLoader {
         );
     }
 
-    public static ImageResult load(
+    public static ImageData load(
             Arena arena,
             BufferedImage source,
             ImageDynamicRange dynamicRange,
