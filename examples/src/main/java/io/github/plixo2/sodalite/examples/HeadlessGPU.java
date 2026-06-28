@@ -8,10 +8,7 @@ import io.github.plixo2.sodalite.io.image.ImageChannels;
 import io.github.plixo2.sodalite.io.image.ImageData;
 import io.github.plixo2.sodalite.io.image.ImageFormat;
 import io.github.plixo2.sodalite.io.image.ImageWriter;
-import io.github.plixo2.sodalite.memory.CStruct;
-import io.github.plixo2.sodalite.memory.ConstantWriteBuffer;
-import io.github.plixo2.sodalite.memory.Layouts;
-import io.github.plixo2.sodalite.memory.WriteBuffer;
+import io.github.plixo2.sodalite.memory.*;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import org.joml.Vector4f;
 
@@ -23,7 +20,6 @@ import java.nio.file.Path;
 ///
 /// Renders [GPUHelloTriangle] to an image and saves it to disk.
 ///
-
 static StructLayout Vertex = MemoryLayout.structLayout(
         Layouts.FLOAT_3.withName("position"),
         Layouts.FLOAT_4.withName("color")
@@ -67,12 +63,12 @@ void main() throws IOException {
             ResourceSet.global(),
             Shader.Creator.of(
                 format,
-                GPUHelloTriangle.class.getResourceAsStream("/GPUHelloTriangle/" + dir + "/vertex." + ext),
+                MemorySource.of(GPUHelloTriangle.class, "/GPUHelloTriangle/" + dir + "/vertex." + ext),
                 Shader.Parameters.of(0, 0, 0, 0)
             ),
             Shader.Creator.of(
                 format,
-                GPUHelloTriangle.class.getResourceAsStream("/GPUHelloTriangle/" + dir + "/fragment." + ext),
+                MemorySource.of(GPUHelloTriangle.class, "/GPUHelloTriangle/" + dir + "/fragment." + ext),
                 Shader.Parameters.of(0, 0, 0, 1)
             ),
             PrimitiveType.TRIANGLELIST,

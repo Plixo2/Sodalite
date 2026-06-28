@@ -2,6 +2,7 @@ package io.github.plixo2.sodalite.memory;
 
 
 import io.github.plixo2.sodalite.io.FileIO;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,15 +15,15 @@ import java.util.Objects;
 
 import static java.lang.foreign.ValueLayout.*;
 
-public sealed interface MemorySource<T extends Exception> {
+public interface MemorySource<T extends Exception> {
 
     MemorySegment load(Arena arena) throws T;
 
     static MemorySource<IOException> of(Path path) {
         return new MemorySource.File(path);
     }
-    static MemorySource<IOException> of(InputStream inputStream) {
-        return new MemorySource.Stream(inputStream);
+    static MemorySource<IOException> of(@NotNull InputStream inputStream, boolean close) {
+        return new MemorySource.Stream(Objects.requireNonNull(inputStream, "inputStream"), close);
     }
     static MemorySource<IOException> of(Class<?> clazz, String resourceName) {
         return new MemorySource.Resource(clazz, resourceName);
@@ -87,11 +88,17 @@ public sealed interface MemorySource<T extends Exception> {
         }
     }
 
-    record Stream(InputStream inputStream) implements MemorySource<IOException> {
+    record Stream(InputStream inputStream, boolean closeSteam) implements MemorySource<IOException> {
         @Override
         public MemorySegment load(Arena arena) throws IOException {
-            var bytes = this.inputStream.readAllBytes();
-            return arena.allocateFrom(JAVA_BYTE, bytes);
+            try {
+                var bytes = this.inputStream.readAllBytes();
+                return arena.allocateFrom(JAVA_BYTE, bytes);
+            } finally {
+                if (this.closeSteam) {
+                    this.inputStream.close();
+                }
+            }
         }
     }
 

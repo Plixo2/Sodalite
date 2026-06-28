@@ -6,10 +6,10 @@ public enum ImageDynamicRange {
 
     ;
 
-    public int byteSize() {
+    public long byteSize() {
         return switch (this) {
             case SDR -> Byte.BYTES;
-            case HDR -> Integer.BYTES;
+            case HDR -> Float.BYTES;
         };
     }
 

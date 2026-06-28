@@ -6,6 +6,7 @@ import org.joml.Vector2i;
 import org.joml.Vector3i;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.foreign.MemorySegment;
 import java.nio.file.Path;
 
@@ -19,38 +20,6 @@ public class ComputeShader {
             ComputeShader.ThreadCount threadCount,
             ComputeShader.Parameters parameter
     ) {
-        public static Creator<IOException> of(
-                @ShaderFormat int shaderFormat,
-                Path path,
-                ThreadCount threadCount,
-                ComputeShader.Parameters parameter
-        ) {
-            return new Creator<>(shaderFormat, MemorySource.of(path), threadCount, parameter);
-        }
-        public static Creator<IOException> of(
-                @ShaderFormat int shaderFormat,
-                java.io.InputStream inputStream,
-                ThreadCount threadCount,
-                ComputeShader.Parameters parameter
-        ) {
-            return new Creator<>(shaderFormat, MemorySource.of(inputStream), threadCount, parameter);
-        }
-        public static Creator<RuntimeException> of(
-                @ShaderFormat int shaderFormat,
-                byte[] bytes,
-                ThreadCount threadCount,
-                ComputeShader.Parameters parameter
-        ) {
-            return new Creator<>(shaderFormat, MemorySource.of(bytes), threadCount, parameter);
-        }
-        public static Creator<RuntimeException> of(
-                @ShaderFormat int shaderFormat,
-                MemorySegment code,
-                ThreadCount threadCount,
-                ComputeShader.Parameters parameter
-        ) {
-            return new Creator<>(shaderFormat, MemorySource.of(code), threadCount, parameter);
-        }
         public static <T extends Exception> Creator<T> of(
                 @ShaderFormat int shaderFormat,
                 MemorySource<T> source,
@@ -63,84 +32,85 @@ public class ComputeShader {
 
     @With
     public record Parameters(
-            String entryPoint,
-            int numSamplers,
-            int numReadonlyStorageTextures,
-            int numReadonlyStorageBuffers,
-            int numReadwriteStorageTextures,
-            int numReadwriteStorageBuffers,
-            int numUniformBuffers
+            int samplers,
+            int readonlyStorageTextures,
+            int readonlyStorageBuffers,
+            int readwriteStorageTextures,
+            int readwriteStorageBuffers,
+            int nniformBuffers,
+            String entryPoint
     ) {
         public Parameters {
-            if (numSamplers < 0) throw new IllegalArgumentException("num_samplers must be non-negative");
-            if (numReadonlyStorageTextures < 0)
+            if (samplers < 0) throw new IllegalArgumentException("num_samplers must be non-negative");
+            if (readonlyStorageTextures < 0)
                 throw new IllegalArgumentException("num_readonly_storage_textures must be non-negative");
-            if (numReadonlyStorageBuffers < 0)
+            if (readonlyStorageBuffers < 0)
                 throw new IllegalArgumentException("num_readonly_storage_buffers must be non-negative");
-            if (numReadwriteStorageTextures < 0)
+            if (readwriteStorageTextures < 0)
                 throw new IllegalArgumentException("num_readwrite_storage_textures must be non-negative");
-            if (numReadwriteStorageBuffers < 0)
+            if (readwriteStorageBuffers < 0)
                 throw new IllegalArgumentException("num_readwrite_storage_buffers must be non-negative");
-            if (numUniformBuffers < 0)
+            if (nniformBuffers < 0)
                 throw new IllegalArgumentException("num_uniform_buffers must be non-negative");
             if (entryPoint.isEmpty()) throw new IllegalArgumentException("entryPoint must be non-empty");
         }
         public Parameters(
-                int num_samplers,
-                int num_readonly_storage_textures,
-                int num_readonly_storage_buffers,
-                int num_readwrite_storage_textures,
-                int num_readwrite_storage_buffers,
-                int num_uniform_buffers
+                int samplers,
+                int readonlyStorageTextures,
+                int readonlyStorageBuffers,
+                int readwriteStorageTextures,
+                int readwriteStorageBuffers,
+                int uniformBuffers
         ) {
             this(
-                    "main",
-                    num_samplers,
-                    num_readonly_storage_textures,
-                    num_readonly_storage_buffers,
-                    num_readwrite_storage_textures,
-                    num_readwrite_storage_buffers,
-                    num_uniform_buffers
+                    samplers,
+                    readonlyStorageTextures,
+                    readonlyStorageBuffers,
+                    readwriteStorageTextures,
+                    readwriteStorageBuffers,
+                    uniformBuffers,
+                    "main"
             );
         }
 
         public static Parameters of(
-            int num_samplers,
-            int num_readonly_storage_textures,
-            int num_readonly_storage_buffers,
-            int num_readwrite_storage_textures,
-            int num_readwrite_storage_buffers,
-            int num_uniform_buffers
+            int samplers,
+            int readonlyStorageTextures,
+            int readonlyStorageBuffers,
+            int readwriteStorageTextures,
+            int readwriteStorageBuffers,
+            int uniformBuffers
         ) {
             return new Parameters(
-                    num_samplers,
-                    num_readonly_storage_textures,
-                    num_readonly_storage_buffers,
-                    num_readwrite_storage_textures,
-                    num_readwrite_storage_buffers,
-                    num_uniform_buffers
+                    samplers,
+                    readonlyStorageTextures,
+                    readonlyStorageBuffers,
+                    readwriteStorageTextures,
+                    readwriteStorageBuffers,
+                    uniformBuffers
             );
         }
 
         public static Parameters of(
-                String entryPoint,
-                int num_samplers,
-                int num_readonly_storage_textures,
-                int num_readonly_storage_buffers,
-                int num_readwrite_storage_textures,
-                int num_readwrite_storage_buffers,
-                int num_uniform_buffers
+                int samplers,
+                int readonlyStorageTextures,
+                int readonlyStorageBuffers,
+                int readwriteStorageTextures,
+                int readwriteStorageBuffers,
+                int uniformBuffers,
+                String entryPoint
         ) {
             return new Parameters(
-                    entryPoint,
-                    num_samplers,
-                    num_readonly_storage_textures,
-                    num_readonly_storage_buffers,
-                    num_readwrite_storage_textures,
-                    num_readwrite_storage_buffers,
-                    num_uniform_buffers
+                    samplers,
+                    readonlyStorageTextures,
+                    readonlyStorageBuffers,
+                    readwriteStorageTextures,
+                    readwriteStorageBuffers,
+                    uniformBuffers,
+                    entryPoint
             );
         }
+
         public static Parameters none() {
             return Parameters.of(0, 0, 0, 0, 0, 0);
         }

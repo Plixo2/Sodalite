@@ -9,6 +9,7 @@ import io.github.plixo2.sodalite.category.video.Video;
 import io.github.plixo2.sodalite.category.video.Window;
 import io.github.plixo2.sodalite.category.video.WindowFlags;
 import io.github.plixo2.sodalite.memory.Layouts;
+import io.github.plixo2.sodalite.memory.MemorySource;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.Getter;
 
@@ -247,11 +248,11 @@ public abstract class Common implements Callbacks {
         return Shader.Creator.of(
                 this.shaderFormat,
                 shaderSrc(name),
-                Shader.Parameters.of(entry(), samplerCount, storageTextureCount, storageBufferCount, uniformBufferCount)
+                Shader.Parameters.of(samplerCount, storageTextureCount, storageBufferCount, uniformBufferCount, entry())
         );
     }
 
-    private InputStream shaderSrc(
+    private MemorySource<IOException> shaderSrc(
         String name
     ) {
         var ext = switch (this.shaderFormat) {
@@ -267,7 +268,7 @@ public abstract class Common implements Callbacks {
             default -> throw new IllegalStateException("Unrecognized backend shader format!");
         };
         var path = "/gpu_examples/Shaders/Compiled/" + dir + "/" + name + "." + ext;
-        return Common.class.getResourceAsStream(path);
+        return MemorySource.of(Common.class, path);
     }
 
     private String entry() {

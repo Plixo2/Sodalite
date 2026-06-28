@@ -5,9 +5,7 @@ import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.With;
 
-import java.io.IOException;
 import java.lang.foreign.MemorySegment;
-import java.nio.file.Path;
 
 /// @sdlAPI SDL_GPUShader
 public class Shader extends ResourceObject {
@@ -33,34 +31,6 @@ public class Shader extends ResourceObject {
         MemorySource<T> source,
         Shader.Parameters parameter
     ) {
-        public static Creator<IOException> of(
-                @ShaderFormat int shaderFormat,
-                Path path,
-                Shader.Parameters parameter
-        ) {
-            return new Creator<>(shaderFormat, MemorySource.of(path), parameter);
-        }
-        public static Creator<IOException> of(
-                @ShaderFormat int shaderFormat,
-                java.io.InputStream inputStream,
-                Shader.Parameters parameter
-        ) {
-            return new Creator<>(shaderFormat, MemorySource.of(inputStream), parameter);
-        }
-        public static Creator<RuntimeException> of(
-                @ShaderFormat int shaderFormat,
-                byte[] bytes,
-                Shader.Parameters parameter
-        ) {
-            return new Creator<>(shaderFormat, MemorySource.of(bytes), parameter);
-        }
-        public static Creator<RuntimeException> of(
-                @ShaderFormat int shaderFormat,
-                MemorySegment code,
-                Shader.Parameters parameter
-        ) {
-            return new Creator<>(shaderFormat, MemorySource.of(code), parameter);
-        }
         public static <T extends Exception> Creator<T> of(
                 @ShaderFormat int shaderFormat,
                 MemorySource<T> source,
@@ -72,62 +42,62 @@ public class Shader extends ResourceObject {
 
     @With
     public record Parameters(
-            String entryPoint,
-            int numSamplers,
-            int numStorageTextures,
-            int numStorageBuffers,
-            int numUniformBuffers
+            int samplers,
+            int storageTextures,
+            int storageBuffers,
+            int uniformBuffers,
+            String entryPoint
     ) {
         public Parameters {
-            if (numSamplers < 0) throw new IllegalArgumentException("numSamplers must be non-negative");
-            if (numStorageTextures < 0) throw new IllegalArgumentException("numStorageTextures must be non-negative");
-            if (numStorageBuffers < 0) throw new IllegalArgumentException("numStorageBuffers must be non-negative");
-            if (numUniformBuffers < 0) throw new IllegalArgumentException("numUniformBuffers must be non-negative");
+            if (samplers < 0) throw new IllegalArgumentException("numSamplers must be non-negative");
+            if (storageTextures < 0) throw new IllegalArgumentException("numStorageTextures must be non-negative");
+            if (storageBuffers < 0) throw new IllegalArgumentException("numStorageBuffers must be non-negative");
+            if (uniformBuffers < 0) throw new IllegalArgumentException("numUniformBuffers must be non-negative");
             if (entryPoint.isEmpty()) throw new IllegalArgumentException("entryPoint must be non-empty");
         }
 
         public Parameters(
-                int numSamplers,
-                int numStorageTextures,
-                int numStorageBuffers,
-                int numUniformBuffers
+                int samplers,
+                int storageTextures,
+                int storageBuffers,
+                int uniformBuffers
         ) {
             this(
-                    "main",
-                    numSamplers,
-                    numStorageTextures,
-                    numStorageBuffers,
-                    numUniformBuffers
+                    samplers,
+                    storageTextures,
+                    storageBuffers,
+                    uniformBuffers,
+                    "main"
             );
         }
 
         public static Parameters of(
-                String entryPoint,
-                int numSamplers,
-                int numStorageTextures,
-                int numStorageBuffers,
-                int numUniformBuffers
+                int samplers,
+                int storageTextures,
+                int storageBuffers,
+                int uniformBuffers,
+                String entryPoint
         ) {
             return new Parameters(
-                    entryPoint,
-                    numSamplers,
-                    numStorageTextures,
-                    numStorageBuffers,
-                    numUniformBuffers
+                    samplers,
+                    storageTextures,
+                    storageBuffers,
+                    uniformBuffers,
+                    entryPoint
             );
         }
 
         public static Parameters of(
-                int numSamplers,
-                int numStorageTextures,
-                int numStorageBuffers,
-                int numUniformBuffers
+                int samplers,
+                int storageTextures,
+                int storageBuffers,
+                int uniformBuffers
         ) {
             return new Parameters(
-                    numSamplers,
-                    numStorageTextures,
-                    numStorageBuffers,
-                    numUniformBuffers
+                    samplers,
+                    storageTextures,
+                    storageBuffers,
+                    uniformBuffers
             );
         }
         public static Parameters none() {

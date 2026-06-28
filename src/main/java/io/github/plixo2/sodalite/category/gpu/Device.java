@@ -122,10 +122,10 @@ public class Device extends ResourceObject {
                 parameter.entryPoint(),
                 creator.shaderFormat(),
                 stage,
-                parameter.numSamplers(),
-                parameter.numStorageTextures(),
-                parameter.numStorageBuffers(),
-                parameter.numUniformBuffers()
+                parameter.samplers(),
+                parameter.storageTextures(),
+                parameter.storageBuffers(),
+                parameter.uniformBuffers()
         );
     }
 

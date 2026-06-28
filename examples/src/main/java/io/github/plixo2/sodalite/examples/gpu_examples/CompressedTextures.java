@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4f;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.foreign.MemorySegment;
 
 /// CompressedTextures.c
@@ -122,7 +121,7 @@ public class CompressedTextures extends Common {
                         if (isBC) {
                             var result = ImageLoader.loadDDS(
                                 imgData.arena(),
-                                MemorySource.of(textureStream(name))
+                                textureSource(name)
                             ).orThrow(IOException::new);
                             data = result.data();
                             width = result.width();
@@ -131,7 +130,7 @@ public class CompressedTextures extends Common {
                         } else {
                             var result = ImageLoader.loadASTC(
                                 imgData.arena(),
-                                MemorySource.of(textureStream(name))
+                                textureSource(name)
                             ).orThrow(IOException::new);
                             data = result.data();
                             width = result.width();
@@ -221,7 +220,7 @@ public class CompressedTextures extends Common {
                     if (memCompare(firstTextureData, memory)) {
                         System.out.println("Success: Downloaded bytes match original texture bytes!");
                     } else {
-                        System.out.println("Failure: Downloaded bytes match original texture bytes!");
+                        System.out.println("Failure: Downloaded bytes dont match original texture bytes!");
                     }
                 }
             }
@@ -239,13 +238,14 @@ public class CompressedTextures extends Common {
 
         System.out.println("Press Left/Right to switch between textures");
     }
-    private InputStream textureStream(String name) throws IOException {
+    private MemorySource<IOException> textureSource(String name)  {
         var path = "/gpu_examples/Images/" + name;
-        var stream = CompressedTextures.class.getResourceAsStream(path);
-        if (stream == null) {
-            throw new IOException("Texture not found: " + path);
-        }
-        return stream;
+        return MemorySource.of(CompressedTextures.class, path);
+        //        var stream = CompressedTextures.class.getResourceAsStream(path);
+//        if (stream == null) {
+//            throw new IOException("Texture not found: " + path);
+//        }
+//        return stream;
     }
     private boolean memCompare(MemorySegment a, MemorySegment b) {
         return a.mismatch(b) == -1;

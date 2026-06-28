@@ -7,10 +7,7 @@ import io.github.plixo2.sodalite.category.timer.Timer;
 import io.github.plixo2.sodalite.category.video.Video;
 import io.github.plixo2.sodalite.category.video.Window;
 import io.github.plixo2.sodalite.category.video.WindowFlags;
-import io.github.plixo2.sodalite.memory.CStruct;
-import io.github.plixo2.sodalite.memory.ConstantWriteBuffer;
-import io.github.plixo2.sodalite.memory.Layouts;
-import io.github.plixo2.sodalite.memory.WriteBuffer;
+import io.github.plixo2.sodalite.memory.*;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import org.joml.Vector4f;
 
@@ -83,12 +80,12 @@ public class GPUHelloTriangle implements Callbacks {
             ResourceSet.global(),
             Shader.Creator.of(
                 format,
-                GPUHelloTriangle.class.getResourceAsStream("/GPUHelloTriangle/" + dir + "/vertex." + ext),
+                MemorySource.of(GPUHelloTriangle.class, "/GPUHelloTriangle/" + dir + "/vertex." + ext),
                 Shader.Parameters.of(0, 0, 0, 0)
             ),
             Shader.Creator.of(
                 format,
-                GPUHelloTriangle.class.getResourceAsStream("/GPUHelloTriangle/" + dir + "/fragment." + ext),
+                MemorySource.of(GPUHelloTriangle.class, "/GPUHelloTriangle/" + dir + "/fragment." + ext),
                 Shader.Parameters.of(0, 0, 0, 1)
             ),
             PrimitiveType.TRIANGLELIST,

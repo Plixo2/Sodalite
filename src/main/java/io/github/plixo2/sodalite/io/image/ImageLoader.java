@@ -4,9 +4,41 @@ import io.github.plixo2.sodalite.category.gpu.TextureFormat;
 import io.github.plixo2.sodalite.memory.MemorySource;
 import org.lwjgl.stb.STBImage;
 
+import java.awt.image.BufferedImage;
 import java.lang.foreign.*;
 
 public class ImageLoader {
+
+    public static  ImageResult load(
+            Arena arena,
+            BufferedImage source,
+            ImageDynamicRange dynamicRange,
+            ImageChannels desiredChannels
+    )  {
+        return load(
+                arena,
+                source,
+                dynamicRange,
+                desiredChannels,
+                false
+        );
+    }
+
+    public static ImageResult load(
+            Arena arena,
+            BufferedImage source,
+            ImageDynamicRange dynamicRange,
+            ImageChannels desiredChannels,
+            boolean flipVertically
+    ) {
+        return AWTLoader.load(
+                arena,
+                source,
+                dynamicRange,
+                desiredChannels,
+                flipVertically
+        );
+    }
 
 
     public static <T extends Exception> ImageResult load(
@@ -87,7 +119,6 @@ public class ImageLoader {
             MemorySegment memory,
             ImageDynamicRange dynamicRange,
             int desiredChannels,
-
             MemorySegment widthOut,
             MemorySegment heightOut,
             MemorySegment channelsOut

@@ -24,7 +24,7 @@ public class BasicCompute extends Common {
                 "FillTexture.comp",
                 ComputeShader.ThreadCount.of(8, 8),
                 ComputeShader.Parameters.none()
-                    .withNumReadwriteStorageTextures(1)
+                    .withReadwriteStorageTextures(1)
         );
         this.drawPipeline = this.device().createGraphicsPipeline(
                 ResourceSet.global(),

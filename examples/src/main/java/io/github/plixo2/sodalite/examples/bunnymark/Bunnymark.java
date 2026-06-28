@@ -25,10 +25,12 @@ import lombok.SneakyThrows;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.lang.foreign.MemoryLayout;
 import java.lang.foreign.StructLayout;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 /// Port of
@@ -98,6 +100,8 @@ public class Bunnymark implements Callbacks {
         renderPass.bindVertexBuffer(0, this.bunnyStorage.currentBuffer());
 
         renderPass.drawPrimitives(4, this.bunnyStorage.count(), 0, 0);
+
+
     }
 
     /// @return delta time in milliseconds
@@ -297,11 +301,10 @@ public class Bunnymark implements Callbacks {
             ResourceSet resources,
             Device device
     ) throws IOException {
-        var stream = Bunnymark.class.getResourceAsStream("/Bunnymark/bunny.png");
         try (var textureData = ResourceSet.ofConfined()) {
             var imageData = ImageLoader.load(
                     textureData.arena(),
-                    MemorySource.of(stream),
+                    MemorySource.of(Bunnymark.class, "/Bunnymark/bunny.png"),
                     ImageDynamicRange.SDR,
                     ImageChannels.RGBA
             ).orThrow(IOException::new);
@@ -358,8 +361,8 @@ public class Bunnymark implements Callbacks {
         var ext = useSpirv ? "spv" : "dxil";
         var dir = useSpirv ? "spirv" : "dxil";
 
-        var vs = Bunnymark.class.getResourceAsStream("/Bunnymark/" + dir + "/vertex." + ext);
-        var fs = Bunnymark.class.getResourceAsStream("/Bunnymark/" + dir + "/fragment." + ext);
+        var vs = MemorySource.of(Bunnymark.class, "/Bunnymark/" + dir + "/vertex." + ext);
+        var fs = MemorySource.of(Bunnymark.class, "/Bunnymark/" + dir + "/fragment." + ext);
 
         return device.createGraphicsPipeline(
                 resources,

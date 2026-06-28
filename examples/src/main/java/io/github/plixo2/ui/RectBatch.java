@@ -3,6 +3,7 @@ package io.github.plixo2.ui;
 import io.github.plixo2.sodalite.category.gpu.*;
 import io.github.plixo2.sodalite.memory.CStruct;
 import io.github.plixo2.sodalite.memory.Layouts;
+import io.github.plixo2.sodalite.memory.MemorySource;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import org.joml.Matrix4f;
 import org.joml.Vector4i;
@@ -91,12 +92,12 @@ public class RectBatch extends DrawBatch {
             resources,
             Shader.Creator.of(
                     ShaderFormat.SPIRV,
-                    Path.of("resources/uber/bin/vertex.spv"),
+                    MemorySource.of(Path.of("resources/uber/bin/vertex.spv")),
                     Shader.Parameters.of(0, 0, 1, 1)
             ),
             Shader.Creator.of(
                     ShaderFormat.SPIRV,
-                    Path.of("resources/uber/bin/fragment.spv"),
+                    MemorySource.of(Path.of("resources/uber/bin/fragment.spv")),
                     Shader.Parameters.of(8, 0, 0, 0)
             ),
             PrimitiveType.TRIANGLESTRIP,
