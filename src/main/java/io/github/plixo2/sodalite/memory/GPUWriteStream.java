@@ -7,7 +7,6 @@ import java.lang.foreign.MemorySegment;
 public interface GPUWriteStream<Self extends GPUWriteStream<Self>> {
 
 
-
     Self writeFloat(float value);
     Self writeFloats(float... values);
     Self writeInt(int value);

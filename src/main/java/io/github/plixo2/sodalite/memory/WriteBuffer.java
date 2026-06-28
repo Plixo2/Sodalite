@@ -47,7 +47,7 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     /// @throws IllegalArgumentException if `newPosition` is negative or exceeds the buffer's capacity
     public Self seek(long newPosition) {
         if (newPosition < 0 || newPosition > this.capacity) {
-            throw new IllegalArgumentException("Position must be between 0 and capacity");
+            throw new IndexOutOfBoundsException("Position out of bounds: " + newPosition);
         }
         assertU32(newPosition, "newPosition");
         this.position = newPosition;
