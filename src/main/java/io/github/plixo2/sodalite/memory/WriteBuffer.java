@@ -363,6 +363,7 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
         return castThis();
     }
 
+    @Override
     public Self writePrimitiveDrawCommand(
             int vertexCount,
             int instanceCount,
@@ -381,6 +382,7 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
         return castThis();
     }
 
+    @Override
     public Self writeIndexedDrawCommand(
             int indexCount,
             int instanceCount,
