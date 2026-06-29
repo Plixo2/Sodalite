@@ -25,6 +25,6 @@ public @interface PenInputFlags {
     int ERASER_TIP = SDL_PEN_INPUT_ERASER_TIP;
     int IN_PROXIMITY = SDL_PEN_INPUT_IN_PROXIMITY;
 
-    int MASK = BitMask.flagMaskInt(PenInputFlags.class);
+    BitMask.Int MASK = BitMask.ofInt(PenInputFlags.class);
 
 }

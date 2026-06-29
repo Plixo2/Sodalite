@@ -24,6 +24,6 @@ public @interface ShaderFormat {
     int MSL = SDL_GPU_SHADERFORMAT_MSL;
     int METALLIB = SDL_GPU_SHADERFORMAT_METALLIB;
 
-    int MASK = BitMask.flagMaskInt(ShaderFormat.class);
+    BitMask.Int MASK = BitMask.ofInt(ShaderFormat.class);
 
 }

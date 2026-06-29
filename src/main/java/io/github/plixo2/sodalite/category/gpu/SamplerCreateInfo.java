@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import org.libsdl.sdl.SDL_GPUSamplerCreateInfo;
 
@@ -47,7 +48,7 @@ public record SamplerCreateInfo(
         return SamplerBuilder.of(this);
     }
 
-    public Sampler create(ResourceSet resources, Device device) {
+    public Sampler create(ResourceSet resources, Device device) throws SDLException {
         return GPU.createGPUSampler(resources, device, this);
     }
 

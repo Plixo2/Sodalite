@@ -1,5 +1,7 @@
 package io.github.plixo2.sodalite.category.power;
 
+import io.github.plixo2.sodalite.SDLException;
+
 import java.lang.foreign.Arena;
 import java.lang.foreign.ValueLayout;
 
@@ -12,7 +14,7 @@ public class Power {
     private Power() {}
 
     /// @sdlAPI SDL_GetPowerInfo
-    public static PowerInfo getPowerInfo() {
+    public static PowerInfo getPowerInfo() throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var secondsSegment = arena.allocate(ValueLayout.JAVA_INT);
             var percentSegment = arena.allocate(ValueLayout.JAVA_INT);

@@ -1,6 +1,7 @@
 package io.github.plixo2.sodalite.category.keyboard;
 
 
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.category.keycode.Keycode;
 import io.github.plixo2.sodalite.category.keycode.Keymod;
 import io.github.plixo2.sodalite.category.scancode.Scancode;
@@ -33,7 +34,7 @@ public class Keyboard {
 
 
     /// @sdlAPI SDL_ClearComposition
-    public static void clearComposition(Window window) {
+    public static void clearComposition(Window window) throws SDLException {
         check(SDL_ClearComposition(window.segment()));
     }
 
@@ -47,13 +48,13 @@ public class Keyboard {
     }
 
     /// @sdlAPI SDL_GetKeyboardNameForID
-    public static String getKeyboardName(KeyboardID keyboard) {
+    public static String getKeyboardName(KeyboardID keyboard) throws SDLException {
         var result = check(SDL_GetKeyboardNameForID(keyboard.value()));
         return result.getString(0);
     }
 
     /// @sdlAPI SDL_GetKeyboards
-    public static List<KeyboardID> getKeyboards() {
+    public static List<KeyboardID> getKeyboards() throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var countSeg = arena.allocate(ValueLayout.JAVA_INT);
             var result = check(SDL_GetKeyboards(countSeg));

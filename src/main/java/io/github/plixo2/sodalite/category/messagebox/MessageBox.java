@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.messagebox;
 
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.category.video.Window;
 import org.jetbrains.annotations.Nullable;
 import org.libsdl.sdl.SDL_MessageBoxData;
@@ -20,7 +21,7 @@ public class MessageBox {
     /// @sdlAPI SDL_ShowMessageBox
     public static int show(
             MessageBoxData data
-    ) {
+    ) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var segment = data.put(arena);
             var buttonIDSegment = arena.allocate(ValueLayout.JAVA_INT);
@@ -38,7 +39,7 @@ public class MessageBox {
     /// @sdlAPI SDL_ShowMessageBox
     public static int show(
             MessageBoxBuilder builder
-    ) {
+    ) throws SDLException {
         return show(builder.build());
     }
 
@@ -49,7 +50,7 @@ public class MessageBox {
             String title,
             String message,
             @Nullable Window window
-    ) {
+    ) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var titleSegment = arena.allocateFrom(Objects.requireNonNull(title, "Title is required"));
             var messageSegment = arena.allocateFrom(Objects.requireNonNull(message, "Message is required"));
@@ -65,19 +66,19 @@ public class MessageBox {
     public static void showSimpleError(
             String title,
             String message
-    ) {
+    ) throws SDLException {
         showSimple(MessageBoxFlags.ERROR, title, message, null);
     }
     public static void showSimpleWarning(
             String title,
             String message
-    ) {
+    ) throws SDLException {
         showSimple(MessageBoxFlags.WARNING, title, message, null);
     }
     public static void showSimpleInfo(
             String title,
             String message
-    ) {
+    ) throws SDLException {
         showSimple(MessageBoxFlags.INFORMATION, title, message, null);
     }
 

@@ -299,7 +299,7 @@ public record VertexInputState(
     );
 
 
-    private static RuntimeException unsupportedLayout(MemoryLayout layout) {
+    private static IllegalArgumentException unsupportedLayout(MemoryLayout layout) {
         return new IllegalArgumentException(
                 "'" + layout + "'"
                 + " is not supported for vertex attributes. "

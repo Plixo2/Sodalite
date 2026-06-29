@@ -2,6 +2,7 @@ package io.github.plixo2.sodalite.category.gpu;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.CheckReturnValue;
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.category.video.Window;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
@@ -32,13 +33,13 @@ public class Device extends ResourceObject {
     /// @return a AutoCloseable that will release the claim when closed.
     ///         Can be ignored, as SDL does not require a claim to be released
     @CanIgnoreReturnValue
-    public WindowClaim claimWindow(Window window) {
+    public WindowClaim claimWindow(Window window) throws SDLException {
         GPU.claimWindowForDevice(this, window);
         return new WindowClaim(window);
     }
 
     @CheckReturnValue
-    public CommandBuffer acquireCommandBuffer() {
+    public CommandBuffer acquireCommandBuffer() throws SDLException {
         return GPU.acquireGPUCommandBuffer(this);
     }
 
@@ -50,7 +51,7 @@ public class Device extends ResourceObject {
             Window window,
             SwapchainComposition swapchainComposition,
             PresentMode presentMode
-    ) {
+    ) throws SDLException {
         GPU.setGPUSwapchainParameters(this, window, swapchainComposition, presentMode);
     }
 
@@ -86,7 +87,7 @@ public class Device extends ResourceObject {
             ResourceSet resources,
             @BufferUsageFlags int usageFlags,
             long size
-    ) {
+    ) throws SDLException {
         return GPU.createBuffer(resources, this, usageFlags, size);
     }
 
@@ -95,7 +96,7 @@ public class Device extends ResourceObject {
             String name,
             @BufferUsageFlags int usageFlags,
             long size
-    ) {
+    ) throws SDLException {
         var buffer = createBuffer(resources, usageFlags, size);
         buffer.setName(this, name);
         return buffer;
@@ -105,7 +106,7 @@ public class Device extends ResourceObject {
             ResourceSet resources,
             TransferBufferUsage usage,
             long size
-    ) {
+    ) throws SDLException {
         return GPU.createTransferBuffer(resources, this, usage, size);
     }
 
@@ -113,7 +114,7 @@ public class Device extends ResourceObject {
             ResourceSet resources,
             Shader.Creator<T> creator,
             ShaderStage stage
-    ) throws T {
+    ) throws T, SDLException {
         var parameter = creator.parameter();
         return GPU.createGPUShader(
                 resources,
@@ -139,7 +140,7 @@ public class Device extends ResourceObject {
             MultisampleState multisampleState,
             DepthStencilState depthStencilState,
             GraphicsPipelineTargetInfo targetInfo
-    ) {
+    ) throws SDLException {
         return GPU.createGraphicsPipeline(
                 resources,
                 this,
@@ -164,7 +165,7 @@ public class Device extends ResourceObject {
             MultisampleState multisampleState,
             DepthStencilState depthStencilState,
             GraphicsPipelineTargetInfo targetInfo
-    ) throws T {
+    ) throws T, SDLException {
         try (var pipelineResources = ResourceSet.ofConfined()) {
             var vs = createShader(
                     pipelineResources,
@@ -193,7 +194,7 @@ public class Device extends ResourceObject {
     public <T extends Exception> ComputePipeline createComputePipeline(
             ResourceSet resources,
             ComputeShader.Creator<T> creator
-    ) throws T {
+    ) throws T, SDLException {
         return GPU.createComputePipeline(
                 resources,
                 this,
@@ -211,15 +212,15 @@ public class Device extends ResourceObject {
         return (getShaderFormats() & shaderFormat) == shaderFormat;
     }
 
-    public void setAllowedFramesInFlight(int maxFramesInFlight) {
+    public void setAllowedFramesInFlight(int maxFramesInFlight) throws SDLException {
         GPU.setAllowedFramesInFlight(this, maxFramesInFlight);
     }
 
-    public void waitForIdle() {
+    public void waitForIdle() throws SDLException {
         GPU.waitForIdle(this);
     }
 
-    public void waitForSwapchain(Window window) {
+    public void waitForSwapchain(Window window) throws SDLException {
         GPU.waitForSwapchain(this, window);
     }
 

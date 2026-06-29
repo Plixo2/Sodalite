@@ -21,6 +21,6 @@ public @interface FlipMode {
     int HORIZONTAL = SDL_FLIP_HORIZONTAL;
     int VERTICAL = SDL_FLIP_VERTICAL;
 
-    int MASK = BitMask.flagMaskInt(FlipMode.class);
+    BitMask.Int MASK = BitMask.ofInt(FlipMode.class);
 
 }

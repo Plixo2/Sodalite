@@ -3,8 +3,8 @@ package io.github.plixo2.sodalite;
 import io.github.plixo2.sodalite.category.error.Error;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.UnknownNullability;
 
+import java.io.IOException;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.Objects;
@@ -69,32 +69,31 @@ public final class Internal {
     }
 
     /// Only use for validating SDL calls
-    public static MemorySegment check(MemorySegment segment) {
+    public static MemorySegment check(MemorySegment segment) throws SDLException {
         Objects.requireNonNull(segment, "MemorySegment itself must not be null");
         check(segment.address());
         return segment;
     }
     /// Only use for validating SDL calls
-    public static long check(long address) {
+    public static long check(long address) throws SDLException {
         check(address != 0);
         return address;
     }
     /// Only use for validating SDL calls
-    public static int check(int value) {
+    public static int check(int value) throws SDLException {
         check(value != 0);
         return value;
     }
 
     /// Only use for validating SDL calls
-    public static void check(boolean success) {
+    public static void check(boolean success) throws SDLException {
         if (success || !CHECKS_ENABLED) {
             return;
         }
 
         var error = Error.getError();
-        throw new SDL3Exception(error);
+        throw new SDLException(error);
     }
-
 
     @Contract("_, _, !null -> !null")
     public static <T extends Enum<T>> T enumFromCode(Class<T> enumClass, int ordinal, @Nullable T defaultValue) {
@@ -145,42 +144,6 @@ public final class Internal {
         }
         throw new IllegalArgumentException(exceptionMessage);
     }
-
-    public static class SDL3Exception extends RuntimeException {
-
-        public SDL3Exception() {
-            super();
-        }
-
-        public SDL3Exception(
-                String message
-        ) {
-            super(message);
-        }
-
-        public SDL3Exception(
-                String message,
-                Throwable cause
-        ) {
-            super(message, cause);
-        }
-
-        public SDL3Exception(
-                Throwable cause
-        ) {
-            super(cause);
-        }
-
-        public SDL3Exception(
-                String message,
-                Throwable cause,
-                boolean enableSuppression,
-                boolean writableStackTrace
-        ) {
-            super(message, cause, enableSuppression, writableStackTrace);
-        }
-    }
-
 
 
 }

@@ -25,6 +25,6 @@ public @interface TrayEntryFlags {
     int CHECKED = SDL_TRAYENTRY_CHECKED;
 
 
-    int MASK = BitMask.flagMaskInt(TrayEntryFlags.class);
+    BitMask.Int MASK = BitMask.ofInt(TrayEntryFlags.class);
 
 }

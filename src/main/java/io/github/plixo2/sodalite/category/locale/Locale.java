@@ -1,6 +1,7 @@
 package io.github.plixo2.sodalite.category.locale;
 
 
+import io.github.plixo2.sodalite.SDLException;
 import org.libsdl.sdl.SDL_Locale;
 
 import java.lang.foreign.Arena;
@@ -20,7 +21,7 @@ public class Locale {
 
     /// @sdlAPI SDL_GetPreferredLocales
     /// @sdlOther SDL_free
-    public static List<LocaleEntry> preferredLocales() {
+    public static List<LocaleEntry> preferredLocales() throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var countSegment = arena.allocate(ValueLayout.JAVA_INT);
             var ptr = check(SDL_GetPreferredLocales(countSegment));

@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.resource;
 
+import io.github.plixo2.sodalite.Internal;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.foreign.Arena;
@@ -27,6 +28,9 @@ final class ConfinedResourceSet extends ResourceObject implements ResourceSet {
     }
 
     static ConfinedResourceSet create(ResourceSet parent) {
+        if (parent instanceof AutoResourceSet) {
+            throw new IllegalArgumentException("Cannot create a confined resource set from an auto resource set");
+        }
         var set = new ConfinedResourceSet();
         parent.register(set, set::releaseFromParent);
         return set;
@@ -52,9 +56,9 @@ final class ConfinedResourceSet extends ResourceObject implements ResourceSet {
     @Override
     public void close() {
         if (this.closed) {
-            throw new IllegalStateException("Already closed");
+            throw new DoubleReleaseException(this, "Already closed");
         } else if (this.closedFromParent) {
-            throw new IllegalStateException("Already closed from parent");
+            throw new DoubleReleaseException(this, "Already closed (from parent)");
         }
         this.closed = true;
         release();
@@ -62,7 +66,7 @@ final class ConfinedResourceSet extends ResourceObject implements ResourceSet {
 
     private void releaseFromParent() {
         if (this.closedFromParent) {
-            throw new IllegalStateException("Already closed");
+            throw new DoubleReleaseException(this, "Already closed (from parent)");
         } else if (this.closed) {
             // was already regularly closed, just return
             return;
@@ -91,7 +95,7 @@ final class ConfinedResourceSet extends ResourceObject implements ResourceSet {
 
     private void ensureAccess() {
         if (this.closed || this.closedFromParent) {
-            throw new IllegalStateException("Already closed");
+            throw new UseAfterReleaseException(this, "Already closed");
         }
     }
 }

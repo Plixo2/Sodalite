@@ -82,6 +82,12 @@ public sealed interface GrowthStrategy {
             return requiredCapacity;
         }
     }
-    non-sealed interface Custom extends GrowthStrategy {}
+
+    @FunctionalInterface
+    non-sealed interface Custom extends GrowthStrategy {
+        /// Calculates the next capacity based on the current capacity and the required capacity.
+        long next(long currentCapacity, long requiredCapacity);
+
+    }
 
 }

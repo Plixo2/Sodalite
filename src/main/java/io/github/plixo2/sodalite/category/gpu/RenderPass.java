@@ -2,6 +2,8 @@ package io.github.plixo2.sodalite.category.gpu;
 
 
 import io.github.plixo2.sodalite.category.rect.Rect;
+import io.github.plixo2.sodalite.resource.DoubleReleaseException;
+import io.github.plixo2.sodalite.resource.UseAfterReleaseException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +32,7 @@ public class RenderPass implements AutoCloseable {
 
     public MemorySegment segment() {
         if (this.isEnded) {
-            throw new IllegalStateException("Render pass has already been ended");
+            throw new UseAfterReleaseException(this, "Pass already ended");
         }
         return this.segment;
     }
@@ -38,7 +40,7 @@ public class RenderPass implements AutoCloseable {
     @Override
     public void close() {
         if (this.isEnded) {
-            throw new IllegalStateException("Render pass has already been ended");
+            throw new DoubleReleaseException(this, "Pass already ended");
         }
         GPU.endGPURenderPass(this);
         this.isEnded = true;

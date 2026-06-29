@@ -11,14 +11,14 @@ import java.lang.foreign.MemorySegment;
 import static io.github.plixo2.sodalite.Internal.*;
 
 /// The buffer can only hold up to 2^32 - 1 bytes (4 GiB) of data
-public class GrowableWriteBuffer extends WriteBuffer<GrowableWriteBuffer> {
+public non-sealed class GrowableWriteBuffer extends WriteBuffer<GrowableWriteBuffer> {
 
-    private final CurrentSegment currentSegment;
+    protected final CurrentSegment currentSegment;
 
     @Getter
     private GrowthStrategy growthStrategy = new GrowthStrategy.Factor(2);
 
-    GrowableWriteBuffer(
+    private GrowableWriteBuffer(
             ResourceSet resources,
             long initialSize
     ) {
@@ -89,6 +89,7 @@ public class GrowableWriteBuffer extends WriteBuffer<GrowableWriteBuffer> {
         this.growthStrategy = growthStrategy;
         return this;
     }
+
     public GrowableWriteBuffer growthStrategy(GrowthStrategy.Custom customFunction) {
         this.growthStrategy = customFunction;
         return this;
@@ -106,7 +107,7 @@ public class GrowableWriteBuffer extends WriteBuffer<GrowableWriteBuffer> {
     }
 
     @Override
-    protected final MemorySegment ensureCapacity(long requiredCapacity) {
+    protected MemorySegment ensureCapacity(long requiredCapacity) {
         if (requiredCapacity < 0) {
             throw new IllegalArgumentException("Required capacity must be non-negative");
         }
@@ -146,7 +147,7 @@ public class GrowableWriteBuffer extends WriteBuffer<GrowableWriteBuffer> {
         }
     }
 
-    private final static class CurrentSegment implements Resource {
+    protected static class CurrentSegment implements Resource {
         private MemorySegment segment;
         private Arena arena;
 

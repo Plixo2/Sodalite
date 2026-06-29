@@ -1,5 +1,7 @@
 package io.github.plixo2.sodalite.category.main;
 
+import io.github.plixo2.sodalite.SDLException;
+
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 
@@ -18,7 +20,7 @@ public class Main {
 
     /// Dont use this method unless you know what you are doing.
     /// @sdlAPI SDL_RegisterApp
-    public static void registerApp(String name, int style, MemorySegment hInst) {
+    public static void registerApp(String name, int style, MemorySegment hInst) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var nameSegment = arena.allocateFrom(name);
             check(SDL_RegisterApp(

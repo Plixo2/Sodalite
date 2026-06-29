@@ -45,6 +45,6 @@ public @interface WindowFlags {
     long TRANSPARENT = SDL_WINDOW_TRANSPARENT;
     long NOT_FOCUSABLE = SDL_WINDOW_NOT_FOCUSABLE;
 
-    long MASK = BitMask.flagMaskLong(WindowFlags.class);
+    BitMask.Long MASK = BitMask.ofLong(WindowFlags.class);
 
 }

@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.TYPE_USE})
 public @interface MouseButtonFlags {
 
-    int MASK = BitMask.flagMaskInt(MouseButton.class);
+    BitMask.Int MASK = BitMask.ofInt(MouseButton.class);
 
     // Flags are in the MouseButton class
 

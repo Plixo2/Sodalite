@@ -1,6 +1,6 @@
 package io.github.plixo2.docs;
 
-import io.github.plixo2.sodalite.Internal;
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.category.clipboard.Clipboard;
 import io.github.plixo2.sodalite.category.cpuinfo.CPUInfo;
 import io.github.plixo2.sodalite.category.error.Error;
@@ -29,6 +29,7 @@ import io.github.plixo2.sodalite.category.version.VersionNumber;
 import io.github.plixo2.sodalite.category.version.VersionTarget;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
+import io.github.plixo2.sodalite.resource.UseAfterReleaseException;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector4f;
@@ -36,7 +37,6 @@ import org.joml.Vector4i;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.foreign.Arena;
 import java.lang.foreign.ValueLayout;
 import java.util.List;
 import java.util.Objects;
@@ -52,7 +52,7 @@ public class BasicTests {
 
 
     @Test
-    void checkClipboardTest() {
+    void checkClipboardTest() throws Exception {
         Init.ensureInit(InitFlags.VIDEO);
         Clipboard.setText("Hello, world!");
         assertTrue(Clipboard.hasText());
@@ -60,7 +60,7 @@ public class BasicTests {
     }
 
     @Test
-    void checkClipboardData() {
+    void checkClipboardData() throws Exception {
         Init.ensureInit(InitFlags.VIDEO);
         Clipboard.setData(
             (arena, mime) -> {
@@ -89,12 +89,12 @@ public class BasicTests {
         Clipboard.clearData();
         assertFalse(Clipboard.hasData("soda/lite"), "data should be cleared");
         assertFalse(Clipboard.hasData("text/plain"), "data should be cleared");
-        assertThrows(Internal.SDL3Exception.class, () -> Clipboard.getData(ResourceSet.ofAuto(), "soda/lite"));
+        assertThrows(SDLException.class, () -> Clipboard.getData(ResourceSet.ofAuto(), "soda/lite"));
         assertEquals("", Clipboard.getText());
     }
 
     @Test
-    void cpuInfo() {
+    void cpuInfo() throws Exception {
         assertTrue(CPUInfo.cpuCacheLineSize() >= 0, "cpuCacheLineSize");
         assertTrue(CPUInfo.numLogicalCores() >= 0, "numLogicalCores");
         assertTrue(CPUInfo.systemPageSize().or(0) >= 0, "systemPageSize");
@@ -104,7 +104,7 @@ public class BasicTests {
     }
 
     @Test
-    void errorMethods() {
+    void errorMethods() throws Exception {
         Error.clearError();
         Error.setError("Test error");
         assertEquals("Test error", Error.getError());
@@ -115,22 +115,22 @@ public class BasicTests {
     }
 
     @Test
-    void checkInit() {
+    void checkInit() throws Exception {
         Init.ensureInit(InitFlags.EVENTS);
     }
 
     @Test
-    void locale() {
+    void locale() throws Exception {
         var _ = Locale.preferredLocales();
     }
 
     @Test
-    void log() {
+    void log() throws Exception {
         Log.setLogPriority(LogCategory.APPLICATION, LogPriority.DEBUG);
     }
 
     @Test
-    void mainCallback() {
+    void mainCallback() throws Exception {
         class TestCallbacks implements Callbacks {
             boolean initCalled = false;
             boolean iterCalled = false;
@@ -170,7 +170,7 @@ public class BasicTests {
     }
 
     @Test
-    void pixels() {
+    void pixels() throws Exception {
         for (var value : PixelFormat.values()) {
             var to = value.toTextureFormat(TextureFormat.INVALID);
             if (to == TextureFormat.INVALID) {
@@ -197,19 +197,19 @@ public class BasicTests {
     }
 
     @Test
-    void platform() {
+    void platform() throws Exception {
         var _ = Platform.getPlatform();
     }
 
     @Test
-    void power() {
+    void power() throws Exception {
         var info = Power.getPowerInfo();
         assertTrue(info.percent().or(0) >= 0, "percent should be non-negative");
         assertTrue(info.seconds().or(0) >= 0, "seconds should be non-negative");
     }
 
     @Test
-    void properties() {
+    void properties() throws Exception {
         try (var resources = ResourceSet.ofConfined()) {
             var group = Properties.createProperties(resources);
             assertEquals(false, group.get(PropertyKey.ofBoolean("bool"), false));
@@ -245,7 +245,7 @@ public class BasicTests {
         }
     }
     @Test
-    void lockProperties() throws InterruptedException {
+    void lockProperties() throws InterruptedException, SDLException {
         try (var resources = ResourceSet.ofConfined()) {
             var group = Properties.createProperties(resources);
             group.set(PropertyKey.ofBoolean("bool"), true);
@@ -265,11 +265,17 @@ public class BasicTests {
                 newThread = new Thread(() -> {
                     var otherID = Threads.getCurrentThreadID();
                     if (!otherID.equals(id)) {
-                        group.lock();
                         try {
-                            group.set(PropertyKey.ofString("str"), "OtherThread");
-                        } finally {
-                            group.unlock();
+                            group.set(PropertyKey.ofString("str"), "<block>");
+                            group.lock();
+                            try {
+                                group.set(PropertyKey.ofString("str"), "OtherThread");
+                            } finally {
+                                group.unlock();
+                            }
+                        }
+                        catch (SDLException e) {
+                            throw new RuntimeException(e);
                         }
                     }
                 });
@@ -323,7 +329,7 @@ public class BasicTests {
     }
 
     @Test
-    void rect() {
+    void rect() throws Exception {
         Rect r1 = Rect.of(10, 20, 30, 40);
         Rect r2 = Rect.of(r1);
         Rect empty = Rect.zero();
@@ -418,7 +424,7 @@ public class BasicTests {
     }
 
     @Test
-    void fRect() {
+    void fRect() throws Exception {
         FRect a = FRect.of(10f, 20f, 30f, 40f);
         FRect b = FRect.of(a);
         FRect empty = FRect.zero();
@@ -535,7 +541,7 @@ public class BasicTests {
     }
 
     @Test
-    void version() {
+    void version() throws Exception {
         var versionL = Version.getVersion(VersionTarget.LINKED);
         var versionC = Version.getVersion(VersionTarget.COMPILED);
         assertEquals(3, versionL.major());
@@ -549,11 +555,21 @@ public class BasicTests {
     }
 
     @Test
-    void resources() {
+    void resources() throws Exception {
+
+
         class Dummy extends ResourceObject {
             boolean closed = false;
             Dummy(ResourceSet set) {
                 set.register(this, () -> this.closed = true);
+            }
+            void assertReleased() {
+                assertTrue(this.closed, "object should be closed");
+                assertThrows(UseAfterReleaseException.class, this::ensureNotReleased);
+            }
+            void assertNotReleased() {
+                assertFalse(this.closed, "object should not be closed yet");
+                this.ensureNotReleased();
             }
         }
 
@@ -566,32 +582,39 @@ public class BasicTests {
             Dummy o01;
             try (var confinedInner = ResourceSet.ofConfined(confined)) {
                 o01 = new Dummy(confinedInner);
-                assertFalse(o01.closed, "object 01 should not be closed yet");
+                o01.assertNotReleased();
             }
-            assertTrue(o01.closed, "object 01 should be closed after inner ResourceSet is closed");
-            assertFalse(o.closed, "object should not be closed yet");
-            assertFalse(o0.closed, "object 0 should not be closed yet");
+            o01.assertReleased();
+            o.assertNotReleased();
+            o0.assertNotReleased();
         }
-        assertTrue(o.closed, "object should be closed after ResourceSet is closed");
-        assertTrue(o0.closed, "object 0 should be closed after parent is closed");
+        o.assertReleased();
+        o0.assertReleased();
 
         Dummy o2 = new Dummy(ResourceSet.ofAuto());
-        assertFalse(o2.closed, "object 2 should not be closed yet");
+        o2.assertNotReleased();
 
         Dummy o3 = new Dummy(ResourceSet.global());
-        assertFalse(o3.closed, "object 3 should not be closed yet");
+        o3.assertNotReleased();
 
         Init.quit();
-        assertTrue(o2.closed, "object 2 should be closed after quit");
-        assertTrue(o3.closed, "object 3 should be closed after quit");
+        // can not use assertReleased for auto as the owner is not tracked,
+        // thus not marked as released
+        assertTrue(o2.closed, "object should be closed");
+
+        o3.assertReleased();
 
         assertNotNull(o2);
     }
 
     @Test
-    void testMainThread() throws InterruptedException {
+    void testMainThread() throws Exception {
         var other = new Thread(() -> {
-            Init.ensureInit(InitFlags.VIDEO);
+            try {
+                Init.ensureInit(InitFlags.VIDEO);
+            } catch (SDLException e) {
+                throw new RuntimeException(e);
+            }
             assertTrue(Init.isMainThread());
             Init.quit();
         });

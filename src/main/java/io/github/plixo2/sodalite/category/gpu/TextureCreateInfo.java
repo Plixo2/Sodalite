@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import org.jetbrains.annotations.Nullable;
 import org.libsdl.sdl.SDL_GPUTextureCreateInfo;
@@ -41,7 +42,7 @@ public record TextureCreateInfo(
         return TextureBuilder.of(this);
     }
 
-    public Texture create(ResourceSet resources, Device device) {
+    public Texture create(ResourceSet resources, Device device) throws SDLException {
         return GPU.createTexture(resources, device, this);
     }
 

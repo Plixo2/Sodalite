@@ -1,6 +1,8 @@
 package io.github.plixo2.sodalite.category.dialog;
 
 
+import io.github.plixo2.sodalite.Internal;
+import io.github.plixo2.sodalite.SDLException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.libsdl.sdl.SDL_DialogFileCallback;
@@ -13,7 +15,7 @@ import java.util.List;
 
 import static io.github.plixo2.sodalite.Internal.*;
 
-/// Helper for FileCallback
+/// Helper for FileCallback (`SDL_DialogFileCallback`)
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class OpenDialog implements SDL_DialogFileCallback.Function {
     private final Arena arena;
@@ -24,6 +26,8 @@ class OpenDialog implements SDL_DialogFileCallback.Function {
     public void apply(MemorySegment userdata, MemorySegment filelist, int filter) {
         try {
             check(filelist.address());
+
+
             var files = new ArrayList<String>();
 
             long offset = 0;

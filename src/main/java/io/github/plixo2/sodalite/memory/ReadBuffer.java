@@ -7,6 +7,7 @@ import org.joml.*;
 
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
+import java.nio.ByteBuffer;
 
 public class ReadBuffer extends ResourceObject implements GPUReadStream {
 
@@ -14,7 +15,6 @@ public class ReadBuffer extends ResourceObject implements GPUReadStream {
     private final long size;
 
     private long position;
-
 
     private ReadBuffer(
             @Nullable ResourceSet resourceSet,
@@ -328,17 +328,6 @@ public class ReadBuffer extends ResourceObject implements GPUReadStream {
     }
 
     @Override
-    public MemorySegment read(MemorySegment destination, long offset, long length) {
-        if (length < 0 || offset < 0) {
-            throw new IllegalArgumentException("Length and offset must be non-negative");
-        }
-        ensureCapacity(length);
-        MemorySegment.copy(this.segment, this.position, destination, offset, length);
-        this.position += length;
-        return destination;
-    }
-
-    @Override
     public MemorySegment slice(long length) {
         if (length < 0) {
             throw new IllegalArgumentException("Length must be non-negative");
@@ -349,6 +338,21 @@ public class ReadBuffer extends ResourceObject implements GPUReadStream {
         return slice;
     }
 
+    @Override
+    public MemorySegment read(MemorySegment destination, long offset, long length) {
+        if (length < 0 || offset < 0) {
+            throw new IllegalArgumentException("Length and offset must be non-negative");
+        }
+        ensureCapacity(length);
+        MemorySegment.copy(this.segment, this.position, destination, offset, length);
+        this.position += length;
+        return destination;
+    }
 
+
+    @Override
+    public MemorySegment readAllRemaining() {
+        return slice(remaining());
+    }
 
 }

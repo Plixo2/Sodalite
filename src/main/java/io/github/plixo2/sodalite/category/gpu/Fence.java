@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 
@@ -29,13 +30,13 @@ public class Fence extends ResourceObject {
         return GPU.queryFence(this.device, this);
     }
 
-    public void await() {
+    public void await() throws SDLException {
         GPU.waitForFence(this.device, this);
     }
 
     public static void waitAll(
             Fence... fences
-    ) {
+    ) throws SDLException {
         if (fences.length == 0) {
             return;
         }
@@ -52,7 +53,7 @@ public class Fence extends ResourceObject {
 
     public static void waitAny(
             Fence... fences
-    ) {
+    ) throws SDLException {
         if (fences.length == 0) {
             return;
         }

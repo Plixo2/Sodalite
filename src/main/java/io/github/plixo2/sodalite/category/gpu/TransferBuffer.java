@@ -1,8 +1,11 @@
 package io.github.plixo2.sodalite.category.gpu;
 
 import com.google.errorprone.annotations.CheckReturnValue;
+import io.github.plixo2.sodalite.SDLException;
+import io.github.plixo2.sodalite.resource.DoubleReleaseException;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
+import io.github.plixo2.sodalite.resource.UseAfterReleaseException;
 import lombok.Getter;
 
 import java.lang.foreign.MemorySegment;
@@ -42,7 +45,7 @@ public class TransferBuffer extends ResourceObject {
     public TransferBuffer.Mapped map(
             Device device,
             Cycle cycle
-    ) {
+    ) throws SDLException {
         if (this.mappedState.isMapped) {
             throw new IllegalStateException("Transfer buffer is already mapped");
         }
@@ -70,7 +73,7 @@ public class TransferBuffer extends ResourceObject {
 
         public MemorySegment memory() {
             if (!TransferBuffer.this.mappedState.isMapped) {
-                throw new IllegalStateException("Already unmapped");
+                throw new UseAfterReleaseException(this, "Already unmapped");
             }
             return this.mappedMemory;
         }
@@ -78,7 +81,7 @@ public class TransferBuffer extends ResourceObject {
         @Override
         public void close() {
             if (!TransferBuffer.this.mappedState.isMapped) {
-                throw new IllegalStateException("Already unmapped");
+                throw new DoubleReleaseException(this, "Already unmapped");
             }
             TransferBuffer.this.mappedState.isMapped = false;
             GPU.unmapTransferBuffer(this.device, TransferBuffer.this);

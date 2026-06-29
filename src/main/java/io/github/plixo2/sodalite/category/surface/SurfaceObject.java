@@ -11,13 +11,22 @@ public class SurfaceObject extends ResourceObject {
 
     private final MemorySegment segment;
 
-    SurfaceObject(
+    protected SurfaceObject(
             ResourceSet resources,
             MemorySegment segment
     ) {
         this.segment = segment;
         throw new RuntimeException("Not implemented");
     }
+
+    private SurfaceObject(MemorySegment segment) {
+        this.segment = segment;
+    }
+
+    public static SurfaceObject newUnchecked(MemorySegment surfacePointer) {
+        return new SurfaceObject(surfacePointer);
+    }
+
 
     public MemorySegment segment() {
         ensureNotReleased();

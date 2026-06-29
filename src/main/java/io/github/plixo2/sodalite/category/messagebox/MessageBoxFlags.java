@@ -23,6 +23,6 @@ public @interface MessageBoxFlags {
     int BUTTONS_LEFT_TO_RIGHT = SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT;
     int BUTTONS_RIGHT_TO_LEFT = SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT;
 
-    int MASK = BitMask.flagMaskInt(MessageBoxFlags.class);
+    BitMask.Int MASK = BitMask.ofInt(MessageBoxFlags.class);
 
 }

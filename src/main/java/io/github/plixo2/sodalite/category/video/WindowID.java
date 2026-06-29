@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.jetbrains.annotations.Nullable;
 
 /// @sdlAPI SDL_WindowID
 @Getter
@@ -12,4 +13,9 @@ import lombok.ToString;
 @ToString
 public class WindowID {
     private final int value;
+
+    public @Nullable Window getWindow() {
+        return Video.getWindowFromID(this);
+    }
+
 }

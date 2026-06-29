@@ -25,11 +25,11 @@ Feature complete:
 - `CategoryMain`
 - `CategoryThread`
 
-16.9% Functions implemented \
-31.8% Datatypes implemented \
-69.4% Structs implemented \
-39.6% Enums implemented \
-24.3% total
+24.4% Functions implemented \
+37.2% Datatypes implemented \
+70.2% Structs implemented \
+44.8% Enums implemented \
+30.8% total
 
 [Checklist](#checklist)
 
@@ -309,10 +309,10 @@ Feature complete:
 - [ ] SDL_DestroyTexture
 - [x] SDL_DestroyTray
 - [x] SDL_DestroyWindow
-- [ ] SDL_DestroyWindowSurface
+- [x] SDL_DestroyWindowSurface
 - [ ] SDL_DetachThread
 - [ ] SDL_DetachVirtualJoystick
-- [ ] SDL_DisableScreenSaver
+- [x] SDL_DisableScreenSaver
 - [x] SDL_DispatchGPUCompute
 - [x] SDL_DispatchGPUComputeIndirect
 - [x] SDL_DownloadFromGPUBuffer
@@ -327,7 +327,7 @@ Feature complete:
 - [ ] SDL_EGL_GetProcAddress
 - [ ] SDL_EGL_GetWindowSurface
 - [ ] SDL_EGL_SetAttributeCallbacks
-- [ ] SDL_EnableScreenSaver
+- [x] SDL_EnableScreenSaver
 - [x] SDL_EndGPUComputePass
 - [x] SDL_EndGPUCopyPass
 - [x] SDL_EndGPURenderPass
@@ -343,7 +343,7 @@ Feature complete:
 - [ ] SDL_FillSurfaceRect
 - [ ] SDL_FillSurfaceRects
 - [ ] SDL_FilterEvents
-- [ ] SDL_FlashWindow
+- [x] SDL_FlashWindow
 - [ ] SDL_FlipSurface
 - [ ] SDL_floor
 - [ ] SDL_floorf
@@ -415,17 +415,17 @@ Feature complete:
 - [x] SDL_GetClipboardData
 - [x] SDL_GetClipboardMimeTypes
 - [x] SDL_GetClipboardText
-- [ ] SDL_GetClosestFullscreenDisplayMode
+- [x] SDL_GetClosestFullscreenDisplayMode
 - [x] SDL_GetCPUCacheLineSize
 - [ ] SDL_GetCurrentAudioDriver
 - [ ] SDL_GetCurrentCameraDriver
 - [ ] SDL_GetCurrentDirectory
-- [ ] SDL_GetCurrentDisplayMode
-- [ ] SDL_GetCurrentDisplayOrientation
+- [x] SDL_GetCurrentDisplayMode
+- [x] SDL_GetCurrentDisplayOrientation
 - [ ] SDL_GetCurrentRenderOutputSize
 - [x] SDL_GetCurrentThreadID
 - [ ] SDL_GetCurrentTime
-- [ ] SDL_GetCurrentVideoDriver
+- [x] SDL_GetCurrentVideoDriver
 - [ ] SDL_GetCursor
 - [ ] SDL_GetDateTimeLocalePreferences
 - [ ] SDL_GetDayOfWeek
@@ -435,17 +435,17 @@ Feature complete:
 - [ ] SDL_GetDefaultCursor
 - [ ] SDL_GetDefaultLogOutputFunction
 - [ ] SDL_GetDefaultTextureScaleMode
-- [ ] SDL_GetDesktopDisplayMode
+- [x] SDL_GetDesktopDisplayMode
 - [ ] SDL_GetDirect3D9AdapterIndex
-- [ ] SDL_GetDisplayBounds
-- [ ] SDL_GetDisplayContentScale
-- [ ] SDL_GetDisplayForPoint
-- [ ] SDL_GetDisplayForRect
-- [ ] SDL_GetDisplayForWindow
-- [ ] SDL_GetDisplayName
-- [ ] SDL_GetDisplayProperties
-- [ ] SDL_GetDisplays
-- [ ] SDL_GetDisplayUsableBounds
+- [x] SDL_GetDisplayBounds
+- [x] SDL_GetDisplayContentScale
+- [x] SDL_GetDisplayForPoint
+- [x] SDL_GetDisplayForRect
+- [x] SDL_GetDisplayForWindow
+- [x] SDL_GetDisplayName
+- [x] SDL_GetDisplayProperties
+- [x] SDL_GetDisplays
+- [x] SDL_GetDisplayUsableBounds
 - [ ] SDL_GetDXGIOutputInfo
 - [ ] SDL_getenv
 - [ ] SDL_getenv_unsafe
@@ -456,7 +456,7 @@ Feature complete:
 - [ ] SDL_GetEventDescription
 - [ ] SDL_GetEventFilter
 - [x] SDL_GetFloatProperty
-- [ ] SDL_GetFullscreenDisplayModes
+- [x] SDL_GetFullscreenDisplayModes
 - [ ] SDL_GetGamepadAppleSFSymbolsNameForAxis
 - [ ] SDL_GetGamepadAppleSFSymbolsNameForButton
 - [ ] SDL_GetGamepadAxis
@@ -516,7 +516,7 @@ Feature complete:
 - [x] SDL_GetGPUSwapchainTextureFormat
 - [x] SDL_GetGPUTextureFormatFromPixelFormat
 - [ ] SDL_GetGPUXRSwapchainFormats
-- [ ] SDL_GetGrabbedWindow
+- [x] SDL_GetGrabbedWindow
 - [ ] SDL_GetHapticEffectStatus
 - [ ] SDL_GetHapticFeatures
 - [ ] SDL_GetHapticFromID
@@ -578,7 +578,7 @@ Feature complete:
 - [ ] SDL_GetMouseFocus
 - [ ] SDL_GetMouseNameForID
 - [x] SDL_GetMouseState
-- [ ] SDL_GetNaturalDisplayOrientation
+- [x] SDL_GetNaturalDisplayOrientation
 - [ ] SDL_GetNumAllocations
 - [ ] SDL_GetNumAudioDrivers
 - [x] SDL_GetNumberProperty
@@ -593,7 +593,7 @@ Feature complete:
 - [ ] SDL_GetNumJoystickHats
 - [x] SDL_GetNumLogicalCPUCores
 - [ ] SDL_GetNumRenderDrivers
-- [ ] SDL_GetNumVideoDrivers
+- [x] SDL_GetNumVideoDrivers
 - [ ] SDL_GetOriginalMemoryFunctions
 - [ ] SDL_GetPathInfo
 - [ ] SDL_GetPenDeviceType
@@ -608,7 +608,7 @@ Feature complete:
 - [x] SDL_GetPowerInfo
 - [x] SDL_GetPreferredLocales
 - [ ] SDL_GetPrefPath
-- [ ] SDL_GetPrimaryDisplay
+- [x] SDL_GetPrimaryDisplay
 - [x] SDL_GetPrimarySelectionText
 - [ ] SDL_GetProcessInput
 - [ ] SDL_GetProcessOutput
@@ -683,7 +683,7 @@ Feature complete:
 - [ ] SDL_GetSurfaceProperties
 - [x] SDL_GetSystemPageSize
 - [x] SDL_GetSystemRAM
-- [ ] SDL_GetSystemTheme
+- [x] SDL_GetSystemTheme
 - [ ] SDL_GetTextInputArea
 - [ ] SDL_GetTextureAlphaMod
 - [ ] SDL_GetTextureAlphaModFloat
@@ -715,52 +715,52 @@ Feature complete:
 - [ ] SDL_GetTraySubmenu
 - [ ] SDL_GetUserFolder
 - [x] SDL_GetVersion
-- [ ] SDL_GetVideoDriver
-- [ ] SDL_GetWindowAspectRatio
-- [ ] SDL_GetWindowBordersSize
+- [x] SDL_GetVideoDriver
+- [x] SDL_GetWindowAspectRatio
+- [x] SDL_GetWindowBordersSize
 - [x] SDL_GetWindowDisplayScale
-- [ ] SDL_GetWindowFlags
+- [x] SDL_GetWindowFlags
 - [ ] SDL_GetWindowFromEvent
-- [ ] SDL_GetWindowFromID
-- [ ] SDL_GetWindowFullscreenMode
-- [ ] SDL_GetWindowICCProfile
+- [x] SDL_GetWindowFromID
+- [x] SDL_GetWindowFullscreenMode
+- [x] SDL_GetWindowICCProfile
 - [x] SDL_GetWindowID
-- [ ] SDL_GetWindowKeyboardGrab
-- [ ] SDL_GetWindowMaximumSize
-- [ ] SDL_GetWindowMinimumSize
-- [ ] SDL_GetWindowMouseGrab
-- [ ] SDL_GetWindowMouseRect
-- [ ] SDL_GetWindowOpacity
-- [ ] SDL_GetWindowParent
-- [ ] SDL_GetWindowPixelDensity
-- [ ] SDL_GetWindowPixelFormat
-- [ ] SDL_GetWindowPosition
-- [ ] SDL_GetWindowProgressState
-- [ ] SDL_GetWindowProgressValue
-- [ ] SDL_GetWindowProperties
+- [x] SDL_GetWindowKeyboardGrab
+- [x] SDL_GetWindowMaximumSize
+- [x] SDL_GetWindowMinimumSize
+- [x] SDL_GetWindowMouseGrab
+- [x] SDL_GetWindowMouseRect
+- [x] SDL_GetWindowOpacity
+- [x] SDL_GetWindowParent
+- [x] SDL_GetWindowPixelDensity
+- [x] SDL_GetWindowPixelFormat
+- [x] SDL_GetWindowPosition
+- [x] SDL_GetWindowProgressState
+- [x] SDL_GetWindowProgressValue
+- [x] SDL_GetWindowProperties
 - [ ] SDL_GetWindowRelativeMouseMode
-- [ ] SDL_GetWindows
-- [ ] SDL_GetWindowSafeArea
+- [x] SDL_GetWindows
+- [x] SDL_GetWindowSafeArea
 - [x] SDL_GetWindowSize
 - [x] SDL_GetWindowSizeInPixels
-- [ ] SDL_GetWindowSurface
-- [ ] SDL_GetWindowSurfaceVSync
-- [ ] SDL_GetWindowTitle
-- [ ] SDL_GL_CreateContext
-- [ ] SDL_GL_DestroyContext
-- [ ] SDL_GL_ExtensionSupported
-- [ ] SDL_GL_GetAttribute
-- [ ] SDL_GL_GetCurrentContext
-- [ ] SDL_GL_GetCurrentWindow
-- [ ] SDL_GL_GetProcAddress
-- [ ] SDL_GL_GetSwapInterval
-- [ ] SDL_GL_LoadLibrary
-- [ ] SDL_GL_MakeCurrent
-- [ ] SDL_GL_ResetAttributes
-- [ ] SDL_GL_SetAttribute
-- [ ] SDL_GL_SetSwapInterval
-- [ ] SDL_GL_SwapWindow
-- [ ] SDL_GL_UnloadLibrary
+- [x] SDL_GetWindowSurface
+- [x] SDL_GetWindowSurfaceVSync
+- [x] SDL_GetWindowTitle
+- [x] SDL_GL_CreateContext
+- [x] SDL_GL_DestroyContext
+- [x] SDL_GL_ExtensionSupported
+- [x] SDL_GL_GetAttribute
+- [x] SDL_GL_GetCurrentContext
+- [x] SDL_GL_GetCurrentWindow
+- [x] SDL_GL_GetProcAddress
+- [x] SDL_GL_GetSwapInterval
+- [x] SDL_GL_LoadLibrary
+- [x] SDL_GL_MakeCurrent
+- [x] SDL_GL_ResetAttributes
+- [x] SDL_GL_SetAttribute
+- [x] SDL_GL_SetSwapInterval
+- [x] SDL_GL_SwapWindow
+- [x] SDL_GL_UnloadLibrary
 - [ ] SDL_GlobDirectory
 - [ ] SDL_GlobStorageDirectory
 - [ ] SDL_GPUSupportsProperties
@@ -824,7 +824,7 @@ Feature complete:
 - [ ] SDL_hid_set_nonblocking
 - [ ] SDL_hid_write
 - [ ] SDL_HideCursor
-- [ ] SDL_HideWindow
+- [x] SDL_HideWindow
 - [ ] SDL_iconv
 - [ ] SDL_iconv_close
 - [ ] SDL_iconv_open
@@ -922,7 +922,7 @@ Feature complete:
 - [ ] SDL_MapRGBA
 - [ ] SDL_MapSurfaceRGB
 - [ ] SDL_MapSurfaceRGBA
-- [ ] SDL_MaximizeWindow
+- [x] SDL_MaximizeWindow
 - [ ] SDL_memcmp
 - [ ] SDL_memcpy
 - [ ] SDL_memmove
@@ -933,7 +933,7 @@ Feature complete:
 - [ ] SDL_Metal_CreateView
 - [ ] SDL_Metal_DestroyView
 - [ ] SDL_Metal_GetLayer
-- [ ] SDL_MinimizeWindow
+- [x] SDL_MinimizeWindow
 - [ ] SDL_MixAudio
 - [ ] SDL_modf
 - [ ] SDL_modff
@@ -992,7 +992,7 @@ Feature complete:
 - [x] SDL_QueryGPUFence
 - [x] SDL_Quit
 - [x] SDL_QuitSubSystem
-- [ ] SDL_RaiseWindow
+- [x] SDL_RaiseWindow
 - [ ] SDL_rand
 - [ ] SDL_rand_bits
 - [ ] SDL_rand_bits_r
@@ -1082,7 +1082,7 @@ Feature complete:
 - [ ] SDL_ResetHints
 - [ ] SDL_ResetKeyboard
 - [ ] SDL_ResetLogPriorities
-- [ ] SDL_RestoreWindow
+- [x] SDL_RestoreWindow
 - [ ] SDL_ResumeAudioDevice
 - [ ] SDL_ResumeAudioStreamDevice
 - [ ] SDL_ResumeHaptic
@@ -1106,7 +1106,7 @@ Feature complete:
 - [ ] SDL_scalbnf
 - [ ] SDL_ScaleSurface
 - [ ] SDL_ScreenKeyboardShown
-- [ ] SDL_ScreenSaverEnabled
+- [x] SDL_ScreenSaverEnabled
 - [ ] SDL_SeekIO
 - [ ] SDL_SendAndroidBackButton
 - [ ] SDL_SendAndroidMessage
@@ -1225,33 +1225,33 @@ Feature complete:
 - [x] SDL_SetTrayEntryLabel
 - [x] SDL_SetTrayIcon
 - [x] SDL_SetTrayTooltip
-- [ ] SDL_SetWindowAlwaysOnTop
-- [ ] SDL_SetWindowAspectRatio
-- [ ] SDL_SetWindowBordered
+- [x] SDL_SetWindowAlwaysOnTop
+- [x] SDL_SetWindowAspectRatio
+- [x] SDL_SetWindowBordered
 - [ ] SDL_SetWindowFillDocument
-- [ ] SDL_SetWindowFocusable
-- [ ] SDL_SetWindowFullscreen
-- [ ] SDL_SetWindowFullscreenMode
+- [x] SDL_SetWindowFocusable
+- [x] SDL_SetWindowFullscreen
+- [x] SDL_SetWindowFullscreenMode
 - [ ] SDL_SetWindowHitTest
-- [ ] SDL_SetWindowIcon
-- [ ] SDL_SetWindowKeyboardGrab
-- [ ] SDL_SetWindowMaximumSize
-- [ ] SDL_SetWindowMinimumSize
-- [ ] SDL_SetWindowModal
-- [ ] SDL_SetWindowMouseGrab
-- [ ] SDL_SetWindowMouseRect
-- [ ] SDL_SetWindowOpacity
-- [ ] SDL_SetWindowParent
-- [ ] SDL_SetWindowPosition
-- [ ] SDL_SetWindowProgressState
-- [ ] SDL_SetWindowProgressValue
+- [x] SDL_SetWindowIcon
+- [x] SDL_SetWindowKeyboardGrab
+- [x] SDL_SetWindowMaximumSize
+- [x] SDL_SetWindowMinimumSize
+- [x] SDL_SetWindowModal
+- [x] SDL_SetWindowMouseGrab
+- [x] SDL_SetWindowMouseRect
+- [x] SDL_SetWindowOpacity
+- [x] SDL_SetWindowParent
+- [x] SDL_SetWindowPosition
+- [x] SDL_SetWindowProgressState
+- [x] SDL_SetWindowProgressValue
 - [ ] SDL_SetWindowRelativeMouseMode
-- [ ] SDL_SetWindowResizable
-- [ ] SDL_SetWindowShape
-- [ ] SDL_SetWindowSize
+- [x] SDL_SetWindowResizable
+- [x] SDL_SetWindowShape
+- [x] SDL_SetWindowSize
 - [ ] SDL_SetWindowsMessageHook
-- [ ] SDL_SetWindowSurfaceVSync
-- [ ] SDL_SetWindowTitle
+- [x] SDL_SetWindowSurfaceVSync
+- [x] SDL_SetWindowTitle
 - [ ] SDL_SetX11EventHook
 - [ ] SDL_ShouldInit
 - [ ] SDL_ShouldQuit
@@ -1265,8 +1265,8 @@ Feature complete:
 - [x] SDL_ShowOpenFolderDialog
 - [x] SDL_ShowSaveFileDialog
 - [x] SDL_ShowSimpleMessageBox
-- [ ] SDL_ShowWindow
-- [ ] SDL_ShowWindowSystemMenu
+- [x] SDL_ShowWindow
+- [x] SDL_ShowWindowSystemMenu
 - [ ] SDL_SignalAsyncIOQueue
 - [ ] SDL_SignalCondition
 - [ ] SDL_SignalSemaphore
@@ -1325,7 +1325,7 @@ Feature complete:
 - [ ] SDL_Swap64
 - [ ] SDL_SwapFloat
 - [ ] SDL_swprintf
-- [ ] SDL_SyncWindow
+- [x] SDL_SyncWindow
 - [ ] SDL_tan
 - [ ] SDL_tanf
 - [ ] SDL_TellIO
@@ -1369,8 +1369,8 @@ Feature complete:
 - [ ] SDL_UpdateSensors
 - [ ] SDL_UpdateTexture
 - [x] SDL_UpdateTrays
-- [ ] SDL_UpdateWindowSurface
-- [ ] SDL_UpdateWindowSurfaceRects
+- [x] SDL_UpdateWindowSurface
+- [x] SDL_UpdateWindowSurfaceRects
 - [ ] SDL_UpdateYUVTexture
 - [x] SDL_UploadToGPUBuffer
 - [x] SDL_UploadToGPUTexture
@@ -1419,7 +1419,7 @@ Feature complete:
 - [ ] SDL_wcstoll
 - [ ] SDL_wcstoul
 - [ ] SDL_wcstoull
-- [ ] SDL_WindowHasSurface
+- [x] SDL_WindowHasSurface
 - [x] SDL_WindowSupportsGPUPresentMode
 - [x] SDL_WindowSupportsGPUSwapchainComposition
 - [ ] SDL_WriteAsyncIO
@@ -1469,8 +1469,8 @@ Feature complete:
 - [ ] SDL_Condition
 - [ ] SDL_Cursor
 - [x] SDL_DialogFileCallback
-- [ ] SDL_DisplayID
-- [ ] SDL_DisplayModeData
+- [x] SDL_DisplayID
+- [x] SDL_DisplayModeData
 - [ ] SDL_EGLAttrib
 - [ ] SDL_EGLAttribArrayCallback
 - [ ] SDL_EGLConfig
@@ -1486,12 +1486,12 @@ Feature complete:
 - [ ] SDL_free_func
 - [ ] SDL_FunctionPointer
 - [ ] SDL_Gamepad
-- [ ] SDL_GLContext
-- [ ] SDL_GLContextFlag
-- [ ] SDL_GLContextReleaseFlag
-- [ ] SDL_GLContextResetNotification
+- [x] SDL_GLContext
+- [x] SDL_GLContextFlag
+- [x] SDL_GLContextReleaseFlag
+- [x] SDL_GLContextResetNotification
 - [ ] SDL_GlobFlags
-- [ ] SDL_GLProfile
+- [x] SDL_GLProfile
 - [x] SDL_GPUBuffer
 - [x] SDL_GPUBufferUsageFlags
 - [x] SDL_GPUColorComponentFlags
@@ -1593,7 +1593,7 @@ Feature complete:
 - [ ] SDL_DateTime
 - [x] SDL_DialogFileFilter
 - [x] SDL_DisplayEvent
-- [ ] SDL_DisplayMode
+- [x] SDL_DisplayMode
 - [x] SDL_DropEvent
 - [x] SDL_Event
 - [x] SDL_FColor
@@ -1729,7 +1729,7 @@ Feature complete:
 - [ ] SDL_EventAction
 - [ ] SDL_EventType
 - [x] SDL_FileDialogType
-- [ ] SDL_FlashOperation
+- [x] SDL_FlashOperation
 - [x] SDL_FlipMode
 - [ ] SDL_Folder
 - [ ] SDL_GamepadAxis
@@ -1738,7 +1738,7 @@ Feature complete:
 - [ ] SDL_GamepadButtonLabel
 - [ ] SDL_GamepadCapSenseType
 - [ ] SDL_GamepadType
-- [ ] SDL_GLAttr
+- [x] SDL_GLAttr
 - [x] SDL_GPUBlendFactor
 - [x] SDL_GPUBlendOp
 - [x] SDL_GPUCompareOp
@@ -1765,7 +1765,7 @@ Feature complete:
 - [x] SDL_GPUVertexInputRate
 - [ ] SDL_hid_bus_type
 - [ ] SDL_HintPriority
-- [ ] SDL_HitTestResult
+- [x] SDL_HitTestResult
 - [ ] SDL_InitStatus
 - [ ] SDL_IOStatus
 - [ ] SDL_IOWhence
@@ -1785,7 +1785,7 @@ Feature complete:
 - [ ] SDL_PixelType
 - [x] SDL_PowerState
 - [ ] SDL_ProcessIO
-- [ ] SDL_ProgressState
+- [x] SDL_ProgressState
 - [x] SDL_PropertyType
 - [ ] SDL_RendererLogicalPresentation
 - [ ] SDL_Sandbox
@@ -1793,7 +1793,7 @@ Feature complete:
 - [x] SDL_Scancode
 - [ ] SDL_SensorType
 - [ ] SDL_SystemCursor
-- [ ] SDL_SystemTheme
+- [x] SDL_SystemTheme
 - [ ] SDL_TextInputType
 - [ ] SDL_TextureAccess
 - [ ] SDL_TextureAddressMode
@@ -1897,6 +1897,8 @@ Feature complete:
 - SDL_DestroyProperties
 - SDL_DestroyTray
 - SDL_DestroyWindow
+- SDL_DestroyWindowSurface
+- SDL_DisableScreenSaver
 - SDL_DispatchGPUCompute
 - SDL_DispatchGPUComputeIndirect
 - SDL_DownloadFromGPUBuffer
@@ -1905,11 +1907,13 @@ Feature complete:
 - SDL_DrawGPUIndexedPrimitivesIndirect
 - SDL_DrawGPUPrimitives
 - SDL_DrawGPUPrimitivesIndirect
+- SDL_EnableScreenSaver
 - SDL_EndGPUComputePass
 - SDL_EndGPUCopyPass
 - SDL_EndGPURenderPass
 - SDL_EnterAppMainCallbacks
 - SDL_EnumerateProperties
+- SDL_FlashWindow
 - SDL_free
 - SDL_GDKSuspendComplete
 - SDL_GenerateMipmapsForGPUTexture
@@ -1917,10 +1921,25 @@ Feature complete:
 - SDL_GetClipboardData
 - SDL_GetClipboardMimeTypes
 - SDL_GetClipboardText
+- SDL_GetClosestFullscreenDisplayMode
 - SDL_GetCPUCacheLineSize
+- SDL_GetCurrentDisplayMode
+- SDL_GetCurrentDisplayOrientation
 - SDL_GetCurrentThreadID
+- SDL_GetCurrentVideoDriver
+- SDL_GetDesktopDisplayMode
+- SDL_GetDisplayBounds
+- SDL_GetDisplayContentScale
+- SDL_GetDisplayForPoint
+- SDL_GetDisplayForRect
+- SDL_GetDisplayForWindow
+- SDL_GetDisplayName
+- SDL_GetDisplayProperties
+- SDL_GetDisplays
+- SDL_GetDisplayUsableBounds
 - SDL_GetError
 - SDL_GetFloatProperty
+- SDL_GetFullscreenDisplayModes
 - SDL_GetGlobalMouseState
 - SDL_GetGlobalProperties
 - SDL_GetGPUDeviceDriver
@@ -1928,6 +1947,7 @@ Feature complete:
 - SDL_GetGPUShaderFormats
 - SDL_GetGPUSwapchainTextureFormat
 - SDL_GetGPUTextureFormatFromPixelFormat
+- SDL_GetGrabbedWindow
 - SDL_GetKeyboardFocus
 - SDL_GetKeyboardNameForID
 - SDL_GetKeyboards
@@ -1937,14 +1957,17 @@ Feature complete:
 - SDL_GetKeyName
 - SDL_GetModState
 - SDL_GetMouseState
+- SDL_GetNaturalDisplayOrientation
 - SDL_GetNumberProperty
 - SDL_GetNumGPUDrivers
 - SDL_GetNumLogicalCPUCores
+- SDL_GetNumVideoDrivers
 - SDL_GetPixelFormatFromGPUTextureFormat
 - SDL_GetPlatform
 - SDL_GetPointerProperty
 - SDL_GetPowerInfo
 - SDL_GetPreferredLocales
+- SDL_GetPrimaryDisplay
 - SDL_GetPrimarySelectionText
 - SDL_GetPropertyType
 - SDL_GetRectAndLineIntersection
@@ -1962,16 +1985,57 @@ Feature complete:
 - SDL_GetStringProperty
 - SDL_GetSystemPageSize
 - SDL_GetSystemRAM
+- SDL_GetSystemTheme
 - SDL_GetTicks
 - SDL_GetTicksNS
 - SDL_GetTrayEntryChecked
 - SDL_GetTrayEntryEnabled
 - SDL_GetTrayEntryLabel
 - SDL_GetVersion
+- SDL_GetVideoDriver
+- SDL_GetWindowAspectRatio
+- SDL_GetWindowBordersSize
 - SDL_GetWindowDisplayScale
+- SDL_GetWindowFlags
+- SDL_GetWindowFromID
+- SDL_GetWindowFullscreenMode
+- SDL_GetWindowICCProfile
 - SDL_GetWindowID
+- SDL_GetWindowKeyboardGrab
+- SDL_GetWindowMaximumSize
+- SDL_GetWindowMinimumSize
+- SDL_GetWindowMouseGrab
+- SDL_GetWindowMouseRect
+- SDL_GetWindowOpacity
+- SDL_GetWindowParent
+- SDL_GetWindowPixelDensity
+- SDL_GetWindowPixelFormat
+- SDL_GetWindowPosition
+- SDL_GetWindowProgressState
+- SDL_GetWindowProgressValue
+- SDL_GetWindowProperties
+- SDL_GetWindows
+- SDL_GetWindowSafeArea
 - SDL_GetWindowSize
 - SDL_GetWindowSizeInPixels
+- SDL_GetWindowSurface
+- SDL_GetWindowSurfaceVSync
+- SDL_GetWindowTitle
+- SDL_GL_CreateContext
+- SDL_GL_DestroyContext
+- SDL_GL_ExtensionSupported
+- SDL_GL_GetAttribute
+- SDL_GL_GetCurrentContext
+- SDL_GL_GetCurrentWindow
+- SDL_GL_GetProcAddress
+- SDL_GL_GetSwapInterval
+- SDL_GL_LoadLibrary
+- SDL_GL_MakeCurrent
+- SDL_GL_ResetAttributes
+- SDL_GL_SetAttribute
+- SDL_GL_SetSwapInterval
+- SDL_GL_SwapWindow
+- SDL_GL_UnloadLibrary
 - SDL_GPUSupportsShaderFormats
 - SDL_GPUTextureFormatTexelBlockSize
 - SDL_GPUTextureSupportsFormat
@@ -1982,6 +2046,7 @@ Feature complete:
 - SDL_HasProperty
 - SDL_HasRectIntersection
 - SDL_HasRectIntersectionFloat
+- SDL_HideWindow
 - SDL_Init
 - SDL_InitSubSystem
 - SDL_InsertGPUDebugLabel
@@ -1989,6 +2054,8 @@ Feature complete:
 - SDL_IsMainThread
 - SDL_LockProperties
 - SDL_MapGPUTransferBuffer
+- SDL_MaximizeWindow
+- SDL_MinimizeWindow
 - SDL_OpenURL
 - SDL_OutOfMemory
 - SDL_PointInRect
@@ -2003,6 +2070,7 @@ Feature complete:
 - SDL_QueryGPUFence
 - SDL_Quit
 - SDL_QuitSubSystem
+- SDL_RaiseWindow
 - SDL_RectEmpty
 - SDL_RectEmptyFloat
 - SDL_RectsEqual
@@ -2020,6 +2088,8 @@ Feature complete:
 - SDL_ReleaseGPUTransferBuffer
 - SDL_ReleaseWindowFromGPUDevice
 - SDL_RemoveTrayEntry
+- SDL_RestoreWindow
+- SDL_ScreenSaverEnabled
 - SDL_SetAppMetadata
 - SDL_SetAppMetadataProperty
 - SDL_SetBooleanProperty
@@ -2046,17 +2116,45 @@ Feature complete:
 - SDL_SetTrayEntryLabel
 - SDL_SetTrayIcon
 - SDL_SetTrayTooltip
+- SDL_SetWindowAlwaysOnTop
+- SDL_SetWindowAspectRatio
+- SDL_SetWindowBordered
+- SDL_SetWindowFocusable
+- SDL_SetWindowFullscreen
+- SDL_SetWindowFullscreenMode
+- SDL_SetWindowIcon
+- SDL_SetWindowKeyboardGrab
+- SDL_SetWindowMaximumSize
+- SDL_SetWindowMinimumSize
+- SDL_SetWindowModal
+- SDL_SetWindowMouseGrab
+- SDL_SetWindowMouseRect
+- SDL_SetWindowOpacity
+- SDL_SetWindowParent
+- SDL_SetWindowPosition
+- SDL_SetWindowProgressState
+- SDL_SetWindowProgressValue
+- SDL_SetWindowResizable
+- SDL_SetWindowShape
+- SDL_SetWindowSize
+- SDL_SetWindowSurfaceVSync
+- SDL_SetWindowTitle
 - SDL_ShowMessageBox
 - SDL_ShowOpenFileDialog
 - SDL_ShowOpenFolderDialog
 - SDL_ShowSaveFileDialog
 - SDL_ShowSimpleMessageBox
+- SDL_ShowWindow
+- SDL_ShowWindowSystemMenu
 - SDL_SubmitGPUCommandBuffer
 - SDL_SubmitGPUCommandBufferAndAcquireFence
+- SDL_SyncWindow
 - SDL_UnlockProperties
 - SDL_UnmapGPUTransferBuffer
 - SDL_UnregisterApp
 - SDL_UpdateTrays
+- SDL_UpdateWindowSurface
+- SDL_UpdateWindowSurfaceRects
 - SDL_UploadToGPUBuffer
 - SDL_UploadToGPUTexture
 - SDL_WaitAndAcquireGPUSwapchainTexture
@@ -2065,6 +2163,7 @@ Feature complete:
 - SDL_WaitForGPUIdle
 - SDL_WaitForGPUSwapchain
 - SDL_WasInit
+- SDL_WindowHasSurface
 - SDL_WindowSupportsGPUPresentMode
 - SDL_WindowSupportsGPUSwapchainComposition
 
@@ -2075,7 +2174,14 @@ Feature complete:
 - SDL_ClipboardCleanupCallback
 - SDL_ClipboardDataCallback
 - SDL_DialogFileCallback
+- SDL_DisplayID
+- SDL_DisplayModeData
 - SDL_EnumeratePropertiesCallback
+- SDL_GLContext
+- SDL_GLContextFlag
+- SDL_GLContextReleaseFlag
+- SDL_GLContextResetNotification
+- SDL_GLProfile
 - SDL_GPUBuffer
 - SDL_GPUBufferUsageFlags
 - SDL_GPUColorComponentFlags
@@ -2122,6 +2228,7 @@ Feature complete:
 - SDL_CommonEvent
 - SDL_DialogFileFilter
 - SDL_DisplayEvent
+- SDL_DisplayMode
 - SDL_DropEvent
 - SDL_Event
 - SDL_FColor
@@ -2211,7 +2318,9 @@ Feature complete:
 - SDL_BlendOperation
 - SDL_DisplayOrientation
 - SDL_FileDialogType
+- SDL_FlashOperation
 - SDL_FlipMode
+- SDL_GLAttr
 - SDL_GPUBlendFactor
 - SDL_GPUBlendOp
 - SDL_GPUCompareOp
@@ -2236,14 +2345,17 @@ Feature complete:
 - SDL_GPUTransferBufferUsage
 - SDL_GPUVertexElementFormat
 - SDL_GPUVertexInputRate
+- SDL_HitTestResult
 - SDL_LogCategory
 - SDL_LogPriority
 - SDL_MouseWheelDirection
 - SDL_PenAxis
 - SDL_PixelFormat
 - SDL_PowerState
+- SDL_ProgressState
 - SDL_PropertyType
 - SDL_Scancode
+- SDL_SystemTheme
 
 
 ## Missing
@@ -2415,17 +2527,14 @@ Feature complete:
 - SDL_DestroySemaphore
 - SDL_DestroySurface
 - SDL_DestroyTexture
-- SDL_DestroyWindowSurface
 - SDL_DetachThread
 - SDL_DetachVirtualJoystick
-- SDL_DisableScreenSaver
 - SDL_DuplicateSurface
 - SDL_EGL_GetCurrentConfig
 - SDL_EGL_GetCurrentDisplay
 - SDL_EGL_GetProcAddress
 - SDL_EGL_GetWindowSurface
 - SDL_EGL_SetAttributeCallbacks
-- SDL_EnableScreenSaver
 - SDL_EnumerateDirectory
 - SDL_EnumerateStorageDirectory
 - SDL_EventEnabled
@@ -2436,7 +2545,6 @@ Feature complete:
 - SDL_FillSurfaceRect
 - SDL_FillSurfaceRects
 - SDL_FilterEvents
-- SDL_FlashWindow
 - SDL_FlipSurface
 - SDL_floor
 - SDL_floorf
@@ -2501,15 +2609,11 @@ Feature complete:
 - SDL_GetCameraProperties
 - SDL_GetCameras
 - SDL_GetCameraSupportedFormats
-- SDL_GetClosestFullscreenDisplayMode
 - SDL_GetCurrentAudioDriver
 - SDL_GetCurrentCameraDriver
 - SDL_GetCurrentDirectory
-- SDL_GetCurrentDisplayMode
-- SDL_GetCurrentDisplayOrientation
 - SDL_GetCurrentRenderOutputSize
 - SDL_GetCurrentTime
-- SDL_GetCurrentVideoDriver
 - SDL_GetCursor
 - SDL_GetDateTimeLocalePreferences
 - SDL_GetDayOfWeek
@@ -2519,17 +2623,7 @@ Feature complete:
 - SDL_GetDefaultCursor
 - SDL_GetDefaultLogOutputFunction
 - SDL_GetDefaultTextureScaleMode
-- SDL_GetDesktopDisplayMode
 - SDL_GetDirect3D9AdapterIndex
-- SDL_GetDisplayBounds
-- SDL_GetDisplayContentScale
-- SDL_GetDisplayForPoint
-- SDL_GetDisplayForRect
-- SDL_GetDisplayForWindow
-- SDL_GetDisplayName
-- SDL_GetDisplayProperties
-- SDL_GetDisplays
-- SDL_GetDisplayUsableBounds
 - SDL_GetDXGIOutputInfo
 - SDL_getenv
 - SDL_getenv_unsafe
@@ -2538,7 +2632,6 @@ Feature complete:
 - SDL_GetEnvironmentVariables
 - SDL_GetEventDescription
 - SDL_GetEventFilter
-- SDL_GetFullscreenDisplayModes
 - SDL_GetGamepadAppleSFSymbolsNameForAxis
 - SDL_GetGamepadAppleSFSymbolsNameForButton
 - SDL_GetGamepadAxis
@@ -2591,7 +2684,6 @@ Feature complete:
 - SDL_GetGPUDeviceProperties
 - SDL_GetGPURendererDevice
 - SDL_GetGPUXRSwapchainFormats
-- SDL_GetGrabbedWindow
 - SDL_GetHapticEffectStatus
 - SDL_GetHapticFeatures
 - SDL_GetHapticFromID
@@ -2644,7 +2736,6 @@ Feature complete:
 - SDL_GetMice
 - SDL_GetMouseFocus
 - SDL_GetMouseNameForID
-- SDL_GetNaturalDisplayOrientation
 - SDL_GetNumAllocations
 - SDL_GetNumAudioDrivers
 - SDL_GetNumCameraDrivers
@@ -2656,7 +2747,6 @@ Feature complete:
 - SDL_GetNumJoystickButtons
 - SDL_GetNumJoystickHats
 - SDL_GetNumRenderDrivers
-- SDL_GetNumVideoDrivers
 - SDL_GetOriginalMemoryFunctions
 - SDL_GetPathInfo
 - SDL_GetPenDeviceType
@@ -2666,7 +2756,6 @@ Feature complete:
 - SDL_GetPixelFormatForMasks
 - SDL_GetPixelFormatName
 - SDL_GetPrefPath
-- SDL_GetPrimaryDisplay
 - SDL_GetProcessInput
 - SDL_GetProcessOutput
 - SDL_GetProcessProperties
@@ -2724,7 +2813,6 @@ Feature complete:
 - SDL_GetSurfaceImages
 - SDL_GetSurfacePalette
 - SDL_GetSurfaceProperties
-- SDL_GetSystemTheme
 - SDL_GetTextInputArea
 - SDL_GetTextureAlphaMod
 - SDL_GetTextureAlphaModFloat
@@ -2750,48 +2838,8 @@ Feature complete:
 - SDL_GetTrayMenuParentTray
 - SDL_GetTraySubmenu
 - SDL_GetUserFolder
-- SDL_GetVideoDriver
-- SDL_GetWindowAspectRatio
-- SDL_GetWindowBordersSize
-- SDL_GetWindowFlags
 - SDL_GetWindowFromEvent
-- SDL_GetWindowFromID
-- SDL_GetWindowFullscreenMode
-- SDL_GetWindowICCProfile
-- SDL_GetWindowKeyboardGrab
-- SDL_GetWindowMaximumSize
-- SDL_GetWindowMinimumSize
-- SDL_GetWindowMouseGrab
-- SDL_GetWindowMouseRect
-- SDL_GetWindowOpacity
-- SDL_GetWindowParent
-- SDL_GetWindowPixelDensity
-- SDL_GetWindowPixelFormat
-- SDL_GetWindowPosition
-- SDL_GetWindowProgressState
-- SDL_GetWindowProgressValue
-- SDL_GetWindowProperties
 - SDL_GetWindowRelativeMouseMode
-- SDL_GetWindows
-- SDL_GetWindowSafeArea
-- SDL_GetWindowSurface
-- SDL_GetWindowSurfaceVSync
-- SDL_GetWindowTitle
-- SDL_GL_CreateContext
-- SDL_GL_DestroyContext
-- SDL_GL_ExtensionSupported
-- SDL_GL_GetAttribute
-- SDL_GL_GetCurrentContext
-- SDL_GL_GetCurrentWindow
-- SDL_GL_GetProcAddress
-- SDL_GL_GetSwapInterval
-- SDL_GL_LoadLibrary
-- SDL_GL_MakeCurrent
-- SDL_GL_ResetAttributes
-- SDL_GL_SetAttribute
-- SDL_GL_SetSwapInterval
-- SDL_GL_SwapWindow
-- SDL_GL_UnloadLibrary
 - SDL_GlobDirectory
 - SDL_GlobStorageDirectory
 - SDL_GPUSupportsProperties
@@ -2845,7 +2893,6 @@ Feature complete:
 - SDL_hid_set_nonblocking
 - SDL_hid_write
 - SDL_HideCursor
-- SDL_HideWindow
 - SDL_iconv
 - SDL_iconv_close
 - SDL_iconv_open
@@ -2936,7 +2983,6 @@ Feature complete:
 - SDL_MapRGBA
 - SDL_MapSurfaceRGB
 - SDL_MapSurfaceRGBA
-- SDL_MaximizeWindow
 - SDL_memcmp
 - SDL_memcpy
 - SDL_memmove
@@ -2947,7 +2993,6 @@ Feature complete:
 - SDL_Metal_CreateView
 - SDL_Metal_DestroyView
 - SDL_Metal_GetLayer
-- SDL_MinimizeWindow
 - SDL_MixAudio
 - SDL_modf
 - SDL_modff
@@ -2992,7 +3037,6 @@ Feature complete:
 - SDL_PutAudioStreamPlanarData
 - SDL_qsort
 - SDL_qsort_r
-- SDL_RaiseWindow
 - SDL_rand
 - SDL_rand_bits
 - SDL_rand_bits_r
@@ -3065,7 +3109,6 @@ Feature complete:
 - SDL_ResetHints
 - SDL_ResetKeyboard
 - SDL_ResetLogPriorities
-- SDL_RestoreWindow
 - SDL_ResumeAudioDevice
 - SDL_ResumeAudioStreamDevice
 - SDL_ResumeHaptic
@@ -3089,7 +3132,6 @@ Feature complete:
 - SDL_scalbnf
 - SDL_ScaleSurface
 - SDL_ScreenKeyboardShown
-- SDL_ScreenSaverEnabled
 - SDL_SeekIO
 - SDL_SendAndroidBackButton
 - SDL_SendAndroidMessage
@@ -3182,33 +3224,10 @@ Feature complete:
 - SDL_SetTexturePalette
 - SDL_SetTextureScaleMode
 - SDL_SetTLS
-- SDL_SetWindowAlwaysOnTop
-- SDL_SetWindowAspectRatio
-- SDL_SetWindowBordered
 - SDL_SetWindowFillDocument
-- SDL_SetWindowFocusable
-- SDL_SetWindowFullscreen
-- SDL_SetWindowFullscreenMode
 - SDL_SetWindowHitTest
-- SDL_SetWindowIcon
-- SDL_SetWindowKeyboardGrab
-- SDL_SetWindowMaximumSize
-- SDL_SetWindowMinimumSize
-- SDL_SetWindowModal
-- SDL_SetWindowMouseGrab
-- SDL_SetWindowMouseRect
-- SDL_SetWindowOpacity
-- SDL_SetWindowParent
-- SDL_SetWindowPosition
-- SDL_SetWindowProgressState
-- SDL_SetWindowProgressValue
 - SDL_SetWindowRelativeMouseMode
-- SDL_SetWindowResizable
-- SDL_SetWindowShape
-- SDL_SetWindowSize
 - SDL_SetWindowsMessageHook
-- SDL_SetWindowSurfaceVSync
-- SDL_SetWindowTitle
 - SDL_SetX11EventHook
 - SDL_ShouldInit
 - SDL_ShouldQuit
@@ -3217,8 +3236,6 @@ Feature complete:
 - SDL_ShowFileDialogWithProperties
 - SDL_ShowNotification
 - SDL_ShowNotificationWithProperties
-- SDL_ShowWindow
-- SDL_ShowWindowSystemMenu
 - SDL_SignalAsyncIOQueue
 - SDL_SignalCondition
 - SDL_SignalSemaphore
@@ -3275,7 +3292,6 @@ Feature complete:
 - SDL_Swap64
 - SDL_SwapFloat
 - SDL_swprintf
-- SDL_SyncWindow
 - SDL_tan
 - SDL_tanf
 - SDL_TellIO
@@ -3315,8 +3331,6 @@ Feature complete:
 - SDL_UpdateNVTexture
 - SDL_UpdateSensors
 - SDL_UpdateTexture
-- SDL_UpdateWindowSurface
-- SDL_UpdateWindowSurfaceRects
 - SDL_UpdateYUVTexture
 - SDL_utf8strlcpy
 - SDL_utf8strlen
@@ -3357,7 +3371,6 @@ Feature complete:
 - SDL_wcstoll
 - SDL_wcstoul
 - SDL_wcstoull
-- SDL_WindowHasSurface
 - SDL_WriteAsyncIO
 - SDL_WriteIO
 - SDL_WriteS16BE
@@ -3401,8 +3414,6 @@ Feature complete:
 - SDL_CompareCallback_r
 - SDL_Condition
 - SDL_Cursor
-- SDL_DisplayID
-- SDL_DisplayModeData
 - SDL_EGLAttrib
 - SDL_EGLAttribArrayCallback
 - SDL_EGLConfig
@@ -3417,12 +3428,7 @@ Feature complete:
 - SDL_free_func
 - SDL_FunctionPointer
 - SDL_Gamepad
-- SDL_GLContext
-- SDL_GLContextFlag
-- SDL_GLContextReleaseFlag
-- SDL_GLContextResetNotification
 - SDL_GlobFlags
-- SDL_GLProfile
 - SDL_GPURenderState
 - SDL_Haptic
 - SDL_HapticDirectionType
@@ -3482,7 +3488,6 @@ Feature complete:
 - SDL_Color
 - SDL_CursorFrameInfo
 - SDL_DateTime
-- SDL_DisplayMode
 - SDL_Finger
 - SDL_GamepadBinding
 - SDL_GamepadCapSenseEvent
@@ -3533,7 +3538,6 @@ Feature complete:
 - SDL_EnumerationResult
 - SDL_EventAction
 - SDL_EventType
-- SDL_FlashOperation
 - SDL_Folder
 - SDL_GamepadAxis
 - SDL_GamepadBindingType
@@ -3541,10 +3545,8 @@ Feature complete:
 - SDL_GamepadButtonLabel
 - SDL_GamepadCapSenseType
 - SDL_GamepadType
-- SDL_GLAttr
 - SDL_hid_bus_type
 - SDL_HintPriority
-- SDL_HitTestResult
 - SDL_InitStatus
 - SDL_IOStatus
 - SDL_IOWhence
@@ -3558,13 +3560,11 @@ Feature complete:
 - SDL_PenDeviceType
 - SDL_PixelType
 - SDL_ProcessIO
-- SDL_ProgressState
 - SDL_RendererLogicalPresentation
 - SDL_Sandbox
 - SDL_ScaleMode
 - SDL_SensorType
 - SDL_SystemCursor
-- SDL_SystemTheme
 - SDL_TextInputType
 - SDL_TextureAccess
 - SDL_TextureAddressMode

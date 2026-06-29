@@ -25,6 +25,6 @@ public @interface TextureUsageFlags {
     int COMPUTE_STORAGE_WRITE = SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE;
     int COMPUTE_STORAGE_SIMULTANEOUS_READ_WRITE = SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_SIMULTANEOUS_READ_WRITE;
 
-    int MASK = BitMask.flagMaskInt(TextureUsageFlags.class);
+    BitMask.Int MASK = BitMask.ofInt(TextureUsageFlags.class);
 
 }

@@ -1,8 +1,9 @@
 package io.github.plixo2.sodalite.category.init;
 
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.category.properties.PropertyKey;
 import io.github.plixo2.sodalite.memory.BitMask;
-import io.github.plixo2.sodalite.resource.PendingFrees;
+import io.github.plixo2.sodalite.resource.FreeList;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.foreign.Arena;
@@ -30,7 +31,7 @@ public class Init {
 
     /// @sdlAPI SDL_Init
     /// @threadSafety This function should only be called on the main thread
-    public static void init(@InitFlags int flags) {
+    public static void init(@InitFlags int flags) throws SDLException {
         check(SDL_Init(flags));
     }
 
@@ -38,7 +39,7 @@ public class Init {
     ///
     /// @sdlAPI SDL_InitSubSystem
     /// @threadSafety This function should only be called on the main thread
-    public static void initSubSystem(@InitFlags int flags) {
+    public static void initSubSystem(@InitFlags int flags) throws SDLException {
         check(SDL_InitSubSystem(flags));
     }
 
@@ -49,8 +50,8 @@ public class Init {
     /// @threadSafety This function should only be called on the main thread
     /// @see #wasAllInit
     /// @see #initSubSystem
-    public static void ensureInit(@InitFlags int flags) {
-        for (@InitFlags int flag : BitMask.extractFlags(flags, InitFlags.MASK)) {
+    public static void ensureInit(@InitFlags int flags) throws SDLException {
+        for (@InitFlags int flag : BitMask.bits(flags, InitFlags.MASK)) {
             if (!wasAllInit(flag)) {
                 initSubSystem(flag);
             }
@@ -74,17 +75,11 @@ public class Init {
 
     /// Wrapper for `SDL_WasInit(0)`
     ///
-    /// @return array of [InitFlags] for the initialized subsystems
+    /// @return Iterable of the initialized subsystems
     /// @sdlAPI SDL_WasInit
-    public static @InitFlags int[] getInit() {
-        var result = SDL_WasInit(0) & InitFlags.MASK;
-        var count = Integer.bitCount(result);
-        var flags = new @InitFlags int[count];
-        int index = 0;
-        for (@InitFlags int flag : BitMask.extractFlags(result)) {
-            flags[index++] = flag;
-        }
-        return flags;
+    public static @InitFlags int getInit() {
+        //noinspection MagicConstant
+        return SDL_WasInit(0) & InitFlags.MASK.value();
     }
 
     /// You still need to call [#quit] even if you close all open subsystems.
@@ -97,7 +92,7 @@ public class Init {
     /// You should call this function even if you have
     /// already shutdown each initialized subsystem.
     ///
-    /// This function will also call [PendingFrees#freeGlobal] to free any global
+    /// This function will also call [FreeList#freeGlobal] to free any global
     /// and non-collected gc-managed resources.
     /// You are not protected when using a gc-managed resource after this function is called,
     /// consider them freed and unusable.
@@ -109,14 +104,15 @@ public class Init {
         // intentionally not surrounded with try/catch
         // to avoid subsequent errors (e.g. use-after-free or double-free's)
         // that might crash the jvm.
-        PendingFrees.freeGlobal();
+        FreeList.freeGlobal();
 
 
         SDL_Quit();
     }
 
     /// @sdlAPI SDL_SetAppMetadata
-    public static void setAppMetaData(@Nullable String name, @Nullable String version, @Nullable String identifier) {
+    public static void setAppMetaData(@Nullable String name, @Nullable String version, @Nullable String identifier)
+            throws SDLException {
         try (var arena = Arena.ofConfined()) {
             check(SDL_SetAppMetadata(
                     allocNullString(arena, name),
@@ -127,7 +123,8 @@ public class Init {
     }
 
     /// @sdlAPI SDL_SetAppMetadataProperty
-    public static void setAppMetadataProperty(PropertyKey<String> name, @Nullable String value) {
+    public static void setAppMetadataProperty(PropertyKey<String> name, @Nullable String value)
+            throws SDLException {
         try (var arena = Arena.ofConfined()) {
             check(SDL_SetAppMetadataProperty(
                     name.nameSegment(),

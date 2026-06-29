@@ -2,31 +2,37 @@ package io.github.plixo2.sodalite.resource;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.CheckReturnValue;
-import io.github.plixo2.sodalite.category.events.EventConsumer;
 import io.github.plixo2.sodalite.category.events.Events;
 import io.github.plixo2.sodalite.category.init.Init;
+import io.github.plixo2.sodalite.category.main.Callbacks;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.SegmentAllocator;
 
-/// Resource set manages the lifecycle of multiple resources.
+/// Resource sets manages the lifecycle of multiple resources.
 ///
-/// - [ResourceSet#ofConfined()] should be used in a `try-with-resources`
-///  block for manually managed resources.
+/// - [ResourceSet#ofConfined()] should be used in try-with-resources
+///  blocks for manually managed resources.
 ///  Failure to close this resource set will result in a leak.
 ///  SDL or validation layers MAY warn about any leaks when the application exits.
 ///
+/// - [ResourceSet#ofConfined(ResourceSet)] can be used outside of try-with-resources blocks.
+///   They will be closed when the parent resource set is closed, but can be closed independently.
+///   You cannot use [ResourceSet#ofAuto()] as the parent.
+///
 /// - [ResourceSet#ofAuto()] should be used for gc-managed resources.
+///   Certain resources can only be freed on certain threads, so the resources will be enqueued first
+///   when the garbage collector collects the owner object.
+///   Make sure to call
+///   [Events#waitEvent]/[Events#pumpEvents]/[Events#pollEvent]/[Events#pollEvents] or [FreeList#drain]
+///   from the main thread periodically to free the pending resources.
+///   The main thread may not be the same thread that created the resource,
+///   so be careful if this pattern is not compatible with your resource.
 ///
 /// - [ResourceSet#global()] should be used for resources that life until [Init#quit] is called.
 ///
-///
-/// Make sure to call
-/// [Events#waitEvent]/[Events#pumpEvents]/[Events#pollEvent]/[Events#pollEvents] or [PendingFrees#drain]
-/// from the main thread periodically to free pending gc-managed resources.
-///
-/// [Init#quit] should be always called on application exit.
+/// [Init#quit] should be always called on application exit, unless using [Callbacks].
 ///
 /// @see Resource
 /// @see AutoResourceSet
@@ -49,7 +55,7 @@ public sealed interface ResourceSet
     /// Any freed
     ///
     /// Make sure to call
-    /// [Events#waitEvent]/[Events#pumpEvents]/[Events#pollEvent]/[Events#pollEvents] or [PendingFrees#drain]
+    /// [Events#waitEvent]/[Events#pumpEvents]/[Events#pollEvent]/[Events#pollEvents] or [FreeList#drain]
     /// from the main thread periodically to free pending gc-managed resources.
     ///
     /// @threadSafety This resource set is thread-safe,
@@ -85,12 +91,15 @@ public sealed interface ResourceSet
     }
 
     /// Returns a new arena that is closed when `parent` is closed, but can be closed independently.
+    /// This method will throw an exception if `parent` is a auto resource set.
     ///
     /// Resources registered to this resource set will be released in the reverse
     /// order.
     ///
     /// @param parent the parent resource set.
     /// @threadSafety Dont access the returned resource set from multiple threads simultaneously
+    /// @throws UseAfterReleaseException if this resource set is already closed.
+    /// @throws IllegalArgumentException if `parent` is an auto resource set.
     static ResourceSet ofConfined(ResourceSet parent) {
         return ConfinedResourceSet.create(parent);
     }
@@ -105,6 +114,7 @@ public sealed interface ResourceSet
     /// @param resource the resource to be freed.
     /// @see Resource
     /// @see ResourceObject
+    /// @throws UseAfterReleaseException if this resource set is already closed.
     void register(ResourceObject owner, Resource resource);
 
     default void register(ResourceObject owner) {
@@ -123,7 +133,7 @@ public sealed interface ResourceSet
     }
 
     /// @throws UnsupportedOperationException if this resource set does not support manual closing
-    ///                                       (i.e. global, auto or manual resource set)
+    ///                                       (global or auto resource set).
     @Override
     void close();
 }

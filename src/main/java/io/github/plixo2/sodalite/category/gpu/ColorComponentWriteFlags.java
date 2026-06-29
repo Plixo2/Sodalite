@@ -24,6 +24,6 @@ public @interface ColorComponentWriteFlags {
 
     int RGBA = R | G | B | A;
 
-    int MASK = BitMask.flagMaskInt(ColorComponentWriteFlags.class);
+    BitMask.Int MASK = BitMask.ofInt(ColorComponentWriteFlags.class);
 
 }

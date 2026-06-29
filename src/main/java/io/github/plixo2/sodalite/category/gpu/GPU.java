@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.category.pixels.PixelFormat;
 import io.github.plixo2.sodalite.category.video.Window;
 import io.github.plixo2.sodalite.memory.MemorySource;
@@ -27,7 +28,7 @@ public final class GPU {
             @ShaderFormat int shaderFormat,
             boolean debugMode,
             GPUDriver preferredDriver
-    ) {
+    ) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var device = check(SDL_CreateGPUDevice(
                     shaderFormat,
@@ -88,7 +89,7 @@ public final class GPU {
     }
 
     /// @sdlAPI SDL_ClaimWindowForGPUDevice
-    static void claimWindowForDevice(Device gpuDevice, Window window) {
+    static void claimWindowForDevice(Device gpuDevice, Window window) throws SDLException {
         check(SDL_ClaimWindowForGPUDevice(gpuDevice.segment(), window.segment()));
     }
 
@@ -104,7 +105,7 @@ public final class GPU {
             Window window,
             SwapchainComposition swapchainComposition,
             PresentMode presentMode
-    ) {
+    ) throws SDLException {
         check(SDL_SetGPUSwapchainParameters(
                 gpuDevice.segment(),
                 window.segment(),
@@ -140,7 +141,7 @@ public final class GPU {
     /// @sdlAPI SDL_AcquireGPUCommandBuffer
     static CommandBuffer acquireGPUCommandBuffer(
             Device gpuDevice
-    ) {
+    ) throws SDLException {
         var commandBuffer = check(SDL_AcquireGPUCommandBuffer(gpuDevice.segment()));
         return new CommandBuffer(
                 gpuDevice,
@@ -149,12 +150,12 @@ public final class GPU {
     }
 
     /// @sdlAPI SDL_SubmitGPUCommandBuffer
-    static void submitGPUCommandBuffer(CommandBuffer commandBuffer) {
+    static void submitGPUCommandBuffer(CommandBuffer commandBuffer) throws SDLException {
         check(SDL_SubmitGPUCommandBuffer(commandBuffer.segment()));
     }
 
     /// @sdlAPI SDL_CancelGPUCommandBuffer
-    static void cancelGPUCommandBuffer(CommandBuffer commandBuffer) {
+    static void cancelGPUCommandBuffer(CommandBuffer commandBuffer) throws SDLException {
         check(SDL_CancelGPUCommandBuffer(commandBuffer.segment()));
     }
 
@@ -265,7 +266,7 @@ public final class GPU {
     static @Nullable Texture waitAndAcquireSwapchainTexture(
             CommandBuffer commandBuffer,
             Window window
-    ) {
+    ) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var texturePointer = arena.allocate(ValueLayout.ADDRESS);
             var widthPointer = arena.allocate(ValueLayout.JAVA_INT);
@@ -292,7 +293,7 @@ public final class GPU {
     static @Nullable Texture acquireSwapchainTexture(
             CommandBuffer commandBuffer,
             Window window
-    ) {
+    ) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var texturePointer = arena.allocate(ValueLayout.ADDRESS);
             var widthPointer = arena.allocate(ValueLayout.JAVA_INT);
@@ -361,7 +362,7 @@ public final class GPU {
             Device device,
             @BufferUsageFlags int usageFlags,
             long size
-    ) {
+    ) throws SDLException {
 
         try (var arena = Arena.ofConfined()) {
             var createInfo = SDL_GPUBufferCreateInfo.allocate(arena);
@@ -387,7 +388,7 @@ public final class GPU {
             Device device,
             TransferBufferUsage usage,
             long size
-    ) {
+    ) throws SDLException {
 
         try (var arena = Arena.ofConfined()) {
             var createInfo = SDL_GPUTransferBufferCreateInfo.allocate(arena);
@@ -415,7 +416,7 @@ public final class GPU {
             Device device,
             TransferBuffer transferBuffer,
             Cycle cycle
-    ) {
+    ) throws SDLException {
         return check(SDL_MapGPUTransferBuffer(
                 device.segment(),
                 transferBuffer.segment(),
@@ -522,7 +523,7 @@ public final class GPU {
             int num_storage_textures,
             int num_storage_buffers,
             int num_uniform_buffers
-    ) throws T {
+    ) throws T, SDLException {
         try (var arena = Arena.ofConfined()) {
             var codeSegment = code.load(arena);
             var codeSize = codeSegment.byteSize();
@@ -566,7 +567,7 @@ public final class GPU {
             MultisampleState multisampleState,
             DepthStencilState depthStencilState,
             GraphicsPipelineTargetInfo targetInfo
-    ) {
+    ) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var createInfo = SDL_GPUGraphicsPipelineCreateInfo.allocate(arena);
 
@@ -662,7 +663,7 @@ public final class GPU {
             ResourceSet resources,
             Device device,
             TextureInfo createInfo
-    ) {
+    ) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var createInfoSegment = SDL_GPUTextureCreateInfo.allocate(arena);
             TextureCreateInfo.put(createInfoSegment, createInfo);
@@ -683,7 +684,7 @@ public final class GPU {
             ResourceSet resources,
             Device device,
             SamplerInfo samplerInfo
-    ) {
+    ) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var samplerInfoSegment = SDL_GPUSamplerCreateInfo.allocate(arena);
             SamplerCreateInfo.put(samplerInfoSegment, samplerInfo);
@@ -813,7 +814,7 @@ public final class GPU {
             ResourceSet resources,
             Device device,
             ComputeShader.Creator<T> creator
-    ) throws T {
+    ) throws T, SDLException {
         try (var arena = Arena.ofConfined()) {
             var format = creator.shaderFormat();
             var source = creator.source();
@@ -1284,7 +1285,7 @@ public final class GPU {
             Device device,
             boolean waitAll,
             Fence[] fence
-    ) {
+    ) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var pointerBuffer = arena.allocate(ValueLayout.ADDRESS, fence.length);
             for (var i = 0; i < fence.length; i++) {
@@ -1303,7 +1304,7 @@ public final class GPU {
     static void waitForFence(
             Device device,
             Fence fence
-    ) {
+    ) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var pointerBuffer = arena.allocate(ValueLayout.ADDRESS);
             pointerBuffer.set(ValueLayout.ADDRESS, 0, fence.segment());
@@ -1321,7 +1322,7 @@ public final class GPU {
             ResourceSet resources,
             Device device,
             CommandBuffer commandBuffer
-    ) {
+    ) throws SDLException {
         var fence = check(SDL_SubmitGPUCommandBufferAndAcquireFence(
                 commandBuffer.segment()
         ));
@@ -1550,7 +1551,7 @@ public final class GPU {
     static void setAllowedFramesInFlight(
             Device device,
             int allowedFrames
-    ) {
+    ) throws SDLException {
         if (allowedFrames < 1 || allowedFrames > 3) {
             throw new IllegalArgumentException(
                     "The minimum value of allowed frames in flight is 1, and the maximum is 3."
@@ -1566,7 +1567,7 @@ public final class GPU {
     /// @sdlAPI SDL_WaitForGPUIdle
     static void waitForIdle(
             Device device
-    ) {
+    ) throws SDLException {
         check(SDL_WaitForGPUIdle(device.segment()));
     }
 
@@ -1574,7 +1575,7 @@ public final class GPU {
     static void waitForSwapchain(
             Device device,
             Window window
-    ) {
+    ) throws SDLException {
         check(SDL_WaitForGPUSwapchain(device.segment(), window.segment()));
     }
 

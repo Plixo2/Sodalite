@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.properties;
 
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.ToString;
@@ -24,6 +25,10 @@ public class PropertyGroup extends ResourceObject {
         this.id = id;
     }
 
+    public static PropertyGroup newUnchecked(int id) {
+        return new PropertyGroup(null, id);
+    }
+
     public int id() {
         ensureNotReleased();
         return this.id;
@@ -33,18 +38,19 @@ public class PropertyGroup extends ResourceObject {
         return Properties.enumerateProperties(this);
     }
 
-    public <T> void set(PropertyKey<T> property, T value) {
+    public <T> void set(PropertyKey<T> property, T value) throws SDLException {
         property.set(this, value);
     }
     public <T> T get(PropertyKey<T> property, T defaultValue) {
         return property.get(this, defaultValue);
     }
 
-    public void clear(PropertyKey<?> property) {
+    public void clear(PropertyKey<?> property) throws SDLException {
         Properties.clearProperty(this, property);
     }
 
-    public void lock() {
+    /// Consider using a java synchronized block instead
+    public void lock() throws SDLException {
         Properties.lockProperties(this);
     }
     public void unlock() {
@@ -59,7 +65,7 @@ public class PropertyGroup extends ResourceObject {
     }
 
 
-    public PropertyGroup copy(ResourceSet resource) {
+    public PropertyGroup copy(ResourceSet resource) throws SDLException {
         var copy = Properties.createProperties(resource);
         Properties.copyProperties(this, copy);
         return copy;

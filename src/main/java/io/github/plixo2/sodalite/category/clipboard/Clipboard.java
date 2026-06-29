@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.clipboard;
 
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.category.error.Error;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import org.libsdl.sdl.SDL_ClipboardCleanupCallback;
@@ -33,7 +34,7 @@ public class Clipboard {
     }
 
     /// @sdlAPI SDL_SetClipboardText
-    public static void setText(String text) {
+    public static void setText(String text) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var textSegment = arena.allocateFrom(text);
             check(SDL_SetClipboardText(textSegment));
@@ -46,7 +47,7 @@ public class Clipboard {
     }
 
     /// @sdlAPI SDL_GetClipboardMimeTypes
-    public static List<String> getMimeTypes() {
+    public static List<String> getMimeTypes() throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var numMimeTypes = arena.allocate(ValueLayout.JAVA_LONG);
             var ptr = check(SDL_GetClipboardMimeTypes(numMimeTypes));
@@ -76,7 +77,7 @@ public class Clipboard {
     public static ClipboardData getData(
             ResourceSet resourceSet,
             String mimeType
-    ) {
+    ) throws SDLException {
         var errorMessage = Error.getError();
         try (var arena = Arena.ofConfined()) {
             if (!errorMessage.isEmpty()) {
@@ -114,7 +115,7 @@ public class Clipboard {
     public static void setData(
             ClipboardDataCallback callback,
             String... mimeTypes
-    ) {
+    ) throws SDLException {
         var arena = Arena.ofShared();
         var openData = new OpenClipboardData(arena, callback);
 
@@ -137,7 +138,7 @@ public class Clipboard {
                     mimeTypes.length
             ));
         } catch(Throwable e) {
-            if (!(e instanceof SDL3Exception)) {
+            if (!(e instanceof SDLException)) {
                 openData.close();
             }
             throw e;
@@ -146,12 +147,12 @@ public class Clipboard {
     }
 
     /// @sdlAPI SDL_ClearClipboardData
-    public static void clearData() {
+    public static void clearData() throws SDLException {
         check(SDL_ClearClipboardData());
     }
 
     /// @sdlAPI SDL_GetPrimarySelectionText
-    public static String getPrimarySelectionText() {
+    public static String getPrimarySelectionText() throws SDLException {
         var ptr = check(SDL_GetPrimarySelectionText());
         try {
             return ptr.reinterpret(Long.MAX_VALUE).getString(0);
@@ -166,7 +167,7 @@ public class Clipboard {
     }
 
     /// @sdlAPI SDL_SetPrimarySelectionText
-    public static void setPrimarySelectionText(String text) {
+    public static void setPrimarySelectionText(String text) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             check(SDL_SetPrimarySelectionText(arena.allocateFrom(text)));
         }

@@ -1,11 +1,11 @@
 package io.github.plixo2.sodalite.category.events;
 
-import io.github.plixo2.sodalite.resource.PendingFrees;
+import io.github.plixo2.sodalite.SDLException;
+import io.github.plixo2.sodalite.resource.FreeList;
 import org.libsdl.sdl.SDL_Event;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.util.List;
 
 import static org.libsdl.sdl.SDL3_h.*;
 import static io.github.plixo2.sodalite.Internal.*;
@@ -15,20 +15,20 @@ public class Events {
     private Events() {}
 
 
-    /// This method will also call [PendingFrees#drain]
+    /// This method will also call [FreeList#drain]
     ///
     /// @sdlAPI SDL_PumpEvents
     /// @threadSafety This function should only be called on the main thread
     public static void pumpEvents() {
         SDL_PumpEvents();
-        PendingFrees.drain();
+        FreeList.drain();
     }
 
-    /// This method will also call [PendingFrees#drain]
+    /// This method will also call [FreeList#drain]
     ///
     /// @sdlAPI SDL_WaitEvent
     /// @threadSafety This function should only be called on the main thread
-    public static void waitEvent(EventConsumer consumer) {
+    public static void waitEvent(EventConsumer consumer) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             waitSingleEvent(
                     SDL_Event.allocate(arena),
@@ -39,7 +39,7 @@ public class Events {
 
 
     /// Consider using [#pollEvents(EventConsumer)] to poll all events at once.
-    /// This method will also call [PendingFrees#drain] when there are no more events to poll.
+    /// This method will also call [FreeList#drain] when there are no more events to poll.
     ///
     /// @return true if there are more events, false otherwise.
     /// @threadSafety This function should only be called on the main thread
@@ -55,7 +55,7 @@ public class Events {
     }
 
     /// Consider using [#pollEvents(EventConsumer...)] to poll all events at once.
-    /// This method will also call [PendingFrees#drain] when there are no more events to poll.
+    /// This method will also call [FreeList#drain] when there are no more events to poll.
     ///
     /// @return true if there are more events, false otherwise.
     /// @threadSafety This function should only be called on the main thread
@@ -71,7 +71,7 @@ public class Events {
     }
 
     /// Consider using [#pollEvents(Iterable)] to poll all events at once.
-    /// This method will also call [PendingFrees#drain] when there are no more events to poll.
+    /// This method will also call [FreeList#drain] when there are no more events to poll.
     ///
     /// @return true if there are more events, false otherwise.
     /// @threadSafety This function should only be called on the main thread
@@ -88,7 +88,7 @@ public class Events {
 
 
     /// Polls all events at once and dispatches them to the given consumer.
-    /// This method will also call [PendingFrees#drain]
+    /// This method will also call [FreeList#drain]
     ///
     /// @threadSafety This function should only be called on the main thread
     /// @sdlAPI SDL_PollEvent
@@ -103,7 +103,7 @@ public class Events {
     }
 
     /// Polls all events at once and dispatches them to the given consumers.
-    /// This method will also call [PendingFrees#drain]
+    /// This method will also call [FreeList#drain]
     ///
     /// @threadSafety This function should only be called on the main thread
     /// @sdlAPI SDL_PollEvent
@@ -118,7 +118,7 @@ public class Events {
     }
 
     /// Polls all events at once and dispatches them to the given consumers.
-    /// This method will also call [PendingFrees#drain]
+    /// This method will also call [FreeList#drain]
     ///
     /// @threadSafety This function should only be called on the main thread
     /// @sdlAPI SDL_PollEvent
@@ -143,7 +143,7 @@ public class Events {
             EventDispatch.dispatch(consumer, eventOut);
             return true;
         } else {
-            PendingFrees.drain();
+            FreeList.drain();
             return false;
         }
     }
@@ -160,7 +160,7 @@ public class Events {
             }
             return true;
         } else {
-            PendingFrees.drain();
+            FreeList.drain();
             return false;
         }
     }
@@ -177,7 +177,7 @@ public class Events {
             }
             return true;
         } else {
-            PendingFrees.drain();
+            FreeList.drain();
             return false;
         }
     }
@@ -187,10 +187,10 @@ public class Events {
     private static void waitSingleEvent(
             MemorySegment eventOut,
             EventConsumer consumer
-    ) {
+    ) throws SDLException {
         check(SDL_WaitEvent(eventOut));
         EventDispatch.dispatch(consumer, eventOut);
-        PendingFrees.drain();
+        FreeList.drain();
     }
 
 }

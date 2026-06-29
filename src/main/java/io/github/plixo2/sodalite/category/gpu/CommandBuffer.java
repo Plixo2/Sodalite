@@ -2,9 +2,12 @@ package io.github.plixo2.sodalite.category.gpu;
 
 
 import com.google.errorprone.annotations.CheckReturnValue;
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.category.video.Window;
 import io.github.plixo2.sodalite.memory.WriteBuffer;
+import io.github.plixo2.sodalite.resource.DoubleReleaseException;
 import io.github.plixo2.sodalite.resource.ResourceSet;
+import io.github.plixo2.sodalite.resource.UseAfterReleaseException;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4f;
@@ -33,17 +36,17 @@ public class CommandBuffer implements AutoCloseable {
 
     public MemorySegment segment() {
         if (this.isCanceled) {
-            throw new IllegalStateException("Command buffer has been canceled");
+            throw new UseAfterReleaseException(this, "Already canceled");
         } else if (this.isSubmitted) {
-            throw new IllegalStateException("Command buffer has already been submitted");
+            throw new UseAfterReleaseException(this, "Already submitted");
         }
         return this.segment;
     }
 
     @Override
-    public void close() {
+    public void close() throws SDLException {
         if (this.isSubmitted) {
-            throw new IllegalStateException("Command buffer has already been submitted");
+            throw new DoubleReleaseException(this, "Already submitted");
         }
         if (this.isCanceled) {
             return;
@@ -53,12 +56,12 @@ public class CommandBuffer implements AutoCloseable {
     }
 
     @CheckReturnValue
-    public Fence closeAndAcquireFence(ResourceSet resources) {
+    public Fence closeAndAcquireFence(ResourceSet resources) throws SDLException {
         if (this.isSubmitted) {
-            throw new IllegalStateException("Command buffer has already been submitted");
+            throw new DoubleReleaseException(this, "Already submitted");
         }
         if (this.isCanceled) {
-            throw new IllegalStateException("Command buffer has been canceled");
+            throw new DoubleReleaseException(this, "Already canceled");
         }
         var fence = GPU.submitCommandBufferAndAcquire(
                 resources,
@@ -70,9 +73,9 @@ public class CommandBuffer implements AutoCloseable {
     }
 
 
-    public void cancel() {
+    public void cancel() throws SDLException {
         if (this.isSubmitted) {
-            throw new IllegalStateException("Command buffer has already been submitted");
+            throw new DoubleReleaseException(this, "Already submitted");
         }
         this.isCanceled = true;
         GPU.cancelGPUCommandBuffer(this);
@@ -80,7 +83,7 @@ public class CommandBuffer implements AutoCloseable {
 
     /// @return a Texture that is owned by the swapchain and will be released when the
     ///         next frame is presented, or null
-    public @Nullable Texture waitAndAcquireSwapchainTexture(Window window) {
+    public @Nullable Texture waitAndAcquireSwapchainTexture(Window window) throws SDLException {
         return GPU.waitAndAcquireSwapchainTexture(this, window);
     }
 
@@ -88,7 +91,7 @@ public class CommandBuffer implements AutoCloseable {
     /// you are doing with timing."
     /// @return a Texture that is owned by the swapchain and will be released when the
     ///         next frame is presented, or null
-    public @Nullable Texture acquireSwapchainTexture(Window window) {
+    public @Nullable Texture acquireSwapchainTexture(Window window) throws SDLException {
         return GPU.acquireSwapchainTexture(this, window);
     }
 

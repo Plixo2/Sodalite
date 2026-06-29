@@ -13,6 +13,7 @@ import java.lang.foreign.ValueLayout;
 public class Layouts {
 
     public static MemoryLayout FLOAT = ValueLayout.JAVA_FLOAT;
+    public static MemoryLayout HALF = ValueLayout.JAVA_SHORT;
     public static MemoryLayout INT = ValueLayout.JAVA_INT;
     public static MemoryLayout UINT = ValueLayout.JAVA_INT;
     public static MemoryLayout UINT8 = ValueLayout.JAVA_BYTE;

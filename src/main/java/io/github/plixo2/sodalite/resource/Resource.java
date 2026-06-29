@@ -1,6 +1,8 @@
 package io.github.plixo2.sodalite.resource;
 
 
+import io.github.plixo2.sodalite.SDLException;
+
 /// Any lambda or class that implements this interface
 /// should never refererence the owner it is registers with, directly or indirectly,
 /// as this prevents the owner from being garbage collected,
@@ -15,6 +17,6 @@ public interface Resource {
 
     /// Any exception thrown by this method will NOT be caught to avoid
     /// subsequent errors (e.g. use-after-free or double-free's) that might crash the jvm
-    void free();
+    void free() throws SDLException;
 
 }

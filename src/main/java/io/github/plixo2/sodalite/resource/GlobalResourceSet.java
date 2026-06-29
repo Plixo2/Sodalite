@@ -2,7 +2,6 @@ package io.github.plixo2.sodalite.resource;
 
 
 import java.lang.foreign.Arena;
-import java.lang.foreign.MemorySegment;
 
 /// @see ResourceSet#global() for more details on this class.
 final class GlobalResourceSet implements ResourceSet {
@@ -18,7 +17,7 @@ final class GlobalResourceSet implements ResourceSet {
 
     @Override
     public void register(ResourceObject owner, Resource resource) {
-        PendingFrees.addGlobal(owner, resource);
+        FreeList.pushGlobal(owner, resource);
     }
 
     @Override
@@ -28,6 +27,6 @@ final class GlobalResourceSet implements ResourceSet {
 
     @Override
     public void close() {
-        throw new UnsupportedOperationException("Attempted to close a non-closeable resource set");
+        throw new UnsupportedOperationException("Attempted to close a global resource set");
     }
 }

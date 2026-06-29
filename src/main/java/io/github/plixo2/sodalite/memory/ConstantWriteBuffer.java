@@ -7,11 +7,11 @@ import java.lang.foreign.MemorySegment;
 
 /// The buffer can only hold up to 2^32 - 1 bytes (4 GiB) of data
 /// @see CStruct
-public class ConstantWriteBuffer extends ConstantWriteBufferImpl<ConstantWriteBuffer> {
+public final class ConstantWriteBuffer extends AbstractConstantWriteBufferImpl<ConstantWriteBuffer> {
 
     /// @throws IllegalArgumentException if `capacity` is negative
     /// @throws IllegalArgumentException if `capacity` exceeds 2^32 - 1 bytes (4 GiB)
-    ConstantWriteBuffer(
+    private ConstantWriteBuffer(
             ResourceSet resources,
             long capacity
     ) {

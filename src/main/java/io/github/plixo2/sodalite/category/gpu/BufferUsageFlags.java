@@ -24,6 +24,6 @@ public @interface BufferUsageFlags {
     int COMPUTE_STORAGE_READ = SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_READ;
     int COMPUTE_STORAGE_WRITE = SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE;
 
-    int MASK = BitMask.flagMaskInt(BufferUsageFlags.class);
+    BitMask.Int MASK = BitMask.ofInt(BufferUsageFlags.class);
 
 }

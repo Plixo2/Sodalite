@@ -2,6 +2,7 @@ package io.github.plixo2.sodalite.category.messagebox;
 
 
 
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.category.video.Window;
 import org.jetbrains.annotations.Nullable;
 import org.libsdl.sdl.SDL_MessageBoxButtonData;
@@ -81,7 +82,7 @@ public record MessageBoxData(
     }
 
     /// @return the id of the pressed button
-    public int show() {
+    public int show() throws SDLException {
         return MessageBox.show(this);
     }
 

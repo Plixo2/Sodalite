@@ -1,6 +1,7 @@
 package io.github.plixo2.docs;
 
 import io.github.plixo2.sodalite.Internal;
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.category.clipboard.Clipboard;
 import io.github.plixo2.sodalite.category.init.Init;
 import io.github.plixo2.sodalite.category.init.InitFlags;
@@ -413,8 +414,11 @@ public class ProgressCheck {
                 toCopy.append("import static io.github.plixo2.sodalite.Internal.*;");
             }
             if (!this.dry) {
-                Init.ensureInit(InitFlags.VIDEO);
-                Clipboard.setText(toCopy.toString());
+                try {
+                    Init.ensureInit(InitFlags.VIDEO);
+                    Clipboard.setText(toCopy.toString());
+                } catch(SDLException _) {
+                }
                 throw invalidApiFormat(javaFilePath, "Category is missing required imports, copied to clipboard");
             } else {
                 throw invalidApiFormat(javaFilePath, "Category is missing required imports. \n" + toCopy + "\n");

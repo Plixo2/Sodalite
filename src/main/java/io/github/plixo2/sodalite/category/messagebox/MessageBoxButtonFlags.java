@@ -21,6 +21,6 @@ public @interface MessageBoxButtonFlags {
     int RETURN_KEY_DEFAULT = SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT;
     int ESCAPE_KEY_DEFAULT = SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT;
 
-    int MASK = BitMask.flagMaskInt(MessageBoxButtonFlags.class);
+    BitMask.Int MASK = BitMask.ofInt(MessageBoxButtonFlags.class);
 
 }

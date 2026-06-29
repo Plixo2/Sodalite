@@ -1,20 +1,83 @@
 package io.github.plixo2.sodalite.memory;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import lombok.Getter;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.function.BiFunction;
 
-public class BitMask {
+public sealed abstract class BitMask<T extends Number> {
 
+    @Getter
+    protected final T value;
 
-    public static Iterable<Integer> extractFlags(int bitset, int mask) {
-        return extractFlags(bitset & mask);
+    protected final Map<Number, String> names;
+
+    private BitMask(Map<Number, String> names, T identity, BiFunction<T, T, T> fold) {
+        this.value = maskOf(names, identity, fold);
+        this.names = names;
     }
 
-    public static Iterable<Integer> extractFlags(int bitset) {
+    public abstract Iterable<T> bits();
+
+    @Override
+    public String toString() {
+        return BitMask.toString(this.names);
+    }
+
+
+    public static final class Int extends BitMask<Integer> {
+
+        public Int(Map<Number, String> names) {
+            super(names, 0, (a, b) -> a | b);
+        }
+
+        public String toString(int mask) {
+            return BitMask.toString(this.names, bits(mask));
+        }
+
+        @Override
+        public Iterable<Integer> bits() {
+            return bits(this.value);
+        }
+
+    }
+
+    public static final class Long extends BitMask<java.lang.Long> {
+        public Long(Map<Number, String> names) {
+            super(names, 0L, (a, b) -> a | b);
+        }
+        public String toString(long mask) {
+            return BitMask.toString(this.names, bits(mask));
+        }
+
+        @Override
+        public Iterable<java.lang.Long> bits() {
+            return bits(this.value);
+        }
+
+    }
+
+    public static BitMask.Int ofInt(Class<?> flagClass) {
+        var constants = constantFields(flagClass);
+        checkConstants(flagClass, constants, int.class);
+        var mask = values(constants, int.class);
+        return new BitMask.Int(mask);
+    }
+
+    public static BitMask.Long ofLong(Class<?> flagClass) {
+        var constants = constantFields(flagClass);
+        checkConstants(flagClass, constants, long.class);
+        var mask = values(constants, long.class);
+        return new BitMask.Long(mask);
+    }
+
+    public static Iterable<Integer> bits(int bitset, BitMask.Int mask) {
+        return bits(bitset & mask.value);
+    }
+
+    public static Iterable<Integer> bits(int bitset) {
         return () -> new Iterator<>() {
             int remaining = bitset;
 
@@ -35,55 +98,80 @@ public class BitMask {
         };
     }
 
-    /// @param flagClass the annotation class containing the constants
-    /// The class must be an annotation with @Retention and @Target annotations,
-    /// and must have at least one constant of type int and no other primitive constants.
-    ///
-    /// @throws IllegalArgumentException if the class is not an annotation
-    /// @throws IllegalArgumentException if the class does not have @Retention and @Target annotations
-    /// @throws IllegalArgumentException if the class does not have any constants of type int
-    /// @throws IllegalArgumentException if the class has other primitives constants besides int
-    /// @throws IllegalStateException if the reflective access to the constant field fails
-    public static int flagMaskInt(Class<?> flagClass) {
-        var constants = constantFields(flagClass);
-        checkConstants(flagClass, constants, int.class);
-        return getConstantMask(constants, int.class, 0, (a, b) -> a | b);
+    public static Iterable<java.lang.Long> bits(long bitset, BitMask.Long mask) {
+        return bits(bitset & mask.value);
     }
 
-    /// Returns a mask of all the constants defined in the class.
-    /// The class must be an annotation with @Retention and @Target annotations,
-    /// and must have at least one constant of type long and no other primitive constants.
-    ///
-    /// @param flagClass the annotation class containing the constants
-    ///
-    /// @throws IllegalArgumentException if the class is not an annotation
-    /// @throws IllegalArgumentException if the class does not have @Retention and @Target annotations
-    /// @throws IllegalArgumentException if the class does not have any constants of type long
-    /// @throws IllegalArgumentException if the class has other primitives constants besides long
-    /// @throws IllegalStateException if the reflective access to the constant field fails
-    public static long flagMaskLong(Class<?> flagClass) {
-        var constants = constantFields(flagClass);
-        checkConstants(flagClass, constants, long.class);
-        return getConstantMask(constants, long.class, 0L, (a, b) -> a | b);
+    public static Iterable<java.lang.Long> bits(long bitset) {
+        return () -> new Iterator<>() {
+            long remaining = bitset;
+
+            @Override
+            public boolean hasNext() {
+                return this.remaining != 0L;
+            }
+
+            @Override
+            public java.lang.Long next() {
+                if (this.remaining == 0L) {
+                    throw new NoSuchElementException();
+                }
+                long lowestBit = java.lang.Long.lowestOneBit(this.remaining);
+                this.remaining &= ~lowestBit; // remove bit
+                return lowestBit;
+            }
+        };
     }
+
+
+
+
+
+    private static String toString(Map<Number, String> names, Iterable<? extends Number> flags) {
+        var sb = new StringBuilder();
+        sb.append("[");
+        var first = true;
+        for (var flag : flags) {
+            var name = names.get(flag);
+            if (name == null) {
+                continue;
+            }
+            if (!first) {
+                sb.append(", ");
+            }
+            first = false;
+            sb.append(name);
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    private static String toString(Map<Number, String> names) {
+        var sb = new StringBuilder();
+
+        sb.append("[");
+        var first = true;
+        for (var entry : names.entrySet()) {
+            if (!first) {
+                sb.append(", ");
+            }
+            first = false;
+            sb.append(entry.getValue());
+            sb.append("=");
+            var key = entry.getKey();
+            var str = switch (key) {
+                case Integer i -> Integer.toBinaryString(i);
+                case java.lang.Long l -> java.lang.Long.toBinaryString(l);
+                default -> "";
+            };
+            sb.append(str);
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
 
     private static List<Field> constantFields(Class<?> flagClass) {
-
-        if (!flagClass.isAnnotation()) {
-            throw new IllegalArgumentException(
-                    "Expected '" + flagClass.getName() +  "' to be an annotation class"
-            );
-        }
-
-        var retention = flagClass.getAnnotation(Retention.class);
-        var target = flagClass.getAnnotation(Target.class);
-        if (retention == null || target == null) {
-            throw new IllegalArgumentException(
-                    "Expected @Retention and @Target annotation on class "
-                    + "'" + flagClass.getName() + "'"
-            );
-        }
-
         return Arrays.stream(flagClass.getDeclaredFields())
               .filter(ref -> !ref.getName().equals("MASK"))
               .filter(ref -> Modifier.isStatic(ref.getModifiers()))
@@ -109,9 +197,46 @@ public class BitMask {
                     + flagClass.getName()
                     + "' to have at least one constant of type "
                     + primitive.getName()
-        );
+            );
         }
     }
+
+    private static Map<Number, String> values(
+            List<Field> constants,
+            Class<?> primitive
+    ) {
+        var names = new LinkedHashMap<Number, String>();
+        for (var field : constants) {
+            var fieldType = field.getType();
+            if (fieldType != primitive) {
+                continue;
+            }
+            try {
+                var value = (Number) Objects.requireNonNull(field.get(null));
+                names.put(value, field.getName());
+            } catch (IllegalAccessException e) {
+                throw new IllegalStateException("Could not read field " + field.getName(), e);
+            }
+        }
+
+        return names;
+    }
+
+    private static <T extends Number> T maskOf(
+            Map<Number, String> constants,
+            T identity,
+            BiFunction<T, T, T> fold
+    ) {
+        var result = identity;
+        for (var value : constants.keySet()) {
+            @SuppressWarnings("unchecked")
+            var typedValue = (T) value;
+            result = fold.apply(result, typedValue);
+        }
+
+        return result;
+    }
+
 
     private static boolean has(List<Field> constants, Class<?> primitive) {
         for (var field : constants) {
@@ -121,7 +246,6 @@ public class BitMask {
         }
         return false;
     }
-
     private static boolean hasOthers(List<Field> constants, Class<?> primitive) {
         for (var field : constants) {
             var fieldType = field.getType();
@@ -131,7 +255,6 @@ public class BitMask {
         }
         return false;
     }
-
     private static boolean isPrimitiveNumber(Class<?> primitive) {
         return primitive == byte.class
                 || primitive == short.class
@@ -140,25 +263,4 @@ public class BitMask {
                 || primitive == float.class
                 || primitive == double.class;
     }
-
-    private static <T extends Number> T getConstantMask(List<Field> constants, Class<?> primitive, T identity, BiFunction<T, T, T> reduce) {
-        var result = identity;
-        for (var field : constants) {
-            var fieldType = field.getType();
-            if (fieldType != primitive) {
-                continue;
-            }
-
-            try {
-                @SuppressWarnings("unchecked")
-                var value = (T) Objects.requireNonNull(field.get(null));
-                result = reduce.apply(result, value);
-            } catch (IllegalAccessException e) {
-                throw new IllegalStateException("Could not read field " + field.getName(), e);
-            }
-        }
-
-        return result;
-    }
-
 }

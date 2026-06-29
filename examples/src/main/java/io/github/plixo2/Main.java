@@ -1,5 +1,6 @@
 
 
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.category.version.Version;
 import io.github.plixo2.sodalite.category.version.VersionTarget;
 import io.github.plixo2.sodalite.memory.MemorySource;
@@ -77,7 +78,7 @@ static class Instance implements EventConsumer {
             TextureFormat format,
             int width,
             int height
-    ) {
+    ) throws SDLException {
         if (this.msaaTexture != null) {
             if (width == this.msaaTexture.width() && height == this.msaaTexture.height()) {
                 return;

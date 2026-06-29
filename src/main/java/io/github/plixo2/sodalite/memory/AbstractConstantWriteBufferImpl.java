@@ -7,14 +7,19 @@ import java.lang.foreign.MemorySegment;
 import static io.github.plixo2.sodalite.Internal.isU32;
 
 
-public abstract class ConstantWriteBufferImpl<Self extends ConstantWriteBufferImpl<Self>>
-        extends WriteBuffer<Self>
+public sealed abstract class AbstractConstantWriteBufferImpl<Self extends AbstractConstantWriteBufferImpl<Self>>
+        extends
+            WriteBuffer<Self>
+        permits
+            ConstantWriteBuffer,
+            CStruct
 {
+
     private final MemorySegment segment;
 
     /// @throws IllegalArgumentException if `capacity` is negative
     /// @throws IllegalArgumentException if `capacity` exceeds 2^32 - 1 bytes (4 GiB)
-    ConstantWriteBufferImpl(
+    protected AbstractConstantWriteBufferImpl(
             ResourceSet resources,
             long capacity
     ) {
@@ -30,7 +35,7 @@ public abstract class ConstantWriteBufferImpl<Self extends ConstantWriteBufferIm
     }
 
     /// @throws IllegalArgumentException if the size of the segment exceeds 2^32 - 1 bytes (4 GiB)
-    protected ConstantWriteBufferImpl(
+    protected AbstractConstantWriteBufferImpl(
             MemorySegment segment
     ) {
         var capacity = segment.byteSize();
@@ -42,7 +47,7 @@ public abstract class ConstantWriteBufferImpl<Self extends ConstantWriteBufferIm
     }
 
     @Override
-    protected MemorySegment ensureCapacity(long requiredCapacity) {
+    protected final MemorySegment ensureCapacity(long requiredCapacity) {
         if (requiredCapacity > this.capacity) {
             throw new IllegalStateException(
                     "Buffer capacity exceeded: required "
@@ -56,7 +61,7 @@ public abstract class ConstantWriteBufferImpl<Self extends ConstantWriteBufferIm
 
     /// @return the full memory segment, not capped to `this.position`
     @Override
-    public MemorySegment memory() {
+    public final MemorySegment memory() {
         ensureNotReleased();
         return this.segment;
     }

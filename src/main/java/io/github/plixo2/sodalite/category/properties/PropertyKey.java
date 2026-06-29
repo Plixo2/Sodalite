@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.properties;
 
+import io.github.plixo2.sodalite.SDLException;
 import lombok.Getter;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
@@ -46,7 +47,7 @@ public sealed abstract class PropertyKey<T> implements PropertyKeys {
         return Objects.hash(this.type, asString());
     }
 
-    abstract void set(PropertyGroup group, T value);
+    abstract void set(PropertyGroup group, T value) throws SDLException;
     abstract T get(PropertyGroup group, T defaultValue);
 
     public static PropertyKey<MemorySegment> ofPointer(String name) {
@@ -91,7 +92,7 @@ public sealed abstract class PropertyKey<T> implements PropertyKeys {
         }
 
         @Override
-        void set(PropertyGroup group, MemorySegment value) {
+        void set(PropertyGroup group, MemorySegment value) throws SDLException {
             Properties.setPointerProperty(group, this, value);
         }
 
@@ -107,7 +108,7 @@ public sealed abstract class PropertyKey<T> implements PropertyKeys {
         }
 
         @Override
-        void set(PropertyGroup group, String value) {
+        void set(PropertyGroup group, String value) throws SDLException {
             Properties.setStringProperty(group, this, value);
         }
 
@@ -123,7 +124,7 @@ public sealed abstract class PropertyKey<T> implements PropertyKeys {
         }
 
         @Override
-        void set(PropertyGroup group, Long value) {
+        void set(PropertyGroup group, Long value) throws SDLException {
             Properties.setNumberProperty(group, this, value);
         }
 
@@ -141,7 +142,7 @@ public sealed abstract class PropertyKey<T> implements PropertyKeys {
         }
 
         @Override
-        void set(PropertyGroup group, Float value) {
+        void set(PropertyGroup group, Float value) throws SDLException {
             Properties.setFloatProperty(group, this, value);
         }
 
@@ -160,7 +161,7 @@ public sealed abstract class PropertyKey<T> implements PropertyKeys {
         }
 
         @Override
-        void set(PropertyGroup group, Boolean value) {
+        void set(PropertyGroup group, Boolean value) throws SDLException {
             Properties.setBooleanProperty(group, this, value);
         }
 

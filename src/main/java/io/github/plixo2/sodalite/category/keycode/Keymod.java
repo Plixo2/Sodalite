@@ -36,6 +36,6 @@ public @interface Keymod {
     int ALT = SDL_KMOD_ALT;
     int GUI = SDL_KMOD_GUI;
 
-    int MASK = BitMask.flagMaskInt(Keymod.class);
+    BitMask.Int MASK = BitMask.ofInt(Keymod.class);
 
 }

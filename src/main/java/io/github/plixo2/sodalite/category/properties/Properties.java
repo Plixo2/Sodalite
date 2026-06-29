@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.properties;
 
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +22,7 @@ public class Properties {
     /// @sdlAPI SDL_CreateProperties
     public static PropertyGroup createProperties(
             ResourceSet resources
-    ) {
+    ) throws SDLException {
         var id = check(SDL_CreateProperties());
 
         return new PropertyGroup(
@@ -31,9 +32,9 @@ public class Properties {
     }
 
     /// @sdlAPI SDL_GetGlobalProperties
-    public static PropertyGroup getGlobalProperties() {
+    public static PropertyGroup getGlobalProperties() throws SDLException {
         var id = check(SDL_GetGlobalProperties());
-        return new PropertyGroup(null, id);
+        return PropertyGroup.newUnchecked(id);
     }
 
     /// @sdlAPI SDL_DestroyProperties
@@ -46,14 +47,14 @@ public class Properties {
     static void clearProperty(
             PropertyGroup group,
             PropertyKey<?> property
-    ) {
+    ) throws SDLException {
         check(SDL_ClearProperty(group.id(), property.nameSegment()));
     }
 
     /// @sdlAPI SDL_LockProperties
     static void lockProperties(
             PropertyGroup group
-    ) {
+    ) throws SDLException {
         check(SDL_LockProperties(group.id()));
     }
 
@@ -68,7 +69,7 @@ public class Properties {
     public static void copyProperties(
             PropertyGroup src,
             PropertyGroup dest
-    ) {
+    ) throws SDLException {
         check(SDL_CopyProperties(dest.id(), src.id()));
     }
 
@@ -120,7 +121,7 @@ public class Properties {
             PropertyGroup group,
             PropertyKey<MemorySegment> property,
             MemorySegment value
-    ) {
+    ) throws SDLException {
         check(SDL_SetPointerProperty(group.id(), property.nameSegment(), value));
     }
     /// @sdlAPI SDL_GetPointerProperty
@@ -143,7 +144,7 @@ public class Properties {
             PropertyGroup group,
             PropertyKey<String> property,
             @Nullable String value
-    ) {
+    ) throws SDLException {
         try (var arena = Arena.ofConfined()) {
             var valueSegment = allocNullString(arena, value);
             check(SDL_SetStringProperty(group.id(), property.nameSegment(), valueSegment));
@@ -169,7 +170,7 @@ public class Properties {
             PropertyGroup group,
             PropertyKey<Long> property,
             long value
-    ) {
+    ) throws SDLException {
         check(SDL_SetNumberProperty(group.id(), property.nameSegment(), value));
     }
     /// @sdlAPI SDL_GetNumberProperty
@@ -186,7 +187,7 @@ public class Properties {
             PropertyGroup group,
             PropertyKey<Float> property,
             float value
-    ) {
+    ) throws SDLException {
         check(SDL_SetFloatProperty(group.id(), property.nameSegment(), value));
     }
     /// @sdlAPI SDL_GetFloatProperty
@@ -203,7 +204,7 @@ public class Properties {
             PropertyGroup group,
             PropertyKey<Boolean> property,
             boolean value
-    ) {
+    ) throws SDLException {
         check(SDL_SetBooleanProperty(group.id(), property.nameSegment(), value));
     }
     /// @sdlAPI SDL_GetBooleanProperty

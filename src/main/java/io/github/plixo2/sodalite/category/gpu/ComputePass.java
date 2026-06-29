@@ -1,5 +1,7 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import io.github.plixo2.sodalite.resource.DoubleReleaseException;
+import io.github.plixo2.sodalite.resource.UseAfterReleaseException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +26,7 @@ public class ComputePass implements AutoCloseable {
 
     public MemorySegment segment() {
         if (this.isEnded) {
-            throw new IllegalStateException("Compute pass has already been ended");
+            throw new UseAfterReleaseException(this, "Pass already ended");
         }
         return this.segment;
     }
@@ -32,7 +34,7 @@ public class ComputePass implements AutoCloseable {
     @Override
     public void close() {
         if (this.isEnded) {
-            throw new IllegalStateException("Compute pass has already been ended");
+            throw new DoubleReleaseException(this, "Pass already ended");
         }
         GPU.endComputePass(this);
         this.isEnded = true;

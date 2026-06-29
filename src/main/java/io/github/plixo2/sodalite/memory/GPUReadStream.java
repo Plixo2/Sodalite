@@ -94,5 +94,6 @@ public interface GPUReadStream {
         return read(destination, 0, destination.byteSize());
     }
 
+    MemorySegment readAllRemaining();
 
 }

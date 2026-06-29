@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.gpu;
 
+import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.Getter;
@@ -77,7 +78,7 @@ public non-sealed class Texture extends ResourceObject implements TextureInfo {
     }
 
     /// Creates a new texture with the same parameters as this one
-    public Texture createEmpty(ResourceSet resources, Device device) {
+    public Texture createEmpty(ResourceSet resources, Device device) throws SDLException {
         return GPU.createTexture(resources, device, this);
     }
 

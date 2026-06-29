@@ -7,9 +7,14 @@ import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
 import static io.github.plixo2.sodalite.Internal.*;
 
-public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
-        extends ResourceObject
-        implements GPUWriteStream<Self>
+public sealed abstract class WriteBuffer<Self extends WriteBuffer<Self>>
+        extends
+            ResourceObject
+        implements
+            GPUWriteStream<Self>
+        permits
+            GrowableWriteBuffer,
+            AbstractConstantWriteBufferImpl
 {
     static final String OVERFLOW_MESSAGE = "Buffer capacity exceeds maximum allowed size of 2^32 - 1 bytes (4 GiB)";
 
@@ -30,14 +35,12 @@ public abstract class WriteBuffer<Self extends WriteBuffer<Self>>
     public long capacity() {
         return this.capacity;
     }
-
     public long position() {
         return this.position;
     }
     public long remaining() {
         return this.capacity - this.position;
     }
-
     public Self reset() {
         this.position = 0;
         return castThis();

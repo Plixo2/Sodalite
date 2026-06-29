@@ -7,6 +7,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.BitSet;
 
 import static org.libsdl.sdl.SDL3_h.*;
 
@@ -25,6 +26,7 @@ public @interface InitFlags {
     int SENSOR = SDL_INIT_SENSOR;
     int CAMERA = SDL_INIT_CAMERA;
 
-    int MASK = BitMask.flagMaskInt(InitFlags.class);
+    BitMask.Int MASK = BitMask.ofInt(InitFlags.class);
+
 
 }

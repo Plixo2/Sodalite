@@ -1,5 +1,7 @@
 package io.github.plixo2.sodalite.category.clipboard;
 
+import io.github.plixo2.sodalite.Internal;
+import io.github.plixo2.sodalite.resource.UseAfterReleaseException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.libsdl.sdl.SDL_ClipboardCleanupCallback;
@@ -33,7 +35,7 @@ class OpenClipboardData implements
             return MemorySegment.NULL;  // SDL_ClipboardCleanupCallback is used for cleanup
         }
         if (this.closed) {
-            throw new IllegalStateException("Clipboard data callback is already closed");
+            throw new IllegalStateException("Clipboard data callback called after handle closed");
         }
 
         var asString = mime_type.getString(0);
@@ -46,6 +48,7 @@ class OpenClipboardData implements
 
         size.set(ValueLayout.JAVA_LONG, 0, result.byteSize());
         return result;
+
     }
 
     /// `SDL_ClipboardCleanupCallback`

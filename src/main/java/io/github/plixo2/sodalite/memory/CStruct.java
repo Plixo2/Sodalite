@@ -2,22 +2,22 @@ package io.github.plixo2.sodalite.memory;
 
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import lombok.Getter;
+import org.lwjgl.system.ffm.mapping.Mapping;
 
 import java.lang.foreign.MemoryLayout;
 import java.lang.foreign.StructLayout;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /// @see ConstantWriteBuffer
-public final class CStruct extends ConstantWriteBufferImpl<CStruct> {
+public final class CStruct extends AbstractConstantWriteBufferImpl<CStruct> {
 
     @Getter
     private final StructLayout layout;
 
     private final Map<String, Long> offsets = new ConcurrentHashMap<>();
 
-    CStruct(
+    private CStruct(
             ResourceSet resources,
             StructLayout layout
     ) {

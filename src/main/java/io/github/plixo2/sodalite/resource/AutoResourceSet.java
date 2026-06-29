@@ -13,7 +13,7 @@ final class AutoResourceSet implements ResourceSet {
 
     @Override
     public void register(ResourceObject owner, Resource resource) {
-        CLEANER.register(owner, PendingFrees.pushAutoResource(resource));
+        CLEANER.register(owner, FreeList.pushAutoResource(resource));
     }
 
     @Override
@@ -23,6 +23,6 @@ final class AutoResourceSet implements ResourceSet {
 
     @Override
     public void close() {
-        throw new UnsupportedOperationException("Attempted to close a non-closeable resource set");
+        throw new UnsupportedOperationException("Attempted to close a auto resource set");
     }
 }

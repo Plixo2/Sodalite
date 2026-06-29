@@ -2,6 +2,9 @@ package io.github.plixo2.sodalite.category.gpu;
 
 
 
+import io.github.plixo2.sodalite.resource.DoubleReleaseException;
+import io.github.plixo2.sodalite.resource.UseAfterReleaseException;
+
 import java.lang.foreign.MemorySegment;
 
 /// @sdlAPI SDL_GPUCopyPass
@@ -18,21 +21,18 @@ public class CopyPass implements AutoCloseable {
 
     public MemorySegment segment() {
         if (this.isEnded) {
-            throw new IllegalStateException("Copy pass has already been ended");
+            throw new UseAfterReleaseException(this, "Pass already ended");
         }
         return this.segment;
     }
 
     @Override
     public void close() {
-        ensureNotEnded();
+        if (this.isEnded) {
+            throw new DoubleReleaseException(this, "Pass already ended");
+        }
         GPU.endGPUCopyPass(this);
         this.isEnded = true;
-    }
-    private void ensureNotEnded() {
-        if (this.isEnded) {
-            throw new IllegalStateException("Copy pass has already been ended");
-        }
     }
     public boolean hasEnded() {
         return this.isEnded;
