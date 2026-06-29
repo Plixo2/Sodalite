@@ -149,7 +149,8 @@ void main() throws IOException {
         var pre = Timer.getTicksNS();
         commandBuffer.closeAndAcquireFence(ResourceSet.global()).await();
         var post = Timer.getTicksNS();
-        System.out.println("Download took " + (post - pre) / (double)Timer.NS_PER_MS + " ms");
+        var ms = (post - pre) / (double) Timer.NS_PER_MS;
+        System.out.println("Download took " + ms + " ms");
 
 
         try (var mapped = downloadBuffer.map(device, Cycle.FALSE)) {
@@ -166,8 +167,9 @@ void main() throws IOException {
                 )
             );
         }
+
         try {
-            Thread.sleep(500); // lets give the OS a moment to finish writing the file before we try to open it
+            Thread.sleep(500); // lets give the OS a moment
             Desktop.getDesktop().open(IMAGE_PATH.toFile());
         } catch(Exception e) {
             // ignore
