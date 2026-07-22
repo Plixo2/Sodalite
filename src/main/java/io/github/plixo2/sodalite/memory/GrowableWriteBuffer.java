@@ -18,7 +18,7 @@ public non-sealed class GrowableWriteBuffer extends WriteBuffer<GrowableWriteBuf
     @Getter
     private GrowthStrategy growthStrategy = new GrowthStrategy.Factor(2);
 
-    private GrowableWriteBuffer(
+    protected GrowableWriteBuffer(
             ResourceSet resources,
             long initialSize
     ) {

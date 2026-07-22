@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'io.github.plixo2'
-version = '0.0.1'
+version = '3.4.0-SNAPSHOT-1'
 
 project.ext.lwjglVersion = "3.4.1"
 project.ext.lwjglNatives = "natives-windows"
@@ -32,7 +32,7 @@ dependencies {
     implementation "org.lwjgl:lwjgl-stb::$lwjglNatives"
     implementation "org.joml:joml:${jomlVersion}"
 
-    implementation files("SDL-3.4.jar")
+    api files("libs/windows/SDL-3.4.jar")
 
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.42'
     testCompileOnly 'org.projectlombok:lombok:1.18.42'
@@ -58,6 +58,23 @@ subprojects {
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher:6.0.0'
     }
 
+}
+
+jar {
+    from {
+        configurations.runtimeClasspath
+                .filter { it.name == "SDL-3.4.jar" }
+                .collect { zipTree(it) }
+    }
+}
+java {
+    withSourcesJar()
+}
+
+tasks.named('sourcesJar', Jar) {
+    from {
+        zipTree(file("libs/windows/SDL-3.4-sources.jar"))
+    }
 }
 
 test {
@@ -126,25 +143,5 @@ tasks.javadoc {
         indexFile.text = "tagSearchIndex = ${merged};"
 
         println "Injected ${sdlEntries.size()} SDL entries into tag-search-index.js"
-    }
-}
-
-
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Plixo2/Sodalite")
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR") ?: ""
-                password = project.findProperty("gpr.key")  ?: System.getenv("GITHUB_TOKEN") ?: ""
-            }
-        }
-    }
-    publications {
-        gpr(MavenPublication) {
-            artifactId = 'sodalite'
-            from(components.java)
-        }
     }
 }

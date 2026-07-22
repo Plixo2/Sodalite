@@ -123,10 +123,6 @@ public sealed abstract class BitMask<T extends Number> {
         };
     }
 
-
-
-
-
     private static String toString(Map<Number, String> names, Iterable<? extends Number> flags) {
         var sb = new StringBuilder();
         sb.append("[");

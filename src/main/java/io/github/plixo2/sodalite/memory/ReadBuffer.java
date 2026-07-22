@@ -16,7 +16,7 @@ public class ReadBuffer extends ResourceObject implements GPUReadStream {
 
     private long position;
 
-    private ReadBuffer(
+    protected ReadBuffer(
             @Nullable ResourceSet resourceSet,
             MemorySegment segment
     ) {

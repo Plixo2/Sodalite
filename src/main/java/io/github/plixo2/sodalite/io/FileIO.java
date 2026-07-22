@@ -1,5 +1,8 @@
 package io.github.plixo2.sodalite.io;
 
+import io.github.plixo2.sodalite.resource.ResourceSet;
+
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.foreign.Arena;
@@ -43,6 +46,31 @@ public class FileIO {
                 var dst = fc.map(FileChannel.MapMode.READ_WRITE, 0, size, arena);
                 dst.copyFrom(segment);
             }
+        }
+    }
+
+    public static IOWriteBuffer writeBuffer(Path path) {
+        return writeBuffer(path, 256);
+    }
+
+    public static IOWriteBuffer writeBuffer(Path path, long initialSize) {
+        var resources = ResourceSet.ofConfined();
+        try {
+            return new IOWriteBuffer(resources, path, initialSize);
+        } catch(Exception e) {
+            resources.close();
+            throw e;
+        }
+    }
+
+    public static IOReadBuffer readBuffer(Path path) throws IOException {
+        var resources = ResourceSet.ofConfined();
+        try {
+            var segment = FileIO.load(resources.arena(), path);
+            return new IOReadBuffer(resources, segment);
+        } catch(Exception e) {
+            resources.close();
+            throw e;
         }
     }
 

@@ -430,6 +430,7 @@ void run() throws IOException {
     );
     time("GPU Creation");
 
+
     try (
         var _ = gpu.claimWindow(window);
     ) {
@@ -442,6 +443,8 @@ void main() throws IOException {
     System.setProperty("joml.format", "false");
 
     startTime = Timer.getTicksNS();
+
+
 
     Init.setAppMetaData("Sodalite", "0.0.1", "io.github.plixo2.Sodalite");
     Log.setLogPriority(LogCategory.GPU, LogPriority.DEBUG);
