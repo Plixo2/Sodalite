@@ -19,7 +19,7 @@ public sealed abstract class PropertyKey<T> implements PropertyKeys {
     @Getter
     private final MemorySegment nameSegment;
 
-    public PropertyKey(
+    protected PropertyKey(
             PropertyType type,
             MemorySegment nameSegment
     ) {
