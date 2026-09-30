@@ -45,6 +45,7 @@ public sealed interface ResourceSet
         permits
             AutoResourceSet,
             ConfinedResourceSet,
+            SharedConfinedResourceSet,
             GlobalResourceSet
 {
 
@@ -102,6 +103,16 @@ public sealed interface ResourceSet
     /// @throws IllegalArgumentException if `parent` is an auto resource set.
     static ResourceSet ofConfined(ResourceSet parent) {
         return ConfinedResourceSet.create(parent);
+    }
+
+
+    @CheckReturnValue
+    static ResourceSet ofShared() {
+        return SharedConfinedResourceSet.create();
+    }
+
+    static ResourceSet ofShared(ResourceSet parent) {
+        return SharedConfinedResourceSet.create(parent);
     }
 
     /// Register a resource to this resource set.

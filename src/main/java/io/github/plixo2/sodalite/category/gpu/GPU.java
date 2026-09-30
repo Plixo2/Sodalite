@@ -1073,7 +1073,7 @@ public final class GPU {
         try (var arena = Arena.ofConfined()) {
             var pointerBuffer = arena.allocate(ValueLayout.ADDRESS);
             pointerBuffer.set(ValueLayout.ADDRESS, 0, buffer.segment());
-            SDL_BindGPUFragmentSamplers(
+            SDL_BindGPUFragmentStorageBuffers(
                     renderPass.segment(),
                     slot,
                     pointerBuffer,
@@ -1537,13 +1537,13 @@ public final class GPU {
     /// @sdlAPI SDL_SetGPUBlendConstants
     /// @sdlOther SDL_FColor
     static void setBlendConstants(
-            CommandBuffer commandBuffer,
+            RenderPass renderPass,
             float red, float green, float blue, float alpha
     ) {
         try (var arena = Arena.ofConfined()) {
             var colorSegment = SDL_FColor.allocate(arena);
             SDL_FColor.initialize(colorSegment, red, green, blue, alpha);
-            SDL_SetGPUBlendConstants(commandBuffer.segment(), colorSegment);
+            SDL_SetGPUBlendConstants(renderPass.segment(), colorSegment);
         }
     }
 

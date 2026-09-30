@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /// @see ResourceSet#ofConfined() for more details on this class.
-final class ConfinedResourceSet extends ResourceObject implements ResourceSet {
+final class SharedConfinedResourceSet extends ResourceObject implements ResourceSet {
 
     private List<Resource> resources = new ArrayList<>();
     private List<ResourceObject> objects = new ArrayList<>();
@@ -17,41 +17,42 @@ final class ConfinedResourceSet extends ResourceObject implements ResourceSet {
     private @Nullable Arena arena;
 
 
-    private ConfinedResourceSet() {
+    private SharedConfinedResourceSet() {
+
     }
 
-    static ConfinedResourceSet create() {
-        return new ConfinedResourceSet();
+    static SharedConfinedResourceSet create() {
+        return new SharedConfinedResourceSet();
     }
 
-    static ConfinedResourceSet create(ResourceSet parent) {
+    static SharedConfinedResourceSet create(ResourceSet parent) {
         if (parent instanceof AutoResourceSet) {
             throw new IllegalArgumentException("Cannot create a confined resource set from an auto resource set");
         }
-        var set = new ConfinedResourceSet();
+        var set = new SharedConfinedResourceSet();
         parent.register(set, set::releaseFromParent);
         return set;
     }
 
     @Override
-    public void register(ResourceObject owner, Resource resource) {
+    public synchronized void register(ResourceObject owner, Resource resource) {
         ensureAccess();
         this.objects.add(owner);
         this.resources.add(resource);
     }
 
     @Override
-    public Arena arena() {
+    public synchronized Arena arena() {
         ensureAccess();
         if (this.arena == null) {
-            this.arena = Arena.ofConfined();
+            this.arena = Arena.ofShared();
         }
         return this.arena;
     }
 
 
     @Override
-    public void close() {
+    public synchronized void close() {
         if (this.closed) {
             throw new DoubleReleaseException(this, "Already closed");
         } else if (this.closedFromParent) {
@@ -61,7 +62,8 @@ final class ConfinedResourceSet extends ResourceObject implements ResourceSet {
         release();
     }
 
-    private void releaseFromParent() {
+    private synchronized void releaseFromParent() {
+
         if (this.closedFromParent) {
             throw new DoubleReleaseException(this, "Already closed (from parent)");
         } else if (this.closed) {

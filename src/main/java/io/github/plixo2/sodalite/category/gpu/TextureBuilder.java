@@ -178,6 +178,10 @@ public final class TextureBuilder implements TextureInfo {
         return this;
     }
 
+    public TextureCreateInfo toCreateInfo() {
+        return TextureCreateInfo.of(this);
+    }
+
     public Texture build(
             ResourceSet resources,
             Device device

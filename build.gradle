@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'io.github.plixo2'
-version = '3.4.0-SNAPSHOT-1'
+version = '3.4.16-SNAPSHOT-1'
 
 project.ext.lwjglVersion = "3.4.1"
 project.ext.lwjglNatives = "natives-windows"
@@ -32,7 +32,7 @@ dependencies {
     implementation "org.lwjgl:lwjgl-stb::$lwjglNatives"
     implementation "org.joml:joml:${jomlVersion}"
 
-    api files("libs/windows/SDL-3.4.jar")
+    api files("libs/windows/SDL-3.4.16.jar")
 
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.42'
     testCompileOnly 'org.projectlombok:lombok:1.18.42'
@@ -63,7 +63,7 @@ subprojects {
 jar {
     from {
         configurations.runtimeClasspath
-                .filter { it.name == "SDL-3.4.jar" }
+                .filter { it.name == "SDL-3.4.16.jar" }
                 .collect { zipTree(it) }
     }
 }
@@ -73,7 +73,7 @@ java {
 
 tasks.named('sourcesJar', Jar) {
     from {
-        zipTree(file("libs/windows/SDL-3.4-sources.jar"))
+        zipTree(file("libs/windows/SDL-3.4.16-sources.jar"))
     }
 }
 

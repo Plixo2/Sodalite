@@ -36,6 +36,12 @@ public interface GPUReadStream {
         return readShorts(new short[length]);
     }
 
+    boolean readBoolean();
+    boolean[] readBooleans(boolean[] destination);
+    default boolean[] readBooleans(int length) {
+        return readBooleans(new boolean[length]);
+    }
+
     Matrix4f readMatrix4f(Matrix4f destination);
     default Matrix4f readMatrix4f() {
         return readMatrix4f(new Matrix4f());
@@ -85,6 +91,12 @@ public interface GPUReadStream {
     default Quaternionf readQuaternionf() {
         return readQuaternionf(new Quaternionf());
     }
+
+    String readUTF8(int alignment);
+    default String readUTF8() {
+        return readUTF8(4);
+    }
+    String readUTF8Unaligned();
 
     MemorySegment slice(long length);
 

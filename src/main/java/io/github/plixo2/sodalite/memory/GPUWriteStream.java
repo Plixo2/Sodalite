@@ -18,6 +18,9 @@ public interface GPUWriteStream<Self extends GPUWriteStream<Self>> {
     Self writeShort(short value);
     Self writeShorts(short... values);
 
+    Self writeBoolean(boolean value);
+    Self writeBooleans(boolean... values);
+
     Self writeMatrix4f(Matrix4f matrix);
     Self writeMatrix3f(Matrix3f matrix);
     Self writeMatrix2f(Matrix2f matrix);
@@ -40,7 +43,16 @@ public interface GPUWriteStream<Self extends GPUWriteStream<Self>> {
 
     Self writeQuaternionf(Quaternionf quaternion);
 
+    Self writeUTF8(String string, int alignment);
+    Self writeUTF8Unaligned(String string);
+
+    default Self writeUTF8(String string) {
+        return writeUTF8(string, 4);
+    }
+
+
     Self write(MemorySegment segment, long offset, long length);
+
 
     default Self write(MemorySegment segment) {
         return write(segment, 0, segment.byteSize());

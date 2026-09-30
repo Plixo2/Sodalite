@@ -5,6 +5,8 @@ import org.joml.*;
 
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
+import java.nio.charset.StandardCharsets;
+
 import static io.github.plixo2.sodalite.Internal.*;
 
 public sealed abstract class WriteBuffer<Self extends WriteBuffer<Self>>
@@ -46,6 +48,23 @@ public sealed abstract class WriteBuffer<Self extends WriteBuffer<Self>>
         return castThis();
     }
 
+    public Self align(long alignment) {
+        if (alignment <= 0 || (alignment & (alignment - 1)) != 0) {
+            throw new IllegalArgumentException("Alignment must be a positive power of two: " + alignment);
+        }
+
+        var offset = this.position % alignment;
+        if (offset > 0) {
+            var padding = alignment - offset;
+            var segment = ensureCapacity(this.position + padding);
+            for (var i = 0; i < padding; i++) {
+                segment.set(ValueLayout.JAVA_BYTE, this.position + i, (byte) 0);
+            }
+            this.position += padding;
+        }
+
+        return castThis();
+    }
 
     /// @throws IllegalArgumentException if `newPosition` is negative or exceeds the buffer's capacity
     public Self seek(long newPosition) {
@@ -139,6 +158,25 @@ public sealed abstract class WriteBuffer<Self extends WriteBuffer<Self>>
         long bytes = (long) values.length * Short.BYTES;
         var segment = ensureCapacity(this.position + bytes);
         MemorySegment.copy(values, 0, segment, ValueLayout.JAVA_SHORT, this.position, values.length);
+        this.position += bytes;
+        return castThis();
+    }
+
+    @Override
+    public Self writeBoolean(boolean value) {
+        var segment = ensureCapacity(this.position + Integer.BYTES);
+        segment.set(ValueLayout.JAVA_INT, this.position, value ? 1 : 0);
+        this.position += Integer.BYTES;
+        return castThis();
+    }
+
+    @Override
+    public Self writeBooleans(boolean... values) {
+        long bytes = (long) values.length * Integer.BYTES;
+        var segment = ensureCapacity(this.position + bytes);
+        for (var i = 0; i < values.length; i++) {
+            segment.set(ValueLayout.JAVA_INT, this.position + (long) i * Integer.BYTES, values[i] ? 1 : 0);
+        }
         this.position += bytes;
         return castThis();
     }
@@ -357,6 +395,18 @@ public sealed abstract class WriteBuffer<Self extends WriteBuffer<Self>>
         return castThis();
     }
 
+    @Override
+    public Self writeUTF8(String string, int alignment) {
+        writeUTF8Unaligned(string);
+        return align(alignment);
+    }
+
+    @Override
+    public Self writeUTF8Unaligned(String string) {
+        var bytes = string.getBytes(StandardCharsets.UTF_8);
+        writeInt(bytes.length);
+        return writeBytes(bytes);
+    }
 
     @Override
     public Self write(MemorySegment segment, long offset, long length) {

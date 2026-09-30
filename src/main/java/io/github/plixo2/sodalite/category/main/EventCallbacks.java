@@ -27,6 +27,8 @@ import java.util.List;
 /// @sdlAPI SDL_AppEvent
 public interface EventCallbacks {
 
+    default AppResult onAny                        (MemorySegment event) { return AppResult.CONTINUE; }
+
     /// @sdlAPI SDL_QuitEvent
     default AppResult onQuit                       (long timestamp) { return AppResult.CONTINUE; }
 
@@ -192,8 +194,8 @@ public interface EventCallbacks {
     default AppResult onSensorUpdate               (long timestamp, int sensorID, @ArrayLength(6) float[] data, long sensorTimestamp) { return AppResult.CONTINUE; }
 
     /// @sdlAPI SDL_PenProximityEvent
-    default AppResult onPenProximityIn             (long timestamp, int windowID, int penID) { return AppResult.CONTINUE; }
-    default AppResult onPenProximityOut            (long timestamp, int windowID, int penID) { return AppResult.CONTINUE; }
+    default AppResult onPenProximityIn             (long timestamp, int windowID, int penID, @PenInputFlags int penState) { return AppResult.CONTINUE; }
+    default AppResult onPenProximityOut            (long timestamp, int windowID, int penID, @PenInputFlags int penState) { return AppResult.CONTINUE; }
 
     /// @sdlAPI SDL_PenTouchEvent
     default AppResult onPenDown                    (long timestamp, int windowID, int penID, @PenInputFlags int penState, float x, float y, boolean eraser) { return AppResult.CONTINUE; }

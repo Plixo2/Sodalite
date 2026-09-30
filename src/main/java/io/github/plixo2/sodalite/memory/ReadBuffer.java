@@ -8,6 +8,7 @@ import org.joml.*;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 public class ReadBuffer extends ResourceObject implements GPUReadStream {
 
@@ -51,10 +52,28 @@ public class ReadBuffer extends ResourceObject implements GPUReadStream {
         return this.size - this.position;
     }
 
+    public boolean hasRemaining() {
+        return remaining() > 0;
+    }
+
     public ReadBuffer reset() {
         this.position = 0;
         return this;
     }
+
+    public ReadBuffer align(long alignment) {
+        if (alignment <= 0 || (alignment & (alignment - 1)) != 0) {
+            throw new IllegalArgumentException("Alignment must be a positive power of two: " + alignment);
+        }
+
+        var offset = this.position % alignment;
+        if (offset > 0) {
+            var padding = alignment - offset;
+            seek(this.position + padding);
+        }
+        return this;
+    }
+
 
     public ReadBuffer seek(long position) {
         if (position < 0 || position > this.size) {
@@ -162,6 +181,28 @@ public class ReadBuffer extends ResourceObject implements GPUReadStream {
         long bytes = (long) destination.length * Short.BYTES;
         ensureCapacity(bytes);
         MemorySegment.copy(this.segment, ValueLayout.JAVA_SHORT, this.position, destination, 0, destination.length);
+        this.position += bytes;
+        return destination;
+    }
+
+    @Override
+    public boolean readBoolean() {
+        ensureCapacity(Integer.BYTES);
+        var value = this.segment.get(ValueLayout.JAVA_INT, this.position);
+        this.position += Integer.BYTES;
+        return value != 0;
+    }
+
+    @Override
+    public boolean[] readBooleans(boolean[] destination) {
+        long bytes = (long) destination.length * Integer.BYTES;
+        ensureCapacity(bytes);
+        for (var i = 0; i < destination.length; i++) {
+            destination[i] = this.segment.get(
+                    ValueLayout.JAVA_INT,
+                    this.position + (long) i * Integer.BYTES
+            ) != 0;
+        }
         this.position += bytes;
         return destination;
     }
@@ -325,6 +366,22 @@ public class ReadBuffer extends ResourceObject implements GPUReadStream {
         );
         this.position += bytes;
         return destination;
+    }
+
+    @Override
+    public String readUTF8(int alignment) {
+        var str = readUTF8Unaligned();
+        align(alignment);
+        return str;
+    }
+
+    @Override
+    public String readUTF8Unaligned() {
+        var length = readInt();
+        if (length < 0) {
+            throw new IllegalArgumentException("String length cannot be negative");
+        }
+        return new String(readBytes(length), StandardCharsets.UTF_8);
     }
 
     @Override

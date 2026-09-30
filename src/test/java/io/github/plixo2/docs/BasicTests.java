@@ -30,6 +30,7 @@ import io.github.plixo2.sodalite.category.version.VersionTarget;
 import io.github.plixo2.sodalite.resource.ResourceObject;
 import io.github.plixo2.sodalite.resource.ResourceSet;
 import io.github.plixo2.sodalite.resource.UseAfterReleaseException;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector4f;

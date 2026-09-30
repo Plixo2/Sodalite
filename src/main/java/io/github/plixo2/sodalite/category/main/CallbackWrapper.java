@@ -91,6 +91,9 @@ class CallbackWrapper implements EventConsumer {
         return Objects.requireNonNull(result, ITERATE_RETURNED_NULL);
     }
 
+
+    @Override public void onAny                        (MemorySegment event) { this.reference = this.callbacks.onAny(event); }
+
     /// @sdlAPI SDL_QuitEvent
     @Override public void onQuit                       (long timestamp) { this.reference = this.callbacks.onQuit(timestamp); }
 
@@ -256,8 +259,8 @@ class CallbackWrapper implements EventConsumer {
     @Override public void onSensorUpdate               (long timestamp, int sensorID, @ArrayLength(6) float[] data, long sensorTimestamp) { this.reference = this.callbacks.onSensorUpdate(timestamp, sensorID, data, sensorTimestamp); }
 
     /// @sdlAPI SDL_PenProximityEvent
-    @Override public void onPenProximityIn             (long timestamp, int windowID, int penID) { this.reference = this.callbacks.onPenProximityIn(timestamp, windowID, penID); }
-    @Override public void onPenProximityOut            (long timestamp, int windowID, int penID) { this.reference = this.callbacks.onPenProximityOut(timestamp, windowID, penID); }
+    @Override public void onPenProximityIn             (long timestamp, int windowID, int penID, @PenInputFlags int penState) { this.reference = this.callbacks.onPenProximityIn(timestamp, windowID, penID, penState); }
+    @Override public void onPenProximityOut            (long timestamp, int windowID, int penID, @PenInputFlags int penState) { this.reference = this.callbacks.onPenProximityOut(timestamp, windowID, penID, penState); }
 
     /// @sdlAPI SDL_PenTouchEvent
     @Override public void onPenDown                    (long timestamp, int windowID, int penID, @PenInputFlags int penState, float x, float y, boolean eraser) { this.reference = this.callbacks.onPenDown(timestamp, windowID, penID, penState, x, y, eraser); }

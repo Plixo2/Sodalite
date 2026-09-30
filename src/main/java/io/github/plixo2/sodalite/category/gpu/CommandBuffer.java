@@ -172,13 +172,6 @@ public class CommandBuffer implements AutoCloseable {
         GPU.generateMipmaps(this, texture);
     }
 
-    public void setBlendConstants(float r, float g, float b, float a) {
-        GPU.setBlendConstants(this, r, g, b, a);
-    }
-    public void setBlendConstants(Vector4f color) {
-        setBlendConstants(color.x, color.y, color.z, color.w);
-    }
-
     public void insertDebugLabel(String label) {
         GPU.insertDebugLabel(this, label);
     }

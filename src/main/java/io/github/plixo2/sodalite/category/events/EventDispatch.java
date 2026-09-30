@@ -24,12 +24,14 @@ import static org.libsdl.sdl.SDL3_h.*;
 public class EventDispatch {
     private EventDispatch() {}
 
-    static void dispatch(
+    public static void dispatch(
             EventConsumer consumer,
             MemorySegment event
     ) {
         var type = SDL_Event.type(event);
         var timestamp = SDL_CommonEvent.timestamp(SDL_Event.common(event));
+        consumer.onAny(event);
+
         switch (type) {
             case SDL_EVENT_QUIT -> { consumer.onQuit(timestamp); }
             case SDL_EVENT_TERMINATING -> { consumer.onTerminating(timestamp); }
@@ -127,8 +129,8 @@ public class EventDispatch {
             case SDL_EVENT_AUDIO_DEVICE_REMOVED -> { consumer.onAudioDeviceRemoved(timestamp, SDL_AudioDeviceEvent_audioDeviceID(event), SDL_AudioDeviceEvent_recording(event)); }
             case SDL_EVENT_AUDIO_DEVICE_FORMAT_CHANGED -> { consumer.onAudioDeviceFormatChanged(timestamp, SDL_AudioDeviceEvent_audioDeviceID(event), SDL_AudioDeviceEvent_recording(event)); }
             case SDL_EVENT_SENSOR_UPDATE -> { consumer.onSensorUpdate(timestamp, SDL_SensorEvent_sensorID(event), SDL_SensorEvent_data(event), SDL_SensorEvent_sensorTimestamp(event)); }
-            case SDL_EVENT_PEN_PROXIMITY_IN -> { consumer.onPenProximityIn(timestamp, SDL_PenProximityEvent_windowID(event), SDL_PenProximityEvent_penID(event)); }
-            case SDL_EVENT_PEN_PROXIMITY_OUT -> { consumer.onPenProximityOut(timestamp, SDL_PenProximityEvent_windowID(event), SDL_PenProximityEvent_penID(event)); }
+            case SDL_EVENT_PEN_PROXIMITY_IN -> { consumer.onPenProximityIn(timestamp, SDL_PenProximityEvent_windowID(event), SDL_PenProximityEvent_penID(event), SDL_PenProximityEvent_penState(event)); }
+            case SDL_EVENT_PEN_PROXIMITY_OUT -> { consumer.onPenProximityOut(timestamp, SDL_PenProximityEvent_windowID(event), SDL_PenProximityEvent_penID(event), SDL_PenProximityEvent_penState(event)); }
             case SDL_EVENT_PEN_DOWN -> { consumer.onPenDown(timestamp, SDL_PenTouchEvent_windowID(event), SDL_PenTouchEvent_penID(event), SDL_PenTouchEvent_penState(event), SDL_PenTouchEvent_x(event), SDL_PenTouchEvent_y(event), SDL_PenTouchEvent_eraser(event)); }
             case SDL_EVENT_PEN_UP -> { consumer.onPenUp(timestamp, SDL_PenTouchEvent_windowID(event), SDL_PenTouchEvent_penID(event), SDL_PenTouchEvent_penState(event), SDL_PenTouchEvent_x(event), SDL_PenTouchEvent_y(event), SDL_PenTouchEvent_eraser(event)); }
             case SDL_EVENT_PEN_BUTTON_DOWN -> { consumer.onPenButtonDown(timestamp, SDL_PenButtonEvent_windowID(event), SDL_PenButtonEvent_penID(event), SDL_PenButtonEvent_penState(event), SDL_PenButtonEvent_x(event), SDL_PenButtonEvent_y(event), SDL_PenButtonEvent_button(event)); }
@@ -701,6 +703,13 @@ public class EventDispatch {
     private static int SDL_PenProximityEvent_penID(MemorySegment segment) {
         return SDL_PenProximityEvent.which(segment);
     }
+
+    /// `SDL_PenProximityEvent.pen_state`
+    private static @PenInputFlags int SDL_PenProximityEvent_penState(MemorySegment segment) {
+        //noinspection MagicConstant
+        return SDL_PenProximityEvent.pen_state(segment);
+    }
+
 
     /// `SDL_PenTouchEvent.windowID`
     private static int SDL_PenTouchEvent_windowID(MemorySegment segment) {

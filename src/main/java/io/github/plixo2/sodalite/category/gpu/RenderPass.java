@@ -245,6 +245,13 @@ public class RenderPass implements AutoCloseable {
         GPU.setGPUViewport(this, viewport);
     }
 
+    public void setBlendConstants(float r, float g, float b, float a) {
+        GPU.setBlendConstants(this, r, g, b, a);
+    }
+    public void setBlendConstants(Vector4f color) {
+        setBlendConstants(color.x, color.y, color.z, color.w);
+    }
+
     public void setStencilReference(byte reference) {
         GPU.setStencilReference(this, reference);
     }

@@ -2,6 +2,7 @@ package io.github.plixo2.sodalite.category.gpu;
 
 import io.github.plixo2.sodalite.SDLException;
 import io.github.plixo2.sodalite.resource.ResourceSet;
+import lombok.With;
 import org.jetbrains.annotations.Nullable;
 import org.libsdl.sdl.SDL_GPUTextureCreateInfo;
 
@@ -10,6 +11,7 @@ import java.lang.foreign.MemorySegment;
 /// Consider using [TextureBuilder]
 /// @see TextureBuilder
 /// @sdlAPI SDL_GPUTextureCreateInfo
+@With
 public record TextureCreateInfo(
         TextureType type,
         TextureFormat format,
@@ -44,6 +46,20 @@ public record TextureCreateInfo(
 
     public Texture create(ResourceSet resources, Device device) throws SDLException {
         return GPU.createTexture(resources, device, this);
+    }
+
+    public TextureCreateInfo withSize(int width, int height) {
+        return new TextureCreateInfo(
+                this.type,
+                this.format,
+                this.usage,
+                width,
+                height,
+                this.layerCountOrDepth,
+                this.mipLevelCount,
+                this.sampleCount,
+                this.name
+        );
     }
 
 

@@ -1,5 +1,6 @@
 package io.github.plixo2.sodalite.category.events;
 
+import io.github.plixo2.sodalite.category.init.AppResult;
 import io.github.plixo2.sodalite.category.keycode.Keycode;
 import io.github.plixo2.sodalite.category.keycode.Keymod;
 import io.github.plixo2.sodalite.category.mouse.MouseButton;
@@ -18,6 +19,8 @@ import java.util.List;
 
 /// @sdlAPI SDL_Event
 public interface EventConsumer {
+
+    default void onAny                        (MemorySegment event) { }
 
     /// @sdlAPI SDL_QuitEvent
     default void onQuit                       (long timestamp) {}
@@ -184,8 +187,8 @@ public interface EventConsumer {
     default void onSensorUpdate               (long timestamp, int sensorID, @ArrayLength(6) float[] data, long sensorTimestamp) {}
 
     /// @sdlAPI SDL_PenProximityEvent
-    default void onPenProximityIn             (long timestamp, int windowID, int penID) {}
-    default void onPenProximityOut            (long timestamp, int windowID, int penID) {}
+    default void onPenProximityIn             (long timestamp, int windowID, int penID, @PenInputFlags int penState) {}
+    default void onPenProximityOut            (long timestamp, int windowID, int penID, @PenInputFlags int penState) {}
 
     /// @sdlAPI SDL_PenTouchEvent
     default void onPenDown                    (long timestamp, int windowID, int penID, @PenInputFlags int penState, float x, float y, boolean eraser) {}
